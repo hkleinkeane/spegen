@@ -53,7 +53,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-SpeGen is an Android AAC app that is in active development and will be free upon release. The goal of this project is to be a budget-friendly and accessible app that anyone can use for communication. If you want to support development as an AAC user or a caretaker of someone who uses an AAC device or app without directly contributing, check out [this form].  
+SpeGen is an Android AAC app that is in active development and will be free upon release. The goal of this project is to be a budget-friendly and accessible app that anyone can use for communication. SpeGen is licensed under the GNU General Public License v3.0. If you want to support development as an AAC user or a caretaker of someone who uses an AAC device or app without directly contributing, check out [this form].  
 
 <!-- ROADMAP -->
 ## Roadmap
