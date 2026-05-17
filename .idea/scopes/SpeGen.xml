@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="SpeGen" pattern="file[SpeGen]:*/||file[SpeGen*]:*//*||ext:*/||src:*..*||ext:*" />
+</component>
