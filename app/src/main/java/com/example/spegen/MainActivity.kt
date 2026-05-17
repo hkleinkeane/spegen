@@ -110,6 +110,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import android.net.Uri
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.ButtonDefaults
+import kotlin.Int
+import kotlin.collections.MutableList
+
+val DEMO_MODE = false
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -234,6 +238,16 @@ var input_box_height = 0.dp
 var static_terms = mutableStateListOf<String>("Yes", "No", "Thank you", "I need help", "Excuse me", "I use a talker to communicate")
 
 val show_settings = mutableStateOf(false)
+
+var menu_terms_ids = mutableStateListOf(0, 2, 3, 4, 5)
+
+var trigger_save = mutableStateOf(false)
+
+var trigger_load = mutableStateOf(false)
+
+var trigger_state_change_check = mutableStateOf(false)
+
+var state_has_changed = mutableStateOf(false)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -370,6 +384,26 @@ class MainActivity : ComponentActivity() {
                 if (show_add_item_dialog.value) AddItemDialog()
                 if (show_new_menu_dialog.value) NewMenuDialog()
             }
+            if (trigger_save.value)
+            {
+                runBlocking {
+                    saveAllPreferences(this@MainActivity)
+                }
+                trigger_save.value = false
+            }
+            if (trigger_load.value)
+            {
+                runBlocking {
+                    loadAllPreferences(this@MainActivity)
+                }
+                trigger_load.value = false
+            }
+            if (trigger_state_change_check.value)
+            {
+                runBlocking {
+                    state_has_changed.value = hasStateChanged(this@MainActivity)
+                }
+            }
         }
     }
     override fun onPause() {
@@ -378,23 +412,69 @@ class MainActivity : ComponentActivity() {
             saveAllPreferences(this@MainActivity)
         }
     }
+    // Detect when user hits the home button, meant for use with kiosk demo mode only
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (DEMO_MODE) {
+            resetToDefaults()
+        }
+    }
+}
+
+fun resetToDefaults() {
+    // Clear composed sentence
+    inputboxselecteditems_text.clear()
+    inputboxselecteditems_has_symbol.clear()
+
+    // Clear all wordfinder state
+    wordfinder_display.intValue = 0
+    wordfinder_display_buttonguide.intValue = 0
+    wordfinder_path_ids.clear()
+    wordfinder_path_names.clear()
+    createclonefolder.value = false
+    createclonesymbol.value = false
+    wordfinder_highlight_index.intValue = -1
+
+    // Reset menus to defaults
+    MenuList.clear()
+    MenuList.addAll(listOf(home, people, actions, food, feelings))
+
+    // Reset static row
+    static_terms.clear()
+    static_terms.addAll(listOf("Yes", "No", "Thank you", "I need help", "Excuse me", "I use a talker to communicate"))
+
+    // Reset menu row
+    menu_terms_ids.clear()
+    menu_terms_ids.addAll(listOf(0, 2, 3, 4, 5))
+
+    // Close any open overlays
+    editor_mode.value = false
+    show_settings.value = false
+    show_edit_item_dialog.value = false
+    show_add_item_dialog.value = false
+    show_new_menu_dialog.value = false
+
+    // Back to home menu
+    linked_menu.value = 1
+    switchmenuparser.value++
 }
 
 @Serializable
 data class PersistedState(
-    val box_size_dp: Float = 100f,
-    val box_padding_dp: Float = 20f,
-    val input_box_height_dp: Float = 0f,
-    val item_text_padding_dp: Float = 20f,
-    val has_seen_tutorial: Boolean = false,
-    val tts_data_found: Boolean = false,
-    val menu_list: List<menutemplate> = emptyList(),
-    val static_terms: List<String> = emptyList(),
-    val static_row_height: Float = 50f,
-    val menu_static_row_height: Float = 50f,
-    val button_boxes_width: Float = 50f,
-    val should_scale_box_size: Boolean = true
+    val box_size_dp: Float,
+    val box_padding_dp: Float,
+    val input_box_height_dp: Float,
+    val item_text_padding_dp: Float,
+    val has_seen_tutorial: Boolean,
+    val tts_data_found: Boolean,
+    val menu_list: List<menutemplate>,
+    val static_terms: List<String>,
+    val static_row_height: Float,
+    val menu_static_row_height: Float,
+    val button_boxes_width: Float,
+    val menu_row_ids: List<Int>
 )
+
 
 suspend fun saveAllPreferences(context: Context) {
     val state = PersistedState(
@@ -409,6 +489,7 @@ suspend fun saveAllPreferences(context: Context) {
         static_row_height = static_row_height.value,
         menu_static_row_height = menu_static_row_height.value,
         button_boxes_width = button_boxes_width.value,
+        menu_row_ids = menu_terms_ids.toList()
     )
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(state)
@@ -439,7 +520,39 @@ suspend fun loadAllPreferences(context: Context) {
     static_row_height = state.static_row_height.dp
     menu_static_row_height = state.menu_static_row_height.dp
     button_boxes_width = state.button_boxes_width.dp
+
+    menu_terms_ids.clear()
+    menu_terms_ids.addAll(state.menu_row_ids)
 }
+
+suspend fun hasStateChanged(context: Context): Boolean {
+    val prefs = context.spegen_datastore.data.first()
+    val savedJson = prefs[APP_STATE_KEY] ?: return true
+
+    val savedState = try {
+        Json.decodeFromString<PersistedState>(savedJson)
+    } catch (e: Exception) {
+        return true
+    }
+
+    val currentState = PersistedState(
+        box_size_dp = box_size.value,
+        box_padding_dp = box_padding.value,
+        input_box_height_dp = input_box_height.value,
+        item_text_padding_dp = item_text_padding.value,
+        has_seen_tutorial = true,
+        tts_data_found = tts_data_found.value,
+        menu_list = MenuList.toList(),
+        static_terms = static_terms.toList(),
+        static_row_height = static_row_height.value,
+        menu_static_row_height = menu_static_row_height.value,
+        button_boxes_width = button_boxes_width.value,
+        menu_row_ids = menu_terms_ids.toList()
+    )
+
+    return currentState != savedState
+}
+
 
 @Composable
 fun GetScreenDimensions() {
@@ -1111,9 +1224,9 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                         item_positions[itemKey] = coords.positionInRoot()
                     }) {
                         if (menutemplate.item_type[i]) {
-                            Symbol(item_names[i], item_urls[i], vertical_stretch, menutemplate.tts[i]!!)
+                            Symbol(item_names[i], item_urls[i], vertical_stretch, menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i)
                         } else {
-                            Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!, vertical_stretch)
+                            Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!, vertical_stretch, menu_id = menutemplate.id, item_index = i)
                         }
                     }
                 }
@@ -1154,8 +1267,6 @@ fun Menu(modifier: Modifier) {
 
 @Composable
 fun MenuRow(modifier: Modifier) {
-    val menu_terms_ids: MutableList<Int> =
-        mutableListOf(0, 2, 3, 4, 5)
     for (i in 0 until menu_terms_ids.size) // For loop to create modular number of boxes. Starts at zero due to X offset calculations and ends at the number of terms minus 1 since it starts at zero
     {
         Menurowbox(modifier, i, menu_terms_ids)
@@ -1345,7 +1456,7 @@ fun WordFinder_Card(Name: String, MenuList_element: Int, is_symbol: Boolean, ite
     LaunchedEffect(Unit) {
         val res = useApiWithToken(accesstoken, MenuList[MenuList_element].item_list[item_position])
         card_name = res?.name ?: MenuList[MenuList_element].item_list[item_position]
-        card_url = res?.image_url.toString()
+        card_url = res?.image_url ?: ""
     }
     Card(
         modifier = Modifier
@@ -1596,7 +1707,8 @@ fun BackupSettingsContent() {
                 static_terms = static_terms.toList(),
                 static_row_height = static_row_height.value,
                 menu_static_row_height = menu_static_row_height.value,
-                button_boxes_width = button_boxes_width.value
+                button_boxes_width = button_boxes_width.value,
+                menu_row_ids = menu_terms_ids.toList()
             )
             val json = Json.encodeToString(state)
             context.contentResolver.openOutputStream(uri)?.use { output ->
@@ -1732,7 +1844,21 @@ fun MenuRowSettings() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(text = menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
-                    Text(text = "(visible)", color = Color.Gray, fontSize = 14.sp)
+                    Button(onClick = {
+                        if (menu.id in menu_terms_ids) {
+                            menu_terms_ids.remove(menu.id)
+                        }
+                        else {
+                            menu_terms_ids += menu.id
+                        }
+                    }) { Text("Toggle visibility") }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    if (menu.id in menu_terms_ids) {
+                        Text(text = "(visible)", color = Color.Gray, fontSize = 14.sp)
+                    }
+                    else {
+                        Text(text = "(not visible)", color = Color.Gray, fontSize = 14.sp)
+                    }
                 }
             }
         }
@@ -1776,7 +1902,6 @@ fun AboutContent() {
 @Composable
 fun Buttonboxes() {
     val a = remember {mutableIntStateOf(0)}
-    println(screenHeight)
     button_boxes_width = (screenHeight.value*(1f/8f)).dp
     val x_offset = ((screenWidth - button_boxes_width).value).dp
     val y_offset = 0.dp
@@ -1934,6 +2059,7 @@ fun Buttonboxes() {
 
 @Composable
 fun EditorToolbar() {
+    var exit_button_clicked by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -1949,10 +2075,72 @@ fun EditorToolbar() {
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = { show_add_item_dialog.value = true }) { Text("+ Item") }
         Button(onClick = { show_new_menu_dialog.value = true }) { Text("+ Menu") }
+        Spacer(modifier = Modifier.width(20.dp))
         Button(
-            onClick = { editor_mode.value = false },
+            onClick = {
+                    runBlocking {
+                        trigger_save.value = true
+                    }},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
-        ) { Text("Exit") }
+        ) { Text("Apply Changes") }
+        Spacer(modifier = Modifier.width(20.dp))
+        Button(
+            onClick = {
+                exit_button_clicked = true
+                },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
+        ) {
+            Text("Exit")
+        }
+    }
+    if (exit_button_clicked)
+    {
+        trigger_state_change_check.value = true
+        if (state_has_changed.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    editor_mode.value = false
+                    trigger_load.value = true
+                    exit_button_clicked = false
+                    trigger_state_change_check.value = false
+                    state_has_changed.value = false
+                },
+                title = { Text("Unsaved Changes") },
+                text = {
+                    Column {
+                        Text(
+                            "You have unsaved changes, do you want to save them?",
+                            fontSize = 14.sp,
+                            color = Color.Black
+                        )
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        trigger_state_change_check.value = false
+                        trigger_save.value = true
+                        exit_button_clicked = false
+                        state_has_changed.value = false
+                        editor_mode.value = false
+                        trigger_load.value = true
+                    }) { Text("Save Changes") }
+                },
+                dismissButton = {
+                    Button(onClick = {
+                        trigger_state_change_check.value = false
+                        exit_button_clicked = false
+                        state_has_changed.value = false
+                        editor_mode.value = false
+                        trigger_load.value = true
+                    }) { Text("Don't Save") }
+                }
+            )
+        }
+        else
+        {
+            trigger_load.value = true
+            editor_mode.value = false
+        }
     }
 }
 
@@ -2134,6 +2322,51 @@ fun NewMenuDialog() {
 }
 
 @Composable
+fun EditorOverlay()
+{
+    val dim = Color.Gray.copy(alpha = 0.5f)
+
+    // Covers inputbox
+    Box(
+        modifier = Modifier
+            .offset(0.dp, 0.dp)
+            .width(screenWidth)
+            .height(input_box_height)
+            .background(dim)
+            .zIndex(700f)
+            .clickable( onClick = {} )
+    )
+    // Covers MenuRow and Static_Row_Needs
+    Box(
+        modifier = Modifier
+            .offset(0.dp, input_box_height+menu_height)
+            .width(screenWidth)
+            .height(menu_static_row_height+static_row_height)
+            .background(dim)
+            .zIndex(700f)
+            .clickable( onClick = {} )
+    )
+    // Covers buttonboxes
+    Box(
+        modifier = Modifier
+            .offset(screenWidth-(button_boxes_width*2), input_box_height)
+            .width(button_boxes_width*2)
+            .height(menu_height)
+            .background(dim)
+            .zIndex(700f)
+            .clickable( onClick = {} )
+    )
+    Box(
+        modifier = Modifier
+            .offset(0.dp, input_box_height)
+            .width(screenWidth-(button_boxes_width*2))
+            .height(menu_height)
+            .border(3.dp, Color(0xFFFF8F00))
+            .zIndex(750f)
+    )
+}
+
+@Composable
 fun Screen() {
     Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
         tts = rememberTextToSpeech()
@@ -2144,6 +2377,7 @@ fun Screen() {
             WordFinder()
         } else {
             if (editor_mode.value) {
+                EditorOverlay()
                 EditorToolbar()
             }
             Buttonboxes()
