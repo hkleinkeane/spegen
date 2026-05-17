@@ -101,6 +101,8 @@ import androidx.compose.material3.ButtonDefaults
 import kotlin.Int
 import kotlin.collections.MutableList
 
+val DEMO_MODE = false
+
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
 
@@ -398,6 +400,51 @@ class MainActivity : ComponentActivity() {
             saveAllPreferences(this@MainActivity)
         }
     }
+    // Detect when user hits the home button, meant for use with kiosk demo mode only
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        if (DEMO_MODE) {
+            resetToDefaults()
+        }
+    }
+}
+
+fun resetToDefaults() {
+    // Clear composed sentence
+    inputboxselecteditems_text.clear()
+    inputboxselecteditems_has_symbol.clear()
+
+    // Clear all wordfinder state
+    wordfinder_display.intValue = 0
+    wordfinder_display_buttonguide.intValue = 0
+    wordfinder_path_ids.clear()
+    wordfinder_path_names.clear()
+    createclonefolder.value = false
+    createclonesymbol.value = false
+    wordfinder_highlight_index.intValue = -1
+
+    // Reset menus to defaults
+    MenuList.clear()
+    MenuList.addAll(listOf(home, people, actions, food, feelings))
+
+    // Reset static row
+    static_terms.clear()
+    static_terms.addAll(listOf("Yes", "No", "Thank you", "I need help", "Excuse me", "I use a talker to communicate"))
+
+    // Reset menu row
+    menu_terms_ids.clear()
+    menu_terms_ids.addAll(listOf(0, 2, 3, 4, 5))
+
+    // Close any open overlays
+    editor_mode.value = false
+    show_settings.value = false
+    show_edit_item_dialog.value = false
+    show_add_item_dialog.value = false
+    show_new_menu_dialog.value = false
+
+    // Back to home menu
+    linked_menu.value = 1
+    switchmenuparser.value++
 }
 
 @Serializable
@@ -1397,7 +1444,7 @@ fun WordFinder_Card(Name: String, MenuList_element: Int, is_symbol: Boolean, ite
     LaunchedEffect(Unit) {
         val res = useApiWithToken(accesstoken, MenuList[MenuList_element].item_list[item_position])
         card_name = res?.name ?: MenuList[MenuList_element].item_list[item_position]
-        card_url = res?.image_url.toString()
+        card_url = res?.image_url ?: ""
     }
     Card(
         modifier = Modifier
@@ -2043,6 +2090,7 @@ fun EditorToolbar() {
                     editor_mode.value = false
                     trigger_load.value = true
                     exit_button_clicked = false
+                    trigger_state_change_check.value = false
                     state_has_changed.value = false
                 },
                 title = { Text("Unsaved Changes") },
@@ -2057,6 +2105,7 @@ fun EditorToolbar() {
                 },
                 confirmButton = {
                     Button(onClick = {
+                        trigger_state_change_check.value = false
                         trigger_save.value = true
                         exit_button_clicked = false
                         state_has_changed.value = false
@@ -2066,6 +2115,7 @@ fun EditorToolbar() {
                 },
                 dismissButton = {
                     Button(onClick = {
+                        trigger_state_change_check.value = false
                         exit_button_clicked = false
                         state_has_changed.value = false
                         editor_mode.value = false
