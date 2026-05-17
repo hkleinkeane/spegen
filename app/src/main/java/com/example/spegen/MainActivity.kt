@@ -402,19 +402,20 @@ class MainActivity : ComponentActivity() {
 
 @Serializable
 data class PersistedState(
-    val box_size_dp: Float = 100f,
-    val box_padding_dp: Float = 20f,
-    val input_box_height_dp: Float = 0f,
-    val item_text_padding_dp: Float = 20f,
-    val has_seen_tutorial: Boolean = false,
-    val tts_data_found: Boolean = false,
-    val menu_list: List<menutemplate> = emptyList(),
-    val static_terms: List<String> = emptyList(),
-    val static_row_height: Float = 50f,
-    val menu_static_row_height: Float = 50f,
-    val button_boxes_width: Float = 50f,
-    val menu_row_ids: List<Int> = listOf(0, 2, 3, 4, 5)
+    val box_size_dp: Float,
+    val box_padding_dp: Float,
+    val input_box_height_dp: Float,
+    val item_text_padding_dp: Float,
+    val has_seen_tutorial: Boolean,
+    val tts_data_found: Boolean,
+    val menu_list: List<menutemplate>,
+    val static_terms: List<String>,
+    val static_row_height: Float,
+    val menu_static_row_height: Float,
+    val button_boxes_width: Float,
+    val menu_row_ids: List<Int>
 )
+
 
 suspend fun saveAllPreferences(context: Context) {
     val state = PersistedState(
@@ -466,18 +467,15 @@ suspend fun loadAllPreferences(context: Context) {
 }
 
 suspend fun hasStateChanged(context: Context): Boolean {
-    // Get raw saved JSON string
     val prefs = context.spegen_datastore.data.first()
     val savedJson = prefs[APP_STATE_KEY] ?: return true
 
-    // Decode saved data
     val savedState = try {
         Json.decodeFromString<PersistedState>(savedJson)
     } catch (e: Exception) {
-        return true // Corrupted/missing saved data is treated as changed
+        return true
     }
 
-    // Recreate a state object reflecting current values
     val currentState = PersistedState(
         box_size_dp = box_size.value,
         box_padding_dp = box_padding.value,
@@ -485,17 +483,17 @@ suspend fun hasStateChanged(context: Context): Boolean {
         item_text_padding_dp = item_text_padding.value,
         has_seen_tutorial = true,
         tts_data_found = tts_data_found.value,
-        menu_list = MenuList,
-        static_terms = static_terms,
+        menu_list = MenuList.toList(),
+        static_terms = static_terms.toList(),
         static_row_height = static_row_height.value,
         menu_static_row_height = menu_static_row_height.value,
         button_boxes_width = button_boxes_width.value,
         menu_row_ids = menu_terms_ids.toList()
     )
 
-    // Return true if they differ, false if they match
     return currentState != savedState
 }
+
 
 @Composable
 fun GetScreenDimensions() {
@@ -1650,7 +1648,8 @@ fun BackupSettingsContent() {
                 static_terms = static_terms.toList(),
                 static_row_height = static_row_height.value,
                 menu_static_row_height = menu_static_row_height.value,
-                button_boxes_width = button_boxes_width.value
+                button_boxes_width = button_boxes_width.value,
+                menu_row_ids = menu_terms_ids.toList()
             )
             val json = Json.encodeToString(state)
             context.contentResolver.openOutputStream(uri)?.use { output ->
@@ -1844,7 +1843,6 @@ fun AboutContent() {
 @Composable
 fun Buttonboxes() {
     val a = remember {mutableIntStateOf(0)}
-    println(screenHeight)
     button_boxes_width = (screenHeight.value*(1f/8f)).dp
     val x_offset = ((screenWidth - button_boxes_width).value).dp
     val y_offset = 0.dp
@@ -2002,6 +2000,7 @@ fun Buttonboxes() {
 
 @Composable
 fun EditorToolbar() {
+    var exit_button_clicked by remember { mutableStateOf(false) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -2028,46 +2027,57 @@ fun EditorToolbar() {
         Spacer(modifier = Modifier.width(20.dp))
         Button(
             onClick = {
-                trigger_state_change_check.value = true
-                if (!state_has_changed.value)
-                {
-                    editor_mode.value = false
-                    trigger_load.value = true
-                }},
+                exit_button_clicked = true
+                },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
         ) {
             Text("Exit")
-            if (state_has_changed.value)
-            {
-                AlertDialog(
-                    onDismissRequest = {
+        }
+    }
+    if (exit_button_clicked)
+    {
+        trigger_state_change_check.value = true
+        if (state_has_changed.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    editor_mode.value = false
+                    trigger_load.value = true
+                    exit_button_clicked = false
+                    state_has_changed.value = false
+                },
+                title = { Text("Unsaved Changes") },
+                text = {
+                    Column {
+                        Text(
+                            "You have unsaved changes, do you want to save them?",
+                            fontSize = 14.sp,
+                            color = Color.Black
+                        )
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        trigger_save.value = true
+                        exit_button_clicked = false
+                        state_has_changed.value = false
                         editor_mode.value = false
                         trigger_load.value = true
+                    }) { Text("Save Changes") }
+                },
+                dismissButton = {
+                    Button(onClick = {
+                        exit_button_clicked = false
                         state_has_changed.value = false
-                                       },
-                    title = { Text("Unsaved Changes")},
-                    text = {
-                        Column {
-                            Text("You have unsaved changes, do you want to save them?", fontSize = 14.sp, color = Color.Black)
-                        }
-                    },
-                    confirmButton = {
-                        Button(onClick = {
-                            trigger_save.value = true
-                            state_has_changed.value = false
-                            editor_mode.value = false
-                            trigger_load.value = true
-                        }) { Text("Save Changes") }
-                    },
-                    dismissButton = {
-                        Button(onClick = {
-                            state_has_changed.value = false
-                            editor_mode.value = false
-                            trigger_load.value = true
-                        }) { Text("Don't Save") }
-                    }
-                )
-            }
+                        editor_mode.value = false
+                        trigger_load.value = true
+                    }) { Text("Don't Save") }
+                }
+            )
+        }
+        else
+        {
+            trigger_load.value = true
+            editor_mode.value = false
         }
     }
 }
