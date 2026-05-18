@@ -115,6 +115,7 @@ import kotlin.collections.MutableList
 import androidx.compose.material3.Slider
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.material3.Checkbox
 
 val DEMO_MODE = false
 
@@ -255,7 +256,9 @@ var state_has_changed = mutableStateOf(false)
 val show_tutorial = mutableStateOf(false)
 
 var tts_speech_rate = mutableStateOf(1.0f)
-var tts_pitch       = mutableStateOf(1.0f)
+var tts_pitch = mutableStateOf(1.0f)
+
+var tts_pause_between_words = mutableStateOf(false)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -476,7 +479,8 @@ data class PersistedState(
     val button_boxes_width: Float,
     val menu_row_ids: List<Int>,
     val tts_speech_rate: Float = 1.0f,
-    val tts_pitch: Float = 1.0f
+    val tts_pitch: Float = 1.0f,
+    val tts_pause_between_words: Boolean = false
 )
 
 
@@ -495,7 +499,8 @@ suspend fun saveAllPreferences(context: Context) {
         button_boxes_width = button_boxes_width.value,
         menu_row_ids = menu_terms_ids.toList(),
         tts_speech_rate = tts_speech_rate.value,
-        tts_pitch = tts_pitch.value
+        tts_pitch = tts_pitch.value,
+        tts_pause_between_words = tts_pause_between_words.value
     )
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(state)
@@ -534,6 +539,8 @@ suspend fun loadAllPreferences(context: Context) {
 
     tts_speech_rate.value = state.tts_speech_rate
     tts_pitch.value = state.tts_pitch
+
+    tts_pause_between_words.value = state.tts_pause_between_words
 }
 
 suspend fun hasStateChanged(context: Context): Boolean {
@@ -815,8 +822,25 @@ fun InputBox(modifier: Modifier) {
                 .background(Color.White)
                 .border(4.dp, Color.Black)
                 .clickable {
-                    val speech = inputboxselecteditems_text.joinToString(" ")
-                    tts.value?.speak(speech, TextToSpeech.QUEUE_FLUSH, null, "")
+                    if (tts.value?.isSpeaking == true) {
+                        tts.value?.stop()
+                    } else if (tts_pause_between_words.value && inputboxselecteditems_text.isNotEmpty()) {
+                        // First word flushes the queue, subsequent words queue up with pauses between
+                        tts.value?.speak(
+                            inputboxselecteditems_text[0],
+                            TextToSpeech.QUEUE_FLUSH, null, "word_0"
+                        )
+                        for (i in 1 until inputboxselecteditems_text.size) {
+                            tts.value?.playSilentUtterance(500L, TextToSpeech.QUEUE_ADD, "pause_$i")
+                            tts.value?.speak(
+                                inputboxselecteditems_text[i],
+                                TextToSpeech.QUEUE_ADD, null, "word_$i"
+                            )
+                        }
+                    } else {
+                        val speech = inputboxselecteditems_text.joinToString(" ")
+                        tts.value?.speak(speech, TextToSpeech.QUEUE_FLUSH, null, "")
+                    }
                 }
         ) {
             if (inputboxselecteditems_text.size == inputboxselecteditems_has_symbol.size) {
@@ -940,7 +964,26 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                     if (tts_type == 0) {
                         if (tts.value?.isSpeaking == true) {
                             tts.value?.stop()
-                        } else tts.value?.speak(
+                        }
+                        if (tts_pause_between_words.value) {
+                            val splitwords = name.split(" ")
+                            tts.value?.speak(
+                                splitwords[0],
+                                TextToSpeech.QUEUE_FLUSH, null, "word_0"
+                            )
+                            for (i in 1 until splitwords.size) {
+                                tts.value?.playSilentUtterance(
+                                    500L,
+                                    TextToSpeech.QUEUE_ADD,
+                                    "pause_$i"
+                                )
+                                tts.value?.speak(
+                                    splitwords[i],
+                                    TextToSpeech.QUEUE_ADD, null, "word_$i"
+                                )
+                            }
+                        }
+                        else tts.value?.speak(
                             (name), TextToSpeech.QUEUE_FLUSH, null, ""
                         )
                     }
@@ -951,7 +994,26 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                     if (tts_type == 2) {
                         if (tts.value?.isSpeaking == true) {
                             tts.value?.stop()
-                        } else tts.value?.speak(
+                        }
+                        if (tts_pause_between_words.value) {
+                            val splitwords = name.split(" ")
+                            tts.value?.speak(
+                                splitwords[0],
+                                TextToSpeech.QUEUE_FLUSH, null, "word_0"
+                            )
+                            for (i in 1 until splitwords.size) {
+                                tts.value?.playSilentUtterance(
+                                    500L,
+                                    TextToSpeech.QUEUE_ADD,
+                                    "pause_$i"
+                                )
+                                tts.value?.speak(
+                                    splitwords[i],
+                                    TextToSpeech.QUEUE_ADD, null, "word_$i"
+                                )
+                            }
+                        }
+                        else tts.value?.speak(
                             (name), TextToSpeech.QUEUE_FLUSH, null, ""
                         )
                         inputboxselecteditems_text += name
@@ -2015,6 +2077,7 @@ fun VoiceSettingsContent() {
     val context = LocalContext.current
     var rate_preview  by remember { mutableFloatStateOf(tts_speech_rate.value) }
     var pitch_preview by remember { mutableFloatStateOf(tts_pitch.value) }
+    val example_sentence = "The quick brown fox jumps over the lazy dog."
 
     fun applyToEngine() {
         tts.value?.setSpeechRate(rate_preview)
@@ -2079,6 +2142,28 @@ fun VoiceSettingsContent() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { tts_pause_between_words.value = !tts_pause_between_words.value }
+                .padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = tts_pause_between_words.value,
+                onCheckedChange = { tts_pause_between_words.value = it }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text("Pause between words", fontSize = 16.sp)
+                Text(
+                    "Inserts a short silence between each word when speaking a sentence.",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+
         // Apply & Test
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Button(
@@ -2091,12 +2176,30 @@ fun VoiceSettingsContent() {
             Button(
                 onClick = {
                     applyToEngine()
-                    tts.value?.speak(
-                        "I want water please",
-                        TextToSpeech.QUEUE_FLUSH,
-                        null,
-                        "preview"
-                    )
+                    if (tts_pause_between_words.value)
+                    {
+                        val splitsentence = example_sentence.split(" ")
+                        tts.value?.speak(
+                            splitsentence[0],
+                            TextToSpeech.QUEUE_FLUSH, null, "word_0"
+                        )
+                        for (i in 1 until splitsentence.size) {
+                            tts.value?.playSilentUtterance(500L, TextToSpeech.QUEUE_ADD, "pause_$i")
+                            tts.value?.speak(
+                                splitsentence[i],
+                                TextToSpeech.QUEUE_ADD, null, "word_$i"
+                            )
+                        }
+                    }
+                    else
+                    {
+                        tts.value?.speak(
+                            example_sentence,
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            "preview"
+                        )
+                    }
                 },
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
@@ -2113,7 +2216,7 @@ fun VoiceSettingsContent() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            "Install voice packs, switch engines (Google TTS, RHVoice, eSpeak), or change language in your device's TTS settings.",
+            "Install voice packs, switch engines (if available), or change language in your device's TTS settings.",
             fontSize = 13.sp,
             color = Color.Gray
         )
