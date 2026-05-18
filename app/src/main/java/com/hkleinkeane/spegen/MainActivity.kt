@@ -249,22 +249,15 @@ var trigger_state_change_check = mutableStateOf(false)
 
 var state_has_changed = mutableStateOf(false)
 
+val show_tutorial = mutableStateOf(false)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val prefs = getSharedPreferences("spegen_prefs", MODE_PRIVATE)
-        val hasSeenTutorial = prefs.getBoolean("has_seen_tutorial", false)
-        val show_tutorial = mutableStateOf(false)
         super.onCreate(savedInstanceState)
         runBlocking {
             loadAllPreferences(this@MainActivity)
         }
         setContent {
-            LaunchedEffect(Unit)
-            {
-                if (!hasSeenTutorial) {
-                    show_tutorial.value = true
-                }
-            }
             MenuKeyGen()
             Screen()
             Box()
@@ -372,8 +365,8 @@ class MainActivity : ComponentActivity() {
             if (show_tutorial.value)
             {
                 TutorialOverlay(onFinish = {
-                    prefs.edit { putBoolean("has_seen_tutorial", true) }
                     show_tutorial.value = false
+                    trigger_save.value = true
                 })
             }
             if (show_settings.value) {
@@ -457,6 +450,9 @@ fun resetToDefaults() {
     // Back to home menu
     linked_menu.value = 1
     switchmenuparser.value++
+
+    // Reset tutorial
+    show_tutorial.value = true
 }
 
 @Serializable
@@ -482,7 +478,7 @@ suspend fun saveAllPreferences(context: Context) {
         box_padding_dp = box_padding.value,
         input_box_height_dp = input_box_height.value,
         item_text_padding_dp = item_text_padding.value,
-        has_seen_tutorial = true,
+        has_seen_tutorial = show_tutorial.value,
         tts_data_found = tts_data_found.value,
         menu_list = MenuList,
         static_terms = static_terms,
@@ -523,6 +519,8 @@ suspend fun loadAllPreferences(context: Context) {
 
     menu_terms_ids.clear()
     menu_terms_ids.addAll(state.menu_row_ids)
+
+    show_tutorial.value = state.has_seen_tutorial
 }
 
 suspend fun hasStateChanged(context: Context): Boolean {
@@ -540,7 +538,7 @@ suspend fun hasStateChanged(context: Context): Boolean {
         box_padding_dp = box_padding.value,
         input_box_height_dp = input_box_height.value,
         item_text_padding_dp = item_text_padding.value,
-        has_seen_tutorial = true,
+        has_seen_tutorial = show_tutorial.value,
         tts_data_found = tts_data_found.value,
         menu_list = MenuList.toList(),
         static_terms = static_terms.toList(),
