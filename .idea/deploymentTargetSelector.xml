@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-05-17T18:31:14.660942Z">
+        <DropdownSelection timestamp="2026-05-18T16:52:46.860049600Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=/Users/hklein-keane/.android/avd/Vyrolinia_7-Inch.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\harpe\.android\avd\Vyrolinia_7-Inch.avd" />
             </handle>
           </Target>
         </DropdownSelection>

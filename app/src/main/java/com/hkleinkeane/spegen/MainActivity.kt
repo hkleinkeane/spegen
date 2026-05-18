@@ -254,6 +254,9 @@ var state_has_changed = mutableStateOf(false)
 
 val show_tutorial = mutableStateOf(false)
 
+var tts_speech_rate = mutableStateOf(1.0f)
+var tts_pitch       = mutableStateOf(1.0f)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -471,7 +474,9 @@ data class PersistedState(
     val static_row_height: Float,
     val menu_static_row_height: Float,
     val button_boxes_width: Float,
-    val menu_row_ids: List<Int>
+    val menu_row_ids: List<Int>,
+    val tts_speech_rate: Float = 1.0f,
+    val tts_pitch: Float = 1.0f
 )
 
 
@@ -488,7 +493,9 @@ suspend fun saveAllPreferences(context: Context) {
         static_row_height = static_row_height.value,
         menu_static_row_height = menu_static_row_height.value,
         button_boxes_width = button_boxes_width.value,
-        menu_row_ids = menu_terms_ids.toList()
+        menu_row_ids = menu_terms_ids.toList(),
+        tts_speech_rate = tts_speech_rate.value,
+        tts_pitch = tts_pitch.value
     )
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(state)
@@ -524,6 +531,9 @@ suspend fun loadAllPreferences(context: Context) {
     menu_terms_ids.addAll(state.menu_row_ids)
 
     show_tutorial.value = state.has_seen_tutorial
+
+    tts_speech_rate.value = state.tts_speech_rate
+    tts_pitch.value = state.tts_pitch
 }
 
 suspend fun hasStateChanged(context: Context): Boolean {
@@ -548,7 +558,9 @@ suspend fun hasStateChanged(context: Context): Boolean {
         static_row_height = static_row_height.value,
         menu_static_row_height = menu_static_row_height.value,
         button_boxes_width = button_boxes_width.value,
-        menu_row_ids = menu_terms_ids.toList()
+        menu_row_ids = menu_terms_ids.toList(),
+        tts_speech_rate = tts_speech_rate.value,
+        tts_pitch = tts_pitch.value
     )
 
     return currentState != savedState
@@ -585,6 +597,8 @@ fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
                 {
                     tts_data_found.value = true
                 }
+                tts.value?.setSpeechRate(tts_speech_rate.value)
+                tts.value?.setPitch(tts_pitch.value)
             }
         }
 
@@ -1998,7 +2012,140 @@ fun ItemSizingSettings() {
 
 @Composable
 fun VoiceSettingsContent() {
-    Text("Voice settings — TTS engine, speaking rate, pitch. (TODO)")
+    val context = LocalContext.current
+    var rate_preview  by remember { mutableFloatStateOf(tts_speech_rate.value) }
+    var pitch_preview by remember { mutableFloatStateOf(tts_pitch.value) }
+
+    fun applyToEngine() {
+        tts.value?.setSpeechRate(rate_preview)
+        tts.value?.setPitch(pitch_preview)
+        tts_speech_rate.value = rate_preview
+        tts_pitch.value = pitch_preview
+    }
+
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+
+        // Speech Rate
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Speech rate", fontSize = 16.sp)
+            Text(
+                when {
+                    rate_preview < 0.6f -> "Very slow"
+                    rate_preview < 0.9f -> "Slow"
+                    rate_preview < 1.1f -> "Normal"
+                    rate_preview < 1.5f -> "Fast"
+                    else -> "Very fast"
+                } + "  (${String.format("%.1f", rate_preview)}×)",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+        }
+        Slider(
+            value = rate_preview,
+            onValueChange = { rate_preview = it },
+            valueRange = 0.25f..2.0f,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Pitch
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Pitch", fontSize = 16.sp)
+            Text(
+                when {
+                    pitch_preview < 0.7f -> "Low"
+                    pitch_preview < 0.9f -> "Slightly low"
+                    pitch_preview < 1.1f -> "Normal"
+                    pitch_preview < 1.4f -> "Slightly high"
+                    else -> "High"
+                } + "  (${String.format("%.1f", pitch_preview)}×)",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+        }
+        Slider(
+            value = pitch_preview,
+            onValueChange = { pitch_preview = it },
+            valueRange = 0.5f..2.0f,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Apply & Test
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(
+                onClick = { applyToEngine() },
+                modifier = Modifier.weight(1f),
+                enabled = rate_preview != tts_speech_rate.value
+                        || pitch_preview != tts_pitch.value
+            ) { Text("Apply") }
+
+            Button(
+                onClick = {
+                    applyToEngine()
+                    tts.value?.speak(
+                        "I want water please",
+                        TextToSpeech.QUEUE_FLUSH,
+                        null,
+                        "preview"
+                    )
+                },
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+            ) { Text("▶ Test voice") }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // System TTS settings
+        Text(
+            "Voice engine & language",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            "Install voice packs, switch engines (Google TTS, RHVoice, eSpeak), or change language in your device's TTS settings.",
+            fontSize = 13.sp,
+            color = Color.Gray
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = {
+                try {
+                    context.startActivity(
+                        Intent("com.android.settings.TTS_SETTINGS").apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                    )
+                } catch (e: Exception) {
+                    println("TTS settings not available on this device")
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) { Text("Open device TTS settings") }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        // --- Reset ---
+        Button(
+            onClick = {
+                rate_preview  = 1.0f
+                pitch_preview = 1.0f
+                applyToEngine()
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+        ) { Text("Reset to defaults") }
+    }
 }
 
 @Composable
