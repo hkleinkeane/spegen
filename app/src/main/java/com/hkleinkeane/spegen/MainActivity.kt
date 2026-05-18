@@ -1867,7 +1867,7 @@ fun MenuRowSettings() {
 
 @Composable
 fun SymbolSizingSettings() {
-    // Most likely will be changed to a slider approach with an example display. This is a debug display
+    // Most likely will be changed to a slider approach with an com.hkleinkeane display. This is a debug display
     Column {
         Text("Symbol size: ${box_size.value.toInt()}dp", fontSize = 16.sp)
         Spacer(modifier = Modifier.height(8.dp))
