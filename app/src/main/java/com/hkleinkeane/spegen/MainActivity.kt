@@ -112,6 +112,9 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.ButtonDefaults
 import kotlin.Int
 import kotlin.collections.MutableList
+import androidx.compose.material3.Slider
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.runtime.mutableFloatStateOf
 
 val DEMO_MODE = false
 
@@ -1662,7 +1665,7 @@ fun UISettingsContent() {
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         ExpandableSection("Static Symbol Row") { StaticSymbolRowSettings() }
         ExpandableSection("Menu Row") { MenuRowSettings() }
-        ExpandableSection("Symbol Sizing") { SymbolSizingSettings() }
+        ExpandableSection("Item Sizing") { ItemSizingSettings() }
         ExpandableSection("Edit Mode") { EditMode() }
     }
 }
@@ -1864,19 +1867,131 @@ fun MenuRowSettings() {
 }
 
 @Composable
-fun SymbolSizingSettings() {
-    // Most likely will be changed to a slider approach with an com.hkleinkeane display. This is a debug display
-    Column {
-        Text("Symbol size: ${box_size.value.toInt()}dp", fontSize = 16.sp)
-        Spacer(modifier = Modifier.height(8.dp))
-        Row {
-            Button(onClick = {  }) {
-                Text("TODO")
+fun ItemSizingSettings() {
+    var preview_size by remember { mutableFloatStateOf(box_size.value) }
+
+    val item_total_width = preview_size + box_padding.value * 2
+    val item_total_height = preview_size + box_padding.value * 3
+    val items_per_row = (menu_width.value / item_total_width ).toInt().coerceAtLeast(1)
+    val rows_per_page = (menu_height.value / item_total_height).toInt().coerceAtLeast(1)
+    val items_per_page = items_per_row * rows_per_page
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Item size", fontSize = 16.sp)
+            Text(
+                "${preview_size.toInt()} dp",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+        )
+        }
+
+        Slider(
+            value = preview_size,
+            onValueChange = { preview_size = it },
+            valueRange = 40f..180f,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Text(
+            "$items_per_row per row· $rows_per_page rows· $items_per_page per page",
+            fontSize = 13.sp,
+            color = Color.Gray
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        Spacer(modifier = Modifier.height(4.dp))
+
+        val currentMenu = MenuFinder(linked_menu.value)
+        val scrollState = rememberScrollState()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(240.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
+                .background(Color(0xFFF5F5F5))
+                .verticalScroll(scrollState)
+        ) {
+        FlowRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            val preview_count = (items_per_row * minOf(rows_per_page + 1, 4))
+                .coerceAtMost(24)
+
+            repeat(preview_count) { index ->
+                Box(
+                    modifier = Modifier
+                        .height(item_total_height.dp)
+                        .width(preview_size.dp)
+                        .background(Color.White)
+                        .border(
+                            2.dp,
+                            Color.Black,
+                            RoundedCornerShape(
+                                (40f * (preview_size / 100f)).coerceIn(4f, 40f).dp
+                            )
+                        )
+                ) {
+                    val label = if (index < currentMenu.item_list.size)
+                        currentMenu.item_list[index].replaceFirstChar { it.titlecase() }
+                    else "Word"
+
+                    Text(
+                        text = label,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(horizontal = 2.dp, vertical = 1.dp),
+                        fontSize = (preview_size / 7f).coerceAtLeast(8f).sp,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = Color.Black
+                    )
+                }
             }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = {  }) {
-                Text("TODO")
-            }
+        }
+        }
+
+        if (preview_size != box_size.value) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                "Current: ${box_size.value.toInt()}dp  →  Preview: ${preview_size.toInt()}dp",
+                fontSize = 12.sp,
+                color = Color(0xFFFF8F00)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = {
+                    box_size = preview_size.dp
+                    switchmenuparser.value++
+                          },
+                modifier = Modifier.weight(1f),
+                enabled = preview_size != box_size.value
+            ) { Text("Apply") }
+
+            Button(
+                onClick = { preview_size = 100f },
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+            ) { Text("Reset") }
         }
     }
 }
