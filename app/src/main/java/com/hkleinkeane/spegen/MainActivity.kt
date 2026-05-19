@@ -122,7 +122,7 @@ import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
 
-val DEMO_MODE = false
+const val DEMO_MODE = false
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -156,7 +156,7 @@ val edit_target_menu_id = mutableIntStateOf(-1)
 val edit_target_index = mutableIntStateOf(-1)
 
 val home = menutemplate(
-    1, "Home", 1,
+    0, "Home", 0,
     listOf("I", "want", "more", "help", "yes", "no", "stop", "please", "People", "Actions", "Food", "Feelings"),
     listOf(null, null, null, null, null, null, null, null, 2, 3, 4, 5),
     listOf(2, 2, 2, 2, 2, 2, 2, 2, null, null, null, null),
@@ -164,7 +164,7 @@ val home = menutemplate(
 )
 
 val people = menutemplate(
-    2, "People", 1,
+    1, "People", 0,
     listOf("you", "me", "mom", "dad", "sister", "brother", "friend", "teacher"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -172,7 +172,7 @@ val people = menutemplate(
 )
 
 val actions = menutemplate(
-    3, "Actions", 1,
+    2, "Actions", 0,
     listOf("eat", "drink", "play", "go", "sleep", "read", "watch", "listen"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -180,7 +180,7 @@ val actions = menutemplate(
 )
 
 val food = menutemplate(
-    4, "Food", 1,
+    3, "Food", 0,
     listOf("water", "milk", "apple", "banana", "sandwich", "pizza", "cookie", "snack"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -188,7 +188,7 @@ val food = menutemplate(
 )
 
 val feelings = menutemplate(
-    5, "Feelings", 1,
+    4, "Feelings", 0,
     listOf("happy", "sad", "tired", "sick", "hungry", "thirsty", "scared", "excited"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -248,7 +248,7 @@ var static_terms = mutableStateListOf<String>("Yes", "No", "Thank you", "I need 
 
 val show_settings = mutableStateOf(false)
 
-var menu_terms_ids = mutableStateListOf(0, 2, 3, 4, 5)
+var menu_terms_ids = mutableStateListOf(0, 1, 2, 3, 4)
 
 var trigger_save = mutableStateOf(false)
 
@@ -265,6 +265,8 @@ var tts_pitch = mutableStateOf(1.0f)
 
 var tts_pause_between_words = mutableStateOf(false)
 var tts_pause_duration = mutableLongStateOf(500L)
+
+var screen_display = mutableStateOf(true)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -385,7 +387,9 @@ class MainActivity : ComponentActivity() {
                 })
             }
             if (show_settings.value) {
-                SettingsScreen(onClose = { show_settings.value = false })
+                SettingsScreen(onClose = {
+                    show_settings.value = false
+                })
             }
             if (editor_mode.value) {
                 if (show_edit_item_dialog.value) EditItemDialog()
@@ -453,7 +457,7 @@ fun resetToDefaults() {
 
     // Reset menu row
     menu_terms_ids.clear()
-    menu_terms_ids.addAll(listOf(0, 2, 3, 4, 5))
+    menu_terms_ids.addAll(listOf(0, 1, 2, 3, 4))
 
     // Close any open overlays
     editor_mode.value = false
@@ -474,6 +478,9 @@ fun resetToDefaults() {
     tts_speech_rate.value = 1.0f
     tts_pause_between_words.value = false
     tts_pause_duration.longValue = 500L
+
+    // Refresh screen
+    screen_display.value = false
 }
 
 @Serializable
@@ -846,7 +853,11 @@ fun InputBox(modifier: Modifier) {
                             TextToSpeech.QUEUE_FLUSH, null, "word_0"
                         )
                         for (i in 1 until inputboxselecteditems_text.size) {
-                            tts.value?.playSilentUtterance(tts_pause_duration.value, TextToSpeech.QUEUE_ADD, "pause_$i")
+                            tts.value?.playSilentUtterance(
+                                tts_pause_duration.value,
+                                TextToSpeech.QUEUE_ADD,
+                                "pause_$i"
+                            )
                             tts.value?.speak(
                                 inputboxselecteditems_text[i],
                                 TextToSpeech.QUEUE_ADD, null, "word_$i"
@@ -923,7 +934,9 @@ fun InputBox_Text(index: Int) {
             it.titlecase()
         else it.toString()
     }
-    Box(modifier = Modifier.fillMaxHeight().aspectRatio(1f), contentAlignment = Alignment.CenterStart) {
+    Box(modifier = Modifier
+        .fillMaxHeight()
+        .aspectRatio(1f), contentAlignment = Alignment.CenterStart) {
         Text(
             text = name,
             color = Color.Black,
@@ -997,8 +1010,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                                     TextToSpeech.QUEUE_ADD, null, "word_$i"
                                 )
                             }
-                        }
-                        else tts.value?.speak(
+                        } else tts.value?.speak(
                             (name), TextToSpeech.QUEUE_FLUSH, null, ""
                         )
                     }
@@ -1027,8 +1039,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                                     TextToSpeech.QUEUE_ADD, null, "word_$i"
                                 )
                             }
-                        }
-                        else tts.value?.speak(
+                        } else tts.value?.speak(
                             (name), TextToSpeech.QUEUE_FLUSH, null, ""
                         )
                         inputboxselecteditems_text += name
@@ -1229,13 +1240,17 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 }
             }
 
-            HorizontalPager(state = pagerState, modifier = modifier.fillMaxWidth().fillMaxHeight()) { page ->
+            HorizontalPager(state = pagerState, modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight()) { page ->
                 val startIndex = page * items_per_page
                 val endIndex = minOf(startIndex + items_per_page, total_items)
                 val empty_slots = items_per_page - (endIndex - startIndex)
 
                 FlowRow(
-                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     for (i in startIndex until endIndex) {
@@ -1244,7 +1259,11 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                                 modifier = Modifier
                                     .height(box_size + vertical_stretch + (box_padding * 3))
                                     .background(Color.White)
-                                    .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                                    .border(
+                                        width = 4.dp,
+                                        color = Color.Black,
+                                        shape = RoundedCornerShape(40.dp)
+                                    )
                                     .padding(box_padding)
                                     .scale(1f)
                                     .width(box_size)
@@ -1267,7 +1286,11 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                             modifier = Modifier
                                 .height(box_size + vertical_stretch + (box_padding * 3))
                                 .background(Color.White)
-                                .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    width = 4.dp,
+                                    color = Color.Black,
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(box_padding)
                                 .scale(1f)
                                 .width(box_size)
@@ -1288,13 +1311,17 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
             val page_count = ((total_items + items_per_page - 1) / items_per_page).coerceAtLeast(1)
 
             val pagerState = rememberPagerState(pageCount = { page_count })
-            HorizontalPager(state = pagerState, modifier = modifier.fillMaxWidth().fillMaxHeight()) { page ->
+            HorizontalPager(state = pagerState, modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight()) { page ->
                 val startIndex = page * items_per_page
                 val endIndex = minOf(startIndex + items_per_page, total_items)
                 val empty_slots = items_per_page - (endIndex - startIndex)
 
                 FlowRow(
-                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
@@ -1304,7 +1331,11 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                             modifier = Modifier
                                 .height(box_size + vertical_stretch + (box_padding * 3))
                                 .background(Color.White)
-                                .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    width = 4.dp,
+                                    color = Color.Black,
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(box_padding)
                                 .scale(1f)
                                 .width(box_size)
@@ -1327,7 +1358,11 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                             modifier = Modifier
                                 .height(box_size + vertical_stretch + (box_padding * 3))
                                 .background(Color.White)
-                                .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                                .border(
+                                    width = 4.dp,
+                                    color = Color.Black,
+                                    shape = RoundedCornerShape(40.dp)
+                                )
                                 .padding(box_padding)
                                 .scale(1f)
                                 .width(box_size)
@@ -1658,7 +1693,9 @@ fun SettingsScreen(onClose: () -> Unit) {
                 .fillMaxHeight(0.9f)
         ) {
             // TAB STRIP
-            Row(modifier = Modifier.fillMaxWidth().height(48.dp)) {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)) {
                 tabs.forEachIndexed { index, label ->
                     val isSelected = selectedTab == index
                     Box(
@@ -1705,7 +1742,9 @@ fun SettingsScreen(onClose: () -> Unit) {
 
             // DONE BUTTON
             Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(onClick = onClose) { Text("Done") }
@@ -1717,7 +1756,9 @@ fun SettingsScreen(onClose: () -> Unit) {
 @Composable
 fun ExpandableSection(title: String, content: @Composable () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 4.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -1753,7 +1794,9 @@ fun ExpandableSection(title: String, content: @Composable () -> Unit) {
 
 @Composable
 fun UISettingsContent() {
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         ExpandableSection("Static Symbol Row") { StaticSymbolRowSettings() }
         ExpandableSection("Menu Row") { MenuRowSettings() }
         ExpandableSection("Item Sizing") { ItemSizingSettings() }
@@ -1844,7 +1887,9 @@ fun BackupSettingsContent() {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         Text("Save your SpeGen data to a file, or restore from a previous backup.",
             fontSize = 14.sp, color = Color.DarkGray)
         Spacer(modifier = Modifier.height(16.dp))
@@ -1855,7 +1900,9 @@ fun BackupSettingsContent() {
                     java.util.Locale.getDefault()).format(java.util.Date())
                 exportLauncher.launch("spegen_backup_$timestamp.json")
             },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
         ) { Text("Export to .json file") }
         Text("Backup/Restore for this option works with the following applications: ",
             fontSize = 14.sp, color = Color.DarkGray)
@@ -1864,7 +1911,9 @@ fun BackupSettingsContent() {
 
         Button(
             onClick = { importLauncher.launch(arrayOf("application/json", "*/*")) },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
         ) { Text("Import from file") }
 
         if (statusMessage.isNotEmpty()) {
@@ -1888,7 +1937,9 @@ fun StaticSymbolRowSettings() {
         Spacer(modifier = Modifier.height(8.dp))
         static_terms.forEachIndexed { index, term ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = term, modifier = Modifier.weight(1f), fontSize = 16.sp)
@@ -1900,7 +1951,9 @@ fun StaticSymbolRowSettings() {
         }
         var newTerm by remember { mutableStateOf("") }
         Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(
@@ -1930,27 +1983,37 @@ fun MenuRowSettings() {
         Text("Choose which menus appear in the bottom menu row.", fontSize = 14.sp, color = Color.DarkGray)
         Spacer(modifier = Modifier.height(8.dp))
         MenuList.forEach { menu ->
-            if (menu.id != 1) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
-                    Button(onClick = {
-                        if (menu.id in menu_terms_ids) {
-                            menu_terms_ids.remove(menu.id)
-                        }
-                        else {
-                            menu_terms_ids += menu.id
-                        }
-                    }) { Text("Toggle visibility") }
-                    Spacer(modifier = Modifier.width(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+                Button(onClick = {
                     if (menu.id in menu_terms_ids) {
-                        Text(text = "(visible)", color = Color.Gray, fontSize = 14.sp)
+                        menu_terms_ids.remove(menu.id)
+                        if (menu_terms_ids.isEmpty())
+                        {
+                            menu_static_row_height = 0.dp
+                            screen_display.value = !screen_display.value
+                        }
                     }
                     else {
-                        Text(text = "(not visible)", color = Color.Gray, fontSize = 14.sp)
+                        menu_terms_ids += menu.id
+                        if (menu_terms_ids.size == 1)
+                        {
+                            menu_static_row_height = screenHeight * (1f / 8f)
+                            screen_display.value = !screen_display.value
+                        }
                     }
+                }) { Text("Toggle visibility") }
+                Spacer(modifier = Modifier.width(8.dp))
+                if (menu.id in menu_terms_ids) {
+                    Text(text = "(visible)", color = Color.Gray, fontSize = 14.sp)
+                }
+                else {
+                    Text(text = "(not visible)", color = Color.Gray, fontSize = 14.sp)
                 }
             }
         }
@@ -2123,7 +2186,9 @@ fun VoiceSettingsContent() {
         original_pause = tts_pause_between_words.value
     }
 
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         // Speech Rate
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -2311,7 +2376,9 @@ fun VoiceSettingsContent() {
 
 @Composable
 fun AboutContent() {
-    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
         Text("SpeGen", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
@@ -2353,14 +2420,16 @@ fun Buttonboxes() {
                         show_settings.value = true
                     })
             ) {
-                Text(text = "Settings", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+                Text(text = "Settings", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
             }
         }
         //BOTTOM RIGHT
         Column() {
             Box(
                 modifier = Modifier
-                    .offset(x_offset, y_offset + button_boxes_width*2)
+                    .offset(x_offset, y_offset + button_boxes_width * 2)
                     .size(button_boxes_width)
                     .background(color = Color.White)
                     .border(border = BorderStroke(2.dp, Color.Black))
@@ -2370,7 +2439,9 @@ fun Buttonboxes() {
                         }
                     })
             ) {
-                Text(text = "Stop", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+                Text(text = "Stop", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
             }
         }
         //TOP LEFT
@@ -2385,13 +2456,15 @@ fun Buttonboxes() {
                         showKeyboard = true
                     })
             ) {
-                Text(text = "Keyboard", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+                Text(text = "Keyboard", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
             }}
         //MIDDLE LEFT
         Column() {
             Box(
                 modifier = Modifier
-                    .offset(x_offset - button_boxes_width, y_offset + button_boxes_width*2)
+                    .offset(x_offset - button_boxes_width, y_offset + button_boxes_width * 2)
                     .size(button_boxes_width)
                     .background(color = Color.White)
                     .border(border = BorderStroke(2.dp, Color.Black))
@@ -2400,7 +2473,9 @@ fun Buttonboxes() {
                         inputboxselecteditems_has_symbol.clear()
                     })
             ) {
-                Text(text = "Clear", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+                Text(text = "Clear", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
             }
 
         }
@@ -2415,11 +2490,15 @@ fun Buttonboxes() {
                     .clickable(onClick = {
                         if (inputboxselecteditems_text.isNotEmpty() && inputboxselecteditems_has_symbol.isNotEmpty()) {
                             inputboxselecteditems_text.removeAt(inputboxselecteditems_text.lastIndex)
-                            inputboxselecteditems_has_symbol.removeAt(inputboxselecteditems_has_symbol.lastIndex)
+                            inputboxselecteditems_has_symbol.removeAt(
+                                inputboxselecteditems_has_symbol.lastIndex
+                            )
                         }
                     })
             ) {
-                Text(text = "Delete", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+                Text(text = "Delete", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
             }
         }
     }
@@ -2435,14 +2514,16 @@ fun Buttonboxes() {
                     wordfinder_display.intValue = 1
                 })
         ) {
-            Text(text = "Search", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+            Text(text = "Search", color = Color.Black, modifier = Modifier
+                .align(Alignment.Center)
+                .padding(3.dp))
         }
     }
     Column() {
         Box(
             modifier = Modifier
-                .offset(x_offset - button_boxes_width, y_offset + button_boxes_width*3)
-                .width(button_boxes_width*2)
+                .offset(x_offset - button_boxes_width, y_offset + button_boxes_width * 3)
+                .width(button_boxes_width * 2)
                 .height(button_boxes_width)
                 .background(color = Color.White)
                 .border(border = BorderStroke(2.dp, Color.Black))
@@ -2453,7 +2534,9 @@ fun Buttonboxes() {
                     }
                 })
         ) {
-            Text(text = "Back", color = Color.Black, modifier = Modifier.align(Alignment.Center).padding(3.dp))
+            Text(text = "Back", color = Color.Black, modifier = Modifier
+                .align(Alignment.Center)
+                .padding(3.dp))
         }
     }
     if (showKeyboard)
@@ -2604,7 +2687,9 @@ fun EditItemDialog() {
                     Row {
                         listOf("Type only" to 0, "Speak only" to 1, "Both" to 2).forEach { (label, value) ->
                             Row(
-                                modifier = Modifier.clickable { ttsType = value }.padding(8.dp),
+                                modifier = Modifier
+                                    .clickable { ttsType = value }
+                                    .padding(8.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(if (ttsType == value) "● $label" else "○ $label", fontSize = 13.sp)
@@ -2670,19 +2755,27 @@ fun AddItemDialog() {
                 TextField(value = name, onValueChange = { name = it }, singleLine = true)
                 Spacer(modifier = Modifier.height(12.dp))
                 Row {
-                    Row(modifier = Modifier.clickable { isSymbol = true }.padding(8.dp)) {
+                    Row(modifier = Modifier
+                        .clickable { isSymbol = true }
+                        .padding(8.dp)) {
                         Text(if (isSymbol) "● Symbol" else "○ Symbol")
                     }
-                    Row(modifier = Modifier.clickable { isSymbol = false }.padding(8.dp)) {
+                    Row(modifier = Modifier
+                        .clickable { isSymbol = false }
+                        .padding(8.dp)) {
                         Text(if (!isSymbol) "● Folder" else "○ Folder")
                     }
                 }
                 if (!isSymbol) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text("Folder target menu", fontSize = 14.sp)
-                    Column(modifier = Modifier.heightIn(max = 150.dp).verticalScroll(rememberScrollState())) {
+                    Column(modifier = Modifier
+                        .heightIn(max = 150.dp)
+                        .verticalScroll(rememberScrollState())) {
                         MenuList.forEach { m ->
-                            Row(modifier = Modifier.clickable { folderTarget = m.id }.padding(4.dp)) {
+                            Row(modifier = Modifier
+                                .clickable { folderTarget = m.id }
+                                .padding(4.dp)) {
                                 Text(if (folderTarget == m.id) "● ${m.title}" else "○ ${m.title}",
                                     fontSize = 13.sp)
                             }
@@ -2768,32 +2861,32 @@ fun EditorOverlay()
             .height(input_box_height)
             .background(dim)
             .zIndex(700f)
-            .clickable( onClick = {} )
+            .clickable(onClick = {})
     )
     // Covers MenuRow and Static_Row_Needs
     Box(
         modifier = Modifier
-            .offset(0.dp, input_box_height+menu_height)
+            .offset(0.dp, input_box_height + menu_height)
             .width(screenWidth)
-            .height(menu_static_row_height+static_row_height)
+            .height(menu_static_row_height + static_row_height)
             .background(dim)
             .zIndex(700f)
-            .clickable( onClick = {} )
+            .clickable(onClick = {})
     )
     // Covers buttonboxes
     Box(
         modifier = Modifier
-            .offset(screenWidth-(button_boxes_width*2), input_box_height)
-            .width(button_boxes_width*2)
+            .offset(screenWidth - (button_boxes_width * 2), input_box_height)
+            .width(button_boxes_width * 2)
             .height(menu_height)
             .background(dim)
             .zIndex(700f)
-            .clickable( onClick = {} )
+            .clickable(onClick = {})
     )
     Box(
         modifier = Modifier
             .offset(0.dp, input_box_height)
-            .width(screenWidth-(button_boxes_width*2))
+            .width(screenWidth - (button_boxes_width * 2))
             .height(menu_height)
             .border(3.dp, Color(0xFFFF8F00))
             .zIndex(750f)
@@ -2802,22 +2895,31 @@ fun EditorOverlay()
 
 @Composable
 fun Screen() {
-    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        tts = rememberTextToSpeech()
-        val a = remember { mutableIntStateOf(0) }
-        GetScreenDimensions()
-        Static_Row_Needs()
-        if (wordfinder_display.intValue != a.intValue) {
-            WordFinder()
-        } else {
-            if (editor_mode.value) {
-                EditorOverlay()
-                EditorToolbar()
+    if (screen_display.value) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            tts = rememberTextToSpeech()
+            val a = remember { mutableIntStateOf(0) }
+            GetScreenDimensions()
+            Static_Row_Needs()
+            if (wordfinder_display.intValue != a.intValue) {
+                WordFinder()
+            } else {
+                if (editor_mode.value) {
+                    EditorOverlay()
+                    EditorToolbar()
+                }
+                Buttonboxes()
+                MenuRow(Modifier)
+                InputBox(Modifier)
+                Menu(Modifier)
             }
-            Buttonboxes()
-            MenuRow(Modifier)
-            InputBox(Modifier)
-            Menu(Modifier)
         }
+    }
+    if (!screen_display.value) {
+        screen_display.value = !screen_display.value
     }
 }
