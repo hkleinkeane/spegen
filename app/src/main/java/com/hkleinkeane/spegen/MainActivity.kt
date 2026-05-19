@@ -116,6 +116,11 @@ import androidx.compose.material3.Slider
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.material3.Checkbox
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withLink
 
 val DEMO_MODE = false
 
@@ -259,6 +264,7 @@ var tts_speech_rate = mutableStateOf(1.0f)
 var tts_pitch = mutableStateOf(1.0f)
 
 var tts_pause_between_words = mutableStateOf(false)
+var tts_pause_duration = mutableLongStateOf(500L)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -462,6 +468,12 @@ fun resetToDefaults() {
 
     // Reset tutorial
     show_tutorial.value = true
+
+    // Reset TTS settings
+    tts_pitch.value = 1.0f
+    tts_speech_rate.value = 1.0f
+    tts_pause_between_words.value = false
+    tts_pause_duration.longValue = 500L
 }
 
 @Serializable
@@ -480,7 +492,8 @@ data class PersistedState(
     val menu_row_ids: List<Int>,
     val tts_speech_rate: Float = 1.0f,
     val tts_pitch: Float = 1.0f,
-    val tts_pause_between_words: Boolean = false
+    val tts_pause_between_words: Boolean = false,
+    val tts_pause_duration: Long = 500L
 )
 
 
@@ -500,7 +513,8 @@ suspend fun saveAllPreferences(context: Context) {
         menu_row_ids = menu_terms_ids.toList(),
         tts_speech_rate = tts_speech_rate.value,
         tts_pitch = tts_pitch.value,
-        tts_pause_between_words = tts_pause_between_words.value
+        tts_pause_between_words = tts_pause_between_words.value,
+        tts_pause_duration = tts_pause_duration.value
     )
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(state)
@@ -541,6 +555,7 @@ suspend fun loadAllPreferences(context: Context) {
     tts_pitch.value = state.tts_pitch
 
     tts_pause_between_words.value = state.tts_pause_between_words
+    tts_pause_duration.value = state.tts_pause_duration
 }
 
 suspend fun hasStateChanged(context: Context): Boolean {
@@ -831,7 +846,7 @@ fun InputBox(modifier: Modifier) {
                             TextToSpeech.QUEUE_FLUSH, null, "word_0"
                         )
                         for (i in 1 until inputboxselecteditems_text.size) {
-                            tts.value?.playSilentUtterance(500L, TextToSpeech.QUEUE_ADD, "pause_$i")
+                            tts.value?.playSilentUtterance(tts_pause_duration.value, TextToSpeech.QUEUE_ADD, "pause_$i")
                             tts.value?.speak(
                                 inputboxselecteditems_text[i],
                                 TextToSpeech.QUEUE_ADD, null, "word_$i"
@@ -973,7 +988,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                             )
                             for (i in 1 until splitwords.size) {
                                 tts.value?.playSilentUtterance(
-                                    500L,
+                                    tts_pause_duration.value,
                                     TextToSpeech.QUEUE_ADD,
                                     "pause_$i"
                                 )
@@ -1003,7 +1018,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                             )
                             for (i in 1 until splitwords.size) {
                                 tts.value?.playSilentUtterance(
-                                    500L,
+                                    tts_pause_duration.value,
                                     TextToSpeech.QUEUE_ADD,
                                     "pause_$i"
                                 )
@@ -2077,13 +2092,35 @@ fun VoiceSettingsContent() {
     val context = LocalContext.current
     var rate_preview  by remember { mutableFloatStateOf(tts_speech_rate.value) }
     var pitch_preview by remember { mutableFloatStateOf(tts_pitch.value) }
+    var pause_preview by remember { mutableStateOf(tts_pause_between_words.value) }
     val example_sentence = "The quick brown fox jumps over the lazy dog."
+    var original_rate by remember { mutableFloatStateOf(tts_speech_rate.value) }
+    var original_pitch by remember { mutableFloatStateOf(tts_pitch.value) }
+    var original_pause by remember { mutableStateOf(tts_pause_between_words.value) }
+    var pause_duration_preview by remember { mutableFloatStateOf(tts_pause_duration.longValue.toFloat()) }
 
     fun applyToEngine() {
+        original_rate = tts_speech_rate.value
+        original_pitch = tts_pitch.value
+        original_pause = tts_pause_between_words.value
+        tts_pause_duration.longValue = pause_duration_preview.toLong()
         tts.value?.setSpeechRate(rate_preview)
         tts.value?.setPitch(pitch_preview)
         tts_speech_rate.value = rate_preview
         tts_pitch.value = pitch_preview
+        tts_pause_between_words.value = pause_preview
+    }
+
+    fun removefromEngine() {
+        tts.value?.setSpeechRate(original_rate)
+        tts.value?.setPitch(original_pitch)
+        tts_speech_rate.value = original_rate
+        tts_pitch.value = original_pitch
+        tts_pause_between_words.value = original_pause
+        pause_duration_preview = tts_pause_duration.value.toFloat()
+        original_rate = tts_speech_rate.value
+        original_pitch = tts_pitch.value
+        original_pause = tts_pause_between_words.value
     }
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
@@ -2145,13 +2182,13 @@ fun VoiceSettingsContent() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { tts_pause_between_words.value = !tts_pause_between_words.value }
+                .clickable { pause_preview = !pause_preview }
                 .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
-                checked = tts_pause_between_words.value,
-                onCheckedChange = { tts_pause_between_words.value = it }
+                checked = pause_preview,
+                onCheckedChange = { pause_preview = it }
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
@@ -2163,6 +2200,25 @@ fun VoiceSettingsContent() {
                 )
             }
         }
+        if (pause_preview) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("Pause duration", fontSize = 14.sp)
+                Text(
+                    "${(pause_duration_preview / 1000f).let { "%.1f".format(it) }}s",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
+            Slider(
+                value = pause_duration_preview,
+                onValueChange = { pause_duration_preview = it },
+                valueRange = 100f..2000f, // 100ms to 2000ms
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         // Apply & Test
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -2171,6 +2227,8 @@ fun VoiceSettingsContent() {
                 modifier = Modifier.weight(1f),
                 enabled = rate_preview != tts_speech_rate.value
                         || pitch_preview != tts_pitch.value
+                        || pause_preview != tts_pause_between_words.value
+                        || pause_duration_preview.toInt().toFloat() != tts_pause_duration.longValue.toFloat()
             ) { Text("Apply") }
 
             Button(
@@ -2184,7 +2242,7 @@ fun VoiceSettingsContent() {
                             TextToSpeech.QUEUE_FLUSH, null, "word_0"
                         )
                         for (i in 1 until splitsentence.size) {
-                            tts.value?.playSilentUtterance(500L, TextToSpeech.QUEUE_ADD, "pause_$i")
+                            tts.value?.playSilentUtterance(tts_pause_duration.value, TextToSpeech.QUEUE_ADD, "pause_$i")
                             tts.value?.speak(
                                 splitsentence[i],
                                 TextToSpeech.QUEUE_ADD, null, "word_$i"
@@ -2200,6 +2258,7 @@ fun VoiceSettingsContent() {
                             "preview"
                         )
                     }
+                    removefromEngine()
                 },
                 modifier = Modifier.weight(1f),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
@@ -2256,7 +2315,20 @@ fun AboutContent() {
     Column {
         Text("SpeGen", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
-        Text("An open-source AAC app developed by Harper Klein Keane. SpeGen's website can be found at the following URL: https://hkleinkeane.github.io/spegen/.", fontSize = 14.sp)
+        Text(
+            text = buildAnnotatedString {
+                append("An open-source AAC app developed by Harper Klein Keane. SpeGen's website can be found at the following URL: ")
+                withLink(
+                    LinkAnnotation.Url(
+                        url = "https://hkleinkeane.github.io/spegen/",
+                        styles = TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                    )
+                ) {
+                    append("https://hkleinkeane.github.io/spegen/")
+                }
+                append(".")
+            },
+            fontSize = 14.sp)
         Text("License: GNU General Public License v3.0", fontSize = 14.sp, color = Color.Gray)
     }
 }

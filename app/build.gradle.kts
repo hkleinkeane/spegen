@@ -62,6 +62,7 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.3.0")
     implementation("io.coil-kt.coil3:coil-svg:3.3.0")
+    implementation(libs.androidx.compose.ui.text)
     implementation(libs.androidx.material3)
     implementation("androidx.compose.foundation:foundation-layout:1.10.3")
     implementation("androidx.compose.foundation:foundation:1.10.3")
