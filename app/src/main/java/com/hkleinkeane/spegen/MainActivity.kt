@@ -1844,7 +1844,7 @@ fun BackupSettingsContent() {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         Text("Save your SpeGen data to a file, or restore from a previous backup.",
             fontSize = 14.sp, color = Color.DarkGray)
         Spacer(modifier = Modifier.height(16.dp))
@@ -2124,7 +2124,6 @@ fun VoiceSettingsContent() {
     }
 
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-
         // Speech Rate
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -2312,7 +2311,7 @@ fun VoiceSettingsContent() {
 
 @Composable
 fun AboutContent() {
-    Column {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         Text("SpeGen", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
