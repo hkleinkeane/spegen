@@ -57,8 +57,8 @@ SpeGen is an Android AAC app that is in active development and will be free upon
 
 <!-- ROADMAP -->
 ## Roadmap
+Note: Features are actively being worked on that may not be listed on the roadmap below.
 
-- [ ] UI Development - Scalable UI, Making an Image-only Layout, etc.
 - [ ] Potential ports to iOS or other devices
 
 See the [open issues](https://github.com/Madirish2601/SpeGen/issues) for a full list of proposed features (and known issues).
