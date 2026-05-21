@@ -123,6 +123,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withLink
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.Path
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.request.crossfade
 
 const val DEMO_MODE = false
 
@@ -275,7 +282,23 @@ val static_row_text_padding = mutableFloatStateOf(4f)
 val menu_row_text_size = mutableFloatStateOf(16f)
 val menu_row_text_padding = mutableFloatStateOf(4f)
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
+    override fun newImageLoader(context: PlatformContext): ImageLoader {
+        return ImageLoader.Builder(context)
+            .memoryCache {
+                MemoryCache.Builder()
+                    .maxSizePercent(context, 0.20)
+                    .build()
+            }
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(cacheDir.resolve("image_cache"))
+                    .maxSizeBytes(150L * 1024 * 1024)
+                    .build()
+            }
+            .crossfade(true)
+            .build()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
@@ -403,24 +426,22 @@ class MainActivity : ComponentActivity() {
                 if (show_add_item_dialog.value) AddItemDialog()
                 if (show_new_menu_dialog.value) NewMenuDialog()
             }
-            if (trigger_save.value)
-            {
-                runBlocking {
+            LaunchedEffect(trigger_save.value) {
+                if (trigger_save.value) {
                     saveAllPreferences(this@MainActivity)
+                    trigger_save.value = false
                 }
-                trigger_save.value = false
             }
-            if (trigger_load.value)
-            {
-                runBlocking {
+            LaunchedEffect(trigger_load.value) {
+                if (trigger_load.value) {
                     loadAllPreferences(this@MainActivity)
+                    trigger_load.value = false
                 }
-                trigger_load.value = false
             }
-            if (trigger_state_change_check.value)
-            {
-                runBlocking {
+            LaunchedEffect(trigger_state_change_check.value) {
+                if (trigger_state_change_check.value) {
                     state_has_changed.value = hasStateChanged(this@MainActivity)
+                    trigger_state_change_check.value = false
                 }
             }
         }
@@ -745,27 +766,38 @@ suspend fun useApiWithToken(token: String?, search: String): ApiSymbolResponse? 
     }
 }
 
+fun findCachedUrl(word: String): String {
+    for (menu in MenuList) {
+        val idx = menu.item_list.indexOfFirst { it.equals(word, ignoreCase = true) }
+        if (idx >= 0) {
+            val url = menu.image_urls.getOrNull(idx)
+            if (!url.isNullOrBlank()) return url
+        }
+    }
+    return ""
+}
+
 @Composable
 fun TutorialOverlay(onFinish: () -> Unit) {
     val slides = listOf(
-    "Welcome to SpeGen" to "Tap symbols to build sentences.",
-    "Categories" to "Tap a folder like People or Actions to find more words.",
-    "Search" to "Tap the Search button on the right to find any word quickly.",
-    "Speak" to "Tap the input bar at the top to read your sentence aloud."
+        "Welcome to SpeGen" to "Tap symbols to build sentences.",
+        "Categories" to "Tap a folder like People or Actions to find more words.",
+        "Search" to "Tap the Search button on the right to find any word quickly.",
+        "Speak" to "Tap the input bar at the top to read your sentence aloud."
     )
     var currentSlide by remember { mutableIntStateOf(0) }
 
     Box(
-    modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Black.copy(alpha = 0.85f))
-        .zIndex(2000f),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.85f))
+            .zIndex(2000f),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(40.dp)
-            ) {
+        ) {
             Text(
                 text = slides[currentSlide].first,
                 color = Color.White,
@@ -784,12 +816,12 @@ fun TutorialOverlay(onFinish: () -> Unit) {
                 if (currentSlide > 0) {
                     Button(onClick = { currentSlide -= 1 }) { Text("Back") }
                 }
-            Button(onClick = {
-                if (currentSlide < slides.size - 1) currentSlide += 1
-                else onFinish()
-            }) {
-                Text(if (currentSlide < slides.size - 1) "Next" else "Done")
-            }
+                Button(onClick = {
+                    if (currentSlide < slides.size - 1) currentSlide += 1
+                    else onFinish()
+                }) {
+                    Text(if (currentSlide < slides.size - 1) "Next" else "Done")
+                }
                 if (currentSlide < slides.size - 1) {
                     Button(onClick = onFinish) { Text("Skip") }
                 }
@@ -904,12 +936,13 @@ fun InputBox(modifier: Modifier) {
 @Composable
 fun InputBox_Symbol(index: Int) {
     var name = inputboxselecteditems_text[index]
-    var url by remember {mutableStateOf("")}
+    var url by remember { mutableStateOf("") }
     LaunchedEffect(inputboxselecteditems_text) {
-        val res = useApiWithToken(accesstoken, name)
-        url = res?.image_url ?: ""
+        val cached = findCachedUrl(name)
+        url = cached.ifBlank {
+            useApiWithToken(accesstoken, name)?.image_url ?: ""
+        }
     }
-
     name = name.replaceFirstChar {
         if (it.isLowerCase())
             it.titlecase()
@@ -935,8 +968,7 @@ fun InputBox_Symbol(index: Int) {
             color = Color.Black,
             modifier = Modifier
                 .padding(2.dp)
-                .height(height_dp.dp)
-                .width(width_dp.dp)
+                .fillMaxSize()
                 .align(Alignment.BottomCenter),
             textAlign = TextAlign.Center)
     }
@@ -1201,6 +1233,7 @@ data class menutemplate(
     val pointers: List<Int?>, // Pointers to be used in MenuFinder to find the corresponding menu for a folder to link to. Null if item is a symbol since it has no pointer.
     val tts: List<Int?>, // 0 is for appending to the input box without instantly playing, 1 is for instantly playing in tts engine without appending to input box, 2 is for both appending to text box and playing in tts engine instantly. If a value is null item is a folder that doesn't have tts.
     val item_type: List<Boolean>, // False is for folder, true is for symbol
+    val image_urls: List<String> = emptyList() // resolved OpenSymbols URLs
 )
 
 fun MenuFinder(menu_id: Int?): menutemplate {
@@ -1235,19 +1268,38 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     {
         item_text_padding = 5.dp
     }
-    LaunchedEffect(Unit) {
-        getAccessToken()
-    }
     LaunchedEffect(menutemplate) {
-        getAccessToken()
-
         item_names.clear()
         item_urls.clear()
 
-        menutemplate.item_list.forEach { query ->
-            val res = useApiWithToken(accesstoken, query)
-            item_names.add(query)
-            item_urls.add(res?.image_url ?: "")
+        val cachedUrls = menutemplate.image_urls
+        val allResolved = cachedUrls.size == menutemplate.item_list.size &&
+                cachedUrls.none { it.isBlank() }
+
+        if (allResolved) {
+            // Every URL already known, so Coil can function from disk
+            item_names.addAll(menutemplate.item_list)
+            item_urls.addAll(cachedUrls)
+        } else {
+            getAccessToken()
+            val resolved = mutableListOf<String>()
+            menutemplate.item_list.forEachIndexed { index, query ->
+                val existing = cachedUrls.getOrNull(index)
+                val url = if (!existing.isNullOrBlank()) {
+                    existing
+                } else {
+                    useApiWithToken(accesstoken, query)?.image_url ?: ""
+                }
+                item_names.add(query)
+                item_urls.add(url)
+                resolved.add(url)
+                trigger_save.value = true
+            }
+            // Write the resolved URLs back into MenuList so they get saved
+            val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
+            if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
+                MenuList[menuIndex] = MenuList[menuIndex].copy(image_urls = resolved)
+            }
         }
     }
     current_menu_id = menutemplate.id
@@ -1360,34 +1412,34 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                for (i in startIndex until endIndex) {
-                    if (i >= item_names.size || i >= item_urls.size) {
-                        Box(
-                            modifier = Modifier
-                                .height(box_size + vertical_stretch + (box_padding * 3))
-                                .background(Color.White)
-                                .border(
-                                    width = 4.dp,
-                                    color = Color.Black,
-                                    shape = RoundedCornerShape(40.dp)
-                                )
-                                .padding(box_padding)
-                                .scale(1f)
-                                .width(box_size)
-                        )
-                        continue
-                    }
-                    val itemKey = "${menutemplate.id}-$i"
-                    Box(modifier = Modifier.onGloballyPositioned { coords ->
-                        item_positions[itemKey] = coords.positionInRoot()
-                    }) {
-                        if (menutemplate.item_type[i]) {
-                            Symbol(item_names[i], item_urls[i], vertical_stretch, menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i)
-                        } else {
-                            Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!, vertical_stretch, menu_id = menutemplate.id, item_index = i)
+                    for (i in startIndex until endIndex) {
+                        if (i >= item_names.size || i >= item_urls.size) {
+                            Box(
+                                modifier = Modifier
+                                    .height(box_size + vertical_stretch + (box_padding * 3))
+                                    .background(Color.White)
+                                    .border(
+                                        width = 4.dp,
+                                        color = Color.Black,
+                                        shape = RoundedCornerShape(40.dp)
+                                    )
+                                    .padding(box_padding)
+                                    .scale(1f)
+                                    .width(box_size)
+                            )
+                            continue
+                        }
+                        val itemKey = "${menutemplate.id}-$i"
+                        Box(modifier = Modifier.onGloballyPositioned { coords ->
+                            item_positions[itemKey] = coords.positionInRoot()
+                        }) {
+                            if (menutemplate.item_type[i]) {
+                                Symbol(item_names[i], item_urls[i], vertical_stretch, menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i)
+                            } else {
+                                Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!, vertical_stretch, menu_id = menutemplate.id, item_index = i)
+                            }
                         }
                     }
-                }
                     for (i in 0 until empty_slots) {
                         Box(
                             modifier = Modifier
@@ -2226,7 +2278,7 @@ fun ItemSizingSettings() {
                 "${preview_size.toInt()} dp",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
-        )
+            )
         }
 
         Slider(
@@ -2234,7 +2286,7 @@ fun ItemSizingSettings() {
             onValueChange = {
                 preview_size = it
                 box_size = it.dp
-                            },
+            },
             valueRange = 40f..180f,
             modifier = Modifier.fillMaxWidth()
         )
@@ -2261,47 +2313,47 @@ fun ItemSizingSettings() {
                 .background(Color(0xFFF5F5F5))
                 .verticalScroll(scrollState)
         ) {
-        FlowRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            val preview_count = (items_per_row * minOf(rows_per_page + 1, 4))
-                .coerceAtMost(24)
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                val preview_count = (items_per_row * minOf(rows_per_page + 1, 4))
+                    .coerceAtMost(24)
 
-            repeat(preview_count) { index ->
-                Box(
-                    modifier = Modifier
-                        .height(item_total_height.dp)
-                        .width(preview_size.dp)
-                        .background(Color.White)
-                        .border(
-                            2.dp,
-                            Color.Black,
-                            RoundedCornerShape(
-                                (40f * (preview_size / 100f)).coerceIn(4f, 40f).dp
-                            )
-                        )
-                ) {
-                    val label = if (index < currentMenu.item_list.size)
-                        currentMenu.item_list[index].replaceFirstChar { it.titlecase() }
-                    else "Word"
-
-                    Text(
-                        text = label,
+                repeat(preview_count) { index ->
+                    Box(
                         modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(horizontal = 2.dp, vertical = 1.dp),
-                        fontSize = (preview_size / 7f).coerceAtLeast(8f).sp,
-                        textAlign = TextAlign.Center,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = Color.Black
-                    )
+                            .height(item_total_height.dp)
+                            .width(preview_size.dp)
+                            .background(Color.White)
+                            .border(
+                                2.dp,
+                                Color.Black,
+                                RoundedCornerShape(
+                                    (40f * (preview_size / 100f)).coerceIn(4f, 40f).dp
+                                )
+                            )
+                    ) {
+                        val label = if (index < currentMenu.item_list.size)
+                            currentMenu.item_list[index].replaceFirstChar { it.titlecase() }
+                        else "Word"
+
+                        Text(
+                            text = label,
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(horizontal = 2.dp, vertical = 1.dp),
+                            fontSize = (preview_size / 7f).coerceAtLeast(8f).sp,
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.Black
+                        )
+                    }
                 }
             }
-        }
         }
 
         Row(
@@ -2686,7 +2738,7 @@ fun Buttonboxes() {
                     singleLine = true,
                     modifier = Modifier.focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                  )
+                )
             },
             confirmButton = { Button(onClick = { submit() }) { Text("Add") } },
             dismissButton = { Button(onClick = { showKeyboard = false }) { Text("Cancel") } }
@@ -2715,16 +2767,16 @@ fun EditorToolbar() {
         Spacer(modifier = Modifier.width(20.dp))
         Button(
             onClick = {
-                    runBlocking {
-                        trigger_save.value = true
-                    }},
+                runBlocking {
+                    trigger_save.value = true
+                }},
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
         ) { Text("Apply Changes") }
         Spacer(modifier = Modifier.width(20.dp))
         Button(
             onClick = {
                 exit_button_clicked = true
-                },
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
         ) {
             Text("Exit")
