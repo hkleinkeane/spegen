@@ -130,6 +130,11 @@ import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
+import coil3.request.CachePolicy
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import androidx.activity.compose.LocalActivity
+import androidx.compose.material3.LinearProgressIndicator
 
 const val DEMO_MODE = false
 
@@ -282,6 +287,12 @@ val static_row_text_padding = mutableFloatStateOf(4f)
 val menu_row_text_size = mutableFloatStateOf(16f)
 val menu_row_text_padding = mutableFloatStateOf(4f)
 
+val cache_progress = mutableStateOf(0)
+val cache_total = mutableStateOf(0)
+val cache_running = mutableStateOf(false)
+
+val show_cache_prompt = mutableStateOf(false)
+
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader.Builder(context)
@@ -425,6 +436,14 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                 if (show_edit_item_dialog.value) EditItemDialog()
                 if (show_add_item_dialog.value) AddItemDialog()
                 if (show_new_menu_dialog.value) NewMenuDialog()
+            }
+            LaunchedEffect(Unit) {
+                if (!show_tutorial.value && hasUncachedImages(this@MainActivity) && isOnline(this@MainActivity)) {
+                    show_cache_prompt.value = true
+                }
+            }
+            if (show_cache_prompt.value) {
+                CachePrompt()
             }
             LaunchedEffect(trigger_save.value) {
                 if (trigger_save.value) {
@@ -626,6 +645,145 @@ suspend fun hasStateChanged(context: Context): Boolean {
     return currentPersistedState() != savedState
 }
 
+suspend fun precacheAllImages(context: Context) {
+    // Gather every resolved, non-blank URL across all menus, de-duplicated
+    val urls = MenuList
+        .flatMap { it.image_urls }
+        .filter { it.isNotBlank() }
+        .distinct()
+
+    if (urls.isEmpty()) return
+
+    cache_running.value = true
+    cache_progress.value = 0
+    cache_total.value = urls.size
+
+    val loader = SingletonImageLoader.get(context)
+
+    for (url in urls) {
+        val request = ImageRequest.Builder(context)
+            .data(url)
+            .memoryCachePolicy(CachePolicy.DISABLED)  // don't flood RAM
+            .diskCachePolicy(CachePolicy.ENABLED) // write to disk
+            .build()
+        loader.execute(request) // suspends; fetches if missing
+        cache_progress.value += 1
+    }
+
+    cache_running.value = false
+}
+
+suspend fun resolveAndPrecacheAll(context: Context) {
+    getAccessToken()
+    // Resolve URLs for any menu that doesn't have a full set yet
+    for (i in MenuList.indices) {
+        val menu = MenuList[i]
+        val complete = menu.image_urls.size == menu.item_list.size &&
+                menu.image_urls.none { it.isBlank() }
+        if (!complete) {
+            val resolved = menu.item_list.mapIndexed { idx, word ->
+                menu.image_urls.getOrNull(idx)?.takeIf { it.isNotBlank() }
+                    ?: (useApiWithToken(accesstoken, word)?.image_url ?: "")
+            }
+            MenuList[i] = menu.copy(image_urls = resolved)
+        }
+    }
+    saveAllPreferences(context)
+    precacheAllImages(context)
+}
+
+suspend fun hasUncachedImages(context: Context): Boolean = withContext(Dispatchers.IO) {
+    val loader = SingletonImageLoader.get(context)
+    val disk = loader.diskCache ?: return@withContext false
+    for (menu in MenuList) {
+        // URLs never fully resolved for this menu (fresh install / partial)
+        if (menu.image_urls.size != menu.item_list.size) return@withContext true
+        for (url in menu.image_urls) {
+            if (url.isBlank()) continue // resolved to nothing
+            val snapshot = disk.openSnapshot(url)
+            if (snapshot == null) return@withContext true // resolved but not on disk
+            snapshot.close()
+        }
+    }
+    false
+}
+
+fun isOnline(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        ?: return false
+    val network = cm.activeNetwork ?: return false
+    val caps = cm.getNetworkCapabilities(network) ?: return false
+    return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+}
+
+@Composable
+fun CachePrompt() {
+    val activity = LocalActivity.current as? ComponentActivity
+
+    AlertDialog(
+        // While caching will swallow dismiss attempts
+        onDismissRequest = {
+            if (!cache_running.value) show_cache_prompt.value = false
+        },
+        title = {
+            Text(
+                if (cache_running.value) "Downloading images…"
+                else "Save images for offline use?"
+            )
+        },
+        text = {
+            if (cache_running.value) {
+                Column {
+                    Text(
+                        "Caching ${cache_progress.value} / ${cache_total.value}…",
+                        fontSize = 14.sp
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    val total = cache_total.value
+                    if (total > 0) {
+                        LinearProgressIndicator(
+                            progress = { cache_progress.value.toFloat() / total },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else {
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        "Please keep the app open until this finishes.",
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+                }
+            } else {
+                Text(
+                    "SpeGen found symbols that haven't been downloaded to this " +
+                            "device yet. Saving them now lets the app work fully without " +
+                            "an internet connection. This may take a moment.\n\n" +
+                            "You can also do this any time from Settings.",
+                    fontSize = 14.sp
+                )
+            }
+        },
+        confirmButton = {
+            // Buttons only exist before caching starts
+            if (!cache_running.value) {
+                Button(onClick = {
+                    activity?.lifecycleScope?.launch {
+                        resolveAndPrecacheAll(activity)
+                        show_cache_prompt.value = false // auto-close when done
+                    }
+                }) { Text("Download now") }
+            }
+        },
+        dismissButton = {
+            if (!cache_running.value) {
+                Button(onClick = { show_cache_prompt.value = false }) { Text("Not now") }
+            }
+        }
+    )
+}
 
 @Composable
 fun GetScreenDimensions() {
@@ -1768,7 +1926,7 @@ fun ButtonGuide_Wordfinder() {
 fun SettingsScreen(onClose: () -> Unit) {
     val context = LocalContext.current
     var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("UI", "Voice", "Backup", "About")
+    val tabs = listOf("UI", "Voice", "Backup", "Misc", "About")
 
     var done_clicked by remember { mutableStateOf(false) }
     var unsaved by remember { mutableStateOf<Boolean?>(null) }
@@ -1837,7 +1995,8 @@ fun SettingsScreen(onClose: () -> Unit) {
                     0 -> UISettingsContent()
                     1 -> VoiceSettingsContent()
                     2 -> BackupSettingsContent()
-                    3 -> AboutContent()
+                    3 -> MiscSettings()
+                    4 -> AboutContent()
                 }
             }
 
@@ -1960,9 +2119,37 @@ fun EditMode()
 }
 
 @Composable
+fun MiscSettings() {
+    val activity = LocalActivity.current as? ComponentActivity
+    Column {
+        Button(
+            onClick = {
+                activity?.lifecycleScope?.launch { resolveAndPrecacheAll(activity) }
+            },
+            enabled = !cache_running.value,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                if (cache_running.value)
+                    "Caching ${cache_progress.value} / ${cache_total.value}…"
+                else
+                    "Download all images for offline use"
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            "Offline image caching happens automatically. Use this only if " +
+                    "images aren't loading without an internet connection.",
+            fontSize = 13.sp, color = Color.Gray
+        )
+    }
+}
+
+@Composable
 fun BackupSettingsContent() {
     val context = LocalContext.current
     var statusMessage by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
 
     val exportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/json")
@@ -2748,7 +2935,21 @@ fun Buttonboxes() {
 
 @Composable
 fun EditorToolbar() {
-    var exit_button_clicked by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    var exit_clicked by remember { mutableStateOf(false) }
+    var unsaved by remember { mutableStateOf<Boolean?>(null) }
+
+    LaunchedEffect(exit_clicked) {
+        if (exit_clicked) unsaved = hasStateChanged(context)
+    }
+    // No changes -> just exit
+    LaunchedEffect(unsaved) {
+        if (exit_clicked && unsaved == false) {
+            trigger_load.value = true
+            editor_mode.value = false
+        }
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -2766,70 +2967,47 @@ fun EditorToolbar() {
         Button(onClick = { show_new_menu_dialog.value = true }) { Text("+ Menu") }
         Spacer(modifier = Modifier.width(20.dp))
         Button(
-            onClick = {
-                runBlocking {
-                    trigger_save.value = true
-                }},
+            onClick = { trigger_save.value = true },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
         ) { Text("Apply Changes") }
         Spacer(modifier = Modifier.width(20.dp))
         Button(
-            onClick = {
-                exit_button_clicked = true
-            },
+            onClick = { exit_clicked = true },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
-        ) {
-            Text("Exit")
-        }
+        ) { Text("Exit") }
     }
-    if (exit_button_clicked)
-    {
-        trigger_state_change_check.value = true
-        if (state_has_changed.value) {
-            AlertDialog(
-                onDismissRequest = {
+
+    if (exit_clicked && unsaved == true) {
+        AlertDialog(
+            onDismissRequest = {
+                exit_clicked = false
+                unsaved = null
+            },
+            title = { Text("Unsaved Changes") },
+            text = {
+                Text(
+                    "You have unsaved changes, do you want to save them?",
+                    fontSize = 14.sp,
+                    color = Color.Black
+                )
+            },
+            confirmButton = {
+                Button(onClick = {
+                    trigger_save.value = true
+                    exit_clicked = false
+                    unsaved = null
                     editor_mode.value = false
+                }) { Text("Save Changes") }
+            },
+            dismissButton = {
+                Button(onClick = {
                     trigger_load.value = true
-                    exit_button_clicked = false
-                    trigger_state_change_check.value = false
-                    state_has_changed.value = false
-                },
-                title = { Text("Unsaved Changes") },
-                text = {
-                    Column {
-                        Text(
-                            "You have unsaved changes, do you want to save them?",
-                            fontSize = 14.sp,
-                            color = Color.Black
-                        )
-                    }
-                },
-                confirmButton = {
-                    Button(onClick = {
-                        trigger_state_change_check.value = false
-                        trigger_save.value = true
-                        exit_button_clicked = false
-                        state_has_changed.value = false
-                        editor_mode.value = false
-                        trigger_load.value = true
-                    }) { Text("Save Changes") }
-                },
-                dismissButton = {
-                    Button(onClick = {
-                        trigger_state_change_check.value = false
-                        exit_button_clicked = false
-                        state_has_changed.value = false
-                        editor_mode.value = false
-                        trigger_load.value = true
-                    }) { Text("Don't Save") }
-                }
-            )
-        }
-        else
-        {
-            trigger_load.value = true
-            editor_mode.value = false
-        }
+                    exit_clicked = false
+                    unsaved = null
+                    editor_mode.value = false
+                }) { Text("Don't Save") }
+            }
+        )
     }
 }
 
