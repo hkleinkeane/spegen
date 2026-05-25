@@ -2440,7 +2440,7 @@ fun BackupSettingsContent() {
                 exportLauncher.launch("spegen_backup_$timestamp.spegen")
             },
             modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-        ) { Text("Export to .spegen file") }
+        ) { Text("Export to .zip file") }
 
         Text(
             "Exports your vocabulary, settings, and any custom images into a single file that can be transferred to another device or kept as a backup.",
