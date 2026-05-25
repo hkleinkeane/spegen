@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-34:/values-v30/values-v30.xml",
+            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-40:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\6a83eb39c537d834da94149a68032139\\transformed\\material3\\res\\values-v30\\values-v30.xml",
+                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8555129a1de983b9b122adf26893fd2e\\transformed\\material3\\res\\values-v30\\values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

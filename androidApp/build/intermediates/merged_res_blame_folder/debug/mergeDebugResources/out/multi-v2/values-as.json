@@ -1,44 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-34:/values-as/values-as.xml",
+            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-40:/values-as/values-as.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\6aa7565c4fb86277da2f50449bbc4488\\transformed\\ui\\res\\values-as\\values-as.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "107,219,314,399,492,590,677,774,873,962,1052,1135,1220,1299,1389,1464,1539,1613,1688,1754",
-                        "endColumns": "111,94,84,92,97,86,96,98,88,89,82,84,78,89,74,74,73,74,65,121",
-                        "endOffsets": "214,309,394,487,585,672,769,868,957,1047,1130,1215,1294,1384,1459,1534,1608,1683,1749,1871"
-                    },
-                    "to": {
-                        "startLines": "3,11,12,13,14,15,16,17,89,90,91,92,93,94,95,96,97,99,100,101",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "227,1089,1184,1269,1362,1460,1547,1644,9475,9564,9654,9737,9822,9901,9991,10066,10141,10316,10391,10457",
-                        "endColumns": "111,94,84,92,97,86,96,98,88,89,82,84,78,89,74,74,73,74,65,121",
-                        "endOffsets": "334,1179,1264,1357,1455,1542,1639,1738,9559,9649,9732,9817,9896,9986,10061,10136,10210,10386,10452,10574"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\cfe2f423481ba9c47be988a051ed1e9e\\transformed\\foundation\\res\\values-as\\values-as.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,175,260",
-                        "endColumns": "119,84,87",
-                        "endOffsets": "170,255,343"
-                    },
-                    "to": {
-                        "startLines": "2,102,103",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "107,10579,10664",
-                        "endColumns": "119,84,87",
-                        "endOffsets": "222,10659,10747"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8eb1e949b77ab0b4f6d28d18bf54e2de\\transformed\\core-1.18.0\\res\\values-as\\values-as.xml",
+                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8a4bcb2cccc38347969ed20a458a4a98\\transformed\\core-1.18.0\\res\\values-as\\values-as.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -55,7 +21,41 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\6a83eb39c537d834da94149a68032139\\transformed\\material3\\res\\values-as\\values-as.xml",
+                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\3f66df1fa8a65fb52c58851ddd8892c7\\transformed\\foundation\\res\\values-as\\values-as.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,175,260",
+                        "endColumns": "119,84,87",
+                        "endOffsets": "170,255,343"
+                    },
+                    "to": {
+                        "startLines": "2,102,103",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "107,10579,10664",
+                        "endColumns": "119,84,87",
+                        "endOffsets": "222,10659,10747"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\cf83522b32bc4472cf8180e76043c9d2\\transformed\\ui\\res\\values-as\\values-as.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "107,219,314,399,492,590,677,774,873,962,1052,1135,1220,1299,1389,1464,1539,1613,1688,1754",
+                        "endColumns": "111,94,84,92,97,86,96,98,88,89,82,84,78,89,74,74,73,74,65,121",
+                        "endOffsets": "214,309,394,487,585,672,769,868,957,1047,1130,1215,1294,1384,1459,1534,1608,1683,1749,1871"
+                    },
+                    "to": {
+                        "startLines": "3,11,12,13,14,15,16,17,89,90,91,92,93,94,95,96,97,99,100,101",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "227,1089,1184,1269,1362,1460,1547,1644,9475,9564,9654,9737,9822,9901,9991,10066,10141,10316,10391,10457",
+                        "endColumns": "111,94,84,92,97,86,96,98,88,89,82,84,78,89,74,74,73,74,65,121",
+                        "endOffsets": "334,1179,1264,1357,1455,1542,1639,1738,9559,9649,9732,9817,9896,9986,10061,10136,10210,10386,10452,10574"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8555129a1de983b9b122adf26893fd2e\\transformed\\material3\\res\\values-as\\values-as.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
