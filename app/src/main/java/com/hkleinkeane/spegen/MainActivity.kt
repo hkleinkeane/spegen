@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -56,6 +57,8 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -68,6 +71,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Slider
@@ -145,6 +149,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
+import okhttp3.HttpUrl
 import java.io.File
 import java.util.Locale
 import java.util.zip.ZipEntry
@@ -1105,6 +1110,47 @@ suspend fun useApiWithToken(token: String?, search: String): ApiSymbolResponse? 
                 } else {
                     null // Return null if no valid symbol found
                 }
+            }
+        }
+    }
+}
+
+suspend fun useApiMultipleWithToken(token: String?, search: String, count: Int, index: Int): List<ApiSymbolResponse>? {
+    return withContext(Dispatchers.IO) {
+        val params = listOf(
+            "q" to search,
+            "locale" to "en",
+            "safe" to "0",
+            "access_token" to token
+        )
+
+        var listofsymbols = mutableListOf<ApiSymbolResponse>()
+
+        val (_, _, result) = Fuel.get("https://www.opensymbols.org/api/v2/symbols", params)
+            .responseString()
+
+        when (result) {
+            is Result.Failure -> {
+                println("API call failed: ${result.getException().message}")
+                null
+            }
+            is Result.Success -> {
+                for (i in 0 until count) {
+                    var symbolstring = (result.get()).replace("[", "").replace("]", "").split("},")[i+index]
+                    if (symbolstring.length > 1) {
+                        symbolstring += "}"
+                    }
+                    if (symbolstring.contains("}")) {
+                        // Clean up the string to ensure valid JSON for a single object
+                        symbolstring = symbolstring.dropLast(symbolstring.count { it == '}' } - 1)
+
+                        // Return the decoded object
+                        listofsymbols += Json.decodeFromString<ApiSymbolResponse>(symbolstring)
+                    } else {
+                        null // Return null if no valid symbol found
+                    }
+                }
+                listofsymbols
             }
         }
     }
@@ -3439,6 +3485,11 @@ fun EditItemDialog() {
     }
 
     val previewUrl = currentCustomPath.ifBlank { menu.image_urls.getOrNull(idx) ?: "" }
+    var possible_images_count by remember { mutableIntStateOf(1) }
+    var urls = remember { mutableStateListOf(previewUrl) }
+    var loadingMore by remember { mutableStateOf(false) }
+    var loadMoreTrigger by remember { mutableIntStateOf(0) }
+    var loadMore by remember { mutableStateOf(true) }
 
     AlertDialog(
         onDismissRequest = {
@@ -3454,30 +3505,96 @@ fun EditItemDialog() {
                 ) {
                     Text("Item Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(8.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(120.dp)
-                            .background(Color.White)
-                            .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context).data(previewUrl).build(),
-                            contentDescription = "Preview of $name",
-                            modifier = Modifier.padding(8.dp).fillMaxSize()
-                        )
-                        Text(
-                            text = name.replaceFirstChar { it.titlecase() },
-                            modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
-                            textAlign = TextAlign.Center, fontSize = 12.sp
-                        )
-                    }
+                    image_preview(name, context, previewUrl, true)
                 }
                 Column {
                     Text("Name", fontSize = 14.sp)
                     TextField(value = name, onValueChange = { name = it }, singleLine = true)
                     Spacer(modifier = Modifier.height(12.dp))
+                    Text("Image", fontSize = 14.sp)
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        modifier = Modifier.heightIn(max = 300.dp),
+                        contentPadding = PaddingValues(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(urls.size) { index ->
+                            val isSelected = urls[index] == currentCustomPath
+                            Box(
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .border(
+                                        if (isSelected) 4.dp else 2.dp,
+                                        if (isSelected) Color(0xFF1976D2) else Color.Black,
+                                        RoundedCornerShape(20.dp)
+                                    )
+                                    .clickable {
+                                        currentCustomPath = urls[index]
+                                    }
+                            ) {
+                                AsyncImage(
+                                    model = ImageRequest.Builder(context)
+                                        .data(urls[index])
+                                        .memoryCachePolicy(
+                                            if (urls[index].startsWith("/")) CachePolicy.DISABLED
+                                            else CachePolicy.ENABLED
+                                        )
+                                        .build(),
+                                    contentDescription = name,
+                                    modifier = Modifier.padding(4.dp).fillMaxSize()
+                                )
+                            }
+                        }
+                        if (loadMore) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .size(120.dp)
+                                        .background(Color.White)
+                                        .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
+                                        .clickable(enabled = !loadingMore) {
+                                            loadMoreTrigger++
+                                        }
+                                ) {
+                                    if (loadingMore) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier.align(Alignment.Center).size(32.dp)
+                                        )
+                                    } else {
+                                        Text(
+                                            text = "Load More",
+                                            modifier = Modifier.align(Alignment.Center)
+                                                .padding(4.dp),
+                                            textAlign = TextAlign.Center, fontSize = 12.sp
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    LaunchedEffect(loadMoreTrigger) {
+                        if (loadMoreTrigger == 0) return@LaunchedEffect
+                        loadingMore = true
+                        val results = useApiMultipleWithToken(
+                            accesstoken,
+                            name,
+                            9,
+                            possible_images_count + 9
+                            )
+                        // Add only the newly fetched ones
+                        for (i in possible_images_count until (results?.size ?: 0)) {
+                            val url: String? = results?.get(i)?.image_url
+                            if (url?.isNotBlank() == true && url !in urls) {
+                                urls.add(url)
+                            }
+                        }
+                        possible_images_count = urls.size
+                        loadingMore = false
+                        loadMore = false
+                    }
                     Button(onClick = { imagePicker.launch(arrayOf("image/*")) }) {
-                        Text("Choose image")
+                        Text("Choose custom image")
                     }
                     if (currentCustomPath.isNotBlank()) {
                         Button(
@@ -3536,6 +3653,30 @@ fun EditItemDialog() {
             }
         }
     )
+}
+
+@Composable
+fun image_preview(name: String, context: Context, previewUrl: String, has_text: Boolean)
+{
+    Box(
+        modifier = Modifier
+            .size(120.dp)
+            .background(Color.White)
+            .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context).data(previewUrl).build(),
+            contentDescription = "Preview of $name",
+            modifier = Modifier.padding(8.dp).fillMaxSize()
+        )
+        if (has_text) {
+            Text(
+                text = name.replaceFirstChar { it.titlecase() },
+                modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
+                textAlign = TextAlign.Center, fontSize = 12.sp
+            )
+        }
+    }
 }
 
 @Composable
