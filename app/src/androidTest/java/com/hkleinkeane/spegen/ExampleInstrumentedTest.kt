@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with SpeGen. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.hkleinkeane.spegen
+package io.github.hkleinkeane.spegen
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -31,6 +31,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.hkleinkeane.spegen", appContext.packageName)
+        assertEquals("io.github.hkleinkeane.spegen", appContext.packageName)
     }
 }

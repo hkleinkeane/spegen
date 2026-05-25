@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with SpeGen. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.hkleinkeane.spegen
+package io.github.hkleinkeane.spegen
 
 import android.content.Context
 import android.content.Intent

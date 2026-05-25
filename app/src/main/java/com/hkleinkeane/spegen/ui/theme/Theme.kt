@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along with SpeGen. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.hkleinkeane.spegen.ui.theme
+package io.github.hkleinkeane.spegen.ui.theme
 
 import android.app.Activity
 import android.os.Build

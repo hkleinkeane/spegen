@@ -20,11 +20,11 @@ plugins {
 }
 
 android {
-    namespace = "com.hkleinkeane.spegen"
-    compileSdk = 36
+    namespace = "io.github.hkleinkeane.spegen"
+    compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.hkleinkeane.spegen"
+        applicationId = "io.github.hkleinkeane.spegen"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
