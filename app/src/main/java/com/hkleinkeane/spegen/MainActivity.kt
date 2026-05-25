@@ -12,132 +12,144 @@
 
 package com.hkleinkeane.spegen
 
-import android.R
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.NonSkippableComposable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.zIndex
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
 import coil3.compose.AsyncImage
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.request.CachePolicy
 import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.result.Result
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
+import java.io.File
 import java.util.Locale
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.AlertDialog
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.TextAutoSize
-import android.content.Context
-import androidx.compose.ui.text.font.FontWeight
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlin.collections.List
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import android.net.Uri
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.material3.ButtonDefaults
-import kotlin.Int
-import kotlin.collections.MutableList
-import androidx.compose.material3.Slider
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.material3.Checkbox
-import androidx.compose.ui.text.LinkAnnotation
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLinkStyles
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withLink
-import androidx.compose.foundation.Canvas
-import androidx.compose.ui.graphics.Path
-import coil3.ImageLoader
-import coil3.PlatformContext
-import coil3.SingletonImageLoader
-import coil3.disk.DiskCache
-import coil3.disk.directory
-import coil3.memory.MemoryCache
-import coil3.request.crossfade
-import coil3.request.CachePolicy
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.ui.input.pointer.pointerInput
-import kotlinx.serialization.decodeFromString
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 
 const val DEMO_MODE = false
 
@@ -459,14 +471,20 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                     try {
                         saveAllPreferences(this@MainActivity)
                     } finally {
+                        cleanOrphanedCustomImages(this@MainActivity)
                         trigger_save.value = false
                     }
                 }
             }
             LaunchedEffect(trigger_load.value) {
                 if (trigger_load.value) {
-                    loadAllPreferences(this@MainActivity)
-                    trigger_load.value = false
+                    try {
+                        loadAllPreferences(this@MainActivity)
+                    } finally {
+                        cleanOrphanedCustomImages(this@MainActivity)
+                        switchmenuparser.value++
+                        trigger_load.value = false
+                    }
                 }
             }
             LaunchedEffect(trigger_state_change_check.value) {
@@ -575,6 +593,19 @@ data class PersistedState(
     val menu_row_text_padding: Float = 4f
 )
 
+fun PersistedState.withPaddedLists(): PersistedState = copy(
+    menu_list = menu_list.map { menu ->
+        val n = menu.item_list.size
+        val uuids = menu.item_uuids.toMutableList()
+        val urls  = menu.image_urls.toMutableList()
+        val custom = menu.custom_image_paths.toMutableList()
+        while (uuids.size  < n) uuids.add(java.util.UUID.randomUUID().toString())
+        while (urls.size   < n) urls.add("")
+        while (custom.size < n) custom.add("")
+        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom)
+    }
+)
+
 fun load_vars(state: PersistedState) {
     box_size = state.box_size_dp.dp
     box_padding = state.box_padding_dp.dp
@@ -584,8 +615,6 @@ fun load_vars(state: PersistedState) {
 
     static_terms.clear()
     static_terms.addAll(state.static_terms)
-    MenuList.clear()
-    MenuList.addAll(state.menu_list)
 
     static_row_height = state.static_row_height.dp
     menu_static_row_height = state.menu_static_row_height.dp
@@ -595,16 +624,22 @@ fun load_vars(state: PersistedState) {
     menu_terms_ids.addAll(state.menu_row_ids)
 
     show_tutorial.value = state.has_seen_tutorial
-
     tts_speech_rate.value = state.tts_speech_rate
     tts_pitch.value = state.tts_pitch
-
     tts_pause_between_words.value = state.tts_pause_between_words
-    tts_pause_duration.value = state.tts_pause_duration
+    tts_pause_duration.longValue = state.tts_pause_duration
     static_row_text_size.floatValue = state.static_row_text_size
     static_row_text_padding.floatValue = state.static_row_text_padding
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
+
+    MenuList.clear()
+    MenuList.addAll(state.menu_list)
+
+    val h = MenuList.firstOrNull { it.id == 0 }
+    println("SpeGen load_vars END: incoming state Home cip=" +
+            "${state.menu_list.firstOrNull { it.id == 0 }?.custom_image_paths}")
+    println("SpeGen load_vars END: MenuList Home cip=${h?.custom_image_paths}")
 }
 
 suspend fun loadAllPreferences(context: Context) {
@@ -614,7 +649,7 @@ suspend fun loadAllPreferences(context: Context) {
     }
     val json = prefs[APP_STATE_KEY] ?: return
     val state = try {
-        jsonignoreunknownkeys.decodeFromString<PersistedState>(json)
+        jsonignoreunknownkeys.decodeFromString<PersistedState>(json).withPaddedLists()
     } catch (e: Exception) {
         println("Failed to load preferences: ${e.message}")
         return
@@ -652,80 +687,45 @@ suspend fun saveAllPreferences(context: Context) {
     }
 }
 
+fun cleanOrphanedCustomImages(context: Context) {
+    val imageDir = File(context.filesDir, "custom_images")
+    if (!imageDir.exists()) return
+
+    val referenced = MenuList
+        .flatMap { it.custom_image_paths }
+        .filter { it.isNotBlank() }
+        .map { File(it).name }
+        .toSet()
+
+    imageDir.listFiles()?.forEach { file ->
+        if (file.name !in referenced) {
+            file.delete()
+        }
+    }
+}
+
+fun menutemplate.displayUrl(idx: Int): String {
+    val custom = custom_image_paths.getOrNull(idx)
+    if (!custom.isNullOrBlank()) return custom
+    return image_urls.getOrNull(idx) ?: ""
+}
+
+fun PersistedState.normalizedForComparison() = copy(
+    menu_list = menu_list.map { it.copy(image_urls = emptyList()) }
+)
 suspend fun hasStateChanged(context: Context): Boolean {
     val prefs = context.spegen_datastore.data.first()
     val savedJson = prefs[APP_STATE_KEY] ?: return true
     val savedState = try {
         Json.decodeFromString<PersistedState>(savedJson)
-    } catch (e: Exception) {
-        return true
-    }
+    } catch (e: Exception) { return true }
 
-    // Remove cached images from comparison to avoid user confusion since that happens automatically.
-    var isMenuListChanged = false
-
-    if (currentPersistedState().menu_list.size <= savedState.menu_list.size) {
-        for (i in currentPersistedState().menu_list.indices) {
-            val currItem = currentPersistedState().menu_list[i]
-            val savedItem = savedState.menu_list[i]
-
-            if (currItem.id != savedItem.id ||
-                currItem.title != savedItem.title ||
-                currItem.item_list != savedItem.item_list ||
-                currItem.pointers != savedItem.pointers ||
-                currItem.tts != savedItem.tts ||
-                currItem.item_type != savedItem.item_type
-            ) {
-                isMenuListChanged = true
-                break
-            }
-        }
-    }
-    else
-    {
-        for (i in savedState.menu_list.indices) {
-            val currItem = currentPersistedState().menu_list[i]
-            val savedItem = savedState.menu_list[i]
-
-            if (currItem.id != savedItem.id ||
-                currItem.title != savedItem.title ||
-                currItem.item_list != savedItem.item_list ||
-                currItem.pointers != savedItem.pointers ||
-                currItem.tts != savedItem.tts ||
-                currItem.item_type != savedItem.item_type
-            ) {
-                isMenuListChanged = true
-                break
-            }
-        }
-    }
-
-    val has_changes =
-        currentPersistedState().box_padding_dp != savedState.box_padding_dp ||
-                currentPersistedState().input_box_height_dp != savedState.input_box_height_dp ||
-                currentPersistedState().item_text_padding_dp != savedState.item_text_padding_dp ||
-                currentPersistedState().has_seen_tutorial != savedState.has_seen_tutorial ||
-                currentPersistedState().tts_data_found != savedState.tts_data_found ||
-                currentPersistedState().static_row_height != savedState.static_row_height ||
-                currentPersistedState().menu_static_row_height != savedState.menu_static_row_height ||
-                currentPersistedState().button_boxes_width != savedState.button_boxes_width ||
-                currentPersistedState().tts_speech_rate != savedState.tts_speech_rate ||
-                currentPersistedState().tts_pitch != savedState.tts_pitch ||
-                currentPersistedState().tts_pause_between_words != savedState.tts_pause_between_words ||
-                currentPersistedState().tts_pause_duration != savedState.tts_pause_duration ||
-                currentPersistedState().static_row_text_size != savedState.static_row_text_size ||
-                currentPersistedState().static_row_text_padding != savedState.static_row_text_padding ||
-                currentPersistedState().menu_row_text_size != savedState.menu_row_text_size ||
-                currentPersistedState().menu_row_text_padding != savedState.menu_row_text_padding ||
-                isMenuListChanged ||
-                currentPersistedState().static_terms != savedState.static_terms ||
-                currentPersistedState().menu_row_ids != savedState.menu_row_ids
-
-    return has_changes
+    return currentPersistedState().normalizedForComparison() != savedState.normalizedForComparison()
 }
 
 suspend fun precacheAllImages(context: Context) {
-    // Gather every resolved, non-blank URL across all menus, de-duplicated
+    if (cache_running.value) return
+
     val urls = MenuList
         .flatMap { it.image_urls }
         .filter { it.isNotBlank() }
@@ -734,7 +734,7 @@ suspend fun precacheAllImages(context: Context) {
     if (urls.isEmpty()) return
 
     cache_running.value = true
-    cache_progress.value = 0
+    cache_progress.value = 0        // always reset before starting
     cache_total.value = urls.size
 
     val loader = SingletonImageLoader.get(context)
@@ -742,10 +742,10 @@ suspend fun precacheAllImages(context: Context) {
     for (url in urls) {
         val request = ImageRequest.Builder(context)
             .data(url)
-            .memoryCachePolicy(CachePolicy.DISABLED)  // don't flood RAM
-            .diskCachePolicy(CachePolicy.ENABLED) // write to disk
+            .memoryCachePolicy(CachePolicy.DISABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
             .build()
-        loader.execute(request) // suspends; fetches if missing
+        loader.execute(request)
         cache_progress.value += 1
     }
 
@@ -753,6 +753,7 @@ suspend fun precacheAllImages(context: Context) {
 }
 
 suspend fun resolveAndPrecacheAll(context: Context) {
+    if (cache_running.value) return
     getAccessToken()
     // Resolve URLs for any menu that doesn't have a full set yet
     for (i in MenuList.indices) {
@@ -862,6 +863,112 @@ fun CachePrompt() {
             }
         }
     )
+}
+
+fun copyImageToPrivateStorage(context: Context, uri: Uri, itemKey: String): String {
+    val dir = File(context.filesDir, "custom_images").also { it.mkdirs() }
+    val dest = File(dir, "$itemKey.webp")
+
+    // Decode to bitmap then re-encode as WebP - best for image storage efficiency
+    val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        val source = ImageDecoder.createSource(context.contentResolver, uri)
+        ImageDecoder.decodeBitmap(source) { decoder, _, _ ->
+            decoder.isMutableRequired = true
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        android.graphics.BitmapFactory.decodeStream(
+            context.contentResolver.openInputStream(uri)
+        )
+    }
+
+    bitmap?.let {
+        dest.outputStream().use { out ->
+            it.compress(Bitmap.CompressFormat.WEBP, 90, out)
+        }
+    }
+    return dest.absolutePath
+}
+
+fun exportToZip(context: Context, outputUri: Uri) {
+    val imageDir = File(context.filesDir, "custom_images")
+    val exportState = currentPersistedState().copy(
+        menu_list = MenuList.map { menu ->
+            menu.copy(
+                custom_image_paths = menu.custom_image_paths.map { path ->
+                    if (path.isNotBlank() && File(path).exists())
+                        "custom_images/${File(path).name}"
+                    else path
+                }
+            )
+        }
+    )
+    context.contentResolver.openOutputStream(outputUri)?.use { out ->
+        ZipOutputStream(out.buffered()).use { zip ->
+            zip.putNextEntry(ZipEntry("state.json"))
+            zip.write(Json.encodeToString(exportState).toByteArray())
+            zip.closeEntry()
+            imageDir.listFiles()?.forEach { f ->
+                zip.putNextEntry(ZipEntry("custom_images/${f.name}"))
+                f.inputStream().use { it.copyTo(zip) }
+                zip.closeEntry()
+            }
+        }
+    }
+}
+
+fun importFromZip(context: Context, inputUri: Uri) {
+    val imageDir = File(context.filesDir, "custom_images").also { it.mkdirs() }
+
+    val input = context.contentResolver.openInputStream(inputUri)
+        ?: throw Exception("Could not open the selected file.")
+
+    input.use { inStream ->
+        ZipInputStream(inStream.buffered()).use { zip ->
+            var loadedState: PersistedState? = null
+            val lenient = Json { ignoreUnknownKeys = true }
+
+            var entry = zip.nextEntry
+            while (entry != null) {
+                when {
+                    entry.name == "state.json" -> {
+                        loadedState = lenient.decodeFromString<PersistedState>(
+                            zip.readBytes().decodeToString()
+                        )
+                    }
+                    entry.name.startsWith("custom_images/") -> {
+                        val fileName = entry.name.removePrefix("custom_images/")
+                        if (fileName.isNotBlank()) {
+                            File(imageDir, fileName).outputStream()
+                                .use { zip.copyTo(it) }
+                        }
+                    }
+                }
+                zip.closeEntry()
+                entry = zip.nextEntry
+            }
+
+            val state = loadedState
+                ?: throw Exception("Backup file has no state.json — not a valid SpeGen backup.")
+
+            val padded = state.withPaddedLists()
+            val resolved = padded.copy(
+                menu_list = padded.menu_list.map { menu ->
+                    menu.copy(
+                        custom_image_paths = menu.custom_image_paths.map { path ->
+                            if (path.startsWith("custom_images/")) {
+                                val dest = File(imageDir, path.removePrefix("custom_images/"))
+                                if (dest.exists()) dest.absolutePath else ""
+                            } else path
+                        }
+                    )
+                }
+            )
+            load_vars(resolved)
+            linked_menu.value = 0
+            switchmenuparser.value++
+        }
+    }
 }
 
 @Composable
@@ -1558,7 +1665,9 @@ data class menutemplate(
     val pointers: List<Int?>, // Pointers to be used in MenuFinder to find the corresponding menu for a folder to link to. Null if item is a symbol since it has no pointer.
     val tts: List<Int?>, // 0 is for appending to the input box without instantly playing, 1 is for instantly playing in tts engine without appending to input box, 2 is for both appending to text box and playing in tts engine instantly. If a value is null item is a folder that doesn't have tts.
     val item_type: List<Boolean>, // False is for folder, true is for symbol
-    val image_urls: List<String> = emptyList() // resolved OpenSymbols URLs
+    val image_urls: List<String> = emptyList(), // resolved OpenSymbols URLs
+    val item_uuids: List<String> = emptyList(),   // one UUID per item
+    val custom_image_paths: List<String> = emptyList()
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -1643,7 +1752,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     {
         item_text_padding = 5.dp
     }
-    LaunchedEffect(menutemplate.id, menutemplate.item_list.size, switchmenuparser.value) {
+    LaunchedEffect(menutemplate.id, menutemplate.item_list, menutemplate.image_urls, menutemplate.custom_image_paths, switchmenuparser.value) {
         item_names.clear()
         item_urls.clear()
 
@@ -1652,30 +1761,33 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 cachedUrls.none { it.isBlank() }
 
         if (allResolved) {
-            // Every URL already known, so Coil can function from disk
             item_names.addAll(menutemplate.item_list)
-            item_urls.addAll(cachedUrls)
+            menutemplate.item_list.indices.forEach { idx ->
+                val u = menutemplate.displayUrl(idx)
+                println("SpeGen MenuParser idx=$idx custom=${menutemplate.custom_image_paths.getOrNull(idx)} -> $u")
+                item_urls.add(u)
+            }
         } else {
             getAccessToken()
             val resolved = mutableListOf<String>()
             menutemplate.item_list.forEachIndexed { index, query ->
                 val existing = cachedUrls.getOrNull(index)
-                val url = if (!existing.isNullOrBlank()) {
-                    existing
-                } else {
-                    useApiWithToken(accesstoken, query)?.image_url ?: ""
-                }
+                val url = if (!existing.isNullOrBlank()) existing
+                else useApiWithToken(accesstoken, query)?.image_url ?: ""
                 item_names.add(query)
-                item_urls.add(url)
                 resolved.add(url)
             }
-            // Write the resolved URLs back into MenuList so they get saved
             val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
             if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
                 MenuList[menuIndex] = MenuList[menuIndex].copy(image_urls = resolved)
-            }
-            if (!editor_mode.value) {
                 trigger_save.value = true
+            }
+            menutemplate.item_list.indices.forEach { idx ->
+                val custom = menutemplate.custom_image_paths.getOrNull(idx)
+                item_urls.add(
+                    if (!custom.isNullOrBlank()) custom
+                    else resolved.getOrNull(idx) ?: ""
+                )
             }
         }
     }
@@ -2271,24 +2383,23 @@ fun MiscSettings() {
 fun BackupSettingsContent() {
     val context = LocalContext.current
     var statusMessage by remember { mutableStateOf("") }
-    val scope = rememberCoroutineScope()
+    var isError by remember { mutableStateOf(false) }
 
     val exportLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/json")
+        contract = ActivityResultContracts.CreateDocument("application/zip")
     ) { uri: Uri? ->
         if (uri == null) {
             statusMessage = "Export cancelled."
+            isError = false
             return@rememberLauncherForActivityResult
         }
         try {
-            val state = currentPersistedState().copy(has_seen_tutorial = true)
-            val json = Json.encodeToString(state)
-            context.contentResolver.openOutputStream(uri)?.use { output ->
-                output.write(json.toByteArray())
-            }
+            exportToZip(context, uri)
             statusMessage = "Exported successfully."
+            isError = false
         } catch (e: Exception) {
             statusMessage = "Export failed: ${e.message}"
+            isError = true
         }
     }
 
@@ -2297,64 +2408,83 @@ fun BackupSettingsContent() {
     ) { uri: Uri? ->
         if (uri == null) {
             statusMessage = "Import cancelled."
+            isError = false
             return@rememberLauncherForActivityResult
         }
         try {
-            val json = context.contentResolver.openInputStream(uri)?.use { input ->
-                input.bufferedReader().readText()
-            } ?: throw Exception("Could not read file.")
-            val state = Json.decodeFromString<PersistedState>(json)
-
-            load_vars(state)
-
+            importFromZip(context, uri)
             statusMessage = "Imported successfully."
+            isError = false
         } catch (e: Exception) {
             statusMessage = "Import failed: ${e.message}"
+            isError = true
         }
     }
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
-        Text("Save your SpeGen data to a file, or restore from a previous backup.",
-            fontSize = 14.sp, color = Color.DarkGray)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
+        Text(
+            "Save your SpeGen vocabulary to a file, or restore from a backup.",
+            fontSize = 14.sp, color = Color.DarkGray
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             onClick = {
-                val timestamp = java.text.SimpleDateFormat("yyyyMMdd_HHmmss",
-                    java.util.Locale.getDefault()).format(java.util.Date())
-                exportLauncher.launch("spegen_backup_$timestamp.json")
+                val timestamp = java.text.SimpleDateFormat(
+                    "yyyyMMdd_HHmmss", java.util.Locale.getDefault()
+                ).format(java.util.Date())
+                exportLauncher.launch("spegen_backup_$timestamp.spegen")
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        ) { Text("Export to .json file") }
-        Text("Backup/Restore for this option works with the following applications: ",
-            fontSize = 14.sp, color = Color.DarkGray)
-        Text("SpeGen")
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+        ) { Text("Export to .spegen file") }
+
+        Text(
+            "Exports your vocabulary, settings, and any custom images into a single file that can be transferred to another device or kept as a backup.",
+            fontSize = 13.sp, color = Color.DarkGray
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { importLauncher.launch(arrayOf("application/json", "*/*")) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
+            onClick = {
+                importLauncher.launch(
+                    arrayOf(
+                        "application/zip",
+                        "application/octet-stream",
+                        "application/json",
+                        "*/*"
+                    )
+                )
+            },
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
         ) { Text("Import from file") }
+
+        Text(
+            "Accepts .spegen backup files and legacy .json backups. Importing replaces all current vocabulary and settings.",
+            fontSize = 13.sp, color = Color.DarkGray
+        )
 
         if (statusMessage.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = statusMessage, fontSize = 14.sp,
-                color = if (statusMessage.contains("fail", ignoreCase = true)
-                    || statusMessage.contains("cancel", ignoreCase = true))
-                    Color.Red else Color(0xFF2E7D32))
+            Text(
+                text = statusMessage,
+                fontSize = 14.sp,
+                color = if (isError) Color.Red else Color(0xFF2E7D32)
+            )
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-        Text("Note: Importing replaces all current data. Export first if you want to keep a copy.",
-            fontSize = 12.sp, color = Color.Gray)
+        Text(
+            "Note: Importing replaces all current data. Export first if you want to keep a copy.",
+            fontSize = 12.sp, color = Color.Gray
+        )
     }
 }
+
 @Composable
 fun StaticSymbolRowSettings() {
     Column {
@@ -3212,7 +3342,10 @@ fun deleteMenu(menuId: Int) {
                 item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in deadIndices },
                 image_urls = if (m.image_urls.size == m.item_list.size)
                     m.image_urls.filterIndexed { idx, _ -> idx !in deadIndices }
-                else m.image_urls
+                else m.image_urls,
+                item_uuids = if (m.item_uuids.size == m.item_list.size)
+                    m.item_uuids.filterIndexed { idx, _ -> idx !in deadIndices }
+                else m.item_uuids,
             )
         }
     }
@@ -3244,7 +3377,9 @@ fun killDanglingPointers() {
                 tts        = m.tts.filterIndexed        { idx, _ -> idx !in dead },
                 item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in dead },
                 image_urls = if (m.image_urls.size == m.item_list.size)
-                    m.image_urls.filterIndexed { idx, _ -> idx !in dead } else m.image_urls
+                    m.image_urls.filterIndexed { idx, _ -> idx !in dead } else m.image_urls,
+                item_uuids = if (m.item_uuids.size == m.item_list.size)
+                    m.item_uuids.filterIndexed { idx, _ -> idx !in dead } else m.item_uuids
             )
         }
     }
@@ -3259,30 +3394,115 @@ fun EditItemDialog() {
         return
     }
 
+    val context = LocalContext.current
     var name by remember { mutableStateOf(menu.item_list[idx]) }
     val originalIsSymbol = menu.item_type[idx]
     var ttsType by remember { mutableIntStateOf(menu.tts[idx] ?: 2) }
+    var currentCustomPath by remember {
+        mutableStateOf(menu.custom_image_paths.getOrNull(idx) ?: "")
+    }
+    val itemUuid by remember {
+        mutableStateOf(
+            menu.item_uuids.getOrNull(idx)?.takeIf { it.isNotBlank() }
+                ?: java.util.UUID.randomUUID().toString()
+        )
+    }
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) currentCustomPath = copyImageToPrivateStorage(context, uri, itemUuid)
+    }
+
+    // Commits dialog state into MenuList
+    fun commitChanges() {
+        val menuIndex = MenuList.indexOfFirst { it.id == menu.id }
+        if (menuIndex >= 0) {
+            val n = menu.item_list.size
+            val customPaths = menu.custom_image_paths.toMutableList()
+            while (customPaths.size < n) customPaths.add("")     // pad to full length
+            customPaths[idx] = currentCustomPath
+            println("SpeGen commitChanges idx=$idx currentCustomPath='$currentCustomPath' " +
+                    "customPaths=$customPaths menuId=${menu.id} menuIndex=$menuIndex")
+            val uuids = menu.item_uuids.toMutableList()
+            while (uuids.size < n) uuids.add(java.util.UUID.randomUUID().toString())
+            uuids[idx] = itemUuid
+
+            MenuList[menuIndex] = menu.copy(
+                item_list = menu.item_list.toMutableList().also { it[idx] = name.trim() },
+                tts = if (originalIsSymbol)
+                    menu.tts.toMutableList().also { it[idx] = ttsType } else menu.tts,
+                custom_image_paths = customPaths,
+                item_uuids = uuids
+            )
+            switchmenuparser.value++
+        }
+    }
+
+    val previewUrl = currentCustomPath.ifBlank { menu.image_urls.getOrNull(idx) ?: "" }
 
     AlertDialog(
-        onDismissRequest = { show_edit_item_dialog.value = false },
+        onDismissRequest = {
+            commitChanges()
+            show_edit_item_dialog.value = false
+        },
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Column {
-                Text("Name", fontSize = 14.sp)
-                TextField(value = name, onValueChange = { name = it }, singleLine = true)
-                if (originalIsSymbol) {
+            Row {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Text("Item Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(120.dp)
+                            .background(Color.White)
+                            .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(context).data(previewUrl).build(),
+                            contentDescription = "Preview of $name",
+                            modifier = Modifier.padding(8.dp).fillMaxSize()
+                        )
+                        Text(
+                            text = name.replaceFirstChar { it.titlecase() },
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
+                            textAlign = TextAlign.Center, fontSize = 12.sp
+                        )
+                    }
+                }
+                Column {
+                    Text("Name", fontSize = 14.sp)
+                    TextField(value = name, onValueChange = { name = it }, singleLine = true)
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("TTS behavior", fontSize = 14.sp)
-                    Row {
-                        listOf("Type only" to 0, "Speak only" to 1, "Both" to 2).forEach { (label, value) ->
-                            Row(
-                                modifier = Modifier
-                                    .clickable { ttsType = value }
-                                    .padding(8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(if (ttsType == value) "● $label" else "○ $label", fontSize = 13.sp)
-                            }
+                    Button(onClick = { imagePicker.launch(arrayOf("image/*")) }) {
+                        Text("Choose image")
+                    }
+                    if (currentCustomPath.isNotBlank()) {
+                        Button(
+                            onClick = { currentCustomPath = "" },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF757575))
+                        ) { Text("Reset to default") }
+                    }
+                    if (originalIsSymbol) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("TTS behavior", fontSize = 14.sp)
+                        Row {
+                            listOf("Type only" to 0, "Speak only" to 1, "Both" to 2)
+                                .forEach { (label, value) ->
+                                    Row(
+                                        modifier = Modifier
+                                            .clickable { ttsType = value }.padding(8.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            if (ttsType == value) "● $label" else "○ $label",
+                                            fontSize = 13.sp
+                                        )
+                                    }
+                                }
                         }
                     }
                 }
@@ -3290,18 +3510,9 @@ fun EditItemDialog() {
         },
         confirmButton = {
             Button(onClick = {
-                val menuIndex = MenuList.indexOfFirst { it.id == menu.id }
-                if (menuIndex >= 0) {
-                    val updated = menu.copy(
-                        item_list = menu.item_list.toMutableList().also { it[idx] = name.trim() },
-                        tts = if (originalIsSymbol)
-                            menu.tts.toMutableList().also { it[idx] = ttsType }
-                        else menu.tts
-                    )
-                    MenuList[menuIndex] = updated
-                }
+                commitChanges()
                 show_edit_item_dialog.value = false
-            }) { Text("Save") }
+            }) { Text("Done") }
         },
         dismissButton = {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -3322,7 +3533,6 @@ fun EditItemDialog() {
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
                 ) { Text("Delete") }
-                Button(onClick = { show_edit_item_dialog.value = false }) { Text("Cancel") }
             }
         }
     )
@@ -3383,7 +3593,8 @@ fun AddItemDialog() {
                             item_list = m.item_list + name.trim(),
                             pointers = m.pointers + (if (isSymbol) null else folderTarget),
                             tts = m.tts + (if (isSymbol) ttsType else null),
-                            item_type = m.item_type + isSymbol
+                            item_type = m.item_type + isSymbol,
+                            item_uuids = m.item_uuids + java.util.UUID.randomUUID().toString()
                         )
                         MenuList[menuIndex] = updated
                         switchmenuparser.value++
