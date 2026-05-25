@@ -12,6 +12,7 @@
 
 package com.hkleinkeane.spegen
 
+import android.R
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -37,7 +38,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -89,22 +89,16 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.TextAutoSize
-import androidx.core.content.edit
 import android.content.Context
 import androidx.compose.ui.text.font.FontWeight
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
-import com.hkleinkeane.spegen.menutemplate
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import kotlin.collections.List
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import android.net.Uri
@@ -134,7 +128,16 @@ import coil3.request.CachePolicy
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.ui.input.pointer.pointerInput
+import kotlinx.serialization.decodeFromString
 
 const val DEMO_MODE = false
 
@@ -170,15 +173,15 @@ val edit_target_menu_id = mutableIntStateOf(-1)
 val edit_target_index = mutableIntStateOf(-1)
 
 val home = menutemplate(
-    0, "Home", 0,
+    0, "Home",
     listOf("I", "want", "more", "help", "yes", "no", "stop", "please", "People", "Actions", "Food", "Feelings"),
-    listOf(null, null, null, null, null, null, null, null, 2, 3, 4, 5),
+    listOf(null, null, null, null, null, null, null, null, 1, 2, 3, 4),
     listOf(2, 2, 2, 2, 2, 2, 2, 2, null, null, null, null),
     listOf(true, true, true, true, true, true, true, true, false, false, false, false)
 )
 
 val people = menutemplate(
-    1, "People", 0,
+    1, "People",
     listOf("you", "me", "mom", "dad", "sister", "brother", "friend", "teacher"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -186,7 +189,7 @@ val people = menutemplate(
 )
 
 val actions = menutemplate(
-    2, "Actions", 0,
+    2, "Actions",
     listOf("eat", "drink", "play", "go", "sleep", "read", "watch", "listen"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -194,7 +197,7 @@ val actions = menutemplate(
 )
 
 val food = menutemplate(
-    3, "Food", 0,
+    3, "Food",
     listOf("water", "milk", "apple", "banana", "sandwich", "pizza", "cookie", "snack"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -202,7 +205,7 @@ val food = menutemplate(
 )
 
 val feelings = menutemplate(
-    4, "Feelings", 0,
+    4, "Feelings",
     listOf("happy", "sad", "tired", "sick", "hungry", "thirsty", "scared", "excited"),
     listOf(null, null, null, null, null, null, null, null),
     listOf(2, 2, 2, 2, 2, 2, 2, 2),
@@ -231,7 +234,7 @@ var wordfinder_display_buttonguide = mutableIntStateOf(0)
 
 var switchmenuparser = mutableStateOf(0)
 
-var linked_menu = mutableStateOf(1)
+var linked_menu = mutableStateOf(0)
 
 var menukeylist = mutableListOf<Int>()
 
@@ -292,6 +295,9 @@ val cache_total = mutableStateOf(0)
 val cache_running = mutableStateOf(false)
 
 val show_cache_prompt = mutableStateOf(false)
+val show_delete_menu_dialog = mutableStateOf(false)
+val show_goto_menu_dialog = mutableStateOf(false)
+val menu_history = mutableStateListOf<Int>()
 
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
@@ -436,6 +442,8 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                 if (show_edit_item_dialog.value) EditItemDialog()
                 if (show_add_item_dialog.value) AddItemDialog()
                 if (show_new_menu_dialog.value) NewMenuDialog()
+                if (show_delete_menu_dialog.value) DeleteMenuDialog()
+                if (show_goto_menu_dialog.value) GotoMenuDialogue()
             }
             LaunchedEffect(Unit) {
                 show_cache_prompt.value =
@@ -448,8 +456,11 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
             }
             LaunchedEffect(trigger_save.value) {
                 if (trigger_save.value) {
-                    saveAllPreferences(this@MainActivity)
-                    trigger_save.value = false
+                    try {
+                        saveAllPreferences(this@MainActivity)
+                    } finally {
+                        trigger_save.value = false
+                    }
                 }
             }
             LaunchedEffect(trigger_load.value) {
@@ -495,6 +506,9 @@ fun resetToDefaults() {
     createclonesymbol.value = false
     wordfinder_highlight_index.intValue = -1
 
+    // Clear menu history
+    menu_history.clear()
+
     // Reset menus to defaults
     MenuList.clear()
     MenuList.addAll(listOf(home, people, actions, food, feelings))
@@ -515,7 +529,7 @@ fun resetToDefaults() {
     show_new_menu_dialog.value = false
 
     // Back to home menu
-    linked_menu.value = 1
+    linked_menu.value = 0
     switchmenuparser.value++
 
     // Reset tutorial
@@ -595,14 +609,16 @@ fun load_vars(state: PersistedState) {
 
 suspend fun loadAllPreferences(context: Context) {
     val prefs = context.spegen_datastore.data.first()
+    val jsonignoreunknownkeys = Json {
+        ignoreUnknownKeys = true
+    }
     val json = prefs[APP_STATE_KEY] ?: return
     val state = try {
-        Json.decodeFromString<PersistedState>(json)
+        jsonignoreunknownkeys.decodeFromString<PersistedState>(json)
     } catch (e: Exception) {
         println("Failed to load preferences: ${e.message}")
         return
     }
-
     load_vars(state)
 }
 
@@ -630,6 +646,7 @@ fun currentPersistedState(): PersistedState = PersistedState(
 )
 
 suspend fun saveAllPreferences(context: Context) {
+    killDanglingPointers()
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(currentPersistedState())
     }
@@ -643,7 +660,68 @@ suspend fun hasStateChanged(context: Context): Boolean {
     } catch (e: Exception) {
         return true
     }
-    return currentPersistedState() != savedState
+
+    // Remove cached images from comparison to avoid user confusion since that happens automatically.
+    var isMenuListChanged = false
+
+    if (currentPersistedState().menu_list.size <= savedState.menu_list.size) {
+        for (i in currentPersistedState().menu_list.indices) {
+            val currItem = currentPersistedState().menu_list[i]
+            val savedItem = savedState.menu_list[i]
+
+            if (currItem.id != savedItem.id ||
+                currItem.title != savedItem.title ||
+                currItem.item_list != savedItem.item_list ||
+                currItem.pointers != savedItem.pointers ||
+                currItem.tts != savedItem.tts ||
+                currItem.item_type != savedItem.item_type
+            ) {
+                isMenuListChanged = true
+                break
+            }
+        }
+    }
+    else
+    {
+        for (i in savedState.menu_list.indices) {
+            val currItem = currentPersistedState().menu_list[i]
+            val savedItem = savedState.menu_list[i]
+
+            if (currItem.id != savedItem.id ||
+                currItem.title != savedItem.title ||
+                currItem.item_list != savedItem.item_list ||
+                currItem.pointers != savedItem.pointers ||
+                currItem.tts != savedItem.tts ||
+                currItem.item_type != savedItem.item_type
+            ) {
+                isMenuListChanged = true
+                break
+            }
+        }
+    }
+
+    val has_changes =
+        currentPersistedState().box_padding_dp != savedState.box_padding_dp ||
+                currentPersistedState().input_box_height_dp != savedState.input_box_height_dp ||
+                currentPersistedState().item_text_padding_dp != savedState.item_text_padding_dp ||
+                currentPersistedState().has_seen_tutorial != savedState.has_seen_tutorial ||
+                currentPersistedState().tts_data_found != savedState.tts_data_found ||
+                currentPersistedState().static_row_height != savedState.static_row_height ||
+                currentPersistedState().menu_static_row_height != savedState.menu_static_row_height ||
+                currentPersistedState().button_boxes_width != savedState.button_boxes_width ||
+                currentPersistedState().tts_speech_rate != savedState.tts_speech_rate ||
+                currentPersistedState().tts_pitch != savedState.tts_pitch ||
+                currentPersistedState().tts_pause_between_words != savedState.tts_pause_between_words ||
+                currentPersistedState().tts_pause_duration != savedState.tts_pause_duration ||
+                currentPersistedState().static_row_text_size != savedState.static_row_text_size ||
+                currentPersistedState().static_row_text_padding != savedState.static_row_text_padding ||
+                currentPersistedState().menu_row_text_size != savedState.menu_row_text_size ||
+                currentPersistedState().menu_row_text_padding != savedState.menu_row_text_padding ||
+                isMenuListChanged ||
+                currentPersistedState().static_terms != savedState.static_terms ||
+                currentPersistedState().menu_row_ids != savedState.menu_row_ids
+
+    return has_changes
 }
 
 suspend fun precacheAllImages(context: Context) {
@@ -934,6 +1012,85 @@ fun findCachedUrl(word: String): String {
         }
     }
     return ""
+}
+
+@Composable
+fun <T> ReorderableTermList(
+    items: MutableList<T>,
+    dragContent: @Composable RowScope.(index: Int, item: T) -> Unit,
+    trailingContent: @Composable RowScope.(index: Int, item: T) -> Unit
+) {
+    val density = LocalDensity.current
+    val rowHeightDp = 56.dp
+    val rowHeightPx = with(density) { rowHeightDp.toPx() }
+
+    var draggingIndex by remember { mutableStateOf(-1) }
+    var dragOffsetY by remember { mutableFloatStateOf(0f) }
+
+    Column {
+        items.forEachIndexed { index, item ->
+            val isDragging = index == draggingIndex
+            val dimmed = draggingIndex >= 0 && !isDragging
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(rowHeightDp)
+                    .zIndex(if (isDragging) 1f else 0f)
+                    .offset(y = with(density) {
+                        if (isDragging) dragOffsetY.toDp() else 0.dp
+                    })
+                    .alpha(if (dimmed) 0.4f else 1f)
+                    .background(if (isDragging) Color(0xFFE0E0E0) else Color.White),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Draggable zone
+                Row(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .pointerInput(index, items.size) {
+                            detectDragGestures(
+                                onDragStart = { draggingIndex = index; dragOffsetY = 0f },
+                                onDragEnd = { draggingIndex = -1; dragOffsetY = 0f },
+                                onDragCancel = { draggingIndex = -1; dragOffsetY = 0f },
+                                onDrag = { change, drag ->
+                                    change.consume()
+                                    dragOffsetY += drag.y
+                                    val movedRows = (dragOffsetY / rowHeightPx).toInt()
+                                    val target = draggingIndex + movedRows
+                                    if (movedRows != 0 &&
+                                        target in items.indices &&
+                                        target != draggingIndex
+                                    ) {
+                                        val moved = items.removeAt(draggingIndex)
+                                        items.add(target, moved)
+                                        draggingIndex = target
+                                        dragOffsetY -= movedRows * rowHeightPx
+                                    }
+                                }
+                            )
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "≡",
+                        fontSize = 20.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    )
+                    dragContent(index, item)
+                }
+                trailingContent(index, item)
+            }
+        }
+    }
+}
+
+fun navigateTo(menuId: Int) {
+    menu_history.add(linked_menu.value)
+    linked_menu.value = menuId
+    switchmenuparser.value++
 }
 
 @Composable
@@ -1324,14 +1481,12 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                             if (LinkedMenu == wordfinder_path_ids[1]) {
                                 wordfinder_path_ids.removeAt(0)
                                 wordfinder_path_names.removeAt(0)
-                                linked_menu.value = LinkedMenu
-                                switchmenuparser.value += 1
+                                navigateTo(LinkedMenu)
                                 wordfinder_manager()
                             }
                         }
                     } else {
-                        linked_menu.value = LinkedMenu
-                        switchmenuparser.value += 1
+                        navigateTo(LinkedMenu)
                     }
                     if (wordfinder_path_ids.size >= 1 && !wordfinder_target_is_symbol) {
                         wordfinder_highlight_index.intValue = -1
@@ -1341,8 +1496,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                         wordfinder_display_buttonguide.intValue = 0
                         createclonefolder.value = false
                         createclonesymbol.value = false
-                        linked_menu.value = LinkedMenu
-                        switchmenuparser.value += 1
+                        navigateTo(LinkedMenu)
                     }
                 })
         )
@@ -1400,13 +1554,62 @@ fun MenuPlaceholder(vertical_stretch: Dp) {
 data class menutemplate(
     val id: Int, // ID of the current menu
     val title: String, // Title of the current menu
-    val parentId: Int?, // ID of the parent menu
     val item_list: List<String>, // List of the names of all items, both folders and symbols
     val pointers: List<Int?>, // Pointers to be used in MenuFinder to find the corresponding menu for a folder to link to. Null if item is a symbol since it has no pointer.
     val tts: List<Int?>, // 0 is for appending to the input box without instantly playing, 1 is for instantly playing in tts engine without appending to input box, 2 is for both appending to text box and playing in tts engine instantly. If a value is null item is a folder that doesn't have tts.
     val item_type: List<Boolean>, // False is for folder, true is for symbol
     val image_urls: List<String> = emptyList() // resolved OpenSymbols URLs
 )
+
+fun parentsOf(menuId: Int): List<Int> {
+    if (menuId == 0) return emptyList()
+    return MenuList
+        .filter { menu -> menu.pointers.contains(menuId) }
+        .map { it.id }
+}
+
+fun primaryParentOf(menuId: Int): Int? {
+    return parentsOf(menuId).firstOrNull()
+}
+
+fun allPathsToMenu(targetId: Int): List<List<Int>> {
+    val results = mutableListOf<List<Int>>()
+
+    fun dfs(currentId: Int, pathSoFar: List<Int>) {
+        if (currentId in pathSoFar) return  // cycle guard
+        val newPath = pathSoFar + currentId
+        if (currentId == targetId) {
+            results.add(newPath)
+            return
+        }
+        val menu = MenuList.find { it.id == currentId } ?: return
+        menu.pointers.filterNotNull().distinct().forEach { childId ->
+            dfs(childId, newPath)
+        }
+    }
+
+    dfs(0, emptyList())
+    return results
+}
+
+data class SymbolPath(
+    val menuPath: List<Int>,
+    val menuNames: List<String>,
+    val containingMenuId: Int,
+    val itemIndex: Int
+)
+
+fun allPathsToSymbol(menuListElement: Int, itemIndex: Int): List<SymbolPath> {
+    val containingMenuId = MenuList[menuListElement].id
+    return allPathsToMenu(containingMenuId).map { menuIdPath ->
+        SymbolPath(
+            menuPath = menuIdPath,
+            menuNames = menuIdPath.map { id -> MenuList.find { it.id == id }?.title ?: "?" },
+            containingMenuId = containingMenuId,
+            itemIndex = itemIndex
+        )
+    }
+}
 
 fun MenuFinder(menu_id: Int?): menutemplate {
     if (menu_id !is Int) {
@@ -1440,7 +1643,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     {
         item_text_padding = 5.dp
     }
-    LaunchedEffect(menutemplate) {
+    LaunchedEffect(menutemplate.id, menutemplate.item_list.size, switchmenuparser.value) {
         item_names.clear()
         item_urls.clear()
 
@@ -1465,12 +1668,14 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 item_names.add(query)
                 item_urls.add(url)
                 resolved.add(url)
-                trigger_save.value = true
             }
             // Write the resolved URLs back into MenuList so they get saved
             val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
             if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
                 MenuList[menuIndex] = MenuList[menuIndex].copy(image_urls = resolved)
+            }
+            if (!editor_mode.value) {
+                trigger_save.value = true
             }
         }
     }
@@ -1586,8 +1791,7 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
                 .background(color = box_color)
                 .border(border = BorderStroke(border_size, border_color))
                 .clickable(onClick = {
-                    linked_menu.value = menu_terms_ids[i]
-                    switchmenuparser.value += 1
+                    navigateTo(menu_terms_ids[i])
                 })
         ) {
             Text(
@@ -1600,11 +1804,6 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
             )
         }
     }
-}
-
-
-// Could make an image override function that lets the user use their own images in place of the default ones
-fun ImageOverride() {
 }
 
 @Composable
@@ -1645,7 +1844,17 @@ fun WordFinder() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = { wordfinder_display.intValue = 0 }
+                    onClick = {
+                        wordfinder_display.intValue = 0
+                        wordfinder_display_buttonguide.intValue = 0
+                        wordfinder_path_ids.clear()
+                        wordfinder_path_names.clear()
+                        wordfinder_highlight_index.intValue = -1
+                        createclonefolder.value = false
+                        createclonesymbol.value = false
+                        linked_menu.value = current_menu_id
+                        switchmenuparser.value++
+                    }
                 ) {
                     Text(text = "Close", textAlign = TextAlign.Center)
                 }
@@ -1682,8 +1891,19 @@ fun WordFinder() {
                         // Dropdown Menu for Suggestions
                         for (i in 0 until MenuList.size) {
                             for (a in 0 until MenuList[i].item_list.size) {
-                                if (MenuList[i].item_list[a].lowercase().replace(" ", "") == searchQuery.lowercase().replace(" ", "")) {
-                                    WordFinder_Card(searchQuery, i, MenuList[i].item_type[a], a, flowrow_height_space, box_width)
+                                if (MenuList[i].item_list[a].lowercase().replace(" ", "") ==
+                                    searchQuery.lowercase().replace(" ", "")) {
+                                    val paths = allPathsToSymbol(i, a)
+                                    paths.forEach { symbolPath ->
+                                        WordFinder_Card(
+                                            i,
+                                            MenuList[i].item_type[a],
+                                            a,
+                                            symbolPath,
+                                            flowrow_height_space,
+                                            box_width
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -1698,113 +1918,99 @@ fun getMenuPath(menuIndex: Int): String {
     val pathParts = mutableListOf<String>()
     val visited = mutableSetOf<Int>()
     var current: menutemplate? = MenuList[menuIndex]
-
     wordfinder_path_names.clear()
-
     while (current != null) {
-        if (current.id in visited) break  // stops infinite loop
+        if (current.id in visited) break
         visited.add(current.id)
         pathParts.add(0, current.title)
         wordfinder_path_names.add(0, current.title)
-        val parentId = current.parentId
+        val parentId = primaryParentOf(current.id)
         current = if (parentId != null) MenuList.find { it.id == parentId } else null
     }
-
     return pathParts.joinToString(" > ")
 }
+
 fun setWordfinderPath(menuIndex: Int) {
-    val pathParts = mutableListOf<String>()
     val visited = mutableSetOf<Int>()
     var current: menutemplate? = MenuList[menuIndex]
-
     wordfinder_path_ids.clear()
-
     while (current != null) {
-        if (current.id in visited) break  // stops infinite loop
+        if (current.id in visited) break
         visited.add(current.id)
         wordfinder_path_ids.add(0, current.id)
-        val parentId = current.parentId
+        val parentId = primaryParentOf(current.id)
         current = if (parentId != null) MenuList.find { it.id == parentId } else null
     }
 }
 
 @Composable
-fun WordFinder_Card(Name: String, MenuList_element: Int, is_symbol: Boolean, item_position: Int, total_avaliable_height: Dp, total_avaiable_width: Dp) {
-    var min_height = 20.dp
-    var cards_per_row = 4
-    var card_height = 0.dp
+fun WordFinder_Card(
+    MenuList_element: Int,
+    is_symbol: Boolean,
+    item_position: Int,
+    symbolPath: SymbolPath,
+    total_avaliable_height: Dp,
+    total_avaiable_width: Dp
+) {
     var card_name by remember { mutableStateOf("") }
     var card_url by remember { mutableStateOf("") }
-    var box_size = (total_avaliable_height/cards_per_row)
-    var box_padding = 20.dp
-    val item_path = getMenuPath(MenuList_element)
-    if ((total_avaliable_height.value/cards_per_row).dp > min_height) {
-        card_height = (total_avaliable_height.value/cards_per_row).dp
-    }
-    else {
-        card_height = min_height
-    }
+    val box_size = (total_avaliable_height / 4)
+    val pathLabel = symbolPath.menuNames.joinToString(" > ")
+
     LaunchedEffect(Unit) {
-        val res = useApiWithToken(accesstoken, MenuList[MenuList_element].item_list[item_position])
-        card_name = res?.name ?: MenuList[MenuList_element].item_list[item_position]
+        card_name = MenuList[MenuList_element].item_list[item_position]
+        val res = useApiWithToken(accesstoken, card_name)
         card_url = res?.image_url ?: ""
     }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+            .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(box_padding),
+                .padding(20.dp),
             verticalAlignment = Alignment.Top
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(card_url)
-                    .build(),
+                model = ImageRequest.Builder(LocalContext.current).data(card_url).build(),
                 contentDescription = "Picture of $card_name",
-                modifier = Modifier
-                    .size(box_size)
-                    .scale(1f)
+                modifier = Modifier.size(box_size).scale(1f)
             )
-            val capitalized_name = Name.replaceFirstChar { char ->
-                char.titlecase()
-            }
-            Column()
-            {
+            Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                 Text(
-                    text = card_name,
+                    text = card_name.replaceFirstChar { it.titlecase() },
                     fontSize = (box_size.value / 3).sp
                 )
                 Text(
-                    text = item_path,
-                    fontSize = (box_size.value / 6).sp,
+                    text = pathLabel,
+                    fontSize = (box_size.value / 5).sp,
+                    color = Color.Gray
                 )
             }
-            Spacer(modifier = Modifier.weight(1f))
             var showButtonGuide by remember { mutableStateOf(false) }
             Button(
-                onClick = {
-                    showButtonGuide = true
-                },
+                onClick = { showButtonGuide = true },
                 modifier = Modifier.align(Alignment.CenterVertically)
-            ) {
-                Text(text = "Find", textAlign = TextAlign.Center)
-            }
+            ) { Text("Find") }
+
             if (showButtonGuide) {
                 wordfinder_target_is_symbol = is_symbol
-                setWordfinderPath(MenuList_element)
+                // Set path state from this specific path
+                wordfinder_path_ids.clear()
+                wordfinder_path_ids.addAll(symbolPath.menuPath)
+                wordfinder_path_names.clear()
+                wordfinder_path_names.addAll(symbolPath.menuNames)
                 val targetName = MenuList[MenuList_element].item_list[item_position]
                 if (wordfinder_path_names.lastOrNull() != targetName) {
                     wordfinder_path_names.add(targetName)
                 }
-                linked_menu.value = wordfinder_path_ids.firstOrNull() ?: 1
+                navigateTo(symbolPath.menuPath.first())
                 wordfinder_display_buttonguide.intValue += 1
                 wordfinder_display.intValue = 0
-                switchmenuparser.value++
                 wordfinder_manager()
             }
         }
@@ -2154,18 +2360,16 @@ fun StaticSymbolRowSettings() {
     Column {
         Text("Words always visible at the bottom of the screen.", fontSize = 14.sp, color = Color.DarkGray)
         Spacer(modifier = Modifier.height(8.dp))
-        static_terms.forEachIndexed { index, term ->
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = term, modifier = Modifier.weight(1f), fontSize = 16.sp)
-                Button(
-                    onClick = { static_terms.removeAt(index) },
-                    modifier = Modifier.padding(start = 8.dp)
-                ) { Text("Remove") }
+        ReorderableTermList(
+            items = static_terms,
+            dragContent = { _, term ->
+                Text(term, fontSize = 16.sp)
+            },
+            trailingContent = { index, _ ->
+                Button(onClick = { static_terms.removeAt(index) },
+                    modifier = Modifier.padding(horizontal = 8.dp)) { Text("Remove") }
             }
-        }
+        )
         var newTerm by remember { mutableStateOf("") }
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
@@ -2262,36 +2466,22 @@ fun MenuRowSettings() {
     Column {
         Text("Choose which menus appear in the bottom menu row.", fontSize = 14.sp, color = Color.DarkGray)
         Spacer(modifier = Modifier.height(8.dp))
-        MenuList.forEach { menu ->
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 2.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+        ReorderableTermList(
+            menu_terms_ids,
+            dragContent = { _, menuId ->
+                Text(text = MenuFinder(menuId).title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+            },
+            trailingContent = { _, menuId ->
                 Button(onClick = {
-                    if (menu.id in menu_terms_ids) {
-                        menu_terms_ids.remove(menu.id)
-                        if (menu_terms_ids.isEmpty()) {
-                            menu_static_row_height = 0.dp
-                            screen_display.value = !screen_display.value
-                        }
-                    } else {
-                        menu_terms_ids += menu.id
-                        if (menu_terms_ids.size == 1) {
-                            menu_static_row_height = screenHeight * (1f / 8f)
-                            screen_display.value = !screen_display.value
-                        }
+                    menu_terms_ids.remove(menuId)
+                    if (menu_terms_ids.isEmpty()) {
+                        menu_static_row_height = 0.dp
+                        screen_display.value = !screen_display.value
                     }
-                }) { Text("Toggle visibility") }
+                }) { Text("Remove") }
                 Spacer(modifier = Modifier.width(8.dp))
-                if (menu.id in menu_terms_ids) {
-                    Text(text = "(visible)", color = Color.Gray, fontSize = 14.sp)
-                } else {
-                    Text(text = "(not visible)", color = Color.Gray, fontSize = 14.sp)
-                }
             }
-        }
-
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -2802,12 +2992,11 @@ fun Buttonboxes() {
                 .height(button_boxes_width)
                 .background(color = Color.White)
                 .border(border = BorderStroke(2.dp, Color.Black))
-                .clickable(onClick = {
-                    if (MenuFinder(current_menu_id).parentId != MenuFinder(current_menu_id).id) {
-                        linked_menu.value = MenuFinder(current_menu_id).parentId!!
-                        switchmenuparser.value += 1
+                .clickable {
+                    if (menu_history.isNotEmpty()) {
+                        navigateTo(menu_history.removeAt(menu_history.lastIndex))
                     }
-                })
+                }
         ) {
             Text(text = "Back", color = Color.Black, modifier = Modifier
                 .align(Alignment.Center)
@@ -2869,9 +3058,10 @@ fun EditorToolbar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
             .background(Color(0xFFFFE082))
             .border(2.dp, Color(0xFFFF8F00))
+            .statusBarsPadding()
+            .height(48.dp)
             .zIndex(800f)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -2882,8 +3072,13 @@ fun EditorToolbar() {
         Button(onClick = { show_add_item_dialog.value = true }) { Text("+ Item") }
         Button(onClick = { show_new_menu_dialog.value = true }) { Text("+ Menu") }
         Spacer(modifier = Modifier.width(20.dp))
+        Button(onClick = { show_delete_menu_dialog.value = true }) { Text("- Menu") }
+        Button(onClick = { show_goto_menu_dialog.value = true}) { Text("Go To Menu") }
+        Spacer(modifier = Modifier.width(20.dp))
         Button(
-            onClick = { trigger_save.value = true },
+            onClick = {
+                trigger_save.value = true
+                      },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
         ) { Text("Apply Changes") }
         Spacer(modifier = Modifier.width(20.dp))
@@ -2924,6 +3119,134 @@ fun EditorToolbar() {
                 }) { Text("Don't Save") }
             }
         )
+    }
+}
+
+@Composable
+fun GotoMenuDialogue() {
+    AlertDialog(
+        onDismissRequest = { show_goto_menu_dialog.value = false },
+        title = { Text("Go to a menu") },
+        text = {
+            Column(modifier = Modifier
+                .heightIn(max = 300.dp)
+                .verticalScroll(rememberScrollState())) {
+                Text(
+                    "Lets you jump to a folder in editor mode.",
+                    fontSize = 12.sp, color = Color.Gray
+                )
+                Spacer(Modifier.height(8.dp))
+                MenuList.forEach { menu ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+                        Button(
+                            onClick = {
+                                linked_menu.value = menu.id
+                                switchmenuparser.value++ },
+                        ) { Text("Go To") }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = { show_goto_menu_dialog.value = false }) { Text("Done") }
+        }
+    )
+}
+
+@Composable
+fun DeleteMenuDialog() {
+    AlertDialog(
+        onDismissRequest = { show_delete_menu_dialog.value = false },
+        title = { Text("Delete a menu") },
+        text = {
+            Column(modifier = Modifier
+                .heightIn(max = 300.dp)
+                .verticalScroll(rememberScrollState())) {
+                Text(
+                    "Folders that open a deleted menu will also be removed.",
+                    fontSize = 12.sp, color = Color.Gray
+                )
+                Spacer(Modifier.height(8.dp))
+                MenuList.filter { it.id != 0 }.forEach { menu ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(menu.title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+                        Button(
+                            onClick = { deleteMenu(menu.id) },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFD32F2F))
+                        ) { Text("Delete") }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = { show_delete_menu_dialog.value = false }) { Text("Done") }
+        }
+    )
+}
+
+fun deleteMenu(menuId: Int) {
+    if (menuId == 0) return
+
+    // Remove the menu
+    MenuList.removeAll { it.id == menuId }
+
+    // Any folder pointing at the deleted menu becomes a dead link which is then removed
+    for (i in MenuList.indices) {
+        val m = MenuList[i]
+        val deadIndices = m.pointers.mapIndexedNotNull { idx, ptr ->
+            if (ptr == menuId) idx else null
+        }
+        if (deadIndices.isNotEmpty()) {
+            MenuList[i] = m.copy(
+                item_list  = m.item_list.filterIndexed  { idx, _ -> idx !in deadIndices },
+                pointers   = m.pointers.filterIndexed   { idx, _ -> idx !in deadIndices },
+                tts        = m.tts.filterIndexed        { idx, _ -> idx !in deadIndices },
+                item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in deadIndices },
+                image_urls = if (m.image_urls.size == m.item_list.size)
+                    m.image_urls.filterIndexed { idx, _ -> idx !in deadIndices }
+                else m.image_urls
+            )
+        }
+    }
+
+    // Delete menu from menu row
+    menu_terms_ids.remove(menuId)
+
+    // Remove dangling pointers
+    killDanglingPointers()
+
+    // If user is on deleted menu, send them to the root menu.
+    if (linked_menu.value == menuId) linked_menu.value = 0
+    if (current_menu_id == menuId) current_menu_id = 0
+
+    switchmenuparser.value++
+}
+
+fun killDanglingPointers() {
+    val liveIds = MenuList.map { it.id }.toSet()
+    for (i in MenuList.indices) {
+        val m = MenuList[i]
+        val dead = m.pointers.mapIndexedNotNull { idx, ptr ->
+            if (ptr != null && ptr !in liveIds) idx else null
+        }
+        if (dead.isNotEmpty()) {
+            MenuList[i] = m.copy(
+                item_list  = m.item_list.filterIndexed  { idx, _ -> idx !in dead },
+                pointers   = m.pointers.filterIndexed   { idx, _ -> idx !in dead },
+                tts        = m.tts.filterIndexed        { idx, _ -> idx !in dead },
+                item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in dead },
+                image_urls = if (m.image_urls.size == m.item_list.size)
+                    m.image_urls.filterIndexed { idx, _ -> idx !in dead } else m.image_urls
+            )
+        }
     }
 }
 
@@ -3097,7 +3420,6 @@ fun NewMenuDialog() {
                     MenuList.add(menutemplate(
                         id = newId,
                         title = title.trim(),
-                        parentId = 1,
                         item_list = emptyList(),
                         pointers = emptyList(),
                         tts = emptyList(),
@@ -3122,9 +3444,9 @@ fun EditorOverlay()
     // Covers inputbox
     Box(
         modifier = Modifier
-            .offset(0.dp, 0.dp)
+            .offset(0.dp, WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
             .width(screenWidth)
-            .height(input_box_height)
+            .height(input_box_height-WindowInsets.statusBars.asPaddingValues().calculateTopPadding())
             .background(dim)
             .zIndex(700f)
             .clickable(onClick = {})
