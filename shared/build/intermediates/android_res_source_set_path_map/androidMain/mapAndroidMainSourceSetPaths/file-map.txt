@@ -1,0 +1,5 @@
+io.github.hkleinkeane.spegen.shared-androidMain-0 C:\Users\harpe\AndroidStudioProjects\spegen\shared\build\generated\updated_navigation_xml\androidMain\res
+io.github.hkleinkeane.spegen.shared-packageAndroidMainResources-1 C:\Users\harpe\AndroidStudioProjects\spegen\shared\build\intermediates\incremental\androidMain\packageAndroidMainResources\merged.dir
+io.github.hkleinkeane.spegen.shared-packageAndroidMainResources-2 C:\Users\harpe\AndroidStudioProjects\spegen\shared\build\intermediates\incremental\androidMain\packageAndroidMainResources\stripped.dir
+io.github.hkleinkeane.spegen.shared-packageAndroidMainResources-3 C:\Users\harpe\AndroidStudioProjects\spegen\shared\build\intermediates\packaged_res\androidMain\packageAndroidMainResources\res
+gradleHome-0 C:\Users\harpe\.gradle

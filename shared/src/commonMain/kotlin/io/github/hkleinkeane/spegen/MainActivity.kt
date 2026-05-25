@@ -465,7 +465,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
             LaunchedEffect(Unit) {
                 show_cache_prompt.value =
                     !show_tutorial.value &&
-                            isOnline(this@MainActivity) &&
+                            isOnline() &&
                             hasUncachedImages(this@MainActivity)
             }
             if (show_cache_prompt.value) {
@@ -791,15 +791,6 @@ suspend fun hasUncachedImages(context: Context): Boolean = withContext(Dispatche
         }
     }
     false
-}
-
-fun isOnline(context: Context): Boolean {
-    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
-        ?: return false
-    val network = cm.activeNetwork ?: return false
-    val caps = cm.getNetworkCapabilities(network) ?: return false
-    return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 }
 
 @Composable

@@ -1,0 +1,21 @@
+io.github.hkleinkeane.spegen
+color black
+color purple_200
+color purple_500
+color purple_700
+color spegen_background
+color teal_200
+color teal_700
+color white
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+drawable image_not_found_error
+mipmap ic_launcher
+mipmap ic_launcher_round
+mipmap spegen
+mipmap spegen_foreground
+mipmap spegen_round
+string app_name
+style Theme_SpeGen
+xml backup_rules
+xml data_extraction_rules
