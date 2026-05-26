@@ -315,6 +315,14 @@ val show_cache_prompt = mutableStateOf(false)
 val show_delete_menu_dialog = mutableStateOf(false)
 val show_goto_menu_dialog = mutableStateOf(false)
 val menu_history = mutableStateListOf<Int>()
+val ngram_model = mutableStateOf(seedNgramModel())
+val show_autocomplete = mutableStateOf(false)
+private var mediaPlayer: android.media.MediaPlayer? = null
+private var recorder: android.media.MediaRecorder? = null
+private var recordingPath: String = ""
+var inputboxselecteditems_audio = mutableStateListOf<String>()
+var inputboxselecteditems_pron = mutableStateListOf<String>()
+private var seqPlayer: android.media.MediaPlayer? = null
 
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
@@ -336,7 +344,8 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         runBlocking {
-            loadAllPreferences(this@MainActivity)
+            val hadSave = loadAllPreferences(this@MainActivity)
+            if (!hadSave) show_tutorial.value = true
         }
         setContent {
             MenuKeyGen()
@@ -519,6 +528,8 @@ fun resetToDefaults() {
     // Clear composed sentence
     inputboxselecteditems_text.clear()
     inputboxselecteditems_has_symbol.clear()
+    inputboxselecteditems_audio.clear()
+    inputboxselecteditems_pron.clear()
 
     // Clear all wordfinder state
     wordfinder_display.intValue = 0
@@ -595,7 +606,8 @@ data class PersistedState(
     val static_row_text_size: Float = 16f,
     val static_row_text_padding: Float = 4f,
     val menu_row_text_size: Float = 16f,
-    val menu_row_text_padding: Float = 4f
+    val menu_row_text_padding: Float = 4f,
+    val ngram_model: NgramModel = NgramModel()
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -604,10 +616,16 @@ fun PersistedState.withPaddedLists(): PersistedState = copy(
         val uuids = menu.item_uuids.toMutableList()
         val urls  = menu.image_urls.toMutableList()
         val custom = menu.custom_image_paths.toMutableList()
+        val custom_audio_paths = menu.custom_audio_paths.toMutableList()
+        val custom_audio_names = menu.custom_audio_names.toMutableList()
+        val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
         while (uuids.size  < n) uuids.add(java.util.UUID.randomUUID().toString())
         while (urls.size   < n) urls.add("")
         while (custom.size < n) custom.add("")
-        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom)
+        while (custom_audio_paths.size < n) custom_audio_paths.add("")
+        while (custom_audio_names.size < n) custom_audio_names.add("")
+        while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
+        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom, custom_audio_paths = custom_audio_paths, custom_audio_names = custom_audio_names, pronunciation_overrides = pronunciation_overrides)
     }
 )
 
@@ -617,6 +635,9 @@ fun load_vars(state: PersistedState) {
     input_box_height = state.input_box_height_dp.dp
     item_text_padding = state.item_text_padding_dp.dp
     tts_data_found.value = state.tts_data_found
+    ngram_model.value =
+        if (state.ngram_model.bigrams.isEmpty()) seedNgramModel()
+        else state.ngram_model
 
     static_terms.clear()
     static_terms.addAll(state.static_terms)
@@ -640,26 +661,20 @@ fun load_vars(state: PersistedState) {
 
     MenuList.clear()
     MenuList.addAll(state.menu_list)
-
-    val h = MenuList.firstOrNull { it.id == 0 }
-    println("SpeGen load_vars END: incoming state Home cip=" +
-            "${state.menu_list.firstOrNull { it.id == 0 }?.custom_image_paths}")
-    println("SpeGen load_vars END: MenuList Home cip=${h?.custom_image_paths}")
 }
 
-suspend fun loadAllPreferences(context: Context) {
+suspend fun loadAllPreferences(context: Context): Boolean {
     val prefs = context.spegen_datastore.data.first()
-    val jsonignoreunknownkeys = Json {
-        ignoreUnknownKeys = true
-    }
-    val json = prefs[APP_STATE_KEY] ?: return
+    val json = prefs[APP_STATE_KEY] ?: return false // Fresh install
+    val jsonignoreunknownkeys = Json { ignoreUnknownKeys = true }
     val state = try {
         jsonignoreunknownkeys.decodeFromString<PersistedState>(json).withPaddedLists()
     } catch (e: Exception) {
         println("Failed to load preferences: ${e.message}")
-        return
+        return false
     }
     load_vars(state)
+    return true
 }
 
 fun currentPersistedState(): PersistedState = PersistedState(
@@ -682,7 +697,8 @@ fun currentPersistedState(): PersistedState = PersistedState(
     static_row_text_size = static_row_text_size.floatValue,
     static_row_text_padding = static_row_text_padding.floatValue,
     menu_row_text_size = menu_row_text_size.floatValue,
-    menu_row_text_padding = menu_row_text_padding.floatValue
+    menu_row_text_padding = menu_row_text_padding.floatValue,
+    ngram_model = ngram_model.value
 )
 
 suspend fun saveAllPreferences(context: Context) {
@@ -716,7 +732,8 @@ fun menutemplate.displayUrl(idx: Int): String {
 }
 
 fun PersistedState.normalizedForComparison() = copy(
-    menu_list = menu_list.map { it.copy(image_urls = emptyList()) }
+    menu_list = menu_list.map { it.copy(image_urls = emptyList()) },
+    ngram_model = NgramModel()
 )
 suspend fun hasStateChanged(context: Context): Boolean {
     val prefs = context.spegen_datastore.data.first()
@@ -896,6 +913,7 @@ fun copyImageToPrivateStorage(context: Context, uri: Uri, itemKey: String): Stri
 }
 
 fun exportToZip(context: Context, outputUri: Uri) {
+    val audioDir = File(context.filesDir, "custom_audio")
     val imageDir = File(context.filesDir, "custom_images")
     val exportState = currentPersistedState().copy(
         menu_list = MenuList.map { menu ->
@@ -903,6 +921,11 @@ fun exportToZip(context: Context, outputUri: Uri) {
                 custom_image_paths = menu.custom_image_paths.map { path ->
                     if (path.isNotBlank() && File(path).exists())
                         "custom_images/${File(path).name}"
+                    else path
+                },
+                custom_audio_paths = menu.custom_audio_paths.map { path ->
+                    if (path.isNotBlank() && File(path).exists())
+                        "custom_audio/${File(path).name}"
                     else path
                 }
             )
@@ -913,8 +936,14 @@ fun exportToZip(context: Context, outputUri: Uri) {
             zip.putNextEntry(ZipEntry("state.json"))
             zip.write(Json.encodeToString(exportState).toByteArray())
             zip.closeEntry()
+
             imageDir.listFiles()?.forEach { f ->
                 zip.putNextEntry(ZipEntry("custom_images/${f.name}"))
+                f.inputStream().use { it.copyTo(zip) }
+                zip.closeEntry()
+            }
+            audioDir.listFiles()?.forEach { f ->
+                zip.putNextEntry(ZipEntry("custom_audio/${f.name}"))
                 f.inputStream().use { it.copyTo(zip) }
                 zip.closeEntry()
             }
@@ -924,6 +953,7 @@ fun exportToZip(context: Context, outputUri: Uri) {
 
 fun importFromZip(context: Context, inputUri: Uri) {
     val imageDir = File(context.filesDir, "custom_images").also { it.mkdirs() }
+    val audioDir = File(context.filesDir, "custom_audio").also { it.mkdirs() }
 
     val input = context.contentResolver.openInputStream(inputUri)
         ?: throw Exception("Could not open the selected file.")
@@ -948,6 +978,13 @@ fun importFromZip(context: Context, inputUri: Uri) {
                                 .use { zip.copyTo(it) }
                         }
                     }
+                    entry.name.startsWith("custom_audio/") -> {
+                        val fileName = entry.name.removePrefix("custom_audio/")
+                        if (fileName.isNotBlank()) {
+                            File(audioDir, fileName).outputStream()
+                                .use { zip.copyTo(it) }
+                        }
+                    }
                 }
                 zip.closeEntry()
                 entry = zip.nextEntry
@@ -963,6 +1000,12 @@ fun importFromZip(context: Context, inputUri: Uri) {
                         custom_image_paths = menu.custom_image_paths.map { path ->
                             if (path.startsWith("custom_images/")) {
                                 val dest = File(imageDir, path.removePrefix("custom_images/"))
+                                if (dest.exists()) dest.absolutePath else ""
+                            } else path
+                        },
+                        custom_audio_paths = menu.custom_audio_paths.map { path ->
+                            if (path.startsWith("custom_audio/")) {
+                                val dest = File(audioDir, path.removePrefix("custom_audio/"))
                                 if (dest.exists()) dest.absolutePath else ""
                             } else path
                         }
@@ -984,6 +1027,68 @@ fun GetScreenDimensions() {
     screenHeight = configuration.screenHeightDp.dp
     configuration = LocalConfiguration.current
     isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+}
+
+@Serializable
+data class NgramModel(
+    // last word -> (next word -> count)
+    val bigrams: MutableMap<String, MutableMap<String, Int>> = mutableMapOf()
+) {
+    fun record(sentence: List<String>) {
+        for (i in 0 until sentence.size - 1) {
+            val cur = sentence[i].lowercase().trim()
+            val next = sentence[i + 1].lowercase().trim()
+            if (cur.isBlank() || next.isBlank()) continue
+            val row = bigrams.getOrPut(cur) { mutableMapOf() }
+            row[next] = (row[next] ?: 0) + 1
+        }
+    }
+
+    fun predict(lastWord: String, limit: Int = 8): List<String> {
+        val row = bigrams[lastWord.lowercase().trim()] ?: return emptyList()
+        return row.entries.sortedByDescending { it.value }.take(limit).map { it.key }
+    }
+}
+
+fun seedNgramModel(): NgramModel {
+    // Hardcoded NgramModel for usage with demo board/if NgramModel doesn't exist
+    val m = NgramModel()
+    val seedSentences = listOf(
+        // wants & needs
+        "i want more", "i want to play", "i want to go", "i want to eat",
+        "i want to watch", "i want that", "i want it", "i want a snack",
+        "i need help", "i need to go", "i need a break", "i need water",
+        "i need more time", "i would like more", "i would like to play",
+        // feelings
+        "i feel happy", "i feel sad", "i feel sick", "i feel tired",
+        "i feel scared", "i feel hungry", "i feel angry", "i feel good",
+        "i am happy", "i am sad", "i am tired", "i am hungry", "i am done",
+        "i am okay", "i am not okay", "i am excited",
+        // likes
+        "i like that", "i like it", "i like this", "i like you",
+        "i do not like that", "i do not want that", "i do not know",
+        // actions
+        "let us go", "let us play", "go home", "go outside", "go to bed",
+        "come here", "stop it", "stop please", "all done", "more please",
+        "play with me", "read a book", "watch a show", "listen to music",
+        // social
+        "thank you", "thank you very much", "i love you", "good morning",
+        "good night", "see you later", "how are you", "i am fine",
+        "yes please", "no thank you", "excuse me", "i am sorry",
+        // food & drink
+        "i want water", "i want milk", "i want a cookie", "i want pizza",
+        "more food please", "i am thirsty", "i am still hungry",
+        // questions
+        "can i have more", "can i go", "can we play", "what is that",
+        "where is it", "i want to know", "help me please",
+        // people
+        "where is mom", "where is dad", "i want mom", "i want dad",
+        "my turn", "your turn", "with my friend"
+    )
+    seedSentences.forEach { sentence ->
+        m.record(sentence.split(" "))
+    }
+    return m
 }
 
 @Composable
@@ -1165,6 +1270,171 @@ fun findCachedUrl(word: String): String {
         }
     }
     return ""
+}
+
+fun copyAudioToStorage(context: Context, uri: Uri, itemKey: String): String {
+    return try {
+        val dir = File(context.filesDir, "custom_audio").also { it.mkdirs() }
+        // keep original extension; don't transcode audio
+        val ext = context.contentResolver.getType(uri)
+            ?.substringAfter("/") ?: "m4a"
+        val dest = File(dir, "$itemKey.$ext")
+        context.contentResolver.openInputStream(uri)?.use { input ->
+            dest.outputStream().use { input.copyTo(it) }
+        } ?: return ""
+        dest.absolutePath
+    } catch (e: Exception) {
+        println("copyAudioToStorage failed: ${e.message}")
+        ""
+    }
+}
+
+fun playAudioFile(path: String) {
+    try {
+        mediaPlayer?.release()
+        mediaPlayer = android.media.MediaPlayer().apply {
+            setDataSource(path)
+            prepare()
+            start()
+        }
+    } catch (e: Exception) {
+        println("playAudioFile failed: ${e.message}")
+    }
+}
+
+fun startRecording(context: Context, itemKey: String) {
+    try {
+        val dir = File(context.filesDir, "custom_audio").also { it.mkdirs() }
+        val dest = File(dir, "$itemKey.m4a")
+        recordingPath = dest.absolutePath
+        recorder = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            android.media.MediaRecorder(context)
+        else
+            @Suppress("DEPRECATION") android.media.MediaRecorder()
+                ).apply {
+                setAudioSource(android.media.MediaRecorder.AudioSource.MIC)
+                setOutputFormat(android.media.MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(android.media.MediaRecorder.AudioEncoder.AAC)
+                setOutputFile(recordingPath)
+                prepare()
+                start()
+            }
+    } catch (e: Exception) {
+        println("startRecording failed: ${e.message}")
+        recordingPath = ""
+    }
+}
+
+fun stopRecording(): String {
+    return try {
+        recorder?.apply { stop(); release() }
+        recorder = null
+        recordingPath
+    } catch (e: Exception) {
+        println("stopRecording failed: ${e.message}")
+        ""
+    }
+}
+
+fun speakItem(menuId: Int?, itemIndex: Int?, fallbackName: String) {
+    val menu = MenuFinder(menuId)
+    val audioPath = menu.custom_audio_paths.getOrNull(itemIndex ?: -1) ?: ""
+    if (audioPath.isNotBlank()) {
+        playAudioFile(audioPath)
+        return
+    }
+    val pron = menu.pronunciation_overrides.getOrNull(itemIndex ?: -1) ?: ""
+    val toSpeak = pron.ifBlank { fallbackName }
+
+    if (tts.value?.isSpeaking == true) tts.value?.stop()
+
+    if (tts_pause_between_words.value) {
+        val words = toSpeak.split(" ")
+        tts.value?.speak(words[0], TextToSpeech.QUEUE_FLUSH, null, "word_0")
+        for (i in 1 until words.size) {
+            tts.value?.playSilentUtterance(
+                tts_pause_duration.value, TextToSpeech.QUEUE_ADD, "pause_$i"
+            )
+            tts.value?.speak(words[i], TextToSpeech.QUEUE_ADD, null, "word_$i")
+        }
+    } else {
+        tts.value?.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+}
+fun playSentenceSequenced(
+    tts: TextToSpeech?,
+    words: List<String>,
+    audioPaths: List<String>,
+    pauseMs: Long,
+    onFinished: () -> Unit = {}
+) {
+    if (words.isEmpty()) { onFinished(); return }
+
+    tts?.stop()
+    seqPlayer?.release()
+    seqPlayer = null
+
+    var i = 0
+
+    // forward declaration so the callbacks can call playNext()
+    lateinit var playNext: () -> Unit
+
+    val ttsListener = object : android.speech.tts.UtteranceProgressListener() {
+        override fun onStart(utteranceId: String?) {}
+        override fun onError(utteranceId: String?) {
+            i++; playNext()
+        }
+        override fun onDone(utteranceId: String?) {
+            i++
+            android.os.Handler(android.os.Looper.getMainLooper()).post { playNext() }
+        }
+    }
+    tts?.setOnUtteranceProgressListener(ttsListener)
+
+    playNext = {
+        if (i >= words.size) {
+            seqPlayer?.release()
+            seqPlayer = null
+            onFinished()
+        } else {
+            val audio = audioPaths.getOrNull(i) ?: ""
+            if (audio.isNotBlank()) {
+                try {
+                    seqPlayer?.release()
+                    seqPlayer = android.media.MediaPlayer().apply {
+                        setDataSource(audio)
+                        setOnCompletionListener {
+                            i++
+                            playNext()
+                        }
+                        setOnErrorListener { _, _, _ ->
+                            i++; playNext(); true
+                        }
+                        prepare()
+                        start()
+                    }
+                } catch (e: Exception) {
+                    println("sequencer audio failed at $i: ${e.message}")
+                    i++; playNext()
+                }
+            } else {
+                tts?.speak(
+                    words[i],
+                    TextToSpeech.QUEUE_FLUSH,
+                    null,
+                    "seq_$i"
+                )
+            }
+        }
+    }
+
+    playNext()
+}
+
+fun stopSentenceSequenced(tts: TextToSpeech?) {
+    tts?.stop()
+    seqPlayer?.release()
+    seqPlayer = null
 }
 
 @Composable
@@ -1362,28 +1632,18 @@ fun InputBox(modifier: Modifier) {
                 .background(Color.White)
                 .border(4.dp, Color.Black)
                 .clickable {
-                    if (tts.value?.isSpeaking == true) {
-                        tts.value?.stop()
-                    } else if (tts_pause_between_words.value && inputboxselecteditems_text.isNotEmpty()) {
-                        // First word flushes the queue, subsequent words queue up with pauses between
-                        tts.value?.speak(
-                            inputboxselecteditems_text[0],
-                            TextToSpeech.QUEUE_FLUSH, null, "word_0"
-                        )
-                        for (i in 1 until inputboxselecteditems_text.size) {
-                            tts.value?.playSilentUtterance(
-                                tts_pause_duration.value,
-                                TextToSpeech.QUEUE_ADD,
-                                "pause_$i"
-                            )
-                            tts.value?.speak(
-                                inputboxselecteditems_text[i],
-                                TextToSpeech.QUEUE_ADD, null, "word_$i"
-                            )
-                        }
+                    if (tts.value?.isSpeaking == true || false) {
+                        stopSentenceSequenced(tts.value)
                     } else {
-                        val speech = inputboxselecteditems_text.joinToString(" ")
-                        tts.value?.speak(speech, TextToSpeech.QUEUE_FLUSH, null, "")
+                        val words = inputboxselecteditems_text.mapIndexed { i, w ->
+                            inputboxselecteditems_pron.getOrNull(i)?.takeIf { it.isNotBlank() } ?: w
+                        }
+                        playSentenceSequenced(
+                            tts = tts.value,
+                            words = words,
+                            audioPaths = inputboxselecteditems_audio.toList(),
+                            pauseMs = tts_pause_duration.value
+                        )
                     }
                 }
         ) {
@@ -1507,62 +1767,32 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                         show_edit_item_dialog.value = true
                         return@clickable
                     }
-                    if (tts_type == 0) {
-                        if (tts.value?.isSpeaking == true) {
-                            tts.value?.stop()
+
+                    when (tts_type) {
+                        0 -> {  // add to input
+                            val menu = MenuFinder(menu_id)
+                            val audioPath = menu.custom_audio_paths.getOrNull(item_index ?: -1) ?: ""
+                            val pron = menu.pronunciation_overrides.getOrNull(item_index ?: -1) ?: ""
+                            inputboxselecteditems_text += name
+                            inputboxselecteditems_has_symbol += true
+                            inputboxselecteditems_audio += audioPath
+                            inputboxselecteditems_pron += pron
                         }
-                        if (tts_pause_between_words.value) {
-                            val splitwords = name.split(" ")
-                            tts.value?.speak(
-                                splitwords[0],
-                                TextToSpeech.QUEUE_FLUSH, null, "word_0"
-                            )
-                            for (i in 1 until splitwords.size) {
-                                tts.value?.playSilentUtterance(
-                                    tts_pause_duration.value,
-                                    TextToSpeech.QUEUE_ADD,
-                                    "pause_$i"
-                                )
-                                tts.value?.speak(
-                                    splitwords[i],
-                                    TextToSpeech.QUEUE_ADD, null, "word_$i"
-                                )
-                            }
-                        } else tts.value?.speak(
-                            (name), TextToSpeech.QUEUE_FLUSH, null, ""
-                        )
-                    }
-                    if (tts_type == 1) {
-                        inputboxselecteditems_text += name
-                        inputboxselecteditems_has_symbol += true
-                    }
-                    if (tts_type == 2) {
-                        if (tts.value?.isSpeaking == true) {
-                            tts.value?.stop()
+                        1 -> {  // speak only
+                            speakItem(menu_id, item_index, name)
                         }
-                        if (tts_pause_between_words.value) {
-                            val splitwords = name.split(" ")
-                            tts.value?.speak(
-                                splitwords[0],
-                                TextToSpeech.QUEUE_FLUSH, null, "word_0"
-                            )
-                            for (i in 1 until splitwords.size) {
-                                tts.value?.playSilentUtterance(
-                                    tts_pause_duration.value,
-                                    TextToSpeech.QUEUE_ADD,
-                                    "pause_$i"
-                                )
-                                tts.value?.speak(
-                                    splitwords[i],
-                                    TextToSpeech.QUEUE_ADD, null, "word_$i"
-                                )
-                            }
-                        } else tts.value?.speak(
-                            (name), TextToSpeech.QUEUE_FLUSH, null, ""
-                        )
-                        inputboxselecteditems_text += name
-                        inputboxselecteditems_has_symbol += true
+                        2 -> {  // both
+                            val menu = MenuFinder(menu_id)
+                            val audioPath = menu.custom_audio_paths.getOrNull(item_index ?: -1) ?: ""
+                            val pron = menu.pronunciation_overrides.getOrNull(item_index ?: -1) ?: ""
+                            inputboxselecteditems_text += name
+                            inputboxselecteditems_has_symbol += true
+                            inputboxselecteditems_audio += audioPath
+                            inputboxselecteditems_pron += pron
+                            speakItem(menu_id, item_index, name)
+                        }
                     }
+
                     if (!wordfinder_path_ids.isEmpty()) {
                         if (wordfinder_path_ids.size <= 1) {
                             wordfinder_highlight_index.intValue = -1
@@ -1713,7 +1943,10 @@ data class menutemplate(
     val item_type: List<Boolean>, // False is for folder, true is for symbol
     val image_urls: List<String> = emptyList(), // resolved OpenSymbols URLs
     val item_uuids: List<String> = emptyList(),   // one UUID per item
-    val custom_image_paths: List<String> = emptyList()
+    val custom_image_paths: List<String> = emptyList(), // custom image paths for items
+    val custom_audio_paths: List<String> = emptyList(),   // recorded/imported audio file path
+    val custom_audio_names: List<String> = emptyList(), // recorded/imported audio file name
+    val pronunciation_overrides: List<String> = emptyList() // phonetic respelling text
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -1810,7 +2043,6 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
             item_names.addAll(menutemplate.item_list)
             menutemplate.item_list.indices.forEach { idx ->
                 val u = menutemplate.displayUrl(idx)
-                println("SpeGen MenuParser idx=$idx custom=${menutemplate.custom_image_paths.getOrNull(idx)} -> $u")
                 item_urls.add(u)
             }
         } else {
@@ -3112,6 +3344,8 @@ fun Buttonboxes() {
                     .clickable(onClick = {
                         inputboxselecteditems_text.clear()
                         inputboxselecteditems_has_symbol.clear()
+                        inputboxselecteditems_audio.clear()
+                        inputboxselecteditems_pron.clear()
                     })
             ) {
                 Text(text = "Clear", color = Color.Black, modifier = Modifier
@@ -3134,6 +3368,8 @@ fun Buttonboxes() {
                             inputboxselecteditems_has_symbol.removeAt(
                                 inputboxselecteditems_has_symbol.lastIndex
                             )
+                            inputboxselecteditems_audio.removeAt(inputboxselecteditems_audio.lastIndex)
+                            inputboxselecteditems_pron.removeAt(inputboxselecteditems_pron.lastIndex)
                         }
                     })
             ) {
@@ -3179,6 +3415,23 @@ fun Buttonboxes() {
                 .padding(3.dp))
         }
     }
+    Column() {
+        Box(
+            modifier = Modifier
+                .offset(x_offset - button_boxes_width, y_offset + button_boxes_width * 4)
+                .width(button_boxes_width * 2)
+                .height(screenHeight-(button_boxes_width*4)-menu_static_row_height-static_row_height)
+                .background(color = Color.White)
+                .border(border = BorderStroke(2.dp, Color.Black))
+                .clickable { show_autocomplete.value = true }
+        ) {
+            Text(
+                text = "Autocomplete",
+                color = Color.Black,
+                modifier = Modifier.align(Alignment.Center).padding(3.dp)
+            )
+        }
+    }
     if (showKeyboard)
     {
         var typedText by remember { mutableStateOf("") }
@@ -3211,6 +3464,97 @@ fun Buttonboxes() {
             confirmButton = { Button(onClick = { submit() }) { Text("Add") } },
             dismissButton = { Button(onClick = { showKeyboard = false }) { Text("Cancel") } }
         )
+    }
+}
+
+@Composable
+fun AutocompleteMenu(modifier: Modifier) {
+    val lastWord = inputboxselecteditems_text.lastOrNull() ?: ""
+    val predictions = remember(lastWord, inputboxselecteditems_text.size, switchmenuparser.value) {
+        ngram_model.value.predict(lastWord, limit = 24)
+    }
+
+    Column(
+        modifier = modifier
+            .width(menu_width)
+            .height(menu_height)
+            .offset(x = 0.dp, y = input_box_height)
+            .background(Color.White)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                if (lastWord.isBlank()) "Suggestions"
+                else "After \"${lastWord.replaceFirstChar { it.titlecase() }}\"",
+                fontSize = 16.sp, fontWeight = FontWeight.Medium
+            )
+            Button(onClick = { show_autocomplete.value = false }) { Text("Close") }
+        }
+
+        if (predictions.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No suggestions yet.", color = Color.Gray)
+            }
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = box_size + box_padding),
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(predictions.size) { i ->
+                    val rawWord = predictions[i]
+                    val word = rawWord.replaceFirstChar { it.titlecase() }
+                    var url by remember(rawWord) { mutableStateOf(findCachedUrl(rawWord)) }
+
+                    LaunchedEffect(rawWord) {
+                        if (url.isBlank()) {
+                            url = useApiWithToken(accesstoken, rawWord)?.image_url ?: ""
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .height(box_size + (box_padding * 2))
+                            .background(Color.White)
+                            .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
+                            .clickable {
+                                inputboxselecteditems_text += word
+                                inputboxselecteditems_has_symbol += url.isNotBlank()
+                                inputboxselecteditems_audio += ""
+                                inputboxselecteditems_pron += ""
+                            }
+                    ) {
+                        if (url.isNotBlank()) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current).data(url).build(),
+                                contentDescription = word,
+                                modifier = Modifier.padding(box_padding).fillMaxSize()
+                            )
+                            Text(
+                                text = word,
+                                color = Color.Black,
+                                modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        else
+                        {
+                            Text(
+                                text = word,
+                                color = Color.Black,
+                                modifier = Modifier.align(Alignment.Center).padding(4.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -3425,7 +3769,11 @@ fun killDanglingPointers() {
                 image_urls = if (m.image_urls.size == m.item_list.size)
                     m.image_urls.filterIndexed { idx, _ -> idx !in dead } else m.image_urls,
                 item_uuids = if (m.item_uuids.size == m.item_list.size)
-                    m.item_uuids.filterIndexed { idx, _ -> idx !in dead } else m.item_uuids
+                    m.item_uuids.filterIndexed { idx, _ -> idx !in dead } else m.item_uuids,
+                custom_audio_paths = if (m.custom_audio_paths.size == m.item_list.size)
+                    m.custom_audio_paths.filterIndexed { idx, _ -> idx !in dead } else m.custom_audio_paths,
+                pronunciation_overrides = if (m.pronunciation_overrides.size == m.item_list.size)
+                    m.pronunciation_overrides.filterIndexed { idx, _ -> idx !in dead } else m.pronunciation_overrides
             )
         }
     }
@@ -3439,7 +3787,6 @@ fun EditItemDialog() {
         show_edit_item_dialog.value = false
         return
     }
-
     val context = LocalContext.current
     var name by remember { mutableStateOf(menu.item_list[idx]) }
     val originalIsSymbol = menu.item_type[idx]
@@ -3459,6 +3806,31 @@ fun EditItemDialog() {
         if (uri != null) currentCustomPath = copyImageToPrivateStorage(context, uri, itemUuid)
     }
 
+    var currentAudioPath by remember { mutableStateOf(menu.custom_audio_paths.getOrNull(idx) ?: "") }
+    var pronunciation by remember {
+        mutableStateOf(menu.pronunciation_overrides.getOrNull(idx) ?: "")
+    }
+    var useCustomAudio by remember { mutableStateOf(currentAudioPath.isNotBlank()) }
+    var isRecording by remember { mutableStateOf(false) }
+    var currentAudioName by remember { mutableStateOf(menu.custom_audio_names.getOrNull(idx) ?: "") }
+    var showRenameDialog by remember { mutableStateOf(false) }
+
+    val audioPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        if (uri != null) currentAudioPath = copyAudioToStorage(context, uri, itemUuid)
+    }
+    var hasMicPermission by remember {
+        mutableStateOf(
+            androidx.core.content.ContextCompat.checkSelfPermission(
+                context, android.Manifest.permission.RECORD_AUDIO
+            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val micPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> hasMicPermission = granted }
+
     // Commits dialog state into MenuList
     fun commitChanges() {
         val menuIndex = MenuList.indexOfFirst { it.id == menu.id }
@@ -3467,10 +3839,17 @@ fun EditItemDialog() {
             val customPaths = menu.custom_image_paths.toMutableList()
             while (customPaths.size < n) customPaths.add("")     // pad to full length
             customPaths[idx] = currentCustomPath
-            println("SpeGen commitChanges idx=$idx currentCustomPath='$currentCustomPath' " +
-                    "customPaths=$customPaths menuId=${menu.id} menuIndex=$menuIndex")
             val uuids = menu.item_uuids.toMutableList()
             while (uuids.size < n) uuids.add(java.util.UUID.randomUUID().toString())
+            val custom_audio_paths = menu.custom_audio_paths.toMutableList()
+            while (custom_audio_paths.size < n) custom_audio_paths.add("")
+            custom_audio_paths[idx] = if (useCustomAudio) currentAudioPath else ""
+            val audioNames = menu.custom_audio_names.toMutableList()
+            while (audioNames.size < n) audioNames.add("")
+            audioNames[idx] = if (useCustomAudio) currentAudioName.trim() else ""
+            val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
+            while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
+            pronunciation_overrides[idx] = if (!useCustomAudio) pronunciation.trim() else ""
             uuids[idx] = itemUuid
 
             MenuList[menuIndex] = menu.copy(
@@ -3478,7 +3857,10 @@ fun EditItemDialog() {
                 tts = if (originalIsSymbol)
                     menu.tts.toMutableList().also { it[idx] = ttsType } else menu.tts,
                 custom_image_paths = customPaths,
-                item_uuids = uuids
+                item_uuids = uuids,
+                custom_audio_paths = custom_audio_paths,
+                custom_audio_names = audioNames,
+                pronunciation_overrides = pronunciation_overrides
             )
             switchmenuparser.value++
         }
@@ -3603,6 +3985,107 @@ fun EditItemDialog() {
                                 containerColor = Color(0xFF757575))
                         ) { Text("Reset to default") }
                     }
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text("Audio", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+
+                    Row {
+                        Row(modifier = Modifier.clickable { useCustomAudio = false }.padding(8.dp)) {
+                            Text(if (!useCustomAudio) "● Use item name" else "○ Use item name", fontSize = 13.sp)
+                        }
+                        Row(modifier = Modifier.clickable { useCustomAudio = true }.padding(8.dp)) {
+                            Text(if (useCustomAudio) "● Use custom audio" else "○ Use custom audio", fontSize = 13.sp)
+                        }
+                    }
+
+                    if (useCustomAudio) {
+                        if (currentAudioPath.isNotBlank()) {
+                            Row(
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                                    .border(2.dp, Color.Black, RoundedCornerShape(50))
+                                    .background(Color(0xFFF0F0F0), RoundedCornerShape(50))
+                                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    currentAudioName.ifBlank { "Audio clip" },
+                                    fontSize = 13.sp,
+                                    modifier = Modifier.padding(end = 8.dp)
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .size(28.dp)
+                                        .clip(RoundedCornerShape(50))
+                                        .clickable { showRenameDialog = true },
+                                    contentAlignment = Alignment.Center
+                                ) { Text("✎", fontSize = 14.sp) }
+                            }
+                        }
+                        if (showRenameDialog) {
+                            var tempName by remember { mutableStateOf(currentAudioName) }
+                            AlertDialog(
+                                onDismissRequest = { showRenameDialog = false },
+                                title = { Text("Rename Audio Clip") },
+                                text = {
+                                    TextField(
+                                        value = tempName,
+                                        onValueChange = { tempName = it },
+                                        singleLine = true,
+                                        label = { Text("Clip name") }
+                                    )
+                                },
+                                confirmButton = {
+                                    Button(onClick = {
+                                        currentAudioName = tempName.trim()
+                                        showRenameDialog = false
+                                    }) { Text("Save") }
+                                },
+                                dismissButton = {
+                                    Button(onClick = { showRenameDialog = false }) { Text("Cancel") }
+                                }
+                            )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(onClick = {
+                                if (!hasMicPermission) {
+                                    micPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                                } else if (isRecording) {
+                                    currentAudioPath = stopRecording()
+                                    currentAudioName = "Recording"
+                                    isRecording = false
+                                } else {
+                                    startRecording(context, itemUuid)
+                                    isRecording = true
+                                }
+                            }) { Text(if (isRecording) "Stop" else "Record") }
+
+                            Button(onClick = {
+                                audioPicker.launch(arrayOf("audio/*"))
+                            }) { Text("Import from device") }
+                        }
+                        if (currentAudioPath.isNotBlank()) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Button(onClick = { playAudioFile(currentAudioPath) }) { Text("▶ Preview") }
+                                Button(
+                                    onClick = { currentAudioPath = "" },
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+                                ) { Text("Clear audio") }
+                            }
+                        }
+                    } else {
+                        // pronunciation override box
+                        Text(
+                            "Optional: respell the name so it's spoken correctly (e.g. \"MIS-chiv-us\").",
+                            fontSize = 12.sp, color = Color.Gray
+                        )
+                        TextField(
+                            value = pronunciation,
+                            onValueChange = { pronunciation = it },
+                            singleLine = true,
+                            label = { Text("Pronunciation") }
+                        )
+                    }
+
                     if (originalIsSymbol) {
                         Spacer(modifier = Modifier.height(12.dp))
                         Text("TTS behavior", fontSize = 14.sp)
@@ -3855,7 +4338,11 @@ fun Screen() {
                 Buttonboxes()
                 MenuRow(Modifier)
                 InputBox(Modifier)
-                Menu(Modifier)
+                if (show_autocomplete.value) {
+                    AutocompleteMenu(Modifier)
+                } else {
+                    Menu(Modifier)
+                }
             }
         }
     }
