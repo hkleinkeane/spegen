@@ -557,6 +557,21 @@ private fun Float.oneDecimal(): String {
     return "$whole.$frac"
 }
 
+/**
+ * Return the top [limit] predicted next words after [lastWord], ordered by frequency.
+ * Returns an empty list when [lastWord] is blank or has no recorded successors.
+ */
+fun NgramModel.predict(lastWord: String, limit: Int = 8): List<String> {
+    val key = lastWord.lowercase().trim()
+    if (key.isBlank()) return emptyList()
+    return bigrams[key]
+        ?.entries
+        ?.sortedByDescending { it.value }
+        ?.take(limit)
+        ?.map { it.key }
+        ?: emptyList()
+}
+
 /** Returns a pre-seeded NgramModel with common AAC phrase patterns. */
 fun seedNgramModel(): NgramModel {
     val pairs = listOf(
@@ -2901,19 +2916,22 @@ fun Buttonboxes() {
                     .padding(3.dp))
             }
         }
-        //AUTOCOMPLETE TOGGLE (row 4, below the Back button)
+        //AUTOCOMPLETE – spans both columns, fills remaining height below row 3
         Column() {
             Box(
                 modifier = Modifier
                     .offset(x_offset - button_boxes_width, y_offset + button_boxes_width * 4)
-                    .size(button_boxes_width)
-                    .background(color = if (show_autocomplete.value) Color(0xFFBBDEFB) else Color.White)
+                    .width(button_boxes_width * 2)
+                    .height(screenHeight - (button_boxes_width * 4) - menu_static_row_height - static_row_height)
+                    .background(color = Color.White)
                     .border(border = BorderStroke(2.dp, Color.Black))
-                    .clickable { show_autocomplete.value = !show_autocomplete.value }
+                    .clickable { show_autocomplete.value = true }
             ) {
-                Text(text = "Predict", color = Color.Black, modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(3.dp))
+                Text(
+                    text = "Autocomplete",
+                    color = Color.Black,
+                    modifier = Modifier.align(Alignment.Center).padding(3.dp)
+                )
             }
         }
     }
@@ -3689,80 +3707,91 @@ fun EditorOverlay()
     )
 }
 
-/**
- * Shows predicted next words derived from the bigram model, replacing the symbol grid
- * when [show_autocomplete] is true. Each prediction displays its cached symbol image.
- */
 @Composable
-fun AutocompleteMenu() {
-    val lastWord = inputboxselecteditems_text.lastOrNull()?.lowercase()?.trim() ?: ""
-    val predictions = remember(lastWord, ngram_model.value) {
-        ngram_model.value.bigrams[lastWord]
-            ?.entries
-            ?.sortedByDescending { it.value }
-            ?.take(8)
-            ?.map { it.key }
-            ?: emptyList()
+fun AutocompleteMenu(modifier: Modifier) {
+    val lastWord = inputboxselecteditems_text.lastOrNull() ?: ""
+    val predictions = remember(lastWord, inputboxselecteditems_text.size, switchmenuparser.value) {
+        ngram_model.value.predict(lastWord, limit = 24)
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
+    Column(
+        modifier = modifier
+            .width(menu_width)
+            .height(menu_height)
+            .offset(x = 0.dp, y = input_box_height)
             .background(Color.White)
-            .border(2.dp, Color(0xFF90CAF9))
-            .padding(8.dp)
     ) {
-        if (predictions.isEmpty()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                "No predictions yet — tap symbols to build your vocabulary.",
-                fontSize = 13.sp,
-                color = Color.Gray,
-                modifier = Modifier.align(Alignment.Center).padding(16.dp)
+                if (lastWord.isBlank()) "Suggestions"
+                else "After \"${lastWord.replaceFirstChar { it.titlecase() }}\"",
+                fontSize = 16.sp, fontWeight = FontWeight.Medium
             )
+            Button(onClick = { show_autocomplete.value = false }) { Text("Close") }
+        }
+
+        if (predictions.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No suggestions yet.", color = Color.Gray)
+            }
         } else {
-            LazyRow(
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = box_size + box_padding),
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(horizontal = 8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(predictions.size) { i ->
-                    val word = predictions[i]
-                    val displayName = word.replaceFirstChar { it.titlecase() }
-                    var imageUrl by remember(word) { mutableStateOf(findCachedUrl(word)) }
-                    LaunchedEffect(word) {
-                        if (imageUrl.isBlank()) {
-                            imageUrl = useApiWithToken(accesstoken, word)?.image_url ?: ""
+                    val rawWord = predictions[i]
+                    val word = rawWord.replaceFirstChar { it.titlecase() }
+                    var url by remember(rawWord) { mutableStateOf(findCachedUrl(rawWord)) }
+
+                    LaunchedEffect(rawWord) {
+                        if (url.isBlank()) {
+                            url = useApiWithToken(accesstoken, rawWord)?.image_url ?: ""
                         }
                     }
+
                     Box(
                         modifier = Modifier
-                            .size(button_boxes_width * 1.2f)
+                            .height(box_size + (box_padding * 2))
                             .background(Color.White)
-                            .border(2.dp, Color.Black, RoundedCornerShape(8.dp))
+                            .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
                             .clickable {
                                 val prevWord = inputboxselecteditems_text.lastOrNull()
-                                inputboxselecteditems_text      += displayName
-                                inputboxselecteditems_has_symbol += true
+                                inputboxselecteditems_text      += word
+                                inputboxselecteditems_has_symbol += url.isNotBlank()
                                 inputboxselecteditems_audio      += ""
                                 inputboxselecteditems_pron       += ""
-                                if (prevWord != null) updateNgramModel(prevWord, word)
-                                ttsEngine.value?.speak(displayName, TtsEngine.QUEUE_FLUSH, "autocomplete")
+                                if (prevWord != null) updateNgramModel(prevWord, rawWord)
                             }
                     ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalPlatformContext.current)
-                                .data(imageUrl).build(),
-                            contentDescription = displayName,
-                            modifier = Modifier.fillMaxSize().padding(4.dp)
-                        )
-                        Text(
-                            text = displayName,
-                            fontSize = 10.sp,
-                            color = Color.Black,
-                            modifier = Modifier.align(Alignment.BottomCenter).padding(2.dp),
-                            textAlign = TextAlign.Center,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                        if (url.isNotBlank()) {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalPlatformContext.current)
+                                    .data(url).build(),
+                                contentDescription = word,
+                                modifier = Modifier.padding(box_padding).fillMaxSize()
+                            )
+                            Text(
+                                text = word,
+                                color = Color.Black,
+                                modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        } else {
+                            Text(
+                                text = word,
+                                color = Color.Black,
+                                modifier = Modifier.align(Alignment.Center).padding(4.dp),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }
@@ -3792,7 +3821,7 @@ fun Screen() {
                 MenuRow(Modifier)
                 InputBox(Modifier)
                 if (show_autocomplete.value) {
-                    AutocompleteMenu()
+                    AutocompleteMenu(Modifier)
                 } else {
                     Menu(Modifier)
                 }
