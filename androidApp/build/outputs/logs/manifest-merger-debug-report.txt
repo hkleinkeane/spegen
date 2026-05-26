@@ -140,14 +140,14 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\harpe\.gradle\cach
 		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:25:9-44
 	android:dataExtractionRules
 		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:19:9-65
-activity#io.github.hkleinkeane.spegen.MainActivity
+activity#io.github.hkleinkeane.spegen.SpeGenActivity
 ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:26:9-35:20
 	android:exported
 		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:28:13-36
 	android:theme
 		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:29:13-48
 	android:name
-		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:27:13-41
+		ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:27:13-43
 intent-filter#action:name:android.intent.action.MAIN+action:name:android.intent.action.TTS_SERVICE+category:name:android.intent.category.LAUNCHER
 ADDED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:30:13-34:29
 action#android.intent.action.TTS_SERVICE

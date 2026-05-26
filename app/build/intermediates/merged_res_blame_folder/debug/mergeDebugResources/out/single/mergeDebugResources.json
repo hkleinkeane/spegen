@@ -1,0 +1,90 @@
+[
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-hdpi_spegen.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-hdpi/spegen.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xhdpi_spegen_round.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xhdpi/spegen_round.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xhdpi_spegen_foreground.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xhdpi/spegen_foreground.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/drawable_ic_launcher_background.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xhdpi_spegen.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xhdpi/spegen.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxhdpi_spegen.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxhdpi/spegen.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxhdpi_spegen_round.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxhdpi/spegen_round.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/xml_backup_rules.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-anydpi-v26_spegen.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-anydpi-v26/spegen.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-mdpi_spegen.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-mdpi/spegen.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-hdpi_spegen_round.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-hdpi/spegen_round.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/xml_data_extraction_rules.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-mdpi_spegen_round.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-mdpi/spegen_round.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxxhdpi_spegen.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxxhdpi/spegen.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-hdpi_spegen_foreground.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-hdpi/spegen_foreground.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-anydpi-v26_spegen_round.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-anydpi-v26/spegen_round.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxxhdpi_spegen_round.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxxhdpi/spegen_round.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-mdpi_spegen_foreground.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-mdpi/spegen_foreground.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxhdpi_spegen_foreground.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxhdpi/spegen_foreground.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/mipmap-xxxhdpi_spegen_foreground.webp.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/mipmap-xxxhdpi/spegen_foreground.webp"
+    },
+    {
+        "merged": "io.github.hkleinkeane.spegen.app-debug-53:/drawable_image_not_found_error.png.flat",
+        "source": "io.github.hkleinkeane.spegen.app-main-55:/drawable/image_not_found_error.png"
+    }
+]

@@ -42,7 +42,7 @@
         android:testOnly="true"
         android:theme="@style/Theme.SpeGen" >
         <activity
-            android:name="io.github.hkleinkeane.spegen.MainActivity"
+            android:name="io.github.hkleinkeane.spegen.SpeGenActivity"
             android:exported="true"
             android:theme="@style/Theme.SpeGen" >
             <intent-filter>

@@ -1,0 +1,203 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  ~ Copyright 2026 Harper Klein Keane
+4  ~
+5  ~ This file is part of SpeGen.
+6  ~
+7  ~ SpeGen is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+8  ~
+9  ~ SpeGen is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+10  ~
+11  ~ You should have received a copy of the GNU General Public License along with SpeGen. If not, see <https://www.gnu.org/licenses/>.
+12-->
+13<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+14    package="io.github.hkleinkeane.spegen"
+15    android:versionCode="1"
+16    android:versionName="0.1.0" >
+17
+18    <uses-sdk
+18-->INJECTED
+19        android:minSdkVersion="24"
+19-->INJECTED
+20        android:targetSdkVersion="36" />
+20-->INJECTED
+21
+22    <uses-permission android:name="android.permission.INTERNET" />
+22-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:15:5-67
+22-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:15:22-64
+23    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+23-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:16:5-79
+23-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:16:22-76
+24    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+24-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:17:5-71
+24-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:17:22-68
+25
+26    <permission
+26-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:22:5-24:47
+27        android:name="io.github.hkleinkeane.spegen.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+27-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:23:9-81
+28        android:protectionLevel="signature" />
+28-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:24:9-44
+29
+30    <uses-permission android:name="io.github.hkleinkeane.spegen.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+30-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:26:5-97
+30-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:26:22-94
+31
+32    <application
+32-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:18:5-37:19
+33        android:allowBackup="true"
+33-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:19:9-35
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.17.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\392d7b6dec8afc74dcfa3333c67b5509\transformed\core-1.17.0\AndroidManifest.xml:28:18-86
+35        android:dataExtractionRules="@xml/data_extraction_rules"
+35-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:20:9-65
+36        android:debuggable="true"
+37        android:extractNativeLibs="false"
+37-->INJECTED
+38        android:fullBackupContent="@xml/backup_rules"
+38-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:21:9-54
+39        android:icon="@mipmap/spegen"
+39-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:22:9-38
+40        android:label="@string/app_name"
+40-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:23:9-41
+41        android:roundIcon="@mipmap/spegen_round"
+41-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:24:9-49
+42        android:supportsRtl="true"
+42-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:25:9-35
+43        android:testOnly="true"
+44        android:theme="@style/Theme.SpeGen" >
+44-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:26:9-44
+45        <activity
+45-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:27:9-36:20
+46            android:name="io.github.hkleinkeane.spegen.MainActivity"
+46-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:28:13-41
+47            android:exported="true"
+47-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:29:13-36
+48            android:theme="@style/Theme.SpeGen" >
+48-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:30:13-48
+49            <intent-filter>
+49-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:31:13-35:29
+50                <action android:name="android.intent.action.TTS_SERVICE" />
+50-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:32:17-76
+50-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:32:25-73
+51                <action android:name="android.intent.action.MAIN" />
+51-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:33:17-69
+51-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:33:25-66
+52
+53                <category android:name="android.intent.category.LAUNCHER" />
+53-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:34:17-77
+53-->C:\Users\harpe\AndroidStudioProjects\spegen\app\src\main\AndroidManifest.xml:34:27-74
+54            </intent-filter>
+55        </activity>
+56        <activity
+56-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\be477c19e615754c7e1acee4bde0160a\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
+57            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+57-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\be477c19e615754c7e1acee4bde0160a\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
+58            android:exported="false"
+58-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\be477c19e615754c7e1acee4bde0160a\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
+59            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+59-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\be477c19e615754c7e1acee4bde0160a\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
+60
+61        <meta-data
+61-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\23b45063f76cb95bb5f6ef9bf6755748\transformed\play-services-basement-18.9.0\AndroidManifest.xml:21:9-23:69
+62            android:name="com.google.android.gms.version"
+62-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\23b45063f76cb95bb5f6ef9bf6755748\transformed\play-services-basement-18.9.0\AndroidManifest.xml:22:13-58
+63            android:value="@integer/google_play_services_version" />
+63-->[com.google.android.gms:play-services-basement:18.9.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\23b45063f76cb95bb5f6ef9bf6755748\transformed\play-services-basement-18.9.0\AndroidManifest.xml:23:13-66
+64
+65        <activity
+65-->[androidx.compose.ui:ui-test-manifest:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\d06644c1c899db066aa43deef86f75a9\transformed\ui-test-manifest-1.11.2\AndroidManifest.xml:23:9-26:79
+66            android:name="androidx.activity.ComponentActivity"
+66-->[androidx.compose.ui:ui-test-manifest:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\d06644c1c899db066aa43deef86f75a9\transformed\ui-test-manifest-1.11.2\AndroidManifest.xml:24:13-63
+67            android:exported="true"
+67-->[androidx.compose.ui:ui-test-manifest:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\d06644c1c899db066aa43deef86f75a9\transformed\ui-test-manifest-1.11.2\AndroidManifest.xml:25:13-36
+68            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+68-->[androidx.compose.ui:ui-test-manifest:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\d06644c1c899db066aa43deef86f75a9\transformed\ui-test-manifest-1.11.2\AndroidManifest.xml:26:13-76
+69        <activity
+69-->[androidx.compose.ui:ui-tooling-android:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\77acbc9463f819e6ba909e30ac7784c9\transformed\ui-tooling\AndroidManifest.xml:23:9-25:39
+70            android:name="androidx.compose.ui.tooling.PreviewActivity"
+70-->[androidx.compose.ui:ui-tooling-android:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\77acbc9463f819e6ba909e30ac7784c9\transformed\ui-tooling\AndroidManifest.xml:24:13-71
+71            android:exported="true" />
+71-->[androidx.compose.ui:ui-tooling-android:1.11.2] C:\Users\harpe\.gradle\caches\9.4.1\transforms\77acbc9463f819e6ba909e30ac7784c9\transformed\ui-tooling\AndroidManifest.xml:25:13-36
+72
+73        <uses-library
+73-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:23:9-25:40
+74            android:name="androidx.window.extensions"
+74-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:24:13-54
+75            android:required="false" />
+75-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:25:13-37
+76        <uses-library
+76-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:26:9-28:40
+77            android:name="androidx.window.sidecar"
+77-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:27:13-51
+78            android:required="false" />
+78-->[androidx.window:window:1.5.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\c592294ce83ca464c77df840d7619436\transformed\window-1.5.0\AndroidManifest.xml:28:13-37
+79
+80        <provider
+80-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:24:9-32:20
+81            android:name="androidx.startup.InitializationProvider"
+81-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:25:13-67
+82            android:authorities="io.github.hkleinkeane.spegen.androidx-startup"
+82-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:26:13-68
+83            android:exported="false" >
+83-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:27:13-37
+84            <meta-data
+84-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:29:13-31:52
+85                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+85-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:30:17-75
+86                android:value="androidx.startup" />
+86-->[androidx.emoji2:emoji2:1.4.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\a4793052d572464876dc3cd6805554b3\transformed\emoji2-1.4.0\AndroidManifest.xml:31:17-49
+87            <meta-data
+87-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\2ed5c5363f7bce2e43a0a823dcedf230\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:29:13-31:52
+88                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+88-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\2ed5c5363f7bce2e43a0a823dcedf230\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:30:17-78
+89                android:value="androidx.startup" />
+89-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\2ed5c5363f7bce2e43a0a823dcedf230\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:31:17-49
+90            <meta-data
+90-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:29:13-31:52
+91                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+91-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:30:17-85
+92                android:value="androidx.startup" />
+92-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:31:17-49
+93        </provider>
+94
+95        <receiver
+95-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:34:9-52:20
+96            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+96-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:35:13-76
+97            android:directBootAware="false"
+97-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:36:13-44
+98            android:enabled="true"
+98-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:37:13-35
+99            android:exported="true"
+99-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:38:13-36
+100            android:permission="android.permission.DUMP" >
+100-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:39:13-57
+101            <intent-filter>
+101-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:40:13-42:29
+102                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+102-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:41:17-91
+102-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:41:25-88
+103            </intent-filter>
+104            <intent-filter>
+104-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:43:13-45:29
+105                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+105-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:44:17-85
+105-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:44:25-82
+106            </intent-filter>
+107            <intent-filter>
+107-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:46:13-48:29
+108                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+108-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:47:17-88
+108-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:47:25-85
+109            </intent-filter>
+110            <intent-filter>
+110-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:49:13-51:29
+111                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+111-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:50:17-95
+111-->[androidx.profileinstaller:profileinstaller:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\67d9f2f0b1579f49f35397f76f0d7408\transformed\profileinstaller-1.4.1\AndroidManifest.xml:50:25-92
+112            </intent-filter>
+113        </receiver>
+114    </application>
+115
+116</manifest>

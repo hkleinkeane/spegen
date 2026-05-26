@@ -66,8 +66,8 @@
 43-->C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:25:9-44
 44        <activity
 44-->C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:26:9-35:20
-45            android:name="io.github.hkleinkeane.spegen.MainActivity"
-45-->C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:27:13-41
+45            android:name="io.github.hkleinkeane.spegen.SpeGenActivity"
+45-->C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:27:13-43
 46            android:exported="true"
 46-->C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml:28:13-36
 47            android:theme="@style/Theme.SpeGen" >

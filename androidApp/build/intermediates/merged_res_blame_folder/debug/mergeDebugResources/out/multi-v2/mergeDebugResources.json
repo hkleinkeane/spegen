@@ -3183,9 +3183,9 @@
                     "from": {
                         "startLines": "14",
                         "startColumns": "4",
-                        "startOffsets": "740",
+                        "startOffsets": "754",
                         "endColumns": "51",
-                        "endOffsets": "787"
+                        "endOffsets": "801"
                     },
                     "to": {
                         "startLines": "85",
@@ -3238,9 +3238,9 @@
                     "from": {
                         "startLines": "14",
                         "startColumns": "4",
-                        "startOffsets": "740",
+                        "startOffsets": "754",
                         "endColumns": "83",
-                        "endOffsets": "819"
+                        "endOffsets": "833"
                     },
                     "to": {
                         "startLines": "336",
@@ -3374,9 +3374,9 @@
                     "from": {
                         "startLines": "19,14,15,16,17,18,20",
                         "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "971,740,787,834,881,926,1013",
+                        "startOffsets": "990,754,802,850,898,944,1033",
                         "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "1008,782,829,876,921,966,1050"
+                        "endOffsets": "1027,796,844,892,938,984,1070"
                     },
                     "to": {
                         "startLines": "77,82,83,84,86,87,88",
@@ -3444,9 +3444,9 @@
                     "from": {
                         "startLines": "13",
                         "startColumns": "4",
-                        "startOffsets": "701",
+                        "startOffsets": "714",
                         "endColumns": "43",
-                        "endOffsets": "740"
+                        "endOffsets": "753"
                     },
                     "to": {
                         "startLines": "205",

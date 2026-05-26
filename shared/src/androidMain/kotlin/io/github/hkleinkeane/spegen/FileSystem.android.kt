@@ -22,14 +22,27 @@ import java.util.zip.ZipOutputStream
 
 actual fun cleanOrphanedCustomImages() {
     val imageDir = File(androidAppContext.filesDir, "custom_images")
-    if (!imageDir.exists()) return
-    val referenced = MenuList
-        .flatMap { it.custom_image_paths }
-        .filter { it.isNotBlank() }
-        .map { File(it).name }
-        .toSet()
-    imageDir.listFiles()?.forEach { file ->
-        if (file.name !in referenced) file.delete()
+    if (imageDir.exists()) {
+        val referencedImages = MenuList
+            .flatMap { it.custom_image_paths }
+            .filter { it.isNotBlank() }
+            .map { File(it).name }
+            .toSet()
+        imageDir.listFiles()?.forEach { file ->
+            if (file.name !in referencedImages) file.delete()
+        }
+    }
+
+    val audioDir = File(androidAppContext.filesDir, "custom_audio")
+    if (audioDir.exists()) {
+        val referencedAudio = MenuList
+            .flatMap { it.custom_audio_paths }
+            .filter { it.isNotBlank() }
+            .map { File(it).name }
+            .toSet()
+        audioDir.listFiles()?.forEach { file ->
+            if (file.name !in referencedAudio) file.delete()
+        }
     }
 }
 
@@ -62,12 +75,18 @@ private fun copyImageToPrivateStorage(uri: Uri, itemKey: String): String {
 private fun exportToZip(outputUri: Uri) {
     val context = androidAppContext
     val imageDir = File(context.filesDir, "custom_images")
+    val audioDir = File(context.filesDir, "custom_audio")
     val exportState = currentPersistedState().copy(
         menu_list = MenuList.map { menu ->
             menu.copy(
                 custom_image_paths = menu.custom_image_paths.map { path ->
                     if (path.isNotBlank() && File(path).exists())
                         "custom_images/${File(path).name}"
+                    else path
+                },
+                custom_audio_paths = menu.custom_audio_paths.map { path ->
+                    if (path.isNotBlank() && File(path).exists())
+                        "custom_audio/${File(path).name}"
                     else path
                 }
             )
@@ -83,6 +102,11 @@ private fun exportToZip(outputUri: Uri) {
                 f.inputStream().use { it.copyTo(zip) }
                 zip.closeEntry()
             }
+            audioDir.listFiles()?.forEach { f ->
+                zip.putNextEntry(ZipEntry("custom_audio/${f.name}"))
+                f.inputStream().use { it.copyTo(zip) }
+                zip.closeEntry()
+            }
         }
     }
 }
@@ -90,6 +114,7 @@ private fun exportToZip(outputUri: Uri) {
 private fun importFromZip(inputUri: Uri) {
     val context = androidAppContext
     val imageDir = File(context.filesDir, "custom_images").also { it.mkdirs() }
+    val audioDir = File(context.filesDir, "custom_audio").also { it.mkdirs() }
     val input = context.contentResolver.openInputStream(inputUri)
         ?: throw Exception("Could not open the selected file.")
     input.use { inStream ->
@@ -110,6 +135,12 @@ private fun importFromZip(inputUri: Uri) {
                             File(imageDir, fileName).outputStream().use { zip.copyTo(it) }
                         }
                     }
+                    entry.name.startsWith("custom_audio/") -> {
+                        val fileName = entry.name.removePrefix("custom_audio/")
+                        if (fileName.isNotBlank()) {
+                            File(audioDir, fileName).outputStream().use { zip.copyTo(it) }
+                        }
+                    }
                 }
                 zip.closeEntry()
                 entry = zip.nextEntry
@@ -123,6 +154,12 @@ private fun importFromZip(inputUri: Uri) {
                         custom_image_paths = menu.custom_image_paths.map { path ->
                             if (path.startsWith("custom_images/")) {
                                 val dest = File(imageDir, path.removePrefix("custom_images/"))
+                                if (dest.exists()) dest.absolutePath else ""
+                            } else path
+                        },
+                        custom_audio_paths = menu.custom_audio_paths.map { path ->
+                            if (path.startsWith("custom_audio/")) {
+                                val dest = File(audioDir, path.removePrefix("custom_audio/"))
                                 if (dest.exists()) dest.absolutePath else ""
                             } else path
                         }

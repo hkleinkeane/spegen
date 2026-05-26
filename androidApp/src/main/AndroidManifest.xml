@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpeGen" >
         <activity
-            android:name=".MainActivity"
+            android:name=".SpeGenActivity"
             android:exported="true"
             android:theme="@style/Theme.SpeGen">
             <intent-filter>

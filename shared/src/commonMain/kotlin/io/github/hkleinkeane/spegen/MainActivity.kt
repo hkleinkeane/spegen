@@ -214,7 +214,17 @@ var inputboxselecteditems_text = mutableStateListOf<String>()
 
 var inputboxselecteditems_has_symbol = mutableStateListOf<Boolean>()
 
+// Parallel lists for audio path and pronunciation override per input-box token
+var inputboxselecteditems_audio = mutableStateListOf<String>()
+var inputboxselecteditems_pron = mutableStateListOf<String>()
+
 var ttsEngine: MutableState<TtsEngine?> = mutableStateOf(null)
+
+// Bigram autocomplete model – persisted so it improves over time
+var ngram_model = mutableStateOf(seedNgramModel())
+
+// Controls whether AutocompleteMenu replaces the symbol grid
+var show_autocomplete = mutableStateOf(false)
 
 var wordfinder_display = mutableIntStateOf(0)
 
@@ -297,7 +307,8 @@ fun App() {
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        loadAllPreferences()
+        val isReturningUser = loadAllPreferences()
+        if (!isReturningUser) show_tutorial.value = true
     }
 
     DisposableEffect(lifecycleOwner) {
@@ -464,6 +475,9 @@ fun resetToDefaults() {
     // Clear composed sentence
     inputboxselecteditems_text.clear()
     inputboxselecteditems_has_symbol.clear()
+    inputboxselecteditems_audio.clear()
+    inputboxselecteditems_pron.clear()
+    show_autocomplete.value = false
 
     // Clear all wordfinder state
     wordfinder_display.intValue = 0
@@ -509,6 +523,9 @@ fun resetToDefaults() {
     tts_pause_between_words.value = false
     tts_pause_duration.longValue = 500L
 
+    // Reset ngram model
+    ngram_model.value = seedNgramModel()
+
     // Refresh screen
     screen_display.value = false
 
@@ -518,6 +535,63 @@ fun resetToDefaults() {
     menu_row_text_size.floatValue = 16f
     menu_row_text_padding.floatValue = 4f
 }
+
+// ---------------------------------------------------------------------------
+// Bigram n-gram model for word prediction / autocomplete
+// ---------------------------------------------------------------------------
+
+@Serializable
+data class NgramModel(
+    /** bigrams[word][nextWord] = occurrence count */
+    val bigrams: Map<String, Map<String, Int>> = emptyMap()
+)
+
+/**
+ * Format a Float to exactly one decimal place without java.lang.String.format.
+ * Works on all KMP targets (no java.util dependency).
+ */
+private fun Float.oneDecimal(): String {
+    val v = kotlin.math.round(this * 10).toInt()
+    val whole = v / 10
+    val frac = kotlin.math.abs(v % 10)
+    return "$whole.$frac"
+}
+
+/** Returns a pre-seeded NgramModel with common AAC phrase patterns. */
+fun seedNgramModel(): NgramModel {
+    val pairs = listOf(
+        "i" to "want", "i" to "need", "i" to "like", "i" to "don't",
+        "i" to "feel", "i" to "am", "i" to "go", "i" to "eat",
+        "want" to "more", "want" to "help", "want" to "to",
+        "more" to "please", "need" to "help",
+        "stop" to "please", "yes" to "please",
+        "i" to "stop", "please" to "help"
+    )
+    val bigrams = mutableMapOf<String, MutableMap<String, Int>>()
+    for ((first, second) in pairs) {
+        val map = bigrams.getOrPut(first) { mutableMapOf() }
+        map[second] = (map[second] ?: 0) + 1
+    }
+    return NgramModel(bigrams.mapValues { it.value.toMap() })
+}
+
+/**
+ * Record that [nextWord] followed [prevWord] and update [ngram_model] in place.
+ * Call this whenever a word is appended to the input box.
+ */
+fun updateNgramModel(prevWord: String, nextWord: String) {
+    val prev = prevWord.lowercase().trim()
+    val next = nextWord.lowercase().trim()
+    if (prev.isBlank() || next.isBlank()) return
+    val current = ngram_model.value
+    val updated = current.bigrams.toMutableMap()
+    val followers = (updated[prev] ?: emptyMap()).toMutableMap()
+    followers[next] = (followers[next] ?: 0) + 1
+    updated[prev] = followers
+    ngram_model.value = NgramModel(updated)
+}
+
+// ---------------------------------------------------------------------------
 
 @Serializable
 data class PersistedState(
@@ -540,20 +614,34 @@ data class PersistedState(
     val static_row_text_size: Float = 16f,
     val static_row_text_padding: Float = 4f,
     val menu_row_text_size: Float = 16f,
-    val menu_row_text_padding: Float = 4f
+    val menu_row_text_padding: Float = 4f,
+    val ngram_model: NgramModel = NgramModel()
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
     menu_list = menu_list.map { menu ->
         val n = menu.item_list.size
-        val uuids = menu.item_uuids.toMutableList()
-        val urls  = menu.image_urls.toMutableList()
-        val custom = menu.custom_image_paths.toMutableList()
+        val uuids       = menu.item_uuids.toMutableList()
+        val urls        = menu.image_urls.toMutableList()
+        val custom      = menu.custom_image_paths.toMutableList()
+        val audioPaths  = menu.custom_audio_paths.toMutableList()
+        val audioNames  = menu.custom_audio_names.toMutableList()
+        val pronOvr     = menu.pronunciation_overrides.toMutableList()
         @OptIn(ExperimentalUuidApi::class)
-        while (uuids.size  < n) uuids.add(Uuid.random().toString())
-        while (urls.size   < n) urls.add("")
-        while (custom.size < n) custom.add("")
-        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom)
+        while (uuids.size      < n) uuids.add(Uuid.random().toString())
+        while (urls.size       < n) urls.add("")
+        while (custom.size     < n) custom.add("")
+        while (audioPaths.size < n) audioPaths.add("")
+        while (audioNames.size < n) audioNames.add("")
+        while (pronOvr.size    < n) pronOvr.add("")
+        menu.copy(
+            item_uuids            = uuids,
+            image_urls            = urls,
+            custom_image_paths    = custom,
+            custom_audio_paths    = audioPaths,
+            custom_audio_names    = audioNames,
+            pronunciation_overrides = pronOvr
+        )
     }
 )
 
@@ -583,6 +671,7 @@ fun load_vars(state: PersistedState) {
     static_row_text_padding.floatValue = state.static_row_text_padding
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
+    ngram_model.value = state.ngram_model
 
     MenuList.clear()
     MenuList.addAll(state.menu_list)
@@ -593,15 +682,20 @@ fun load_vars(state: PersistedState) {
     println("SpeGen load_vars END: MenuList Home cip=${h?.custom_image_paths}")
 }
 
-suspend fun loadAllPreferences() {
-    val json = AppStorage.loadJson() ?: return
+/**
+ * Loads all preferences from storage.
+ * Returns true if data was found (returning user), false on a fresh install.
+ */
+suspend fun loadAllPreferences(): Boolean {
+    val json = AppStorage.loadJson() ?: return false
     val state = try {
         Json { ignoreUnknownKeys = true }.decodeFromString<PersistedState>(json).withPaddedLists()
     } catch (e: Exception) {
         println("Failed to load preferences: ${e.message}")
-        return
+        return false
     }
     load_vars(state)
+    return true
 }
 
 fun currentPersistedState(): PersistedState = PersistedState(
@@ -624,7 +718,8 @@ fun currentPersistedState(): PersistedState = PersistedState(
     static_row_text_size = static_row_text_size.floatValue,
     static_row_text_padding = static_row_text_padding.floatValue,
     menu_row_text_size = menu_row_text_size.floatValue,
-    menu_row_text_padding = menu_row_text_padding.floatValue
+    menu_row_text_padding = menu_row_text_padding.floatValue,
+    ngram_model = ngram_model.value
 )
 
 suspend fun saveAllPreferences() {
@@ -982,6 +1077,29 @@ fun navigateTo(menuId: Int) {
     switchmenuparser.value++
 }
 
+/**
+ * Speak a single item, choosing between custom audio, pronunciation override, and TTS.
+ * Falls back gracefully when menu_id / item_index are not available.
+ */
+fun speakItem(menuId: Int, itemIndex: Int, displayName: String) {
+    val menu = MenuFinder(menuId)
+    val audioPath = menu.custom_audio_paths.getOrNull(itemIndex)?.takeIf { it.isNotBlank() }
+    val pron      = menu.pronunciation_overrides.getOrNull(itemIndex)?.takeIf { it.isNotBlank() }
+    when {
+        audioPath != null -> playAudioFile(audioPath)
+        pron != null -> ttsEngine.value?.speak(pron, TtsEngine.QUEUE_FLUSH, "item_$menuId.$itemIndex")
+        tts_pause_between_words.value -> {
+            val words = displayName.split(" ")
+            ttsEngine.value?.speak(words[0], TtsEngine.QUEUE_FLUSH, "word_0")
+            for (i in 1 until words.size) {
+                ttsEngine.value?.playSilentUtterance(tts_pause_duration.value, TtsEngine.QUEUE_ADD, "pause_$i")
+                ttsEngine.value?.speak(words[i], TtsEngine.QUEUE_ADD, "word_$i")
+            }
+        }
+        else -> ttsEngine.value?.speak(displayName, TtsEngine.QUEUE_FLUSH, "item_$menuId.$itemIndex")
+    }
+}
+
 @Composable
 fun TutorialOverlay(onFinish: () -> Unit) {
     val slides = listOf(
@@ -1096,26 +1214,12 @@ fun InputBox(modifier: Modifier) {
                 .border(4.dp, Color.Black)
                 .clickable {
                     if (ttsEngine.value?.isSpeaking == true) {
-                        ttsEngine.value?.stop()
-                    } else if (tts_pause_between_words.value && inputboxselecteditems_text.isNotEmpty()) {
-                        ttsEngine.value?.speak(
-                            inputboxselecteditems_text[0],
-                            TtsEngine.QUEUE_FLUSH, "word_0"
-                        )
-                        for (i in 1 until inputboxselecteditems_text.size) {
-                            ttsEngine.value?.playSilentUtterance(
-                                tts_pause_duration.value,
-                                TtsEngine.QUEUE_ADD,
-                                "pause_$i"
-                            )
-                            ttsEngine.value?.speak(
-                                inputboxselecteditems_text[i],
-                                TtsEngine.QUEUE_ADD, "word_$i"
-                            )
-                        }
-                    } else {
-                        val speech = inputboxselecteditems_text.joinToString(" ")
-                        ttsEngine.value?.speak(speech, TtsEngine.QUEUE_FLUSH, "")
+                        stopSentenceSequenced()
+                    } else if (inputboxselecteditems_text.isNotEmpty()) {
+                        val words      = inputboxselecteditems_text.toList()
+                        val audioPaths = inputboxselecteditems_audio.toList()
+                        val pauseMs    = if (tts_pause_between_words.value) tts_pause_duration.value else 0L
+                        playSentenceSequenced(words, audioPaths, pauseMs) {}
                     }
                 }
         ) {
@@ -1239,61 +1343,48 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                         show_edit_item_dialog.value = true
                         return@clickable
                     }
-                    if (tts_type == 0) {
-                        if (ttsEngine.value?.isSpeaking == true) {
-                            ttsEngine.value?.stop()
-                        }
-                        if (tts_pause_between_words.value) {
-                            val splitwords = name.split(" ")
-                            ttsEngine.value?.speak(
-                                splitwords[0],
-                                TtsEngine.QUEUE_FLUSH, "word_0"
-                            )
-                            for (i in 1 until splitwords.size) {
-                                ttsEngine.value?.playSilentUtterance(
-                                    tts_pause_duration.value,
-                                    TtsEngine.QUEUE_ADD,
-                                    "pause_$i"
-                                )
-                                ttsEngine.value?.speak(
-                                    splitwords[i],
-                                    TtsEngine.QUEUE_ADD, "word_$i"
-                                )
+                    // ---- helpers for this click scope ----
+                    fun doSpeak() {
+                        if (menu_id != null && item_index != null) {
+                            speakItem(menu_id, item_index, name)
+                        } else {
+                            // Word-finder clone: no menu context, use TTS directly
+                            if (tts_pause_between_words.value) {
+                                val sw = name.split(" ")
+                                ttsEngine.value?.speak(sw[0], TtsEngine.QUEUE_FLUSH, "word_0")
+                                for (i in 1 until sw.size) {
+                                    ttsEngine.value?.playSilentUtterance(tts_pause_duration.value, TtsEngine.QUEUE_ADD, "pause_$i")
+                                    ttsEngine.value?.speak(sw[i], TtsEngine.QUEUE_ADD, "word_$i")
+                                }
+                            } else {
+                                ttsEngine.value?.speak(name, TtsEngine.QUEUE_FLUSH, "")
                             }
-                        } else ttsEngine.value?.speak(
-                            name, TtsEngine.QUEUE_FLUSH, ""
-                        )
+                        }
+                    }
+                    fun doAppend() {
+                        val prevWord = inputboxselecteditems_text.lastOrNull()
+                        val audioPath = if (menu_id != null && item_index != null)
+                            MenuFinder(menu_id).custom_audio_paths.getOrNull(item_index) ?: "" else ""
+                        val pron = if (menu_id != null && item_index != null)
+                            MenuFinder(menu_id).pronunciation_overrides.getOrNull(item_index) ?: "" else ""
+                        inputboxselecteditems_text      += name
+                        inputboxselecteditems_has_symbol += true
+                        inputboxselecteditems_audio      += audioPath
+                        inputboxselecteditems_pron       += pron
+                        if (prevWord != null) updateNgramModel(prevWord, name)
+                    }
+                    // ---- tts_type dispatch ----
+                    if (tts_type == 0) {
+                        if (ttsEngine.value?.isSpeaking == true) stopSentenceSequenced()
+                        doSpeak()
                     }
                     if (tts_type == 1) {
-                        inputboxselecteditems_text += name
-                        inputboxselecteditems_has_symbol += true
+                        doAppend()
                     }
                     if (tts_type == 2) {
-                        if (ttsEngine.value?.isSpeaking == true) {
-                            ttsEngine.value?.stop()
-                        }
-                        if (tts_pause_between_words.value) {
-                            val splitwords = name.split(" ")
-                            ttsEngine.value?.speak(
-                                splitwords[0],
-                                TtsEngine.QUEUE_FLUSH, "word_0"
-                            )
-                            for (i in 1 until splitwords.size) {
-                                ttsEngine.value?.playSilentUtterance(
-                                    tts_pause_duration.value,
-                                    TtsEngine.QUEUE_ADD,
-                                    "pause_$i"
-                                )
-                                ttsEngine.value?.speak(
-                                    splitwords[i],
-                                    TtsEngine.QUEUE_ADD, "word_$i"
-                                )
-                            }
-                        } else ttsEngine.value?.speak(
-                            name, TtsEngine.QUEUE_FLUSH, ""
-                        )
-                        inputboxselecteditems_text += name
-                        inputboxselecteditems_has_symbol += true
+                        if (ttsEngine.value?.isSpeaking == true) stopSentenceSequenced()
+                        doSpeak()
+                        doAppend()
                     }
                     if (!wordfinder_path_ids.isEmpty()) {
                         if (wordfinder_path_ids.size <= 1) {
@@ -1445,7 +1536,10 @@ data class menutemplate(
     val item_type: List<Boolean>, // False is for folder, true is for symbol
     val image_urls: List<String> = emptyList(), // resolved OpenSymbols URLs
     val item_uuids: List<String> = emptyList(),   // one UUID per item
-    val custom_image_paths: List<String> = emptyList()
+    val custom_image_paths: List<String> = emptyList(),
+    val custom_audio_paths: List<String> = emptyList(), // absolute paths to custom recorded/imported audio
+    val custom_audio_names: List<String> = emptyList(), // human-readable label for each audio clip
+    val pronunciation_overrides: List<String> = emptyList() // alternate TTS text (overrides the item name)
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -2533,7 +2627,7 @@ fun VoiceSettingsContent() {
                     tts_speech_rate.value < 1.1f -> "Normal"
                     tts_speech_rate.value < 1.5f -> "Fast"
                     else -> "Very fast"
-                } + "  (${String.format("%.1f", tts_speech_rate.value)}×)",
+                } + "  (${tts_speech_rate.value.oneDecimal()}×)",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
@@ -2563,7 +2657,7 @@ fun VoiceSettingsContent() {
                     tts_pitch.value < 1.1f -> "Normal"
                     tts_pitch.value < 1.4f -> "Slightly high"
                     else -> "High"
-                } + "  (${String.format("%.1f", tts_pitch.value)}×)",
+                } + "  (${tts_pitch.value.oneDecimal()}×)",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
@@ -2609,7 +2703,7 @@ fun VoiceSettingsContent() {
             ) {
                 Text("Pause duration", fontSize = 14.sp)
                 Text(
-                    "${"%.1f".format(tts_pause_duration.longValue / 1000f)}s",
+                    "${(tts_pause_duration.longValue / 1000f).oneDecimal()}s",
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -2772,6 +2866,9 @@ fun Buttonboxes() {
                     .clickable(onClick = {
                         inputboxselecteditems_text.clear()
                         inputboxselecteditems_has_symbol.clear()
+                        inputboxselecteditems_audio.clear()
+                        inputboxselecteditems_pron.clear()
+                        show_autocomplete.value = false
                     })
             ) {
                 Text(text = "Clear", color = Color.Black, modifier = Modifier
@@ -2791,13 +2888,30 @@ fun Buttonboxes() {
                     .clickable(onClick = {
                         if (inputboxselecteditems_text.isNotEmpty() && inputboxselecteditems_has_symbol.isNotEmpty()) {
                             inputboxselecteditems_text.removeAt(inputboxselecteditems_text.lastIndex)
-                            inputboxselecteditems_has_symbol.removeAt(
-                                inputboxselecteditems_has_symbol.lastIndex
-                            )
+                            inputboxselecteditems_has_symbol.removeAt(inputboxselecteditems_has_symbol.lastIndex)
+                            if (inputboxselecteditems_audio.isNotEmpty())
+                                inputboxselecteditems_audio.removeAt(inputboxselecteditems_audio.lastIndex)
+                            if (inputboxselecteditems_pron.isNotEmpty())
+                                inputboxselecteditems_pron.removeAt(inputboxselecteditems_pron.lastIndex)
                         }
                     })
             ) {
                 Text(text = "Delete", color = Color.Black, modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(3.dp))
+            }
+        }
+        //AUTOCOMPLETE TOGGLE (row 4, below the Back button)
+        Column() {
+            Box(
+                modifier = Modifier
+                    .offset(x_offset - button_boxes_width, y_offset + button_boxes_width * 4)
+                    .size(button_boxes_width)
+                    .background(color = if (show_autocomplete.value) Color(0xFFBBDEFB) else Color.White)
+                    .border(border = BorderStroke(2.dp, Color.Black))
+                    .clickable { show_autocomplete.value = !show_autocomplete.value }
+            ) {
+                Text(text = "Predict", color = Color.Black, modifier = Modifier
                     .align(Alignment.Center)
                     .padding(3.dp))
             }
@@ -3076,15 +3190,18 @@ fun killDanglingPointers() {
             if (ptr != null && ptr !in liveIds) idx else null
         }
         if (dead.isNotEmpty()) {
+            fun <T> List<T>.filterDead() = if (size == m.item_list.size) filterIndexed { idx, _ -> idx !in dead } else this
             MenuList[i] = m.copy(
-                item_list  = m.item_list.filterIndexed  { idx, _ -> idx !in dead },
-                pointers   = m.pointers.filterIndexed   { idx, _ -> idx !in dead },
-                tts        = m.tts.filterIndexed        { idx, _ -> idx !in dead },
-                item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in dead },
-                image_urls = if (m.image_urls.size == m.item_list.size)
-                    m.image_urls.filterIndexed { idx, _ -> idx !in dead } else m.image_urls,
-                item_uuids = if (m.item_uuids.size == m.item_list.size)
-                    m.item_uuids.filterIndexed { idx, _ -> idx !in dead } else m.item_uuids
+                item_list               = m.item_list.filterDead(),
+                pointers                = m.pointers.filterDead(),
+                tts                     = m.tts.filterDead(),
+                item_type               = m.item_type.filterDead(),
+                image_urls              = m.image_urls.filterDead(),
+                item_uuids              = m.item_uuids.filterDead(),
+                custom_image_paths      = m.custom_image_paths.filterDead(),
+                custom_audio_paths      = m.custom_audio_paths.filterDead(),
+                custom_audio_names      = m.custom_audio_names.filterDead(),
+                pronunciation_overrides = m.pronunciation_overrides.filterDead()
             )
         }
     }
@@ -3106,6 +3223,13 @@ fun EditItemDialog() {
     var currentCustomPath by remember {
         mutableStateOf(menu.custom_image_paths.getOrNull(idx) ?: "")
     }
+    var currentAudioPath by remember {
+        mutableStateOf(menu.custom_audio_paths.getOrNull(idx) ?: "")
+    }
+    var currentPronOverride by remember {
+        mutableStateOf(menu.pronunciation_overrides.getOrNull(idx) ?: "")
+    }
+    var isRecording by remember { mutableStateOf(false) }
     @OptIn(ExperimentalUuidApi::class)
     val itemUuid by remember {
         mutableStateOf(
@@ -3116,28 +3240,35 @@ fun EditItemDialog() {
     val pickImage = rememberPlatformImagePicker(itemUuid) { path ->
         currentCustomPath = path
     }
+    val pickAudio = rememberPlatformAudioPicker(itemUuid) { path ->
+        currentAudioPath = path
+    }
 
     // Commits dialog state into MenuList
     fun commitChanges() {
         val menuIndex = MenuList.indexOfFirst { it.id == menu.id }
         if (menuIndex >= 0) {
             val n = menu.item_list.size
-            val customPaths = menu.custom_image_paths.toMutableList()
-            while (customPaths.size < n) customPaths.add("")     // pad to full length
-            customPaths[idx] = currentCustomPath
-            println("SpeGen commitChanges idx=$idx currentCustomPath='$currentCustomPath' " +
-                    "customPaths=$customPaths menuId=${menu.id} menuIndex=$menuIndex")
+            fun <T> MutableList<T>.padTo(value: T) { while (size < n) add(value) }
+
+            val customPaths = menu.custom_image_paths.toMutableList().also { it.padTo(""); it[idx] = currentCustomPath }
+            val audioPaths  = menu.custom_audio_paths.toMutableList().also { it.padTo(""); it[idx] = currentAudioPath }
+            val audioNames  = menu.custom_audio_names.toMutableList().also { it.padTo("") }
+            val pronOvr     = menu.pronunciation_overrides.toMutableList().also { it.padTo(""); it[idx] = currentPronOverride }
+            println("SpeGen commitChanges idx=$idx customPath='$currentCustomPath' audioPath='$currentAudioPath' pron='$currentPronOverride'")
             val uuids = menu.item_uuids.toMutableList()
             @OptIn(ExperimentalUuidApi::class)
             while (uuids.size < n) uuids.add(Uuid.random().toString())
             uuids[idx] = itemUuid
 
             MenuList[menuIndex] = menu.copy(
-                item_list = menu.item_list.toMutableList().also { it[idx] = name.trim() },
-                tts = if (originalIsSymbol)
-                    menu.tts.toMutableList().also { it[idx] = ttsType } else menu.tts,
-                custom_image_paths = customPaths,
-                item_uuids = uuids
+                item_list               = menu.item_list.toMutableList().also { it[idx] = name.trim() },
+                tts                     = if (originalIsSymbol) menu.tts.toMutableList().also { it[idx] = ttsType } else menu.tts,
+                custom_image_paths      = customPaths,
+                custom_audio_paths      = audioPaths,
+                custom_audio_names      = audioNames,
+                pronunciation_overrides = pronOvr,
+                item_uuids              = uuids
             )
             switchmenuparser.value++
         }
@@ -3279,6 +3410,70 @@ fun EditItemDialog() {
                                         )
                                     }
                                 }
+                        }
+
+                        // ---- Audio ----
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("Custom audio", fontSize = 14.sp)
+                        if (currentAudioPath.isNotBlank()) {
+                            Text(
+                                "Audio: ${currentAudioPath.substringAfterLast('/')}",
+                                fontSize = 12.sp, color = Color.Gray
+                            )
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Button(onClick = { playAudioFile(currentAudioPath) }) {
+                                    Text("Preview")
+                                }
+                                Button(
+                                    onClick = { currentAudioPath = "" },
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+                                ) { Text("Clear audio") }
+                            }
+                        } else {
+                            Text("No custom audio", fontSize = 12.sp, color = Color.Gray)
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(onClick = pickAudio) { Text("Import audio") }
+                            Button(
+                                onClick = {
+                                    if (isRecording) {
+                                        val path = stopRecording()
+                                        if (path.isNotBlank()) currentAudioPath = path
+                                        isRecording = false
+                                    } else {
+                                        startRecording(itemUuid)
+                                        isRecording = true
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (isRecording) Color(0xFFD32F2F) else Color(0xFF388E3C)
+                                )
+                            ) { Text(if (isRecording) "Stop recording" else "Record") }
+                        }
+
+                        // ---- Pronunciation override ----
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("Pronunciation override", fontSize = 14.sp)
+                        Text(
+                            "Leave blank to speak the item name. Fill in an alternate spelling the TTS engine pronounces correctly.",
+                            fontSize = 11.sp, color = Color.Gray
+                        )
+                        TextField(
+                            value = currentPronOverride,
+                            onValueChange = { currentPronOverride = it },
+                            singleLine = true,
+                            placeholder = { Text("e.g. \"loo-goo-bree-us\"") }
+                        )
+                        if (currentPronOverride.isNotBlank()) {
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Button(onClick = {
+                                    ttsEngine.value?.speak(currentPronOverride, TtsEngine.QUEUE_FLUSH, "pron_preview")
+                                }) { Text("Preview") }
+                                Button(
+                                    onClick = { currentPronOverride = "" },
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+                                ) { Text("Clear") }
+                            }
                         }
                     }
                 }
@@ -3494,6 +3689,87 @@ fun EditorOverlay()
     )
 }
 
+/**
+ * Shows predicted next words derived from the bigram model, replacing the symbol grid
+ * when [show_autocomplete] is true. Each prediction displays its cached symbol image.
+ */
+@Composable
+fun AutocompleteMenu() {
+    val lastWord = inputboxselecteditems_text.lastOrNull()?.lowercase()?.trim() ?: ""
+    val predictions = remember(lastWord, ngram_model.value) {
+        ngram_model.value.bigrams[lastWord]
+            ?.entries
+            ?.sortedByDescending { it.value }
+            ?.take(8)
+            ?.map { it.key }
+            ?: emptyList()
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .border(2.dp, Color(0xFF90CAF9))
+            .padding(8.dp)
+    ) {
+        if (predictions.isEmpty()) {
+            Text(
+                "No predictions yet — tap symbols to build your vocabulary.",
+                fontSize = 13.sp,
+                color = Color.Gray,
+                modifier = Modifier.align(Alignment.Center).padding(16.dp)
+            )
+        } else {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(horizontal = 8.dp)
+            ) {
+                items(predictions.size) { i ->
+                    val word = predictions[i]
+                    val displayName = word.replaceFirstChar { it.titlecase() }
+                    var imageUrl by remember(word) { mutableStateOf(findCachedUrl(word)) }
+                    LaunchedEffect(word) {
+                        if (imageUrl.isBlank()) {
+                            imageUrl = useApiWithToken(accesstoken, word)?.image_url ?: ""
+                        }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .size(button_boxes_width * 1.2f)
+                            .background(Color.White)
+                            .border(2.dp, Color.Black, RoundedCornerShape(8.dp))
+                            .clickable {
+                                val prevWord = inputboxselecteditems_text.lastOrNull()
+                                inputboxselecteditems_text      += displayName
+                                inputboxselecteditems_has_symbol += true
+                                inputboxselecteditems_audio      += ""
+                                inputboxselecteditems_pron       += ""
+                                if (prevWord != null) updateNgramModel(prevWord, word)
+                                ttsEngine.value?.speak(displayName, TtsEngine.QUEUE_FLUSH, "autocomplete")
+                            }
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(imageUrl).build(),
+                            contentDescription = displayName,
+                            modifier = Modifier.fillMaxSize().padding(4.dp)
+                        )
+                        Text(
+                            text = displayName,
+                            fontSize = 10.sp,
+                            color = Color.Black,
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(2.dp),
+                            textAlign = TextAlign.Center,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun Screen() {
     if (screen_display.value) {
@@ -3515,7 +3791,11 @@ fun Screen() {
                 Buttonboxes()
                 MenuRow(Modifier)
                 InputBox(Modifier)
-                Menu(Modifier)
+                if (show_autocomplete.value) {
+                    AutocompleteMenu()
+                } else {
+                    Menu(Modifier)
+                }
             }
         }
     }
