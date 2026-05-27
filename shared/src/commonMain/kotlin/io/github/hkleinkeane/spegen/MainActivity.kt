@@ -1707,7 +1707,8 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     {
         item_text_padding = 5.dp
     }
-    LaunchedEffect(menutemplate.id, menutemplate.item_list, menutemplate.image_urls, menutemplate.custom_image_paths, switchmenuparser.value) {
+    val resolveScope = rememberCoroutineScope()
+    LaunchedEffect(menutemplate.id, switchmenuparser.value) {
         item_names.clear()
         item_urls.clear()
 
@@ -1718,31 +1719,16 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
         if (allResolved) {
             item_names.addAll(menutemplate.item_list)
             menutemplate.item_list.indices.forEach { idx ->
-                val u = menutemplate.displayUrl(idx)
-                println("SpeGen MenuParser idx=$idx custom=${menutemplate.custom_image_paths.getOrNull(idx)} -> $u")
-                item_urls.add(u)
+                item_urls.add(menutemplate.displayUrl(idx))
             }
         } else {
-            getAccessToken()
-            val resolved = mutableListOf<String>()
-            menutemplate.item_list.forEachIndexed { index, query ->
-                val existing = cachedUrls.getOrNull(index)
-                val url = if (!existing.isNullOrBlank()) existing
-                else useApiWithToken(accesstoken, query)?.image_url ?: ""
-                item_names.add(query)
-                resolved.add(url)
-            }
-            val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
-            if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
-                MenuList[menuIndex] = MenuList[menuIndex].copy(image_urls = resolved)
-                trigger_save.value = true
-            }
+            item_names.addAll(menutemplate.item_list)
             menutemplate.item_list.indices.forEach { idx ->
-                val custom = menutemplate.custom_image_paths.getOrNull(idx)
-                item_urls.add(
-                    if (!custom.isNullOrBlank()) custom
-                    else resolved.getOrNull(idx) ?: ""
-                )
+                item_urls.add(menutemplate.custom_image_paths.getOrNull(idx) ?: "")
+            }
+            val menuId = menutemplate.id
+            resolveScope.launch {
+                resolveMenuImages(menuId)
             }
         }
     }
@@ -1804,6 +1790,25 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 }
             }
         }
+    }
+}
+
+suspend fun resolveMenuImages(menuId: Int)
+{
+    val menuIndex = MenuList.indexOfFirst { it.id == menuId }
+    if (menuIndex < 0) return
+    val menu = MenuList[menuIndex]
+    val cachedUrls = menu.image_urls
+
+    val resolved = menu.item_list.mapIndexed { index, query
+        val existing = cachedUrls.getOrNull(index)
+        if (!existing.isNullOrBlank()) existing
+        else useApiWithToken(accesstoken, query.lowercase())?.image_url ?: ""
+    }
+    val freshIndex = MenuList.indexOfFirst { it.id == menuId }
+    if (freshIndex >= 0) {
+        MenuList[freshIndex] = MenuList[freshIndex].copy(image_urls = resolved)
+        trigger_save.value = true
     }
 }
 
