@@ -16,6 +16,7 @@ dependencies {
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.ktor)
 
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)

@@ -68,6 +68,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation("io.coil-kt.coil3:coil-svg:3.0.4")
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

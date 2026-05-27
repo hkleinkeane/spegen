@@ -731,11 +731,6 @@ fun load_vars(state: PersistedState) {
 
     MenuList.clear()
     MenuList.addAll(state.menu_list)
-
-    val h = MenuList.firstOrNull { it.id == 0 }
-    println("SpeGen load_vars END: incoming state Home cip=" +
-            "${state.menu_list.firstOrNull { it.id == 0 }?.custom_image_paths}")
-    println("SpeGen load_vars END: MenuList Home cip=${h?.custom_image_paths}")
 }
 
 /**
@@ -953,25 +948,24 @@ data class AccessTokenResponse(
 @Serializable
 @JsonIgnoreUnknownKeys
 data class ApiSymbolResponse(
-    // Data class for useApiWithToken to allow to parse the response data
-    val id: Int,
-    val symbol_key: String,
-    val name: String,
-    val locale: String,
-    val license: String,
-    val license_url: String,
-    val author: String,
-    val author_url: String,
+    val id: Int? = null,
+    val symbol_key: String? = null,
+    val name: String? = null,
+    val locale: String? = null,
+    val license: String? = null,
+    val license_url: String? = null,
+    val author: String? = null,
+    val author_url: String? = null,
     val source_url: String? = null,
     val skins: Boolean? = false,
-    val repo_key: String,
+    val repo_key: String? = null,
     val hc: Boolean? = false,
-    val extension: String,
-    val image_url: String,
+    val extension: String? = null,
+    val image_url: String? = null,
     val search_string: String? = null,
-    val unsafe_result: Boolean,
-    val _href: String,
-    val details_url: String
+    val unsafe_result: Boolean? = null,
+    val _href: String? = null,
+    val details_url: String? = null
 )
 
 suspend fun getAccessToken(): AccessTokenResponse? {
@@ -1793,22 +1787,47 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     }
 }
 
-suspend fun resolveMenuImages(menuId: Int)
-{
+suspend fun resolveMenuImages(menuId: Int) {
+    var waited = 0
+    while (accesstoken.isBlank() && waited < 30) {
+        kotlinx.coroutines.delay(300)
+        waited++
+    }
+    if (accesstoken.isBlank()) {
+        getAccessToken()
+        if (accesstoken.isBlank()) {
+            println("resolveMenuImages: no token, giving up for menu $menuId")
+            return
+        }
+    }
+
     val menuIndex = MenuList.indexOfFirst { it.id == menuId }
     if (menuIndex < 0) return
     val menu = MenuList[menuIndex]
     val cachedUrls = menu.image_urls
 
-    val resolved = menu.item_list.mapIndexed { index, query
+    if (cachedUrls.size == menu.item_list.size && cachedUrls.none { it.isBlank() }) {
+        return
+    }
+
+    val resolved = menu.item_list.mapIndexed { index, query ->
         val existing = cachedUrls.getOrNull(index)
         if (!existing.isNullOrBlank()) existing
         else useApiWithToken(accesstoken, query.lowercase())?.image_url ?: ""
     }
-    val freshIndex = MenuList.indexOfFirst { it.id == menuId }
-    if (freshIndex >= 0) {
-        MenuList[freshIndex] = MenuList[freshIndex].copy(image_urls = resolved)
-        trigger_save.value = true
+
+    if (resolved.any { it.isNotBlank() }) {
+        val freshIndex = MenuList.indexOfFirst { it.id == menuId }
+        if (freshIndex >= 0) {
+            val freshMenu = MenuList[freshIndex]
+            val merged = freshMenu.item_list.mapIndexed { i, _ ->
+                val current = freshMenu.image_urls.getOrNull(i)
+                if (!current.isNullOrBlank()) current
+                else resolved.getOrNull(i) ?: ""
+            }
+            MenuList[freshIndex] = freshMenu.copy(image_urls = merged)
+            trigger_save.value = true
+        }
     }
 }
 
