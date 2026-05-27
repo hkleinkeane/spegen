@@ -122,6 +122,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -3872,15 +3873,18 @@ fun EditItemDialog() {
     var loadingMore by remember { mutableStateOf(false) }
     var loadMoreTrigger by remember { mutableIntStateOf(0) }
     var loadMore by remember { mutableStateOf(true) }
+    val scrollState = rememberScrollState()
 
     AlertDialog(
         onDismissRequest = {
             commitChanges()
             show_edit_item_dialog.value = false
         },
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        modifier = Modifier.size(screenWidth-(button_boxes_width*4)),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Row {
+            Row(Modifier.verticalScroll(scrollState)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(end = 16.dp)
