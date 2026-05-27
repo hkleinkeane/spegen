@@ -344,6 +344,9 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        linked_menu.value = 0
+        menu_history.clear()
+        current_menu_id = 0
         runBlocking {
             val hadSave = loadAllPreferences(this@MainActivity)
             if (!hadSave) show_tutorial.value = true
