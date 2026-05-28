@@ -285,7 +285,6 @@ var tts_pause_between_words = mutableStateOf(false)
 var tts_pause_duration = mutableLongStateOf(500L)
 
 var screen_display = mutableStateOf(true)
-var menu_display = mutableStateOf(true)
 
 val static_row_text_size = mutableFloatStateOf(16f)
 val static_row_text_padding = mutableFloatStateOf(8f)
@@ -307,16 +306,15 @@ private val lenientJson = Json { ignoreUnknownKeys = true }
 
 @Composable
 fun App() {
-    linked_menu.value = 0
-    menu_history.clear()
-    current_menu_id = 0
-
     ttsEngine = rememberTtsEngine()
     val platformContext = LocalPlatformContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
+        linked_menu.value = 0
+        menu_history.clear()
+        current_menu_id = 0
         val isReturningUser = loadAllPreferences()
         if (!isReturningUser) show_tutorial.value = true
     }
@@ -538,7 +536,6 @@ fun resetToDefaults() {
 
     // Refresh screen
     screen_display.value = false
-    menu_display.value = false
 
     // Reset row variables
     static_row_text_size.floatValue = 16f
@@ -1796,7 +1793,6 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
 }
 
 suspend fun resolveMenuImages(menuId: Int) {
-    menu_display.value = false
     if (accesstoken.isBlank()) {
         getAccessToken()
         if (accesstoken.isBlank()) {
@@ -1830,33 +1826,27 @@ suspend fun resolveMenuImages(menuId: Int) {
                 else resolved.getOrNull(i) ?: ""
             }
             MenuList[freshIndex] = freshMenu.copy(image_urls = merged)
+            switchmenuparser.value++
             trigger_save.value = true
         }
     }
-    menu_display.value = true
 }
 
 @Composable
 fun Menu(modifier: Modifier) {
     menu_height = (screenHeight - menu_static_row_height - static_row_height - input_box_height)
     menu_width = screenWidth - (button_boxes_width * 2)
-    if (menu_display.value) {
+    Column(
+        modifier = Modifier.alpha(1f)
+    ) {
         Column(
-            modifier = Modifier.alpha(1f)
+            modifier = modifier
+                .width(menu_width)
+                .height(menu_height)
+                .offset(x = 0.dp, y = input_box_height)
         ) {
-            Column(
-                modifier = modifier
-                    .width(menu_width)
-                    .height(menu_height)
-                    .offset(x = 0.dp, y = input_box_height)
-            ) {
-                MenuParser(MenuFinder(linked_menu.value))
-            }
+            MenuParser(MenuFinder(linked_menu.value))
         }
-    }
-    if (!menu_display.value)
-    {
-        menu_display.value = !menu_display.value
     }
 }
 

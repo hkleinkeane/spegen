@@ -4,285 +4,7 @@
             "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-41:/values/values.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\451004d314efa83ce7ca0d3b70d98a3f\\transformed\\androidsvg-aar-1.4\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "141",
-                        "endOffsets": "192"
-                    },
-                    "to": {
-                        "startLines": "526",
-                        "startColumns": "4",
-                        "startOffsets": "25821",
-                        "endColumns": "141",
-                        "endOffsets": "25958"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\48a5a2c7f83430b5cb5d14aa5f58931b\\transformed\\savedstate\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "53",
-                        "endOffsets": "104"
-                    },
-                    "to": {
-                        "startLines": "197",
-                        "startColumns": "4",
-                        "startOffsets": "9568",
-                        "endColumns": "53",
-                        "endOffsets": "9617"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8555129a1de983b9b122adf26893fd2e\\transformed\\material3\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22,23,24,25,26,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,89",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "102,175,263,349,430,514,583,656,721,804,910,996,1116,1170,1239,1300,1369,1458,1553,1627,1724,1817,1915,2064,2155,2243,2339,2437,2501,2569,2656,2750,2817,2889,2961,3062,3171,3247,3316,3364,3430,3494,3568,3643,3714,3791,3848,3905,3963,4035,4102,4152,4221,4275,4346,4419,4496,4567,4637,4706,4764,4841,4917,4988,5062,5148,5198,5284,5362,5432,5497,5574,5656,6436",
-                        "endLines": "2,3,4,5,6,7,8,9,10,11,12,15,16,17,18,19,20,21,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,88,91",
-                        "endColumns": "72,87,85,80,83,68,72,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,73,74,70,76,56,56,57,71,66,49,68,53,70,72,76,70,69,68,57,76,75,70,73,85,49,85,77,69,64,76,81,12,12",
-                        "endOffsets": "170,258,344,425,509,578,651,716,799,905,991,1111,1165,1234,1295,1364,1453,1548,1622,1719,1812,1910,2059,2150,2238,2334,2432,2496,2564,2651,2745,2812,2884,2956,3057,3166,3242,3311,3359,3425,3489,3563,3638,3709,3786,3843,3900,3958,4030,4097,4147,4216,4270,4341,4414,4491,4562,4632,4701,4759,4836,4912,4983,5057,5143,5193,5279,5357,5427,5492,5569,5651,6431,6584"
-                    },
-                    "to": {
-                        "startLines": "200,220,221,222,223,224,225,226,227,228,229,230,233,234,235,236,237,238,239,240,241,242,243,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,313,324",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "9725,11104,11192,11278,11359,11443,11512,11585,11650,11733,11839,11925,12045,12099,12168,12229,12298,12387,12482,12556,12653,12746,12844,12993,13084,13172,13268,13366,13430,13498,13585,13679,13746,13818,13890,13991,14100,14176,14245,14293,14359,14423,14497,14572,14643,14720,14777,14834,14892,14964,15031,15081,15150,15204,15275,15348,15425,15496,15566,15635,15693,15770,15846,15917,15991,16077,16127,16213,16291,16361,16426,16503,17504,18284",
-                        "endLines": "200,220,221,222,223,224,225,226,227,228,229,232,233,234,235,236,237,238,239,240,241,242,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,323,326",
-                        "endColumns": "72,87,85,80,83,68,72,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,73,74,70,76,56,56,57,71,66,49,68,53,70,72,76,70,69,68,57,76,75,70,73,85,49,85,77,69,64,76,81,12,12",
-                        "endOffsets": "9793,11187,11273,11354,11438,11507,11580,11645,11728,11834,11920,12040,12094,12163,12224,12293,12382,12477,12551,12648,12741,12839,12988,13079,13167,13263,13361,13425,13493,13580,13674,13741,13813,13885,13986,14095,14171,14240,14288,14354,14418,14492,14567,14638,14715,14772,14829,14887,14959,15026,15076,15145,15199,15270,15343,15420,15491,15561,15630,15688,15765,15841,15912,15986,16072,16122,16208,16286,16356,16421,16498,16580,18279,18432"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\AndroidStudioProjects\\spegen\\androidApp\\src\\main\\res\\values\\spegen_background.xml",
-                    "from": {
-                        "startLines": "14",
-                        "startColumns": "4",
-                        "startOffsets": "754",
-                        "endColumns": "51",
-                        "endOffsets": "801"
-                    },
-                    "to": {
-                        "startLines": "85",
-                        "startColumns": "4",
-                        "startOffsets": "3108",
-                        "endColumns": "51",
-                        "endOffsets": "3155"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\dc58c5bb2b59b3c01b788b3c7fe8015d\\transformed\\appcompat-resources-1.7.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,18,24,34,50",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "55,480,658,942,1353",
-                        "endLines": "17,23,33,49,53",
-                        "endColumns": "24,24,24,24,24",
-                        "endOffsets": "475,653,937,1348,1475"
-                    },
-                    "to": {
-                        "startLines": "356,372,378,572,588",
-                        "startColumns": "4,4,4,4,4",
-                        "startOffsets": "20185,20610,20788,27771,28182",
-                        "endLines": "371,377,387,587,591",
-                        "endColumns": "24,24,24,24,24",
-                        "endOffsets": "20605,20783,21067,28177,28304"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\cf83522b32bc4472cf8180e76043c9d2\\transformed\\ui\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,65",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "2064,2139,2213,2272,2330,2385,2436,2491,2544,2610,2675,2729,2795,2898,2956,3008,3068,3130,3184,3234,3288,3334,3388,3434,3476,3516,3563,3599,3693,3805",
-                        "endLines": "34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,68",
-                        "endColumns": "74,73,58,57,54,50,54,52,65,64,53,65,102,57,51,59,61,53,49,53,45,53,45,41,39,46,35,93,12,12",
-                        "endOffsets": "2134,2208,2267,2325,2380,2431,2486,2539,2605,2670,2724,2790,2893,2951,3003,3063,3125,3179,3229,3283,3329,3383,3429,3471,3511,3558,3594,3688,3800,3982"
-                    },
-                    "to": {
-                        "startLines": "146,147,149,152,153,157,158,199,203,213,214,215,216,217,218,219,295,296,297,298,299,300,301,302,303,305,306,307,310,327",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "6844,6919,7053,7219,7277,7485,7536,9672,9942,10646,10711,10765,10831,10934,10992,11044,16585,16647,16701,16751,16805,16851,16905,16951,16993,17104,17151,17187,17392,18437",
-                        "endLines": "146,147,149,152,153,157,158,199,203,213,214,215,216,217,218,219,295,296,297,298,299,300,301,302,303,305,306,307,312,330",
-                        "endColumns": "74,73,58,57,54,50,54,52,65,64,53,65,102,57,51,59,61,53,49,53,45,53,45,41,39,46,35,93,12,12",
-                        "endOffsets": "6914,6988,7107,7272,7327,7531,7586,9720,10003,10706,10760,10826,10929,10987,11039,11099,16642,16696,16746,16800,16846,16900,16946,16988,17028,17146,17182,17276,17499,18614"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\AndroidStudioProjects\\spegen\\androidApp\\src\\main\\res\\values\\themes.xml",
-                    "from": {
-                        "startLines": "14",
-                        "startColumns": "4",
-                        "startOffsets": "754",
-                        "endColumns": "83",
-                        "endOffsets": "833"
-                    },
-                    "to": {
-                        "startLines": "336",
-                        "startColumns": "4",
-                        "startOffsets": "19225",
-                        "endColumns": "82",
-                        "endOffsets": "19303"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\7f3777f6d13026b94d0dffe3de80531b\\transformed\\navigationevent\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "60",
-                        "endOffsets": "111"
-                    },
-                    "to": {
-                        "startLines": "195",
-                        "startColumns": "4",
-                        "startOffsets": "9447",
-                        "endColumns": "60",
-                        "endOffsets": "9503"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\a1923863c2ca504993bf8a738423a88b\\transformed\\lifecycle-viewmodel\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "49",
-                        "endOffsets": "100"
-                    },
-                    "to": {
-                        "startLines": "198",
-                        "startColumns": "4",
-                        "startOffsets": "9622",
-                        "endColumns": "49",
-                        "endOffsets": "9667"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\abc7a6a3607aca8d93452d72a299d95a\\transformed\\startup-runtime-1.1.1\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "82",
-                        "endOffsets": "133"
-                    },
-                    "to": {
-                        "startLines": "204",
-                        "startColumns": "4",
-                        "startOffsets": "10008",
-                        "endColumns": "82",
-                        "endOffsets": "10086"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\d8c14c810f69291f68ea090b029bc9f6\\transformed\\coil-core-release\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "50",
-                        "endOffsets": "101"
-                    },
-                    "to": {
-                        "startLines": "150",
-                        "startColumns": "4",
-                        "startOffsets": "7112",
-                        "endColumns": "50",
-                        "endOffsets": "7158"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\ac21748dd8dc595b586daa38c37eb415\\transformed\\transition-1.6.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,95,142,185,240,287,332,386,442,494,546,595,656",
-                        "endColumns": "39,46,42,54,46,44,53,55,51,51,48,60,49",
-                        "endOffsets": "90,137,180,235,282,327,381,437,489,541,590,651,701"
-                    },
-                    "to": {
-                        "startLines": "154,155,162,165,166,185,186,187,188,189,190,191,192",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "7332,7372,7715,7867,7922,8942,8987,9041,9097,9149,9201,9250,9311",
-                        "endColumns": "39,46,42,54,46,44,53,55,51,51,48,60,49",
-                        "endOffsets": "7367,7414,7753,7917,7964,8982,9036,9092,9144,9196,9245,9306,9356"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\3664d4e984d26dad91ba2518747e754c\\transformed\\activity-1.13.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,97",
-                        "endColumns": "41,59",
-                        "endOffsets": "92,152"
-                    },
-                    "to": {
-                        "startLines": "164,196",
-                        "startColumns": "4,4",
-                        "startOffsets": "7825,9508",
-                        "endColumns": "41,59",
-                        "endOffsets": "7862,9563"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\3f66df1fa8a65fb52c58851ddd8892c7\\transformed\\foundation\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,111,185,241",
-                        "endColumns": "55,73,55,54",
-                        "endOffsets": "106,180,236,291"
-                    },
-                    "to": {
-                        "startLines": "151,202,308,309",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "7163,9868,17281,17337",
-                        "endColumns": "55,73,55,54",
-                        "endOffsets": "7214,9937,17332,17387"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\AndroidStudioProjects\\spegen\\androidApp\\src\\main\\res\\values\\colors.xml",
-                    "from": {
-                        "startLines": "19,14,15,16,17,18,20",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "990,754,802,850,898,944,1033",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "1027,796,844,892,938,984,1070"
-                    },
-                    "to": {
-                        "startLines": "77,82,83,84,86,87,88",
-                        "startColumns": "4,4,4,4,4,4,4",
-                        "startOffsets": "2613,2967,3014,3061,3160,3205,3250",
-                        "endColumns": "41,46,46,46,44,44,41",
-                        "endOffsets": "2650,3009,3056,3103,3200,3245,3287"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\324525bad4fb3e0ce727210a088e8993\\transformed\\customview-poolingcontainer-1.0.0\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,109",
-                        "endColumns": "53,66",
-                        "endOffsets": "104,171"
-                    },
-                    "to": {
-                        "startLines": "159,163",
-                        "startColumns": "4,4",
-                        "startOffsets": "7591,7758",
-                        "endColumns": "53,66",
-                        "endOffsets": "7640,7820"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8a4bcb2cccc38347969ed20a458a4a98\\transformed\\core-1.18.0\\res\\values\\values.xml",
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/8a4bcb2cccc38347969ed20a458a4a98/transformed/core-1.18.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,105,110,116,126,161,182,190,223",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -301,58 +23,164 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8e586023fa1dff54295ef97d898eebbe\\transformed\\lifecycle-runtime\\res\\values\\values.xml",
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/dc58c5bb2b59b3c01b788b3c7fe8015d/transformed/appcompat-resources-1.7.0/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,18,24,34,50",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,480,658,942,1353",
+                        "endLines": "17,23,33,49,53",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "475,653,937,1348,1475"
+                    },
+                    "to": {
+                        "startLines": "356,372,378,572,588",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "20185,20610,20788,27771,28182",
+                        "endLines": "371,377,387,587,591",
+                        "endColumns": "24,24,24,24,24",
+                        "endOffsets": "20605,20783,21067,28177,28304"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/451004d314efa83ce7ca0d3b70d98a3f/transformed/androidsvg-aar-1.4/res/values/values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "42",
-                        "endOffsets": "93"
+                        "endColumns": "141",
+                        "endOffsets": "192"
                     },
                     "to": {
-                        "startLines": "194",
+                        "startLines": "526",
                         "startColumns": "4",
-                        "startOffsets": "9404",
-                        "endColumns": "42",
-                        "endOffsets": "9442"
+                        "startOffsets": "25821",
+                        "endColumns": "141",
+                        "endOffsets": "25958"
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\AndroidStudioProjects\\spegen\\androidApp\\src\\main\\res\\values\\strings.xml",
+                    "source": "/Users/hklein-keane/AndroidStudioProjects/spegen/androidApp/src/main/res/values/spegen_background.xml",
                     "from": {
-                        "startLines": "13",
+                        "startLines": "14",
                         "startColumns": "4",
-                        "startOffsets": "714",
-                        "endColumns": "43",
-                        "endOffsets": "753"
+                        "startOffsets": "740",
+                        "endColumns": "51",
+                        "endOffsets": "787"
                     },
                     "to": {
-                        "startLines": "205",
+                        "startLines": "85",
                         "startColumns": "4",
-                        "startOffsets": "10091",
-                        "endColumns": "43",
-                        "endOffsets": "10130"
+                        "startOffsets": "3108",
+                        "endColumns": "51",
+                        "endOffsets": "3155"
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\cf0563eb39883df58dd01a1cf57f9c9c\\transformed\\ui-graphics\\res\\values\\values.xml",
+                    "source": "/Users/hklein-keane/AndroidStudioProjects/spegen/androidApp/src/main/res/values/themes.xml",
+                    "from": {
+                        "startLines": "14",
+                        "startColumns": "4",
+                        "startOffsets": "740",
+                        "endColumns": "83",
+                        "endOffsets": "819"
+                    },
+                    "to": {
+                        "startLines": "336",
+                        "startColumns": "4",
+                        "startOffsets": "19225",
+                        "endColumns": "82",
+                        "endOffsets": "19303"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/48a5a2c7f83430b5cb5d14aa5f58931b/transformed/savedstate/res/values/values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
-                        "endColumns": "65",
-                        "endOffsets": "116"
+                        "endColumns": "53",
+                        "endOffsets": "104"
                     },
                     "to": {
-                        "startLines": "156",
+                        "startLines": "197",
                         "startColumns": "4",
-                        "startOffsets": "7419",
-                        "endColumns": "65",
-                        "endOffsets": "7480"
+                        "startOffsets": "9568",
+                        "endColumns": "53",
+                        "endOffsets": "9617"
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\26620e18614a4c9aa23ced93163be3e2\\transformed\\core-viewtree-1.0.0\\res\\values\\values.xml",
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/abc7a6a3607aca8d93452d72a299d95a/transformed/startup-runtime-1.1.1/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "82",
+                        "endOffsets": "133"
+                    },
+                    "to": {
+                        "startLines": "204",
+                        "startColumns": "4",
+                        "startOffsets": "10008",
+                        "endColumns": "82",
+                        "endOffsets": "10086"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/8555129a1de983b9b122adf26893fd2e/transformed/material3/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22,23,24,25,26,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,89",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "102,175,263,349,430,514,583,656,721,804,910,996,1116,1170,1239,1300,1369,1458,1553,1627,1724,1817,1915,2064,2155,2243,2339,2437,2501,2569,2656,2750,2817,2889,2961,3062,3171,3247,3316,3364,3430,3494,3568,3643,3714,3791,3848,3905,3963,4035,4102,4152,4221,4275,4346,4419,4496,4567,4637,4706,4764,4841,4917,4988,5062,5148,5198,5284,5362,5432,5497,5574,5656,6436",
+                        "endLines": "2,3,4,5,6,7,8,9,10,11,12,15,16,17,18,19,20,21,22,23,24,25,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,88,91",
+                        "endColumns": "72,87,85,80,83,68,72,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,73,74,70,76,56,56,57,71,66,49,68,53,70,72,76,70,69,68,57,76,75,70,73,85,49,85,77,69,64,76,81,12,12",
+                        "endOffsets": "170,258,344,425,509,578,651,716,799,905,991,1111,1165,1234,1295,1364,1453,1548,1622,1719,1812,1910,2059,2150,2238,2334,2432,2496,2564,2651,2745,2812,2884,2956,3057,3166,3242,3311,3359,3425,3489,3563,3638,3709,3786,3843,3900,3958,4030,4097,4147,4216,4270,4341,4414,4491,4562,4632,4701,4759,4836,4912,4983,5057,5143,5193,5279,5357,5427,5492,5569,5651,6431,6584"
+                    },
+                    "to": {
+                        "startLines": "200,220,221,222,223,224,225,226,227,228,229,230,233,234,235,236,237,238,239,240,241,242,243,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,313,324",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "9725,11104,11192,11278,11359,11443,11512,11585,11650,11733,11839,11925,12045,12099,12168,12229,12298,12387,12482,12556,12653,12746,12844,12993,13084,13172,13268,13366,13430,13498,13585,13679,13746,13818,13890,13991,14100,14176,14245,14293,14359,14423,14497,14572,14643,14720,14777,14834,14892,14964,15031,15081,15150,15204,15275,15348,15425,15496,15566,15635,15693,15770,15846,15917,15991,16077,16127,16213,16291,16361,16426,16503,17504,18284",
+                        "endLines": "200,220,221,222,223,224,225,226,227,228,229,232,233,234,235,236,237,238,239,240,241,242,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,323,326",
+                        "endColumns": "72,87,85,80,83,68,72,64,82,105,85,13,53,68,60,68,88,94,73,96,92,97,13,90,87,95,97,63,67,86,93,66,71,71,100,108,75,68,47,65,63,73,74,70,76,56,56,57,71,66,49,68,53,70,72,76,70,69,68,57,76,75,70,73,85,49,85,77,69,64,76,81,12,12",
+                        "endOffsets": "9793,11187,11273,11354,11438,11507,11580,11645,11728,11834,11920,12040,12094,12163,12224,12293,12382,12477,12551,12648,12741,12839,12988,13079,13167,13263,13361,13425,13493,13580,13674,13741,13813,13885,13986,14095,14171,14240,14288,14354,14418,14492,14567,14638,14715,14772,14829,14887,14959,15026,15076,15145,15199,15270,15343,15420,15491,15561,15630,15688,15765,15841,15912,15986,16072,16122,16208,16286,16356,16421,16498,16580,18279,18432"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/AndroidStudioProjects/spegen/androidApp/src/main/res/values/colors.xml",
+                    "from": {
+                        "startLines": "19,14,15,16,17,18,20",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "971,740,787,834,881,926,1013",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "1008,782,829,876,921,966,1050"
+                    },
+                    "to": {
+                        "startLines": "77,82,83,84,86,87,88",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "2613,2967,3014,3061,3160,3205,3250",
+                        "endColumns": "41,46,46,46,44,44,41",
+                        "endOffsets": "2650,3009,3056,3103,3200,3245,3287"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/ac21748dd8dc595b586daa38c37eb415/transformed/transition-1.6.0/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,95,142,185,240,287,332,386,442,494,546,595,656",
+                        "endColumns": "39,46,42,54,46,44,53,55,51,51,48,60,49",
+                        "endOffsets": "90,137,180,235,282,327,381,437,489,541,590,651,701"
+                    },
+                    "to": {
+                        "startLines": "154,155,162,165,166,185,186,187,188,189,190,191,192",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "7332,7372,7715,7867,7922,8942,8987,9041,9097,9149,9201,9250,9311",
+                        "endColumns": "39,46,42,54,46,44,53,55,51,51,48,60,49",
+                        "endOffsets": "7367,7414,7753,7917,7964,8982,9036,9092,9144,9196,9245,9306,9356"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/26620e18614a4c9aa23ced93163be3e2/transformed/core-viewtree-1.0.0/res/values/values.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -369,7 +197,109 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\5bce37f75929b2c6e3f423de7b76ae37\\transformed\\window-1.5.0\\res\\values\\values.xml",
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/a1923863c2ca504993bf8a738423a88b/transformed/lifecycle-viewmodel/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "49",
+                        "endOffsets": "100"
+                    },
+                    "to": {
+                        "startLines": "198",
+                        "startColumns": "4",
+                        "startOffsets": "9622",
+                        "endColumns": "49",
+                        "endOffsets": "9667"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/3664d4e984d26dad91ba2518747e754c/transformed/activity-1.13.0/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,97",
+                        "endColumns": "41,59",
+                        "endOffsets": "92,152"
+                    },
+                    "to": {
+                        "startLines": "164,196",
+                        "startColumns": "4,4",
+                        "startOffsets": "7825,9508",
+                        "endColumns": "41,59",
+                        "endOffsets": "7862,9563"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/8e586023fa1dff54295ef97d898eebbe/transformed/lifecycle-runtime/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "42",
+                        "endOffsets": "93"
+                    },
+                    "to": {
+                        "startLines": "194",
+                        "startColumns": "4",
+                        "startOffsets": "9404",
+                        "endColumns": "42",
+                        "endOffsets": "9442"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/3f66df1fa8a65fb52c58851ddd8892c7/transformed/foundation/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,111,185,241",
+                        "endColumns": "55,73,55,54",
+                        "endOffsets": "106,180,236,291"
+                    },
+                    "to": {
+                        "startLines": "151,202,308,309",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "7163,9868,17281,17337",
+                        "endColumns": "55,73,55,54",
+                        "endOffsets": "7214,9937,17332,17387"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/324525bad4fb3e0ce727210a088e8993/transformed/customview-poolingcontainer-1.0.0/res/values/values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,109",
+                        "endColumns": "53,66",
+                        "endOffsets": "104,171"
+                    },
+                    "to": {
+                        "startLines": "159,163",
+                        "startColumns": "4,4",
+                        "startOffsets": "7591,7758",
+                        "endColumns": "53,66",
+                        "endOffsets": "7640,7820"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/7f3777f6d13026b94d0dffe3de80531b/transformed/navigationevent/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "60",
+                        "endOffsets": "111"
+                    },
+                    "to": {
+                        "startLines": "195",
+                        "startColumns": "4",
+                        "startOffsets": "9447",
+                        "endColumns": "60",
+                        "endOffsets": "9503"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/5bce37f75929b2c6e3f423de7b76ae37/transformed/window-1.5.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,9,17,25,31,37,49,55,61,62,63,64,70,71,72,73,79,84,103,111,129",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -385,6 +315,76 @@
                         "endLines": "2,8,16,24,33,39,51,57,63,64,65,66,72,73,74,148,350,355,422,534,552,571",
                         "endColumns": "58,11,11,11,11,11,11,11,11,52,59,51,11,44,38,59,24,24,24,24,24,24",
                         "endOffsets": "208,381,600,819,1171,1341,1655,1843,2030,2083,2143,2195,2364,2409,2448,7048,20022,20180,22264,26240,26983,27766"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/cf83522b32bc4472cf8180e76043c9d2/transformed/ui/res/values/values.xml",
+                    "from": {
+                        "startLines": "34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,65",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "2064,2139,2213,2272,2330,2385,2436,2491,2544,2610,2675,2729,2795,2898,2956,3008,3068,3130,3184,3234,3288,3334,3388,3434,3476,3516,3563,3599,3693,3805",
+                        "endLines": "34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,64,68",
+                        "endColumns": "74,73,58,57,54,50,54,52,65,64,53,65,102,57,51,59,61,53,49,53,45,53,45,41,39,46,35,93,12,12",
+                        "endOffsets": "2134,2208,2267,2325,2380,2431,2486,2539,2605,2670,2724,2790,2893,2951,3003,3063,3125,3179,3229,3283,3329,3383,3429,3471,3511,3558,3594,3688,3800,3982"
+                    },
+                    "to": {
+                        "startLines": "146,147,149,152,153,157,158,199,203,213,214,215,216,217,218,219,295,296,297,298,299,300,301,302,303,305,306,307,310,327",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "6844,6919,7053,7219,7277,7485,7536,9672,9942,10646,10711,10765,10831,10934,10992,11044,16585,16647,16701,16751,16805,16851,16905,16951,16993,17104,17151,17187,17392,18437",
+                        "endLines": "146,147,149,152,153,157,158,199,203,213,214,215,216,217,218,219,295,296,297,298,299,300,301,302,303,305,306,307,312,330",
+                        "endColumns": "74,73,58,57,54,50,54,52,65,64,53,65,102,57,51,59,61,53,49,53,45,53,45,41,39,46,35,93,12,12",
+                        "endOffsets": "6914,6988,7107,7272,7327,7531,7586,9720,10003,10706,10760,10826,10929,10987,11039,11099,16642,16696,16746,16800,16846,16900,16946,16988,17028,17146,17182,17276,17499,18614"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/d8c14c810f69291f68ea090b029bc9f6/transformed/coil-core-release/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "50",
+                        "endOffsets": "101"
+                    },
+                    "to": {
+                        "startLines": "150",
+                        "startColumns": "4",
+                        "startOffsets": "7112",
+                        "endColumns": "50",
+                        "endOffsets": "7158"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/AndroidStudioProjects/spegen/androidApp/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "13",
+                        "startColumns": "4",
+                        "startOffsets": "701",
+                        "endColumns": "43",
+                        "endOffsets": "740"
+                    },
+                    "to": {
+                        "startLines": "205",
+                        "startColumns": "4",
+                        "startOffsets": "10091",
+                        "endColumns": "43",
+                        "endOffsets": "10130"
+                    }
+                },
+                {
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/cf0563eb39883df58dd01a1cf57f9c9c/transformed/ui-graphics/res/values/values.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    },
+                    "to": {
+                        "startLines": "156",
+                        "startColumns": "4",
+                        "startOffsets": "7419",
+                        "endColumns": "65",
+                        "endOffsets": "7480"
                     }
                 }
             ]

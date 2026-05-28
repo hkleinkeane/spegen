@@ -22,6 +22,7 @@ class SpeGenActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         androidAppContext = applicationContext
+        androidActivity = this
         setContent {
             App()
         }

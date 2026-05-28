@@ -4,7 +4,7 @@
             "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-41:/values-v30/values-v30.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8555129a1de983b9b122adf26893fd2e\\transformed\\material3\\res\\values-v30\\values-v30.xml",
+                    "source": "/Users/hklein-keane/.gradle/caches/9.4.1/transforms/8555129a1de983b9b122adf26893fd2e/transformed/material3/res/values-v30/values-v30.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

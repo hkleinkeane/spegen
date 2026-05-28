@@ -93,7 +93,8 @@
           "io.coil-kt.coil3:coil-network-ktor3",
           "io.ktor:ktor-client-core",
           "io.ktor:ktor-client-content-negotiation",
-          "io.ktor:ktor-serialization-kotlinx-json"
+          "io.ktor:ktor-serialization-kotlinx-json",
+          "io.coil-kt.coil3:coil-svg"
         ],
         "sourceSetCInteropMetadataDirectory": "appleMain-cinterop",
         "binaryLayout": "klib",
@@ -116,7 +117,8 @@
           "io.coil-kt.coil3:coil-network-ktor3",
           "io.ktor:ktor-client-core",
           "io.ktor:ktor-client-content-negotiation",
-          "io.ktor:ktor-serialization-kotlinx-json"
+          "io.ktor:ktor-serialization-kotlinx-json",
+          "io.coil-kt.coil3:coil-svg"
         ],
         "binaryLayout": "klib"
       },
@@ -139,6 +141,7 @@
           "io.ktor:ktor-client-core",
           "io.ktor:ktor-client-content-negotiation",
           "io.ktor:ktor-serialization-kotlinx-json",
+          "io.coil-kt.coil3:coil-svg",
           "io.ktor:ktor-client-darwin"
         ],
         "sourceSetCInteropMetadataDirectory": "iosMain-cinterop",
@@ -163,7 +166,8 @@
           "io.coil-kt.coil3:coil-network-ktor3",
           "io.ktor:ktor-client-core",
           "io.ktor:ktor-client-content-negotiation",
-          "io.ktor:ktor-serialization-kotlinx-json"
+          "io.ktor:ktor-serialization-kotlinx-json",
+          "io.coil-kt.coil3:coil-svg"
         ],
         "sourceSetCInteropMetadataDirectory": "nativeMain-cinterop",
         "binaryLayout": "klib",
@@ -188,7 +192,8 @@
           "io.coil-kt.coil3:coil-network-ktor3",
           "io.ktor:ktor-client-core",
           "io.ktor:ktor-client-content-negotiation",
-          "io.ktor:ktor-serialization-kotlinx-json"
+          "io.ktor:ktor-serialization-kotlinx-json",
+          "io.coil-kt.coil3:coil-svg"
         ],
         "binaryLayout": "klib"
       }

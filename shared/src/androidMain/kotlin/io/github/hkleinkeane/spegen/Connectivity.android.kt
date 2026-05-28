@@ -19,6 +19,7 @@ import android.net.NetworkCapabilities
 import androidx.annotation.RequiresPermission
 
 lateinit var androidAppContext: Context
+var androidActivity: android.app.Activity? = null
 
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 actual fun isOnline(): Boolean {

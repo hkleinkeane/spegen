@@ -61,35 +61,50 @@ actual fun playAudioFile(path: String) {
 // ---------------------------------------------------------------------------
 
 actual fun startRecording(itemKey: String) {
+      // Check mic permission first
+      val granted = ContextCompat.checkSelfPermission(
+        androidAppContext, Manifest.permission.RECORD_AUDIO
+      ) == PackageManager.PERMISSION_GRANTED
 
-    try {
-        // Stop any ongoing recording first
-        currentRecorder?.apply {
-            try { stop() } catch (_: Exception) {}
-            release()
-        }
-        currentRecorder = null
+      if (!granted) {
+            // Show the system permission dialog. This is async so the current tap won't record, but once permission is granted the next one will.
+            androidActivity?.let { activity ->
+              ActivityCompat.requestPermissions(
+                activity, arrayOf(Manifest.permission.RECORD_AUDIO), 1001
+              )
+            }
+            println("AudioEngine.android startRecording: requesting mic permission, tap Record again after granting")
+            currentRecordingPath = ""
+            return
+          }
 
-        val dir = File(androidAppContext.filesDir, "custom_audio").also { it.mkdirs() }
-        currentRecordingPath = File(dir, "$itemKey.m4a").absolutePath
+      try {
+            currentRecorder?.apply {
+              try { stop() } catch (_: Exception) {}
+              release()
+            }
+            currentRecorder = null
 
-        val rec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            MediaRecorder(androidAppContext)
-        } else {
-            @Suppress("DEPRECATION") MediaRecorder()
-        }
+            val dir = File(androidAppContext.filesDir, "custom_audio").also { it.mkdirs() }
+            currentRecordingPath = File(dir, "$itemKey.m4a").absolutePath
 
-        rec.setAudioSource(MediaRecorder.AudioSource.MIC)
-        rec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        rec.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        rec.setOutputFile(currentRecordingPath)
-        rec.prepare()
-        rec.start()
-        currentRecorder = rec
-    } catch (e: Exception) {
-        println("AudioEngine.android startRecording failed: ${e.message}")
-        currentRecordingPath = ""
-    }
+            val rec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+              MediaRecorder(androidAppContext)
+            } else {
+              @Suppress("DEPRECATION") MediaRecorder()
+            }
+
+            rec.setAudioSource(MediaRecorder.AudioSource.MIC)
+            rec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            rec.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+            rec.setOutputFile(currentRecordingPath)
+            rec.prepare()
+            rec.start()
+            currentRecorder = rec
+          } catch (e: Exception) {
+            println("AudioEngine.android startRecording failed: ${e.message}")
+            currentRecordingPath = ""
+          }
 }
 
 actual fun stopRecording(): String {
