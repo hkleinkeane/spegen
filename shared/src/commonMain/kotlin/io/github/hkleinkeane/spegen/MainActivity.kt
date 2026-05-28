@@ -105,11 +105,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import coil3.PlatformContext
+import coil3.*
 import coil3.SingletonImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -283,6 +285,7 @@ var tts_pause_between_words = mutableStateOf(false)
 var tts_pause_duration = mutableLongStateOf(500L)
 
 var screen_display = mutableStateOf(true)
+var menu_display = mutableStateOf(true)
 
 val static_row_text_size = mutableFloatStateOf(16f)
 val static_row_text_padding = mutableFloatStateOf(8f)
@@ -304,6 +307,10 @@ private val lenientJson = Json { ignoreUnknownKeys = true }
 
 @Composable
 fun App() {
+    linked_menu.value = 0
+    menu_history.clear()
+    current_menu_id = 0
+
     ttsEngine = rememberTtsEngine()
     val platformContext = LocalPlatformContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -531,6 +538,7 @@ fun resetToDefaults() {
 
     // Refresh screen
     screen_display.value = false
+    menu_display.value = false
 
     // Reset row variables
     static_row_text_size.floatValue = 16f
@@ -1788,11 +1796,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
 }
 
 suspend fun resolveMenuImages(menuId: Int) {
-    var waited = 0
-    while (accesstoken.isBlank() && waited < 30) {
-        kotlinx.coroutines.delay(300)
-        waited++
-    }
+    menu_display.value = false
     if (accesstoken.isBlank()) {
         getAccessToken()
         if (accesstoken.isBlank()) {
@@ -1829,23 +1833,30 @@ suspend fun resolveMenuImages(menuId: Int) {
             trigger_save.value = true
         }
     }
+    menu_display.value = true
 }
 
 @Composable
 fun Menu(modifier: Modifier) {
     menu_height = (screenHeight - menu_static_row_height - static_row_height - input_box_height)
     menu_width = screenWidth - (button_boxes_width * 2)
-    Column(
-        modifier = Modifier.alpha(1f)
-    ) {
+    if (menu_display.value) {
         Column(
-            modifier = modifier
-                .width(menu_width)
-                .height(menu_height)
-                .offset(x = 0.dp, y = input_box_height)
+            modifier = Modifier.alpha(1f)
         ) {
-            MenuParser(MenuFinder(linked_menu.value))
+            Column(
+                modifier = modifier
+                    .width(menu_width)
+                    .height(menu_height)
+                    .offset(x = 0.dp, y = input_box_height)
+            ) {
+                MenuParser(MenuFinder(linked_menu.value))
+            }
         }
+    }
+    if (!menu_display.value)
+    {
+        menu_display.value = !menu_display.value
     }
 }
 
@@ -3399,6 +3410,8 @@ fun EditItemDialog() {
             commitChanges()
             show_edit_item_dialog.value = false
         },
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        modifier = Modifier.size(screenWidth-(button_boxes_width*4)),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
             Row {
@@ -3580,7 +3593,7 @@ fun EditItemDialog() {
                         }
                     } else {
                         Text(
-                            "Optional: respell the name so it's spoken correctly (e.g. \"KA-TAR-AH\").",
+                            "Optional: respell the name so it's spoken correctly (e.g. \"MIS-chiv-us\").",
                             fontSize = 12.sp, color = Color.Gray
                         )
                         TextField(

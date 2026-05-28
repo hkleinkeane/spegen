@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-40:/values-en-rCA/values-en-rCA.xml",
+            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-41:/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
                     "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\cf83522b32bc4472cf8180e76043c9d2\\transformed\\ui\\res\\values-en-rCA\\values-en-rCA.xml",

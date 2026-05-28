@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-40:/values-kk/values-kk.xml",
+            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-41:/values-kk/values-kk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\3f66df1fa8a65fb52c58851ddd8892c7\\transformed\\foundation\\res\\values-kk\\values-kk.xml",

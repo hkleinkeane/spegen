@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-40:/values-sl/values-sl.xml",
+            "outputFile": "io.github.hkleinkeane.spegen.androidApp-mergeDebugResources-41:/values-sl/values-sl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\harpe\\.gradle\\caches\\9.4.1\\transforms\\8555129a1de983b9b122adf26893fd2e\\transformed\\material3\\res\\values-sl\\values-sl.xml",
