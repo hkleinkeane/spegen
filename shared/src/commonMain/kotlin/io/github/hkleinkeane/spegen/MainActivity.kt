@@ -3404,6 +3404,7 @@ fun EditItemDialog() {
     var loadingMore by remember { mutableStateOf(false) }
     var loadMoreTrigger by remember { mutableIntStateOf(0) }
     var loadMore by remember { mutableStateOf(true) }
+    val scrollState = rememberScrollState()
 
     AlertDialog(
         onDismissRequest = {
@@ -3414,7 +3415,7 @@ fun EditItemDialog() {
         modifier = Modifier.size(screenWidth-(button_boxes_width*4)),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Row {
+            Row(Modifier.verticalScroll(scrollState)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(end = 16.dp)

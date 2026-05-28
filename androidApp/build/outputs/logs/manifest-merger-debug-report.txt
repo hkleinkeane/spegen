@@ -26,6 +26,7 @@ MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\ha
 MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\bb7a64f620a4c78aa7bab6bdd78757d0\transformed\navigationevent-compose\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\94f1609806e3dccf23e5388fd3744129\transformed\runtime-annotation\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\57d200e94953dd4225d632da490d4c6f\transformed\runtime-retain\AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt.coil3:coil-svg-android:3.0.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\cad9cf1958ae1e54a166fdb35c55fc97\transformed\coil-svg-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\72619f46d1f560cec30a17054d7e3ae2\transformed\graphics-shapes\AndroidManifest.xml:2:1-7:12
 MERGED from [io.coil-kt.coil3:coil-network-ktor3-android:3.2.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\6ca1eab91d516260324d37887fd8edcf\transformed\coil-network-ktor3-release\AndroidManifest.xml:2:1-7:12
 MERGED from [io.coil-kt.coil3:coil-android:3.2.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\ba0d9afeb7170d3ea39834e4712abe2f\transformed\coil-release\AndroidManifest.xml:2:1-7:12
@@ -83,6 +84,7 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\harpe\.gradle\ca
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\645a975c49014481cfce223daa09f759\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\cfc58d377c06f8cd0b1bef540cc34fe8\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\88427eeee1262239da414c3c50bc6e45\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:2:1-7:12
+MERGED from [com.caverock:androidsvg-aar:1.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\451004d314efa83ce7ca0d3b70d98a3f\transformed\androidsvg-aar-1.4\AndroidManifest.xml:2:1-11:12
 	package
 		INJECTED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml
 	android:versionName
@@ -212,6 +214,8 @@ MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.1] C:\User
 MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\94f1609806e3dccf23e5388fd3744129\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\57d200e94953dd4225d632da490d4c6f\transformed\runtime-retain\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\57d200e94953dd4225d632da490d4c6f\transformed\runtime-retain\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt.coil3:coil-svg-android:3.0.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\cad9cf1958ae1e54a166fdb35c55fc97\transformed\coil-svg-release\AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt.coil3:coil-svg-android:3.0.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\cad9cf1958ae1e54a166fdb35c55fc97\transformed\coil-svg-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\72619f46d1f560cec30a17054d7e3ae2\transformed\graphics-shapes\AndroidManifest.xml:5:5-44
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\72619f46d1f560cec30a17054d7e3ae2\transformed\graphics-shapes\AndroidManifest.xml:5:5-44
 MERGED from [io.coil-kt.coil3:coil-network-ktor3-android:3.2.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\6ca1eab91d516260324d37887fd8edcf\transformed\coil-network-ktor3-release\AndroidManifest.xml:5:5-44
@@ -326,6 +330,8 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\harpe\.gradle\caches\9.4.1\tra
 MERGED from [androidx.print:print:1.0.0] C:\Users\harpe\.gradle\caches\9.4.1\transforms\cfc58d377c06f8cd0b1bef540cc34fe8\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\88427eeee1262239da414c3c50bc6e45\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.1] C:\Users\harpe\.gradle\caches\9.4.1\transforms\88427eeee1262239da414c3c50bc6e45\transformed\annotation-experimental-1.4.1\AndroidManifest.xml:5:5-44
+MERGED from [com.caverock:androidsvg-aar:1.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\451004d314efa83ce7ca0d3b70d98a3f\transformed\androidsvg-aar-1.4\AndroidManifest.xml:7:5-9:41
+MERGED from [com.caverock:androidsvg-aar:1.4] C:\Users\harpe\.gradle\caches\9.4.1\transforms\451004d314efa83ce7ca0d3b70d98a3f\transformed\androidsvg-aar-1.4\AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
 		INJECTED from C:\Users\harpe\AndroidStudioProjects\spegen\androidApp\src\main\AndroidManifest.xml
 	android:minSdkVersion

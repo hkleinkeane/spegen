@@ -12,6 +12,9 @@
 
 package io.github.hkleinkeane.spegen
 
+import android.Manifest
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
@@ -21,6 +24,8 @@ import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.io.File
 
 // ---------------------------------------------------------------------------
@@ -56,9 +61,13 @@ actual fun playAudioFile(path: String) {
 // ---------------------------------------------------------------------------
 
 actual fun startRecording(itemKey: String) {
+
     try {
         // Stop any ongoing recording first
-        currentRecorder?.apply { try { stop() } catch (_: Exception) {}; release() }
+        currentRecorder?.apply {
+            try { stop() } catch (_: Exception) {}
+            release()
+        }
         currentRecorder = null
 
         val dir = File(androidAppContext.filesDir, "custom_audio").also { it.mkdirs() }
@@ -67,9 +76,9 @@ actual fun startRecording(itemKey: String) {
         val rec = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(androidAppContext)
         } else {
-            @Suppress("DEPRECATION")
-            MediaRecorder()
+            @Suppress("DEPRECATION") MediaRecorder()
         }
+
         rec.setAudioSource(MediaRecorder.AudioSource.MIC)
         rec.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
         rec.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
