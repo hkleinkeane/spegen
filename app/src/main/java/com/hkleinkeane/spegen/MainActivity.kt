@@ -52,6 +52,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -464,7 +465,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                 })
             }
             if (show_settings.value) {
-                SettingsScreen(onClose = {
+                SettingsScreen(this@MainActivity, onClose = {
                     show_settings.value = false
                 })
             }
@@ -482,7 +483,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                             hasUncachedImages(this@MainActivity)
             }
             if (show_cache_prompt.value) {
-                CachePrompt()
+                CachePrompt(this@MainActivity)
             }
             LaunchedEffect(trigger_save.value) {
                 if (trigger_save.value) {
@@ -543,6 +544,9 @@ fun resetToDefaults() {
     createclonefolder.value = false
     createclonesymbol.value = false
     wordfinder_highlight_index.intValue = -1
+
+    // Clear autocomplete display
+    show_autocomplete.value = false
 
     // Clear menu history
     menu_history.clear()
@@ -824,8 +828,9 @@ fun isOnline(context: Context): Boolean {
 }
 
 @Composable
-fun CachePrompt() {
+fun CachePrompt(context: Context) {
     val activity = LocalActivity.current as? ComponentActivity
+    var show_error_msg = remember { mutableStateOf(false) }
 
     AlertDialog(
         // While caching will swallow dismiss attempts
@@ -863,22 +868,48 @@ fun CachePrompt() {
                     )
                 }
             } else {
-                Text(
-                    "SpeGen found symbols that haven't been downloaded to this " +
-                            "device yet. Saving them now lets the app work fully without " +
-                            "an internet connection. This may take a moment.\n\n" +
-                            "You can also do this any time from Settings.",
-                    fontSize = 14.sp
-                )
+                if (show_error_msg.value)
+                {
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp))
+                    {
+                        Text(
+                            "SpeGen found symbols that haven't been downloaded to this " +
+                                    "device yet. Saving them now lets the app work fully without " +
+                                    "an internet connection. This may take a moment.\n\n" +
+                                    "You can also do this any time from Settings.",
+                            fontSize = 14.sp
+                        )
+                        Text(
+                            "Error: Not connected to the internet!",
+                            fontSize = 14.sp,
+                            color = Color.Red
+                        )
+                    }
+                }
+                else {
+                    Text(
+                        "SpeGen found symbols that haven't been downloaded to this " +
+                                "device yet. Saving them now lets the app work fully without " +
+                                "an internet connection. This may take a moment.\n\n" +
+                                "You can also do this any time from Settings.",
+                        fontSize = 14.sp
+                    )
+                }
             }
         },
         confirmButton = {
             // Buttons only exist before caching starts
             if (!cache_running.value) {
                 Button(onClick = {
-                    activity?.lifecycleScope?.launch {
-                        resolveAndPrecacheAll(activity)
-                        show_cache_prompt.value = false // auto-close when done
+                    if (isOnline(context)) {
+                        show_error_msg.value = false
+                        activity?.lifecycleScope?.launch {
+                            resolveAndPrecacheAll(activity)
+                            show_cache_prompt.value = false // auto-close when done
+                        }
+                    }
+                    else {
+                        show_error_msg.value = true
                     }
                 }) { Text("Download now") }
             }
@@ -2392,6 +2423,7 @@ fun WordFinder_Card(
             ) { Text("Find") }
 
             if (showButtonGuide) {
+                show_autocomplete.value = false
                 wordfinder_target_is_symbol = is_symbol
                 // Set path state from this specific path
                 wordfinder_path_ids.clear()
@@ -2439,7 +2471,7 @@ fun ButtonGuide_Wordfinder() {
 }
 
 @Composable
-fun SettingsScreen(onClose: () -> Unit) {
+fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
     val context = LocalContext.current
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("UI", "Voice", "Backup", "Misc", "About")
@@ -2511,7 +2543,7 @@ fun SettingsScreen(onClose: () -> Unit) {
                     0 -> UISettingsContent()
                     1 -> VoiceSettingsContent()
                     2 -> BackupSettingsContent()
-                    3 -> MiscSettings()
+                    3 -> MiscSettings(contextmain)
                     4 -> AboutContent()
                 }
             }
@@ -2635,12 +2667,20 @@ fun EditMode()
 }
 
 @Composable
-fun MiscSettings() {
+fun MiscSettings(context: Context) {
     val activity = LocalActivity.current as? ComponentActivity
+    var show_error_msg = remember { mutableStateOf(false) }
     Column {
         Button(
             onClick = {
-                activity?.lifecycleScope?.launch { resolveAndPrecacheAll(activity) }
+                if (isOnline(context)) {
+                    show_error_msg.value = false
+                    activity?.lifecycleScope?.launch { resolveAndPrecacheAll(activity) }
+                }
+                else
+                {
+                    show_error_msg.value = true
+                }
             },
             enabled = !cache_running.value,
             modifier = Modifier.fillMaxWidth()
@@ -2650,6 +2690,14 @@ fun MiscSettings() {
                     "Caching ${cache_progress.value} / ${cache_total.value}…"
                 else
                     "Download all images for offline use"
+            )
+        }
+        if (show_error_msg.value)
+        {
+            Text(
+                "Error: Not connected to the internet!",
+                fontSize = 14.sp,
+                color = Color.Red
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
