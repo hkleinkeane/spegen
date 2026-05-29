@@ -169,6 +169,7 @@ import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import androidx.compose.ui.window.Dialog
 import androidx.compose.foundation.ScrollState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
@@ -639,7 +640,8 @@ data class PersistedState(
     val menu_row_text_size: Float = 16f,
     val menu_row_text_padding: Float = 4f,
     val ngram_model: NgramModel = NgramModel(),
-    val fitzgerald_overrides: Map<String, String> = emptyMap()
+    val fitzgerald_overrides: Map<String, String> = emptyMap(),
+    val fitzgeraldKey: List<FitzgeraldCategory>
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -693,6 +695,9 @@ fun load_vars(state: PersistedState) {
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
 
+    fitzgeraldKey.clear()
+    fitzgeraldKey.addAll(state.fitzgeraldKey)
+
     fitzgerald_overrides.clear()
     fitzgerald_overrides.putAll(state.fitzgerald_overrides)
 
@@ -736,7 +741,8 @@ fun currentPersistedState(): PersistedState = PersistedState(
     menu_row_text_size = menu_row_text_size.floatValue,
     menu_row_text_padding = menu_row_text_padding.floatValue,
     ngram_model = ngram_model.value,
-    fitzgerald_overrides = fitzgerald_overrides.toMap()
+    fitzgerald_overrides = fitzgerald_overrides.toMap(),
+    fitzgeraldKey = fitzgeraldKey
 )
 
 suspend fun saveAllPreferences(context: Context) {
@@ -1577,31 +1583,31 @@ fun <T> ReorderableTermList(
 }
 
 fun Modifier.verticalScrollbar(
-      state: ScrollState,
-  color: Color = Color.DarkGray,
-  width: Dp = 4.dp,
-  minThumb: Dp = 24.dp
+    state: ScrollState,
+    color: Color = Color.DarkGray,
+    width: Dp = 4.dp,
+    minThumb: Dp = 24.dp
 ): Modifier = drawWithContent {
-      drawContent()
-      val max = state.maxValue.toFloat()
-      if (max <= 0f) return@drawWithContent
-      val viewport = size.height
-      val total = viewport + max
-      val thumbH = ((viewport * viewport) / total).coerceAtLeast(minThumb.toPx())
-      val thumbY = (state.value / max) * (viewport - thumbH)
-      drawRoundRect(
+    drawContent()
+    val max = state.maxValue.toFloat()
+    if (max <= 0f) return@drawWithContent
+    val viewport = size.height
+    val total = viewport + max
+    val thumbH = ((viewport * viewport) / total).coerceAtLeast(minThumb.toPx())
+    val thumbY = (state.value / max) * (viewport - thumbH)
+    drawRoundRect(
         color = color.copy(alpha = 0.6f),
         topLeft = Offset(size.width - width.toPx() - 2.dp.toPx(), thumbY),
         size = Size(width.toPx(), thumbH),
         cornerRadius = CornerRadius(width.toPx() / 2f)
-      )
+    )
 }
 
 fun Modifier.horizontalScrollbar(
-      state: ScrollState,
-      color: Color = Color.DarkGray,
-      height: Dp = 4.dp,
-      minThumb: Dp = 24.dp
+    state: ScrollState,
+    color: Color = Color.DarkGray,
+    height: Dp = 4.dp,
+    minThumb: Dp = 24.dp
 ): Modifier = drawWithContent {
     drawContent()
     val max = state.maxValue.toFloat()
@@ -1638,6 +1644,7 @@ fun TutorialOverlay(onFinish: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.85f))
+            .clickable(onClick = {})
             .zIndex(2000f),
         contentAlignment = Alignment.Center
     ) {
@@ -2039,28 +2046,29 @@ fun MenuPlaceholder(vertical_stretch: Dp) {
     )
 }
 
-data class FitzgeraldCategory(val name: String, val color: Color)
+@Serializable
+data class FitzgeraldCategory(val name: String, val colorHex: String)
 
-val fitzgeraldKey = listOf(
-    FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B)),  // yellow
-  FitzgeraldCategory("Noun",    Color(0xFFFF9800)),  // orange
-  FitzgeraldCategory("Verb",    Color(0xFF4CAF50)),  // green
-  FitzgeraldCategory("Adjective",  Color(0xFF2196F3)),  // blue
-  FitzgeraldCategory("Social",   Color(0xFFE91E63)),  // pink
-  FitzgeraldCategory("Question",  Color(0xFF9C27B0)),  // purple
-  FitzgeraldCategory("Adverb",   Color(0xFF795548)),  // brown
-  FitzgeraldCategory("Determiner", Color(0xFFFFFFFF)),  // white
-  FitzgeraldCategory("Other",    Color(0xFFBDBDBD))  // gray
+var fitzgeraldKey = mutableStateListOf<FitzgeraldCategory>(
+    FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
+    FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
+    FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
+    FitzgeraldCategory("Adjective",  Color(0xFF2196F3).toHexString()),  // blue
+    FitzgeraldCategory("Social",   Color(0xFFE91E63).toHexString()),  // pink
+    FitzgeraldCategory("Question",  Color(0xFF9C27B0).toHexString()),  // purple
+    FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),  // brown
+    FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),  // white
+    FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
 )
 
 fun Color.toHexString(): String {
-      val r = (red * 255).toInt(); val g = (green * 255).toInt(); val b = (blue * 255).toInt()
-      return "#%02X%02X%02X".format(r, g, b)
+    val r = (red * 255).toInt(); val g = (green * 255).toInt(); val b = (blue * 255).toInt()
+    return "#%02X%02X%02X".format(r, g, b)
 }
 
 fun String.toComposeColor(): Color =
-  if (isBlank()) Color.White
-  else try { Color(android.graphics.Color.parseColor(this)) } catch (e: Exception) { Color.White }
+    if (isBlank()) Color.White
+    else try { Color(android.graphics.Color.parseColor(this)) } catch (e: Exception) { Color.White }
 
 @Serializable
 data class menutemplate(
@@ -2076,7 +2084,7 @@ data class menutemplate(
     val custom_audio_paths: List<String> = emptyList(),   // recorded/imported audio file path
     val custom_audio_names: List<String> = emptyList(), // recorded/imported audio file name
     val pronunciation_overrides: List<String> = emptyList(), // phonetic respelling text
-      val colors: List<String> = emptyList()  // hex like "#FFEB3B", "" = default white
+    val colors: List<String> = emptyList()  // hex like "#FFEB3B", "" = default white
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -2344,88 +2352,88 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
 }
 
 fun resolveItemColor(stored: String): Color {
-      if (stored.isBlank()) return Color.White
-      if (stored.startsWith("#")) return stored.toComposeColor()   // custom hex
-      val cat = fitzgeraldKey.find { it.name == stored }       // symbolic name
-      return if (cat != null) effectiveCategoryColor(cat) else Color.White
+    if (stored.isBlank()) return Color.White
+    if (stored.startsWith("#")) return stored.toComposeColor()   // custom hex
+    val cat = fitzgeraldKey.find { it.name == stored }       // symbolic name
+    return if (cat != null) effectiveCategoryColor(cat) else Color.White
 }
 
 fun effectiveCategoryColor(category: FitzgeraldCategory): Color {
-      val override = fitzgerald_overrides[category.name]
-      return if (!override.isNullOrBlank()) override.toComposeColor() else category.color
+    val override = fitzgerald_overrides[category.name]
+    return if (!override.isNullOrBlank()) override.toComposeColor() else category.colorHex.toComposeColor()
 }
 
 @Composable
 fun ColorPickerDialog(
-      initialColor: Color,
-  onDismiss: () -> Unit,
-  onConfirm: (Color) -> Unit
+    initialColor: Color,
+    onDismiss: () -> Unit,
+    onConfirm: (Color) -> Unit
 ) {
-      val hsv = FloatArray(3).also { android.graphics.Color.colorToHSV(initialColor.toArgb(), it) }
-      var hue by remember { mutableFloatStateOf(hsv[0]) }
-      var sat by remember { mutableFloatStateOf(hsv[1]) }
-      var value by remember { mutableFloatStateOf(hsv[2]) }
-      val currentColor = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, sat, value)))
+    val hsv = FloatArray(3).also { android.graphics.Color.colorToHSV(initialColor.toArgb(), it) }
+    var hue by remember { mutableFloatStateOf(hsv[0]) }
+    var sat by remember { mutableFloatStateOf(hsv[1]) }
+    var value by remember { mutableFloatStateOf(hsv[2]) }
+    val currentColor = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, sat, value)))
 
-      Dialog(
+    Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false)
-      ) {
-            Surface(
-              modifier = Modifier
+    ) {
+        Surface(
+            modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .heightIn(max = 560.dp),   // cap dialog height
-              shape = RoundedCornerShape(16.dp),
-              color = Color.White
-            ) {
-              Column(modifier = Modifier
+            shape = RoundedCornerShape(16.dp),
+            color = Color.White
+        ) {
+            Column(modifier = Modifier
                 .padding(20.dp)
                 .verticalScroll(rememberScrollState())   // scroll if needed
-              ) {
+            ) {
                 Text("Pick a color", fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(12.dp))
                 Box(modifier = Modifier.fillMaxWidth().height(40.dp)
-                  .background(currentColor).border(2.dp, Color.Black))
+                    .background(currentColor).border(2.dp, Color.Black))
                 Spacer(Modifier.height(12.dp))
                 Box(modifier = Modifier
-                  .fillMaxWidth()
-                  .height(220.dp)       // fixed height instead of aspectRatio
-                  .pointerInput(Unit) {
-                    detectTapGestures { offset ->
-                      sat = (offset.x / size.width).coerceIn(0f, 1f)
-                      value = 1f - (offset.y / size.height).coerceIn(0f, 1f)
+                    .fillMaxWidth()
+                    .height(220.dp)       // fixed height instead of aspectRatio
+                    .pointerInput(Unit) {
+                        detectTapGestures { offset ->
+                            sat = (offset.x / size.width).coerceIn(0f, 1f)
+                            value = 1f - (offset.y / size.height).coerceIn(0f, 1f)
+                        }
                     }
-                  }
-                  .pointerInput(Unit) {
-                    detectDragGestures { change, _ ->
-                      change.consume()
-                      sat = (change.position.x / size.width).coerceIn(0f, 1f)
-                      value = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
+                    .pointerInput(Unit) {
+                        detectDragGestures { change, _ ->
+                            change.consume()
+                            sat = (change.position.x / size.width).coerceIn(0f, 1f)
+                            value = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
+                        }
                     }
-                  }
                 ) {
-                  Canvas(modifier = Modifier.fillMaxSize()) {
-                    val pure = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
-                    drawRect(brush = Brush.horizontalGradient(listOf(Color.White, pure)))
-                    drawRect(brush = Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))
-                    val cx = sat * size.width; val cy = (1f - value) * size.height
-                    drawCircle(Color.White, 10f, Offset(cx, cy), style = Stroke(2f))
-                    drawCircle(Color.Black, 8f, Offset(cx, cy), style = Stroke(1f))
-                  }
+                    Canvas(modifier = Modifier.fillMaxSize()) {
+                        val pure = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
+                        drawRect(brush = Brush.horizontalGradient(listOf(Color.White, pure)))
+                        drawRect(brush = Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))
+                        val cx = sat * size.width; val cy = (1f - value) * size.height
+                        drawCircle(Color.White, 10f, Offset(cx, cy), style = Stroke(2f))
+                        drawCircle(Color.Black, 8f, Offset(cx, cy), style = Stroke(1f))
+                    }
                 }
                 Spacer(Modifier.height(12.dp))
                 Text("Hue: ${hue.toInt()}°", fontSize = 12.sp)
                 Slider(value = hue, onValueChange = { hue = it }, valueRange = 0f..360f)
                 Spacer(Modifier.height(16.dp))
                 Row(modifier = Modifier.fillMaxWidth(),
-                  horizontalArrangement = Arrangement.End) {
-                  Button(onClick = onDismiss) { Text("Cancel") }
-                  Spacer(Modifier.width(8.dp))
-                  Button(onClick = { onConfirm(currentColor) }) { Text("OK") }
+                    horizontalArrangement = Arrangement.End) {
+                    Button(onClick = onDismiss) { Text("Cancel") }
+                    Spacer(Modifier.width(8.dp))
+                    Button(onClick = { onConfirm(currentColor) }) { Text("OK") }
                 }
-              }
             }
-          }
+        }
+    }
 }
 
 @Composable
@@ -2845,7 +2853,7 @@ fun UISettingsContent() {
         .verticalScroll(rememberScrollState())) {
         ExpandableSection("Static Symbol Row") { StaticSymbolRowSettings() }
         ExpandableSection("Menu Row") { MenuRowSettings() }
-        ExpandableSection("AAC Color Key") { ColorKeySettings() }
+        ExpandableSection("Color Key") { ColorKeySettings() }
         ExpandableSection("Item Sizing") { ItemSizingSettings() }
         ExpandableSection("Edit Mode") { EditMode() }
     }
@@ -2867,55 +2875,139 @@ fun EditMode()
 
 @Composable
 fun ColorKeySettings() {
-      var editingCategory by remember { mutableStateOf<FitzgeraldCategory?>(null) }
+    var editingCategory by remember { mutableStateOf<FitzgeraldCategory?>(null) }
+    var show_add_dialog by remember { mutableStateOf(false)}
 
-      Column {
-            Text(
-              "Customize the colors used for each word category. " +
-              "Changes apply to all items using that category.",
-              fontSize = 13.sp, color = Color.DarkGray
-            )
-            Spacer(Modifier.height(8.dp))
+    Column {
+        Text(
+            "Customize the colors used for each word category. " +
+                    "Changes apply to all items using that category.",
+            fontSize = 13.sp, color = Color.DarkGray
+        )
+        Spacer(Modifier.height(8.dp))
 
-            fitzgeraldKey.forEach { cat ->
-              Row(
+        fitzgeraldKey.forEach { cat ->
+            Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
-              ) {
-                Box(modifier = Modifier.size(32.dp)
-                  .background(effectiveCategoryColor(cat))
-                  .border(2.dp, Color.Black, RoundedCornerShape(4.dp)))
+            ) {
+                Box(
+                    modifier = Modifier.size(32.dp)
+                        .background(effectiveCategoryColor(cat))
+                        .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
+                )
                 Spacer(Modifier.width(12.dp))
                 Text(cat.name, modifier = Modifier.weight(1f), fontSize = 16.sp)
                 if (fitzgerald_overrides.containsKey(cat.name)) {
-                  Button(
-                    onClick = { fitzgerald_overrides.remove(cat.name) },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
-                    modifier = Modifier.padding(end = 4.dp)
-                  ) { Text("Reset") }
+                    Button(
+                        onClick = { fitzgerald_overrides.remove(cat.name) },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
+                        modifier = Modifier.padding(end = 4.dp)
+                    ) { Text("Reset") }
                 }
+                Button(onClick = { fitzgeraldKey -= cat
+                    fitzgerald_overrides.remove(cat.name)
+                }) { Text("Delete") }
+                Spacer(Modifier.width(10.dp))
                 Button(onClick = { editingCategory = cat }) { Text("Edit") }
-              }
             }
+        }
 
-            Spacer(Modifier.height(12.dp))
-            Button(
-              onClick = { fitzgerald_overrides.clear() },
-              modifier = Modifier.fillMaxWidth(),
-              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
-            ) { Text("Reset all to defaults") }
-          }
-
-      editingCategory?.let { cat ->
-            ColorPickerDialog(
-              initialColor = effectiveCategoryColor(cat),
-              onDismiss = { editingCategory = null },
-              onConfirm = { picked ->
-                fitzgerald_overrides[cat.name] = picked.toHexString()
-                editingCategory = null
-              }
+        Spacer(Modifier.height(12.dp))
+        Button(
+            onClick = {
+                show_add_dialog = true
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+        ) { Text("Add item") }
+        Button(
+            onClick = { fitzgerald_overrides.clear()
+                fitzgeraldKey.clear()
+                fitzgeraldKey = mutableStateListOf<FitzgeraldCategory>(
+                    FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
+                    FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
+                    FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
+                    FitzgeraldCategory("Adjective",  Color(0xFF2196F3).toHexString()),  // blue
+                    FitzgeraldCategory("Social",   Color(0xFFE91E63).toHexString()),  // pink
+                    FitzgeraldCategory("Question",  Color(0xFF9C27B0).toHexString()),  // purple
+                    FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),  // brown
+                    FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),  // white
+                    FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
+                )},
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+        ) { Text("Reset all to defaults") }
+        if (show_add_dialog) {
+            var typedText by remember { mutableStateOf("") }
+            val focusRequester = remember { FocusRequester() }
+            var displaycolorpicker by remember { mutableStateOf(false) }
+            var tempcolor by remember { mutableStateOf("") }
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
+            fun submit() {
+                fitzgeraldKey += FitzgeraldCategory(typedText, tempcolor)
+                displaycolorpicker = false
+                show_add_dialog = false
+            }
+            AlertDialog(
+                onDismissRequest = {
+                    show_add_dialog = false
+                    displaycolorpicker = false
+                },
+                title = { Text("Add category", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
+                text = {
+                    Column(modifier = Modifier.fillMaxWidth())
+                    {
+                        Row(modifier = Modifier.fillMaxWidth())
+                        {
+                            TextField(
+                                value = typedText,
+                                onValueChange = { typedText = it },
+                                label = { Text("Enter category name") },
+                                singleLine = true,
+                                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                            )
+                        }
+                        Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween)
+                        {
+                            Box(
+                                modifier = Modifier.size(32.dp)
+                                    .background(tempcolor.toComposeColor())
+                                    .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
+                            )
+                            Button(onClick = { displaycolorpicker = true }) { Text("Edit") }
+                        }
+                    }
+                    if (displaycolorpicker) {
+                        ColorPickerDialog(
+                            initialColor = Color.White,
+                            onDismiss = { editingCategory = null },
+                            onConfirm = { picked ->
+                                tempcolor = picked.toHexString()
+                                displaycolorpicker = false
+                            }
+                        )
+                    }
+                },
+                confirmButton = { Button(onClick = { submit() }) { Text("Add") } },
+                dismissButton = { Button(onClick = { show_add_dialog = false }) { Text("Cancel") } }
             )
-          }
+        }
+
+        editingCategory?.let { cat ->
+            ColorPickerDialog(
+                initialColor = effectiveCategoryColor(cat),
+                onDismiss = { editingCategory = null },
+                onConfirm = { picked ->
+                    fitzgerald_overrides[cat.name] = picked.toHexString()
+                    editingCategory = null
+                }
+            )
+        }
+    }
 }
 
 @Composable
@@ -3888,8 +3980,8 @@ fun EditorToolbar() {
             .statusBarsPadding()
             .height(48.dp)
             .zIndex(800f)
-            .horizontalScroll(toolbarScroll)
             .horizontalScrollbar(toolbarScroll)
+            .horizontalScroll(toolbarScroll)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -3902,10 +3994,10 @@ fun EditorToolbar() {
         Button(
             onClick = {
                 trigger_save.value = true
-                      },
+            },
             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242)
-        )) { Text("Apply Changes") }
+            )) { Text("Apply Changes") }
         Button(
             onClick = { exit_clicked = true },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
@@ -4194,7 +4286,7 @@ fun EditItemDialog() {
         modifier = Modifier.fillMaxHeight(0.90f).fillMaxWidth(0.95f),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Row(modifier = Modifier.verticalScroll(scrollState).verticalScrollbar(scrollState)) {
+            Row(modifier = Modifier.verticalScrollbar(scrollState).verticalScroll(scrollState)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(end = 16.dp),
@@ -4279,7 +4371,7 @@ fun EditItemDialog() {
                             name,
                             9,
                             possible_images_count + 9
-                            )
+                        )
                         // Add only the newly fetched ones
                         for (i in possible_images_count until (results?.size ?: 0)) {
                             val url: String? = results?.get(i)?.image_url
@@ -4408,53 +4500,53 @@ fun EditItemDialog() {
 
                     // Current selection label + preview
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                          Box(modifier = Modifier.size(40.dp)
+                        Box(modifier = Modifier.size(40.dp)
                             .background(resolveItemColor(currentColor))
                             .border(2.dp, Color.Black, RoundedCornerShape(4.dp)))
-                          Spacer(Modifier.width(8.dp))
-                          Text(
+                        Spacer(Modifier.width(8.dp))
+                        Text(
                             when {
-                              currentColor.startsWith("#") -> "Custom"
-                              else -> currentColor
+                                currentColor.startsWith("#") -> "Custom"
+                                else -> currentColor
                             },
                             fontSize = 14.sp
-                          )
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     // Tappable swatches: Default + each Fitzgerald category
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        verticalArrangement = Arrangement.spacedBy(8.dp)) {
 
-                      fitzgeraldKey.forEach { cat ->
-                        val isSelected = currentColor == cat.name
-                        Box(modifier = Modifier.size(36.dp)
-                          .background(effectiveCategoryColor(cat))
-                          .border(
-                            if (isSelected) 4.dp else 2.dp,
-                            if (isSelected) Color(0xFF1976D2) else Color.Black,
-                            RoundedCornerShape(4.dp))
-                          .clickable { currentColor = cat.name }
-                        )
-                      }
-                }
+                        fitzgeraldKey.forEach { cat ->
+                            val isSelected = currentColor == cat.name
+                            Box(modifier = Modifier.size(36.dp)
+                                .background(effectiveCategoryColor(cat))
+                                .border(
+                                    if (isSelected) 4.dp else 2.dp,
+                                    if (isSelected) Color(0xFF1976D2) else Color.Black,
+                                    RoundedCornerShape(4.dp))
+                                .clickable { currentColor = cat.name }
+                            )
+                        }
+                    }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Button(onClick = { showColorPicker = true }) {
-                          Text(if (currentColor.startsWith("#")) "Edit custom color" else "Pick custom color")
+                        Text(if (currentColor.startsWith("#")) "Edit custom color" else "Pick custom color")
                     }
 
                     if (showColorPicker) {
-                          ColorPickerDialog(
+                        ColorPickerDialog(
                             initialColor = resolveItemColor(currentColor),
                             onDismiss = { showColorPicker = false },
                             onConfirm = { picked ->
-                                  currentColor = picked.toHexString()
-                                  showColorPicker = false
-                                }
-                          )
+                                currentColor = picked.toHexString()
+                                showColorPicker = false
+                            }
+                        )
                     }
 
 
