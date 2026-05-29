@@ -174,7 +174,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 
-const val DEMO_MODE = false
+const val DEMO_MODE = true
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -2165,6 +2165,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
     val vertical_stretch = ((menu_height)-((((menu_height)/(total_box_size)).toInt())*total_box_size))
     var item_names = remember { mutableStateListOf<String>() }
     var item_urls = remember { mutableStateListOf<String>() }
+    var dot_row_height = 100.dp
     if (item_text_padding < 5.dp)
     {
         item_text_padding = 5.dp
@@ -2228,47 +2229,62 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 }
             }
         }
-
         HorizontalPager(
-            state = pagerState,
-            modifier = modifier.fillMaxWidth().fillMaxHeight()
-        ) { page ->
-            val startIndex = page * items_per_page
-            val endIndex = minOf(startIndex + items_per_page, total_items)
-            val empty_slots = items_per_page - (endIndex - startIndex)
+                state = pagerState,
+                modifier = modifier.fillMaxWidth().fillMaxHeight()
+            ) { page ->
+                val startIndex = page * items_per_page
+                val endIndex = minOf(startIndex + items_per_page, total_items)
+                val empty_slots = items_per_page - (endIndex - startIndex)
 
-            FlowRow(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalArrangement = Arrangement.Top
-            ) {
-                for (i in startIndex until endIndex) {
-                    if (i >= item_names.size || i >= item_urls.size) {
-                        MenuPlaceholder(vertical_stretch)
-                        continue
-                    }
-                    val itemKey = "${menutemplate.id}-$i"
-                    Box(modifier = Modifier.onGloballyPositioned { coords ->
-                        item_positions[itemKey] = coords.positionInRoot()
-                    }) {
-                        val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
-                        if (menutemplate.item_type[i]) {
-                            Symbol(item_names[i], item_urls[i], vertical_stretch,
-                                menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i, bgColor = itemColor)
-                        } else {
-                            Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!,
-                                vertical_stretch, menu_id = menutemplate.id, item_index = i, bgColor = itemColor)
+                FlowRow(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    for (i in startIndex until endIndex) {
+                        if (i >= item_names.size || i >= item_urls.size) {
+                            MenuPlaceholder(vertical_stretch)
+                            continue
+                        }
+                        val itemKey = "${menutemplate.id}-$i"
+                        Box(modifier = Modifier.onGloballyPositioned { coords ->
+                            item_positions[itemKey] = coords.positionInRoot()
+                        }) {
+                            val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
+                            if (menutemplate.item_type[i]) {
+                                Symbol(
+                                    item_names[i],
+                                    item_urls[i],
+                                    vertical_stretch,
+                                    menutemplate.tts[i]!!,
+                                    menu_id = menutemplate.id,
+                                    item_index = i,
+                                    bgColor = itemColor
+                                )
+                            } else {
+                                Folder(
+                                    item_names[i],
+                                    item_urls[i],
+                                    menutemplate.pointers[i]!!,
+                                    vertical_stretch,
+                                    menu_id = menutemplate.id,
+                                    item_index = i,
+                                    bgColor = itemColor
+                                )
+                            }
                         }
                     }
-                }
-                repeat(empty_slots) {
-                    MenuPlaceholder(vertical_stretch)
+                    repeat(empty_slots) {
+                        MenuPlaceholder(vertical_stretch)
+                    }
                 }
             }
-        }
-        if (pagerState.pageCount > 1)
-        {
-            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.Center)
+        if (pagerState.pageCount > 1) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).height(dot_row_height),
+                horizontalArrangement = Arrangement.Center
+            )
             {
                 repeat(pagerState.pageCount) { i ->
                     val isActive = i == pagerState.currentPage
@@ -2338,6 +2354,18 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
                 .clickable(onClick = {
                     navigateTo(menu_terms_ids[i])
                 })
+                .drawWithContent {
+                    drawContent()
+
+                    val foldSize = size.height * 0.25f
+                    val path = Path().apply {
+                        moveTo(size.width - foldSize, 0f)
+                        lineTo(size.width, 0f)
+                        lineTo(size.width, foldSize)
+                        close()
+                    }
+                    drawPath(path, Color.Black)
+                }
         ) {
             Text(
                 text = MenuFinder(menu_terms_ids[i]).title,
