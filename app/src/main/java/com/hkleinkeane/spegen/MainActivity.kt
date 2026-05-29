@@ -12,7 +12,6 @@
 
 package io.github.hkleinkeane.spegen
 
-import android.R
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -31,6 +30,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,7 +55,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -76,8 +75,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Slider
@@ -104,13 +101,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.toArgb
@@ -133,6 +132,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.datastore.preferences.core.edit
@@ -161,18 +161,11 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
-import okhttp3.HttpUrl
 import java.io.File
 import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
-import androidx.compose.ui.window.Dialog
-import androidx.compose.foundation.ScrollState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Size
 
 const val DEMO_MODE = true
 
@@ -641,7 +634,7 @@ data class PersistedState(
     val menu_row_text_padding: Float = 4f,
     val ngram_model: NgramModel = NgramModel(),
     val fitzgerald_overrides: Map<String, String> = emptyMap(),
-    val fitzgeraldKey: List<FitzgeraldCategory>
+    val fitzgeraldKey: List<FitzgeraldCategory> = emptyList()
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -695,8 +688,10 @@ fun load_vars(state: PersistedState) {
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
 
-    fitzgeraldKey.clear()
-    fitzgeraldKey.addAll(state.fitzgeraldKey)
+    if (state.fitzgeraldKey.isNotEmpty()) {
+        fitzgeraldKey.clear()
+        fitzgeraldKey.addAll(state.fitzgeraldKey)
+    }
 
     fitzgerald_overrides.clear()
     fitzgerald_overrides.putAll(state.fitzgerald_overrides)
@@ -2038,18 +2033,18 @@ fun MenuPlaceholder(vertical_stretch: Dp) {
     Box(
         modifier = Modifier
             .height(box_size + vertical_stretch + (box_padding * 3))
+            .width(box_size)
+            .clip(RoundedCornerShape(40.dp))
             .background(Color.White)
             .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
             .padding(box_padding)
-            .scale(1f)
-            .width(box_size)
     )
 }
 
 @Serializable
 data class FitzgeraldCategory(val name: String, val colorHex: String)
 
-var fitzgeraldKey = mutableStateListOf<FitzgeraldCategory>(
+val fitzgeraldKey = mutableStateListOf<FitzgeraldCategory>(
     FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
     FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
     FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
@@ -2160,145 +2155,132 @@ fun MenuKeyGen() {
 @Composable
 @NonSkippableComposable
 fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
-    var totalitems = ((screenWidth - (button_boxes_width * 2))/(box_size + (box_padding*2)))*((screenHeight-(static_row_height+menu_static_row_height))/box_size)
-    var total_box_size = box_size+(box_padding*2)
-    val vertical_stretch = ((menu_height)-((((menu_height)/(total_box_size)).toInt())*total_box_size))
-    var item_names = remember { mutableStateListOf<String>() }
-    var item_urls = remember { mutableStateListOf<String>() }
-    var dot_row_height = 100.dp
-    if (item_text_padding < 5.dp)
-    {
-        item_text_padding = 5.dp
-    }
-    LaunchedEffect(menutemplate.id, menutemplate.item_list, menutemplate.image_urls, menutemplate.custom_image_paths, switchmenuparser.value) {
-        item_names.clear()
-        item_urls.clear()
+      val item_names = remember { mutableStateListOf<String>() }
+      val item_urls = remember { mutableStateListOf<String>() }
+      if (item_text_padding < 5.dp) item_text_padding = 5.dp
 
-        val cachedUrls = menutemplate.image_urls
-        val allResolved = cachedUrls.size == menutemplate.item_list.size &&
+      LaunchedEffect(menutemplate.id, menutemplate.item_list, menutemplate.image_urls,
+             menutemplate.custom_image_paths, switchmenuparser.value) {
+            item_names.clear()
+            item_urls.clear()
+
+            val cachedUrls = menutemplate.image_urls
+            val allResolved = cachedUrls.size == menutemplate.item_list.size &&
                 cachedUrls.none { it.isBlank() }
 
-        if (allResolved) {
-            item_names.addAll(menutemplate.item_list)
-            menutemplate.item_list.indices.forEach { idx ->
-                val u = menutemplate.displayUrl(idx)
-                item_urls.add(u)
-            }
-        } else {
-            getAccessToken()
-            val resolved = mutableListOf<String>()
-            menutemplate.item_list.forEachIndexed { index, query ->
+            if (allResolved) {
+              item_names.addAll(menutemplate.item_list)
+              menutemplate.item_list.indices.forEach { idx ->
+                item_urls.add(menutemplate.displayUrl(idx))
+              }
+            } else {
+              getAccessToken()
+              val resolved = mutableListOf<String>()
+              menutemplate.item_list.forEachIndexed { index, query ->
                 val existing = cachedUrls.getOrNull(index)
                 val url = if (!existing.isNullOrBlank()) existing
                 else useApiWithToken(accesstoken, query)?.image_url ?: ""
                 item_names.add(query)
                 resolved.add(url)
-            }
-            val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
-            if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
+              }
+              val menuIndex = MenuList.indexOfFirst { it.id == menutemplate.id }
+              if (menuIndex >= 0 && resolved.any { it.isNotBlank() }) {
                 MenuList[menuIndex] = MenuList[menuIndex].copy(image_urls = resolved)
                 trigger_save.value = true
-            }
-            menutemplate.item_list.indices.forEach { idx ->
+              }
+              menutemplate.item_list.indices.forEach { idx ->
                 val custom = menutemplate.custom_image_paths.getOrNull(idx)
-                item_urls.add(
-                    if (!custom.isNullOrBlank()) custom
-                    else resolved.getOrNull(idx) ?: ""
-                )
+                item_urls.add(if (!custom.isNullOrBlank()) custom else resolved.getOrNull(idx) ?: "")
+              }
             }
-        }
-    }
-    current_menu_id = menutemplate.id
-    key(switchmenuparser.value, menutemplate.id) {
-        val item_width = box_size + (box_padding * 2)
-        val item_height_total = box_size + vertical_stretch + (box_padding * 3)
-        val items_per_row = (menu_width.value / item_width.value).toInt().coerceAtLeast(1)
-        val rows_per_page = (menu_height.value / item_height_total.value).toInt().coerceAtLeast(1)
-        val items_per_page = (items_per_row * rows_per_page).coerceAtLeast(1)
-        val total_items = menutemplate.item_list.size
-        val page_count = ((total_items + items_per_page - 1) / items_per_page).coerceAtLeast(1)
+          }
+      current_menu_id = menutemplate.id
 
-        val pagerState = rememberPagerState(pageCount = { page_count })
+      key(switchmenuparser.value, menutemplate.id) {
+            val dots_reserve = 22.dp
+            val available_height = (menu_height - dots_reserve).coerceAtLeast(box_size + box_padding * 3)
+            val item_width = box_size + (box_padding * 2)
+            val item_height_natural = box_size + (box_padding * 3)
 
-        LaunchedEffect(wordfinder_highlight_index.intValue, items_per_page, page_count) {
-            val idx = wordfinder_highlight_index.intValue
-            if (idx >= 0) {
+            val items_per_row = (menu_width.value / item_width.value).toInt().coerceAtLeast(1)
+            val rows_per_page = (available_height.value / item_height_natural.value).toInt().coerceAtLeast(1)
+            val item_height_total = available_height / rows_per_page     // divides evenly
+            val vertical_stretch = item_height_total - item_height_natural
+
+            val items_per_page = (items_per_row * rows_per_page).coerceAtLeast(1)
+            val total_items = menutemplate.item_list.size
+            val page_count = ((total_items + items_per_page - 1) / items_per_page).coerceAtLeast(1)
+
+            val pagerState = rememberPagerState(pageCount = { page_count })
+
+            LaunchedEffect(wordfinder_highlight_index.intValue, items_per_page, page_count) {
+              val idx = wordfinder_highlight_index.intValue
+              if (idx >= 0) {
                 val target_page = (idx / items_per_page).coerceIn(0, page_count - 1)
                 if (pagerState.currentPage != target_page) {
-                    pagerState.animateScrollToPage(target_page)
+                  pagerState.animateScrollToPage(target_page)
                 }
+              }
             }
-        }
-        HorizontalPager(
+
+            Column(modifier = Modifier.fillMaxSize()) {
+              HorizontalPager(
                 state = pagerState,
-                modifier = modifier.fillMaxWidth().fillMaxHeight()
-            ) { page ->
+                modifier = Modifier.fillMaxWidth().weight(1f)
+              ) { page ->
                 val startIndex = page * items_per_page
                 val endIndex = minOf(startIndex + items_per_page, total_items)
                 val empty_slots = items_per_page - (endIndex - startIndex)
 
                 FlowRow(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalArrangement = Arrangement.Top
+                  modifier = Modifier.fillMaxSize(),
+                  horizontalArrangement = Arrangement.SpaceBetween,
+                  verticalArrangement = Arrangement.Top
                 ) {
-                    for (i in startIndex until endIndex) {
-                        if (i >= item_names.size || i >= item_urls.size) {
-                            MenuPlaceholder(vertical_stretch)
-                            continue
-                        }
-                        val itemKey = "${menutemplate.id}-$i"
-                        Box(modifier = Modifier.onGloballyPositioned { coords ->
-                            item_positions[itemKey] = coords.positionInRoot()
-                        }) {
-                            val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
-                            if (menutemplate.item_type[i]) {
-                                Symbol(
-                                    item_names[i],
-                                    item_urls[i],
-                                    vertical_stretch,
-                                    menutemplate.tts[i]!!,
-                                    menu_id = menutemplate.id,
-                                    item_index = i,
-                                    bgColor = itemColor
-                                )
-                            } else {
-                                Folder(
-                                    item_names[i],
-                                    item_urls[i],
-                                    menutemplate.pointers[i]!!,
-                                    vertical_stretch,
-                                    menu_id = menutemplate.id,
-                                    item_index = i,
-                                    bgColor = itemColor
-                                )
-                            }
-                        }
+                  for (i in startIndex until endIndex) {
+                    if (i >= item_names.size || i >= item_urls.size) {
+                      MenuPlaceholder(vertical_stretch); continue
                     }
-                    repeat(empty_slots) {
-                        MenuPlaceholder(vertical_stretch)
+                    val itemKey = "${menutemplate.id}-$i"
+                    Box(modifier = Modifier.onGloballyPositioned { coords ->
+                      item_positions[itemKey] = coords.positionInRoot()
+                    }) {
+                      val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
+                      if (menutemplate.item_type[i]) {
+                        Symbol(item_names[i], item_urls[i], vertical_stretch,
+                          menutemplate.tts[i]!!, menu_id = menutemplate.id,
+                          item_index = i, bgColor = itemColor)
+                      } else {
+                        Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!,
+                          vertical_stretch, menu_id = menutemplate.id,
+                          item_index = i, bgColor = itemColor)
+                      }
                     }
+                  }
+                  repeat(empty_slots) { MenuPlaceholder(vertical_stretch) }
                 }
-            }
-        if (pagerState.pageCount > 1) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).height(dot_row_height),
-                horizontalArrangement = Arrangement.Center
-            )
-            {
-                repeat(pagerState.pageCount) { i ->
+              }
+
+              Row(
+                modifier = Modifier.fillMaxWidth().height(dots_reserve),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                if (page_count > 1) {
+                  repeat(page_count) { i ->
                     val isActive = i == pagerState.currentPage
                     Box(
-                        modifier = Modifier
-                            .padding(horizontal = 3.dp)
-                            .size(if (isActive) 10.dp else 7.dp)
-                            .clip(RoundedCornerShape(50))
-                            .background(if (isActive) Color.Black else Color.Gray.copy(alpha = 0.4f))
+                      modifier = Modifier
+                        .padding(horizontal = 3.dp)
+                        .size(if (isActive) 10.dp else 7.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(if (isActive) Color.Black else Color.Gray.copy(alpha = 0.4f))
                     )
+                  }
                 }
+              }
             }
-        }
-    }
+      }
 }
 
 @Composable
@@ -2952,7 +2934,7 @@ fun ColorKeySettings() {
         Button(
             onClick = { fitzgerald_overrides.clear()
                 fitzgeraldKey.clear()
-                fitzgeraldKey = mutableStateListOf<FitzgeraldCategory>(
+                fitzgeraldKey.addAll(listOf(
                     FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
                     FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
                     FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
@@ -2962,7 +2944,7 @@ fun ColorKeySettings() {
                     FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),  // brown
                     FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),  // white
                     FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
-                )},
+                ))},
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
         ) { Text("Reset all to defaults") }
@@ -3385,10 +3367,12 @@ fun MenuRowSettings() {
 fun ItemSizingSettings() {
     var preview_size by remember { mutableFloatStateOf(box_size.value) }
 
+    val dots_reserve = 22f
     val item_total_width = preview_size + box_padding.value * 2
     val item_total_height = preview_size + box_padding.value * 3
     val items_per_row = (menu_width.value / item_total_width ).toInt().coerceAtLeast(1)
-    val rows_per_page = (menu_height.value / item_total_height).toInt().coerceAtLeast(1)
+    val available_height = (menu_height.value - dots_reserve).coerceAtLeast(item_total_height)
+    val rows_per_page = (available_height / item_total_height).toInt().coerceAtLeast(1)
     val items_per_page = items_per_row * rows_per_page
 
     Column(modifier = Modifier.fillMaxWidth()) {
