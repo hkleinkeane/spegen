@@ -12,6 +12,7 @@
 
 package io.github.hkleinkeane.spegen
 
+import android.R
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -34,6 +35,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -73,6 +76,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Slider
@@ -102,8 +107,12 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
@@ -157,6 +166,7 @@ import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
+import androidx.compose.ui.window.Dialog
 
 const val DEMO_MODE = false
 
@@ -326,6 +336,8 @@ var inputboxselecteditems_audio = mutableStateListOf<String>()
 var inputboxselecteditems_pron = mutableStateListOf<String>()
 private var seqPlayer: android.media.MediaPlayer? = null
 
+val fitzgerald_overrides = mutableStateMapOf<String, String>()
+
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader.Builder(context)
@@ -396,6 +408,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                                 val res = useApiWithToken(accesstoken, folder_name)
                                 folder_image_url = res?.image_url ?: ""
                             }
+                            val itemColor = menu.colors.getOrNull(index)?.toComposeColor() ?: Color.White
                             Surface(color = Color.Transparent) {
                                 Folder(
                                     folder_name,
@@ -404,7 +417,8 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                                     vertical_stretch,
                                     x_offset,
                                     y_offset,
-                                    Modifier.zIndex(1000f)
+                                    Modifier.zIndex(1000f),
+                                    bgColor = itemColor
                                 )
                             }
                         }
@@ -443,6 +457,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                             val res = useApiWithToken(accesstoken, symbol_name)
                             symbol_image_url = res?.image_url ?: ""
                         }
+                        val itemColor = menu.colors.getOrNull(index)?.toComposeColor() ?: Color.White
                         Surface(color = Color.Transparent) {
                             Symbol(
                                 symbol_name,
@@ -451,7 +466,8 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                                 tts_type,
                                 x_offset,
                                 y_offset,
-                                Modifier.zIndex(100f)
+                                Modifier.zIndex(100f),
+                                bgColor = itemColor
                             )
                         }
                     }
@@ -545,8 +561,8 @@ fun resetToDefaults() {
     createclonesymbol.value = false
     wordfinder_highlight_index.intValue = -1
 
-    // Clear autocomplete display
-    show_autocomplete.value = false
+    // Clear custom Fitzgerald overrides
+    fitzgerald_overrides.clear()
 
     // Clear menu history
     menu_history.clear()
@@ -569,6 +585,7 @@ fun resetToDefaults() {
     show_edit_item_dialog.value = false
     show_add_item_dialog.value = false
     show_new_menu_dialog.value = false
+    show_autocomplete.value = false
 
     // Back to home menu
     linked_menu.value = 0
@@ -615,7 +632,8 @@ data class PersistedState(
     val static_row_text_padding: Float = 4f,
     val menu_row_text_size: Float = 16f,
     val menu_row_text_padding: Float = 4f,
-    val ngram_model: NgramModel = NgramModel()
+    val ngram_model: NgramModel = NgramModel(),
+    val fitzgerald_overrides: Map<String, String> = emptyMap()
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -627,13 +645,15 @@ fun PersistedState.withPaddedLists(): PersistedState = copy(
         val custom_audio_paths = menu.custom_audio_paths.toMutableList()
         val custom_audio_names = menu.custom_audio_names.toMutableList()
         val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
+        val colors = menu.colors.toMutableList()
+        while (colors.size < n) colors.add("")
         while (uuids.size  < n) uuids.add(java.util.UUID.randomUUID().toString())
         while (urls.size   < n) urls.add("")
         while (custom.size < n) custom.add("")
         while (custom_audio_paths.size < n) custom_audio_paths.add("")
         while (custom_audio_names.size < n) custom_audio_names.add("")
         while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
-        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom, custom_audio_paths = custom_audio_paths, custom_audio_names = custom_audio_names, pronunciation_overrides = pronunciation_overrides)
+        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom, custom_audio_paths = custom_audio_paths, custom_audio_names = custom_audio_names, pronunciation_overrides = pronunciation_overrides, colors = colors)
     }
 )
 
@@ -666,6 +686,9 @@ fun load_vars(state: PersistedState) {
     static_row_text_padding.floatValue = state.static_row_text_padding
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
+
+    fitzgerald_overrides.clear()
+    fitzgerald_overrides.putAll(state.fitzgerald_overrides)
 
     MenuList.clear()
     MenuList.addAll(state.menu_list)
@@ -706,7 +729,8 @@ fun currentPersistedState(): PersistedState = PersistedState(
     static_row_text_padding = static_row_text_padding.floatValue,
     menu_row_text_size = menu_row_text_size.floatValue,
     menu_row_text_padding = menu_row_text_padding.floatValue,
-    ngram_model = ngram_model.value
+    ngram_model = ngram_model.value,
+    fitzgerald_overrides = fitzgerald_overrides.toMap()
 )
 
 suspend fun saveAllPreferences(context: Context) {
@@ -1765,7 +1789,7 @@ fun InputBox_Text(index: Int) {
 
 @Composable
 @NonSkippableComposable
-fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int, x_offset: Dp = 0.dp, y_offset: Dp = 0.dp, modifier: Modifier = Modifier, menu_id: Int? = null, item_index: Int? = null) {
+fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int, x_offset: Dp = 0.dp, y_offset: Dp = 0.dp, modifier: Modifier = Modifier, menu_id: Int? = null, item_index: Int? = null, bgColor: Color) {
     if (x_offset > 0.dp || y_offset > 0.dp) {
         Row(modifier = Modifier.fillMaxSize())
         {
@@ -1781,7 +1805,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
     var height_dp = 16
     var width_dp = height_dp*3.0625
     tts = rememberTextToSpeech()
-    Box(modifier = modifier)  {
+    Box(modifier = modifier.background(color = bgColor))  {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(image_url)
@@ -1790,7 +1814,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
             modifier = modifier
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
-                .background(Color.White)
+                .background(bgColor)
                 .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
@@ -1840,6 +1864,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                         }
                     }
                 })
+                .clip(RoundedCornerShape(40.dp))
         )
         var mod = Modifier.zIndex(1f)
         if (modifier != Modifier)
@@ -1857,7 +1882,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
 
 @Composable
 @NonSkippableComposable
-fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: Dp, x_offset: Dp = 0.dp, y_offset: Dp = 0.dp, modifier: Modifier = Modifier, menu_id: Int? = null, item_index: Int? = null) {
+fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: Dp, x_offset: Dp = 0.dp, y_offset: Dp = 0.dp, modifier: Modifier = Modifier, menu_id: Int? = null, item_index: Int? = null, bgColor: Color) {
     if (x_offset > 0.dp || y_offset > 0.dp) {
         Row(modifier = Modifier.fillMaxSize())
         {
@@ -1872,7 +1897,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
         else it.toString() }
     var height_dp = 16
     var width_dp = height_dp*3.0625
-    Box(modifier = modifier)
+    Box(modifier = modifier.background(color = bgColor))
     {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -1882,7 +1907,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
             modifier = Modifier
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
-                .background(Color.White)
+                .background(bgColor)
                 .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
@@ -1917,6 +1942,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                         navigateTo(LinkedMenu)
                     }
                 })
+                .clip(RoundedCornerShape(40.dp))
         )
         var mod = Modifier.zIndex(1f)
         if (modifier != Modifier)
@@ -1968,6 +1994,29 @@ fun MenuPlaceholder(vertical_stretch: Dp) {
     )
 }
 
+data class FitzgeraldCategory(val name: String, val color: Color)
+
+val fitzgeraldKey = listOf(
+    FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B)),  // yellow
+  FitzgeraldCategory("Noun",    Color(0xFFFF9800)),  // orange
+  FitzgeraldCategory("Verb",    Color(0xFF4CAF50)),  // green
+  FitzgeraldCategory("Adjective",  Color(0xFF2196F3)),  // blue
+  FitzgeraldCategory("Social",   Color(0xFFE91E63)),  // pink
+  FitzgeraldCategory("Question",  Color(0xFF9C27B0)),  // purple
+  FitzgeraldCategory("Adverb",   Color(0xFF795548)),  // brown
+  FitzgeraldCategory("Determiner", Color(0xFFFFFFFF)),  // white
+  FitzgeraldCategory("Other",    Color(0xFFBDBDBD))  // gray
+)
+
+fun Color.toHexString(): String {
+      val r = (red * 255).toInt(); val g = (green * 255).toInt(); val b = (blue * 255).toInt()
+      return "#%02X%02X%02X".format(r, g, b)
+}
+
+fun String.toComposeColor(): Color =
+  if (isBlank()) Color.White
+  else try { Color(android.graphics.Color.parseColor(this)) } catch (e: Exception) { Color.White }
+
 @Serializable
 data class menutemplate(
     val id: Int, // ID of the current menu
@@ -1981,7 +2030,8 @@ data class menutemplate(
     val custom_image_paths: List<String> = emptyList(), // custom image paths for items
     val custom_audio_paths: List<String> = emptyList(),   // recorded/imported audio file path
     val custom_audio_names: List<String> = emptyList(), // recorded/imported audio file name
-    val pronunciation_overrides: List<String> = emptyList() // phonetic respelling text
+    val pronunciation_overrides: List<String> = emptyList(), // phonetic respelling text
+      val colors: List<String> = emptyList()  // hex like "#FFEB3B", "" = default white
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -2148,12 +2198,13 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                     Box(modifier = Modifier.onGloballyPositioned { coords ->
                         item_positions[itemKey] = coords.positionInRoot()
                     }) {
+                        val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
                         if (menutemplate.item_type[i]) {
                             Symbol(item_names[i], item_urls[i], vertical_stretch,
-                                menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i)
+                                menutemplate.tts[i]!!, menu_id = menutemplate.id, item_index = i, bgColor = itemColor)
                         } else {
                             Folder(item_names[i], item_urls[i], menutemplate.pointers[i]!!,
-                                vertical_stretch, menu_id = menutemplate.id, item_index = i)
+                                vertical_stretch, menu_id = menutemplate.id, item_index = i, bgColor = itemColor)
                         }
                     }
                 }
@@ -2229,6 +2280,91 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
             )
         }
     }
+}
+
+fun resolveItemColor(stored: String): Color {
+      if (stored.isBlank()) return Color.White
+      if (stored.startsWith("#")) return stored.toComposeColor()   // custom hex
+      val cat = fitzgeraldKey.find { it.name == stored }       // symbolic name
+      return if (cat != null) effectiveCategoryColor(cat) else Color.White
+}
+
+fun effectiveCategoryColor(category: FitzgeraldCategory): Color {
+      val override = fitzgerald_overrides[category.name]
+      return if (!override.isNullOrBlank()) override.toComposeColor() else category.color
+}
+
+@Composable
+fun ColorPickerDialog(
+      initialColor: Color,
+  onDismiss: () -> Unit,
+  onConfirm: (Color) -> Unit
+) {
+      val hsv = FloatArray(3).also { android.graphics.Color.colorToHSV(initialColor.toArgb(), it) }
+      var hue by remember { mutableFloatStateOf(hsv[0]) }
+      var sat by remember { mutableFloatStateOf(hsv[1]) }
+      var value by remember { mutableFloatStateOf(hsv[2]) }
+      val currentColor = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, sat, value)))
+
+      Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+      ) {
+            Surface(
+              modifier = Modifier
+                .fillMaxWidth(0.9f)
+                .heightIn(max = 560.dp),   // cap dialog height
+              shape = RoundedCornerShape(16.dp),
+              color = Color.White
+            ) {
+              Column(modifier = Modifier
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState())   // scroll if needed
+              ) {
+                Text("Pick a color", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(12.dp))
+                Box(modifier = Modifier.fillMaxWidth().height(40.dp)
+                  .background(currentColor).border(2.dp, Color.Black))
+                Spacer(Modifier.height(12.dp))
+                Box(modifier = Modifier
+                  .fillMaxWidth()
+                  .height(220.dp)       // fixed height instead of aspectRatio
+                  .pointerInput(Unit) {
+                    detectTapGestures { offset ->
+                      sat = (offset.x / size.width).coerceIn(0f, 1f)
+                      value = 1f - (offset.y / size.height).coerceIn(0f, 1f)
+                    }
+                  }
+                  .pointerInput(Unit) {
+                    detectDragGestures { change, _ ->
+                      change.consume()
+                      sat = (change.position.x / size.width).coerceIn(0f, 1f)
+                      value = 1f - (change.position.y / size.height).coerceIn(0f, 1f)
+                    }
+                  }
+                ) {
+                  Canvas(modifier = Modifier.fillMaxSize()) {
+                    val pure = Color(android.graphics.Color.HSVToColor(floatArrayOf(hue, 1f, 1f)))
+                    drawRect(brush = Brush.horizontalGradient(listOf(Color.White, pure)))
+                    drawRect(brush = Brush.verticalGradient(listOf(Color.Transparent, Color.Black)))
+                    val cx = sat * size.width; val cy = (1f - value) * size.height
+                    drawCircle(Color.White, 10f, Offset(cx, cy), style = Stroke(2f))
+                    drawCircle(Color.Black, 8f, Offset(cx, cy), style = Stroke(1f))
+                  }
+                }
+                Spacer(Modifier.height(12.dp))
+                Text("Hue: ${hue.toInt()}°", fontSize = 12.sp)
+                Slider(value = hue, onValueChange = { hue = it }, valueRange = 0f..360f)
+                Spacer(Modifier.height(16.dp))
+                Row(modifier = Modifier.fillMaxWidth(),
+                  horizontalArrangement = Arrangement.End) {
+                  Button(onClick = onDismiss) { Text("Cancel") }
+                  Spacer(Modifier.width(8.dp))
+                  Button(onClick = { onConfirm(currentColor) }) { Text("OK") }
+                }
+              }
+            }
+          }
 }
 
 @Composable
@@ -2392,6 +2528,7 @@ fun WordFinder_Card(
         modifier = Modifier
             .fillMaxWidth()
             .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
+            .clip(RoundedCornerShape(40.dp))
     ) {
         Row(
             modifier = Modifier
@@ -2647,6 +2784,7 @@ fun UISettingsContent() {
         .verticalScroll(rememberScrollState())) {
         ExpandableSection("Static Symbol Row") { StaticSymbolRowSettings() }
         ExpandableSection("Menu Row") { MenuRowSettings() }
+        ExpandableSection("AAC Color Key") { ColorKeySettings() }
         ExpandableSection("Item Sizing") { ItemSizingSettings() }
         ExpandableSection("Edit Mode") { EditMode() }
     }
@@ -2664,6 +2802,59 @@ fun EditMode()
             show_settings.value = false
         }) { Text("Enable editor mode") }
     }
+}
+
+@Composable
+fun ColorKeySettings() {
+      var editingCategory by remember { mutableStateOf<FitzgeraldCategory?>(null) }
+
+      Column {
+            Text(
+              "Customize the colors used for each word category. " +
+              "Changes apply to all items using that category.",
+              fontSize = 13.sp, color = Color.DarkGray
+            )
+            Spacer(Modifier.height(8.dp))
+
+            fitzgeraldKey.forEach { cat ->
+              Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+              ) {
+                Box(modifier = Modifier.size(32.dp)
+                  .background(effectiveCategoryColor(cat))
+                  .border(2.dp, Color.Black, RoundedCornerShape(4.dp)))
+                Spacer(Modifier.width(12.dp))
+                Text(cat.name, modifier = Modifier.weight(1f), fontSize = 16.sp)
+                if (fitzgerald_overrides.containsKey(cat.name)) {
+                  Button(
+                    onClick = { fitzgerald_overrides.remove(cat.name) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
+                    modifier = Modifier.padding(end = 4.dp)
+                  ) { Text("Reset") }
+                }
+                Button(onClick = { editingCategory = cat }) { Text("Edit") }
+              }
+            }
+
+            Spacer(Modifier.height(12.dp))
+            Button(
+              onClick = { fitzgerald_overrides.clear() },
+              modifier = Modifier.fillMaxWidth(),
+              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+            ) { Text("Reset all to defaults") }
+          }
+
+      editingCategory?.let { cat ->
+            ColorPickerDialog(
+              initialColor = effectiveCategoryColor(cat),
+              onDismiss = { editingCategory = null },
+              onConfirm = { picked ->
+                fitzgerald_overrides[cat.name] = picked.toHexString()
+                editingCategory = null
+              }
+            )
+          }
 }
 
 @Composable
@@ -3635,25 +3826,23 @@ fun EditorToolbar() {
             .statusBarsPadding()
             .height(48.dp)
             .zIndex(800f)
+            .horizontalScroll(rememberScrollState())
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text("EDITOR MODE", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-        Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = { show_add_item_dialog.value = true }) { Text("+ Item") }
-        Button(onClick = { show_new_menu_dialog.value = true }) { Text("+ Menu") }
-        Spacer(modifier = Modifier.width(20.dp))
-        Button(onClick = { show_delete_menu_dialog.value = true }) { Text("- Menu") }
-        Button(onClick = { show_goto_menu_dialog.value = true}) { Text("Go To Menu") }
-        Spacer(modifier = Modifier.width(20.dp))
+        Button(onClick = { show_add_item_dialog.value = true }, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) { Text("+ Item") }
+        Button(onClick = { show_new_menu_dialog.value = true }, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) { Text("+ Menu") }
+        Button(onClick = { show_delete_menu_dialog.value = true }, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) { Text("- Menu") }
+        Button(onClick = { show_goto_menu_dialog.value = true}, contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) { Text("Go To Menu") }
         Button(
             onClick = {
                 trigger_save.value = true
                       },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
-        ) { Text("Apply Changes") }
-        Spacer(modifier = Modifier.width(20.dp))
+            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242)
+        )) { Text("Apply Changes") }
         Button(
             onClick = { exit_clicked = true },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242))
@@ -3866,6 +4055,9 @@ fun EditItemDialog() {
     var isRecording by remember { mutableStateOf(false) }
     var currentAudioName by remember { mutableStateOf(menu.custom_audio_names.getOrNull(idx) ?: "") }
     var showRenameDialog by remember { mutableStateOf(false) }
+    var currentColor by remember { mutableStateOf(menu.colors.getOrNull(idx) ?: "") }
+    var dropdownExpanded by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
 
     val audioPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
@@ -3901,6 +4093,9 @@ fun EditItemDialog() {
             audioNames[idx] = if (useCustomAudio) currentAudioName.trim() else ""
             val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
             while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
+            val colors = menu.colors.toMutableList()
+            while (colors.size < n) colors.add("")
+            colors[idx] = currentColor
             pronunciation_overrides[idx] = if (!useCustomAudio) pronunciation.trim() else ""
             uuids[idx] = itemUuid
 
@@ -3912,7 +4107,8 @@ fun EditItemDialog() {
                 item_uuids = uuids,
                 custom_audio_paths = custom_audio_paths,
                 custom_audio_names = audioNames,
-                pronunciation_overrides = pronunciation_overrides
+                pronunciation_overrides = pronunciation_overrides,
+                colors = colors
             )
             switchmenuparser.value++
         }
@@ -4140,6 +4336,62 @@ fun EditItemDialog() {
                             label = { Text("Pronunciation") }
                         )
                     }
+
+                    // Color
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text("Color", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+
+                    // Current selection label + preview
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                          Box(modifier = Modifier.size(40.dp)
+                            .background(resolveItemColor(currentColor))
+                            .border(2.dp, Color.Black, RoundedCornerShape(4.dp)))
+                          Spacer(Modifier.width(8.dp))
+                          Text(
+                            when {
+                              currentColor.startsWith("#") -> "Custom"
+                              else -> currentColor
+                            },
+                            fontSize = 14.sp
+                          )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // Tappable swatches: Default + each Fitzgerald category
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)) {
+
+                      fitzgeraldKey.forEach { cat ->
+                        val isSelected = currentColor == cat.name
+                        Box(modifier = Modifier.size(36.dp)
+                          .background(effectiveCategoryColor(cat))
+                          .border(
+                            if (isSelected) 4.dp else 2.dp,
+                            if (isSelected) Color(0xFF1976D2) else Color.Black,
+                            RoundedCornerShape(4.dp))
+                          .clickable { currentColor = cat.name }
+                        )
+                      }
+                }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Button(onClick = { showColorPicker = true }) {
+                          Text(if (currentColor.startsWith("#")) "Edit custom color" else "Pick custom color")
+                    }
+
+                    if (showColorPicker) {
+                          ColorPickerDialog(
+                            initialColor = resolveItemColor(currentColor),
+                            onDismiss = { showColorPicker = false },
+                            onConfirm = { picked ->
+                                  currentColor = picked.toHexString()
+                                  showColorPicker = false
+                                }
+                          )
+                    }
+
 
                     if (originalIsSymbol) {
                         Spacer(modifier = Modifier.height(12.dp))

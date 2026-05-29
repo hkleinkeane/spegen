@@ -71,6 +71,7 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.10.3")
     implementation("androidx.compose.material3:material3:${1.4}")
     implementation(libs.androidx.material.icon.extended)
+    implementation(libs.androidx.ui.graphics)
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.10.0")
     implementation("com.github.kittinunf.fuel:fuel-gson:2.3.1")
     implementation("com.github.kittinunf.fuel:fuel-coroutines:2.3.1")
