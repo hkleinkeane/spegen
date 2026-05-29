@@ -168,6 +168,10 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import androidx.compose.ui.window.Dialog
+import androidx.compose.foundation.ScrollState
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
 
 const val DEMO_MODE = false
 
@@ -1572,6 +1576,48 @@ fun <T> ReorderableTermList(
     }
 }
 
+fun Modifier.verticalScrollbar(
+      state: ScrollState,
+  color: Color = Color.DarkGray,
+  width: Dp = 4.dp,
+  minThumb: Dp = 24.dp
+): Modifier = drawWithContent {
+      drawContent()
+      val max = state.maxValue.toFloat()
+      if (max <= 0f) return@drawWithContent
+      val viewport = size.height
+      val total = viewport + max
+      val thumbH = ((viewport * viewport) / total).coerceAtLeast(minThumb.toPx())
+      val thumbY = (state.value / max) * (viewport - thumbH)
+      drawRoundRect(
+        color = color.copy(alpha = 0.6f),
+        topLeft = Offset(size.width - width.toPx() - 2.dp.toPx(), thumbY),
+        size = Size(width.toPx(), thumbH),
+        cornerRadius = CornerRadius(width.toPx() / 2f)
+      )
+}
+
+fun Modifier.horizontalScrollbar(
+      state: ScrollState,
+      color: Color = Color.DarkGray,
+      height: Dp = 4.dp,
+      minThumb: Dp = 24.dp
+): Modifier = drawWithContent {
+    drawContent()
+    val max = state.maxValue.toFloat()
+    if (max <= 0f) return@drawWithContent
+    val viewport = size.width
+    val total = viewport + max
+    val thumbW = ((viewport * viewport) / total).coerceAtLeast(minThumb.toPx())
+    val thumbX = (state.value / max) * (viewport - thumbW)
+    drawRoundRect(
+        color = color.copy(alpha = 0.6f),
+        topLeft = Offset(thumbX, size.height - height.toPx() - 2.dp.toPx()),
+        size = Size(thumbW, height.toPx()),
+        cornerRadius = CornerRadius(height.toPx() / 2f)
+    )
+}
+
 fun navigateTo(menuId: Int) {
     menu_history.add(linked_menu.value)
     linked_menu.value = menuId
@@ -2209,6 +2255,22 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                 }
                 repeat(empty_slots) {
                     MenuPlaceholder(vertical_stretch)
+                }
+            }
+        }
+        if (pagerState.pageCount > 1)
+        {
+            Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), horizontalArrangement = Arrangement.Center)
+            {
+                repeat(pagerState.pageCount) { i ->
+                    val isActive = i == pagerState.currentPage
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 3.dp)
+                            .size(if (isActive) 10.dp else 7.dp)
+                            .clip(RoundedCornerShape(50))
+                            .background(if (isActive) Color.Black else Color.Gray.copy(alpha = 0.4f))
+                    )
                 }
             }
         }
@@ -3803,6 +3865,7 @@ fun AutocompleteMenu(modifier: Modifier) {
 @Composable
 fun EditorToolbar() {
     val context = LocalContext.current
+    val toolbarScroll = rememberScrollState()
     var exit_clicked by remember { mutableStateOf(false) }
     var unsaved by remember { mutableStateOf<Boolean?>(null) }
 
@@ -3825,7 +3888,8 @@ fun EditorToolbar() {
             .statusBarsPadding()
             .height(48.dp)
             .zIndex(800f)
-            .horizontalScroll(rememberScrollState())
+            .horizontalScroll(toolbarScroll)
+            .horizontalScrollbar(toolbarScroll)
             .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -4130,7 +4194,7 @@ fun EditItemDialog() {
         modifier = Modifier.fillMaxHeight(0.90f).fillMaxWidth(0.95f),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Row(modifier = Modifier.verticalScroll(scrollState)) {
+            Row(modifier = Modifier.verticalScroll(scrollState).verticalScrollbar(scrollState)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(end = 16.dp),
