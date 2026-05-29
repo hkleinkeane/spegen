@@ -98,6 +98,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -365,6 +366,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
             if (!hadSave) show_tutorial.value = true
         }
         setContent {
+            tts = rememberTextToSpeech()
             MenuKeyGen()
             Screen()
             Box()
@@ -853,8 +855,9 @@ fun isOnline(context: Context): Boolean {
 
 @Composable
 fun CachePrompt(context: Context) {
+    val scope = rememberCoroutineScope()
     val activity = LocalActivity.current as? ComponentActivity
-    var show_error_msg = remember { mutableStateOf(false) }
+    var show_error_msg by remember { mutableStateOf(false) }
 
     AlertDialog(
         // While caching will swallow dismiss attempts
@@ -892,7 +895,7 @@ fun CachePrompt(context: Context) {
                     )
                 }
             } else {
-                if (show_error_msg.value)
+                if (show_error_msg)
                 {
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp))
                     {
@@ -926,14 +929,14 @@ fun CachePrompt(context: Context) {
             if (!cache_running.value) {
                 Button(onClick = {
                     if (isOnline(context)) {
-                        show_error_msg.value = false
-                        activity?.lifecycleScope?.launch {
-                            resolveAndPrecacheAll(activity)
+                        show_error_msg = false
+                        scope.launch {
+                            resolveAndPrecacheAll(context)
                             show_cache_prompt.value = false // auto-close when done
                         }
                     }
                     else {
-                        show_error_msg.value = true
+                        show_error_msg = true
                     }
                 }) { Text("Download now") }
             }
@@ -1632,7 +1635,6 @@ fun TutorialOverlay(onFinish: () -> Unit) {
 // Function that creates the static row of always accessible words at the bottom of the screen for easy access with for loop that allows for customization through variables
 @Composable
 fun Static_Row_Needs() {
-    tts = rememberTextToSpeech()
     var text_color = Color.Black // Set as var to be able to be customized by user later
     var text_alignment = Alignment.Center // Set as var to be able to be customized by user later
     var box_color = Color.White // Set as var to be able to be customized by user later
@@ -1675,8 +1677,6 @@ fun Static_Row_Needs() {
 
 @Composable
 fun InputBox(modifier: Modifier) {
-    val tts = rememberTextToSpeech()
-
     LaunchedEffect(Unit) {
         getAccessToken()
     }
@@ -1804,8 +1804,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
         else it.toString() }
     var height_dp = 16
     var width_dp = height_dp*3.0625
-    tts = rememberTextToSpeech()
-    Box(modifier = modifier.background(color = bgColor))  {
+    Box()  {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(image_url)
@@ -1814,11 +1813,12 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
             modifier = modifier
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
-                .background(bgColor)
+                .width(box_size)
+                .clip(RoundedCornerShape(40.dp))
+                .background(bgColor, RoundedCornerShape(40.dp))
                 .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
-                .width(box_size)
                 .clickable(onClick = {
                     if (editor_mode.value && menu_id != null && item_index != null) {
                         edit_target_menu_id.intValue = menu_id
@@ -1864,7 +1864,6 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                         }
                     }
                 })
-                .clip(RoundedCornerShape(40.dp))
         )
         var mod = Modifier.zIndex(1f)
         if (modifier != Modifier)
@@ -1897,7 +1896,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
         else it.toString() }
     var height_dp = 16
     var width_dp = height_dp*3.0625
-    Box(modifier = modifier.background(color = bgColor))
+    Box()
     {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -1907,11 +1906,12 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
             modifier = Modifier
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
-                .background(bgColor)
+                .width(box_size)
+                .clip(RoundedCornerShape(40.dp))
+                .background(bgColor, RoundedCornerShape(40.dp))
                 .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
-                .width(box_size)
                 .clickable(onClick = {
                     if (editor_mode.value && menu_id != null && item_index != null) {
                         edit_target_menu_id.intValue = menu_id
@@ -1942,7 +1942,6 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                         navigateTo(LinkedMenu)
                     }
                 })
-                .clip(RoundedCornerShape(40.dp))
         )
         var mod = Modifier.zIndex(1f)
         if (modifier != Modifier)
@@ -4128,13 +4127,13 @@ fun EditItemDialog() {
             show_edit_item_dialog.value = false
         },
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        modifier = Modifier.size(screenWidth-(button_boxes_width*4)),
+        modifier = Modifier.fillMaxHeight(0.90f).fillMaxWidth(0.95f),
         title = { Text("Edit ${if (originalIsSymbol) "symbol" else "folder"}") },
         text = {
-            Row(Modifier.verticalScroll(scrollState)) {
+            Row(modifier = Modifier.verticalScroll(scrollState)) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(end = 16.dp)
+                    modifier = Modifier.padding(end = 16.dp),
                 ) {
                     Text("Item Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
                     Spacer(modifier = Modifier.height(8.dp))
@@ -4157,6 +4156,7 @@ fun EditItemDialog() {
                             Box(
                                 modifier = Modifier
                                     .size(120.dp)
+                                    .clip(RoundedCornerShape(20.dp))
                                     .border(
                                         if (isSelected) 4.dp else 2.dp,
                                         if (isSelected) Color(0xFF1976D2) else Color.Black,
@@ -4184,6 +4184,7 @@ fun EditItemDialog() {
                                 Box(
                                     modifier = Modifier
                                         .size(120.dp)
+                                        .clip(RoundedCornerShape(20.dp))
                                         .background(Color.White)
                                         .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
                                         .clickable(enabled = !loadingMore) {
@@ -4457,7 +4458,7 @@ fun image_preview(name: String, context: Context, previewUrl: String, has_text: 
         AsyncImage(
             model = ImageRequest.Builder(context).data(previewUrl).build(),
             contentDescription = "Preview of $name",
-            modifier = Modifier.padding(8.dp).fillMaxSize()
+            modifier = Modifier.padding(8.dp).fillMaxSize().clip(RoundedCornerShape(20.dp))
         )
         if (has_text) {
             Text(
@@ -4631,7 +4632,6 @@ fun Screen() {
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            tts = rememberTextToSpeech()
             val a = remember { mutableIntStateOf(0) }
             GetScreenDimensions()
             Static_Row_Needs()
