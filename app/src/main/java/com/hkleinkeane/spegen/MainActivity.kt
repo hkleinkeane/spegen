@@ -129,6 +129,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
@@ -167,7 +168,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-const val DEMO_MODE = true
+const val DEMO_MODE = false
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -281,6 +282,8 @@ var item_text_padding = 20.dp
 
 val item_positions = mutableStateMapOf<String, Offset>()
 
+val item_sizes = mutableStateMapOf<String, IntSize>()
+
 var tts_data_found = mutableStateOf(false)
 
 var current_menu_id = 0
@@ -336,6 +339,7 @@ var inputboxselecteditems_pron = mutableStateListOf<String>()
 private var seqPlayer: android.media.MediaPlayer? = null
 
 val fitzgerald_overrides = mutableStateMapOf<String, String>()
+val tutorial_scroll_to_index = mutableIntStateOf(-1)
 
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
@@ -476,6 +480,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
             if (show_tutorial.value)
             {
                 TutorialOverlay(onFinish = {
+                    tutorial_scroll_to_index.intValue = -1
                     show_tutorial.value = false
                     trigger_save.value = true
                 })
@@ -743,7 +748,7 @@ fun currentPersistedState(): PersistedState = PersistedState(
 suspend fun saveAllPreferences(context: Context) {
     killDanglingPointers()
     context.spegen_datastore.edit { prefs ->
-        prefs[APP_STATE_KEY] = Json.encodeToString(currentPersistedState())
+        prefs[APP_STATE_KEY] = Json.encodeToString(currentPersistedState().withPaddedLists())
     }
 }
 
@@ -1094,6 +1099,9 @@ fun GetScreenDimensions() {
     screenHeight = configuration.screenHeightDp.dp
     configuration = LocalConfiguration.current
     isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    static_row_height = screenHeight * (1f / 8f) // Fraction deterxmined by base value of 70.dp then converted to fraction and applied to screen height to (hopefully) make box height scale with screen height
+    menu_static_row_height = screenHeight * (1f / 8f) // Fraction determined by base value of 70.dp then converted to fraction and applied to screen height to (hopefully) make box height scale with screen height
+    button_boxes_width = (screenHeight.value * (1f/8f)).dp
 }
 
 @Serializable
@@ -1625,75 +1633,229 @@ fun navigateTo(menuId: Int) {
     switchmenuparser.value++
 }
 
+data class TutorialHighlight(val x: Dp, val y: Dp, val width: Dp, val height: Dp)
+
+data class TutorialSlide(
+      val title: String,
+      val body: String,
+      val highlight: TutorialHighlight? = null
+)
+
 @Composable
 fun TutorialOverlay(onFinish: () -> Unit) {
-    val slides = listOf(
-        "Welcome to SpeGen" to "This is a short tutorial to teach you the basic UI of the app. You can access this tutorial later from settings.",
-        "Folders" to "Tap a folder like Actions or Food to go to another menu with more symbols and folders. Folders always have a black fold in the top right corner.",
-        "Symbols" to "Tap a symbol like More or Want to add it to the input box.",
-        "Input Box" to "The input box is where you compose sentences. Tap it to play the constructed sentence.",
-        "Menu Row" to "These are a list of buttons that will automatically redirect you to the associated menu.",
-        "Static Words Row" to "These are a list of terms that are always at the bottom of the screen regardless of where you are in the application. Tap it to instantly play the word using text-to-speech.",
-        "Keyboard" to "Opens up a dialog that lets you use your device's keyboard to add items to the input box.",
-        "Delete" to "Deletes the last term in the input box.",
-        "Clear" to "Clears the input box of all terms.",
-        "Stop" to "Stops any currently playing text-to-speech.",
-        "Search" to "Search for any terms in any existing menus. It guides you to the term by showing you what buttons you need to press to get to the term.",
-        "Settings" to "Brings you to a settings menu. Links to various options such as: editing UI, backing up settings, or changing the text-to-speech voice settings, and more.",
-        "Back" to "Sends you back to the previous menu you were on.",
-        "Autocomplete" to "Replaces the menu and opens a list of autocomplete options. Autocomplete learns from the patterns in symbols you select to get more accurate and helpful over time. Data is not sent off of your device without your consent.",
-    )
-    var currentSlide by remember { mutableIntStateOf(0) }
-    val maxSlide = slides.size-1
+      val density = LocalDensity.current
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.85f))
-            .clickable(onClick = {})
-            .zIndex(2000f),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(40.dp)
-        ) {
-            Text(
-                text = slides[currentSlide].first,
-                color = Color.White,
-                fontSize = 32.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Text(
-                text = slides[currentSlide].second,
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 20.dp)
-            )
-            Text(
-                text = "$currentSlide/$maxSlide",
-                color = Color.White,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
-            )
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                if (currentSlide > 0) {
-                    Button(onClick = { currentSlide -= 1 }) { Text("Back") }
-                }
-                Button(onClick = {
-                    if (currentSlide < slides.size - 1) currentSlide += 1
-                    else onFinish()
-                }) {
-                    Text(if (currentSlide < slides.size - 1) "Next" else "Done")
-                }
-                if (currentSlide < slides.size - 1) {
-                    Button(onClick = onFinish) { Text("Skip") }
-                }
-            }
+    fun findFirstItemKey(isSymbol: Boolean): String? {
+        val home = MenuFinder(0)
+        for (i in home.item_list.indices)
+        {
+            if (home.item_type[i] == isSymbol) return "0-$i"
         }
+        return null
     }
+
+      fun itemHighlight(isSymbol: Boolean): TutorialHighlight? {
+            val key = findFirstItemKey(isSymbol) ?: return null
+            val pos = item_positions[key] ?: return null
+          val sz = item_sizes[key]
+            if (pos != null) {
+              return with(density) {
+                TutorialHighlight(
+                  x = pos.x.toDp(),
+                  y = pos.y.toDp(),
+                  width = sz?.width?.toDp() ?: box_size,
+                  height = sz?.height?.toDp() ?: (box_size + box_padding*3)
+                )
+              }
+            }
+            return TutorialHighlight(0.dp, input_box_height, menu_width, menu_height)
+          }
+
+    data class TutorialSlide(
+        val title: String,
+        val body: String,
+        val highlight: TutorialHighlight? = null,
+        val lookupSymbol: Boolean? = null
+    )
+
+      val xRight = screenWidth - button_boxes_width
+      val xLeft = xRight - button_boxes_width
+
+      val slides = remember(screenWidth, screenHeight, button_boxes_width,
+                 input_box_height, menu_static_row_height, static_row_height) {
+            listOf(
+              TutorialSlide("Welcome to SpeGen",
+                "This is a short tutorial to teach you the basic UI of the app. " +
+                "You can access this tutorial later from settings."),
+              TutorialSlide("Folders",
+                "Tap a folder to go to another menu with more " +
+                "symbols and folders. Folders always have a black fold in the top right corner.",
+                lookupSymbol = false),
+              TutorialSlide("Symbols",
+                "Tap a symbol to add it to the input box.",
+                lookupSymbol = true),
+              TutorialSlide("Input Box",
+                "The input box is where you compose sentences. Tap it to play the constructed sentence.",
+                TutorialHighlight(0.dp, 0.dp, screenWidth - button_boxes_width * 2, input_box_height)),
+              TutorialSlide("Menu Row",
+                "These are a list of buttons that will automatically redirect you to the associated menu.",
+                TutorialHighlight(0.dp,
+                  screenHeight - static_row_height - menu_static_row_height,
+                  screenWidth, menu_static_row_height)),
+              TutorialSlide("Static Words Row",
+                "These are a list of terms that are always at the bottom of the screen regardless " +
+                "of where you are in the application. Tap it to instantly play the word using text-to-speech.",
+                TutorialHighlight(0.dp, screenHeight - static_row_height, screenWidth, static_row_height)),
+              TutorialSlide("Keyboard",
+                "Opens up a dialog that lets you use your device's keyboard to add items to the input box.",
+                TutorialHighlight(xLeft, 0.dp, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Delete",
+                "Deletes the last term in the input box.",
+                TutorialHighlight(xLeft, button_boxes_width, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Clear",
+                "Clears the input box of all terms.",
+                TutorialHighlight(xLeft, button_boxes_width * 2, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Stop",
+                "Stops any currently playing text-to-speech.",
+                TutorialHighlight(xRight, button_boxes_width * 2, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Search",
+                "Search for any terms in any existing menus. It guides you to the term by showing " +
+                "you what buttons you need to press to get to the term.",
+                TutorialHighlight(xRight, button_boxes_width, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Settings",
+                "Brings you to a settings menu. Links to various options such as: editing UI, " +
+                "backing up settings, or changing the text-to-speech voice settings, and more.",
+                TutorialHighlight(xRight, 0.dp, button_boxes_width, button_boxes_width)),
+              TutorialSlide("Back",
+                "Sends you back to the previous menu you were on.",
+                TutorialHighlight(xLeft, button_boxes_width * 3, button_boxes_width * 2, button_boxes_width)),
+              TutorialSlide("Autocomplete",
+                "Replaces the menu and opens a list of autocomplete options. Autocomplete learns " +
+                "from the patterns in symbols you select to get more accurate and helpful over time. " +
+                "Data is not sent off of your device without your consent.",
+                TutorialHighlight(xLeft, button_boxes_width * 4, button_boxes_width * 2,
+                  screenHeight - (button_boxes_width * 4) - menu_static_row_height - static_row_height))
+            )
+          }
+
+      var currentSlide by remember { mutableIntStateOf(0) }
+      val maxSlide = slides.size - 1
+      val current = slides[currentSlide]
+      val highlight = when (val s = current.lookupSymbol) {
+          null -> current.highlight
+          else -> itemHighlight(s) ?: TutorialHighlight(0.dp, input_box_height, menu_width, menu_height)
+      }
+
+      val cardWidth = (screenWidth * 0.85f).coerceAtMost(420.dp)
+      val cardEstimatedHeight = 220.dp
+      val (cardX, cardY) = remember(highlight, currentSlide) {
+            if (highlight == null) {
+              (screenWidth - cardWidth) / 2 to (screenHeight - cardEstimatedHeight) / 2
+            } else {
+              val belowY = highlight.y + highlight.height + 16.dp
+              val aboveY = highlight.y - cardEstimatedHeight - 16.dp
+              val y = when {
+                belowY + cardEstimatedHeight < screenHeight - 16.dp -> belowY
+                aboveY >= 16.dp -> aboveY
+                else -> (screenHeight - cardEstimatedHeight) / 2
+              }
+              val rawX = (highlight.x + highlight.width / 2) - cardWidth / 2
+              val x = rawX.coerceIn(8.dp, screenWidth - cardWidth - 8.dp)
+              x to y
+            }
+          }
+
+    LaunchedEffect(currentSlide) {
+        val target = when (current.lookupSymbol)
+        {
+            false -> findFirstItemKey(false)?.removePrefix("0-")?.toIntOrNull() ?: -1
+            true -> findFirstItemKey(true)?.removePrefix("0-")?.toIntOrNull() ?: -1
+            else -> -1
+        }
+        tutorial_scroll_to_index.intValue = target
+    }
+
+      Box(modifier = Modifier.fillMaxSize().zIndex(2000f)) {
+            val dim = Color.Black.copy(alpha = 0.80f)
+            if (highlight == null) {
+              Box(modifier = Modifier.fillMaxSize().background(dim).clickable(onClick = {}))
+            } else {
+              // Top strip
+              Box(Modifier.offset(0.dp, 0.dp).width(screenWidth).height(highlight.y)
+                .background(dim).clickable(onClick = {}))
+              // Bottom strip
+              Box(Modifier.offset(0.dp, highlight.y + highlight.height).width(screenWidth)
+                .height(screenHeight - (highlight.y + highlight.height))
+                .background(dim).clickable(onClick = {}))
+              // Left strip
+              Box(Modifier.offset(0.dp, highlight.y).width(highlight.x).height(highlight.height)
+                .background(dim).clickable(onClick = {}))
+              // Right strip
+              Box(Modifier.offset(highlight.x + highlight.width, highlight.y)
+                .width(screenWidth - (highlight.x + highlight.width)).height(highlight.height)
+                .background(dim).clickable(onClick = {}))
+              // Ring
+                Box(Modifier.offset(highlight.x, highlight.y).width(highlight.width).height(highlight.height)
+                .border(4.dp, Color(0xFFFFCC02), RoundedCornerShape(8.dp)))
+                Box(Modifier.offset(highlight.x, highlight.y).width(highlight.width).height(highlight.height).clickable(onClick = {}))
+            }
+
+            Box(modifier = Modifier.offset(cardX, cardY).width(cardWidth)) {
+              Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White,
+                border = BorderStroke(2.dp, Color(0xFFFFCC02))
+              ) {
+                Column(
+                  modifier = Modifier.padding(20.dp),
+                  horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                  Text(current.title, fontSize = 22.sp, fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center)
+                  Spacer(Modifier.height(8.dp))
+                  Text(current.body, fontSize = 14.sp, textAlign = TextAlign.Center)
+                  Spacer(Modifier.height(12.dp))
+
+                  // Progress dots
+                  Row(horizontalArrangement = Arrangement.Center) {
+                    repeat(slides.size) { i ->
+                      Box(modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .size(if (i == currentSlide) 8.dp else 5.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(if (i == currentSlide) Color.Black
+                              else Color.Gray.copy(alpha = 0.4f)))
+                    }
+                  }
+                  Spacer(Modifier.height(12.dp))
+
+                  Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (currentSlide > 0) {
+                      Button(
+                        onClick = { currentSlide -= 1 },
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+                      ) { Text("Back") }
+                    }
+                    Button(
+                      onClick = {
+                        if (currentSlide < maxSlide) currentSlide += 1 else onFinish()
+                      },
+                      contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+                    ) {
+                      Text(if (currentSlide < maxSlide) "Next" else "Done")
+                    }
+                    if (currentSlide < maxSlide) {
+                      Button(
+                        onClick = onFinish,
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+                      ) { Text("Skip") }
+                    }
+                  }
+                }
+              }
+            }
+          }
 }
 
 
@@ -1706,7 +1868,6 @@ fun Static_Row_Needs() {
     var border_size = 2.dp // Set as var to be able to be customized by user later
     var border_color = Color.Black // Set as var to be able to be customized by user later
     var width = (screenWidth/static_terms.size.dp).dp // Determine width of boxes by dividing screen width by total number of boxes which is equal to number of needed terms
-    static_row_height = screenHeight * (1f / 8f) // Fraction deterxmined by base value of 70.dp then converted to fraction and applied to screen height to (hopefully) make box height scale with screen height
     var y_offset = (screenHeight-static_row_height) // Determines Y offset by subtracting height from the total screen width
     var x_offset = (0).dp // Determines X offset. Not needed since the first box starts at the left edge of the screen.
     for (i in 0 until static_terms.size) // For loop to create modular number of boxes. Starts at zero due to X offset calculations and ends at the number of terms minus 1 since it starts at zero
@@ -2240,6 +2401,17 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
               }
             }
 
+          LaunchedEffect(tutorial_scroll_to_index.intValue, items_per_page, page_count) {
+              val idx = tutorial_scroll_to_index.intValue
+              if (idx >= 0) {
+                  val target_page = (idx/items_per_page).coerceIn(0, page_count-1)
+                  if (pagerState.currentPage != target_page)
+                  {
+                      pagerState.animateScrollToPage(target_page)
+                  }
+              }
+          }
+
             Column(modifier = Modifier.fillMaxSize()) {
               HorizontalPager(
                 state = pagerState,
@@ -2261,6 +2433,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
                     val itemKey = "${menutemplate.id}-$i"
                     Box(modifier = Modifier.onGloballyPositioned { coords ->
                       item_positions[itemKey] = coords.positionInRoot()
+                        item_sizes[itemKey] = coords.size
                     }) {
                       val itemColor = resolveItemColor(menutemplate.colors.getOrNull(i) ?: "")
                       if (menutemplate.item_type[i]) {
@@ -2334,8 +2507,6 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
     var border_color = Color.Black // Set as var to be able to be customized by user later
     var width =
         (screenWidth / menu_terms_ids.size) // Determine width of boxes by dividing screen width by total number of boxes which is equal to number of needed terms
-    menu_static_row_height =
-        screenHeight * (1f / 8f) // Fraction determined by base value of 70.dp then converted to fraction and applied to screen height to (hopefully) make box height scale with screen height
     var y_offset =
         (screenHeight - menu_static_row_height - static_row_height) // Determines Y offset by subtracting height from the total screen width
     var x_offset =
@@ -3701,7 +3872,6 @@ fun AboutContent() {
 @Composable
 fun Buttonboxes() {
     val a = remember {mutableIntStateOf(0)}
-    button_boxes_width = (screenHeight.value*(1f/8f)).dp
     val x_offset = ((screenWidth - button_boxes_width).value).dp
     val y_offset = 0.dp
     var showKeyboard by remember { mutableStateOf(false)}
