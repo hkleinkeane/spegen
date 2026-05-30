@@ -20,7 +20,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
-import android.graphics.drawable.shapes.Shape
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.ConnectivityManager
@@ -677,7 +676,7 @@ data class PersistedState(
     val ngram_model: NgramModel = NgramModel(),
     val fitzgerald_overrides: Map<String, String> = emptyMap(),
     val fitzgeraldKey: List<FitzgeraldCategory> = emptyList(),
-    val highcontrastmode: Boolean,
+    val highcontrastmode: Boolean = false,
     val skin_tone: String = "",
     val text_location_bottom: Boolean = true,
     val button_shape_name: String = "Rounded",
@@ -2300,9 +2299,9 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
-                .clip(RoundedCornerShape(40.dp))
+                .clip(currentButtonShape())
                 .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
-                .border(width = 4.dp, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = RoundedCornerShape(40.dp))
+                .border(width = item_border_width, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = currentButtonShape())
                 .padding(box_padding)
                 .scale(1f)
                 .clickable(onClick = {
@@ -2398,9 +2397,9 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                 .offset(x_offset, y_offset)
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
-                .clip(RoundedCornerShape(40.dp))
+                .clip(currentButtonShape())
                 .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
-                .border(width = 4.dp, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = RoundedCornerShape(40.dp))
+                .border(width = item_border_width, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = currentButtonShape())
                 .padding(box_padding)
                 .scale(1f)
                 .clickable(onClick = {
@@ -2477,9 +2476,9 @@ fun MenuPlaceholder(vertical_stretch: Dp) {
         modifier = Modifier
             .height(box_size + vertical_stretch + (box_padding * 3))
             .width(box_size)
-            .clip(RoundedCornerShape(40.dp))
+            .clip(currentButtonShape())
             .background(Color.White)
-            .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+            .border(width = item_border_width, color = Color.Black, shape = currentButtonShape())
             .padding(box_padding)
     )
 }
@@ -3450,19 +3449,51 @@ fun ImageOptions(context: Context)
             Text("High-Contrast Images")
             Switch(
                 checked = highcontrastmode.value,
-                onCheckedChange = { highcontrastmode.value = it }
+                onCheckedChange = {
+                    highcontrastmode.value = it
+                    if (it) skin_tone.value = ""
+                }
             )
             Spacer(modifier = Modifier.height(12.dp))
-            Text("Button shape")
+            ButtonShapeSettings()
             Spacer(modifier = Modifier.height(12.dp))
             SkinToneSettings()
             if (highcontrastmode.value)
             {
-                skin_tone.value = ""
                 Text(text = "Can't change skin tone when high-contrast is active.", fontSize = 12.sp)
             }
             Spacer(modifier = Modifier.height(12.dp))
             TextLocation()
+        }
+    }
+}
+
+@Composable
+fun ButtonShapeSettings() {
+    val currentName = button_shape_name.value
+    ExpandableDropdown(
+        label = "Button shape",
+        items = BUTTON_SHAPES,
+        onItemSelected = { button_shape_name.value = it.name },
+        header = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(currentName, fontSize = 14.sp)
+                Spacer(Modifier.width(8.dp))
+                Box(modifier = Modifier.size(24.dp)
+                    .clip(currentButtonShape())
+                    .background(Color.White)
+                    .border(2.dp, Color.Black, currentButtonShape()))
+            }
+        }
+    ) { option ->
+        Text(option.name, fontSize = 14.sp, modifier = Modifier.weight(1f))
+        Box(modifier = Modifier.size(24.dp)
+            .clip(option.shape)
+            .background(Color.White)
+            .border(2.dp, Color.Black, option.shape))
+        if (option.name == currentName) {
+            Spacer(Modifier.width(8.dp))
+            Text("✓", fontSize = 16.sp, color = Color(0xFF1976D2))
         }
     }
 }
@@ -3474,7 +3505,7 @@ fun TextLocation() {
      ExpandableDropdown(
        label = "Text Location",
        items = listOf("Top", "Bottom"),
-       onItemSelected = { current.value = current.value },
+       onItemSelected = { current.value = (it == "Bottom") },
        header = {
              Row(verticalAlignment = Alignment.CenterVertically) {
                Text(if (current.value) {"Bottom"} else {"Top"}, fontSize = 14.sp)
