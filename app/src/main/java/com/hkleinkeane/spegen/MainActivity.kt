@@ -12,17 +12,26 @@
 
 package io.github.hkleinkeane.spegen
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.graphics.drawable.shapes.Shape
+import android.media.MediaPlayer
+import android.media.MediaRecorder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -65,6 +74,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.TextAutoSize
@@ -79,6 +89,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -136,6 +147,7 @@ import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
+import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -150,6 +162,7 @@ import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import coil3.request.transformations
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.result.Result
@@ -163,10 +176,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+import java.util.UUID
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
+import coil3.transform.Transformation
 
 const val DEMO_MODE = false
 
@@ -327,15 +344,29 @@ val show_goto_menu_dialog = mutableStateOf(false)
 val menu_history = mutableStateListOf<Int>()
 val ngram_model = mutableStateOf(seedNgramModel())
 val show_autocomplete = mutableStateOf(false)
-private var mediaPlayer: android.media.MediaPlayer? = null
-private var recorder: android.media.MediaRecorder? = null
+private var mediaPlayer: MediaPlayer? = null
+private var recorder: MediaRecorder? = null
 private var recordingPath: String = ""
 var inputboxselecteditems_audio = mutableStateListOf<String>()
 var inputboxselecteditems_pron = mutableStateListOf<String>()
-private var seqPlayer: android.media.MediaPlayer? = null
+private var seqPlayer: MediaPlayer? = null
 
 val fitzgerald_overrides = mutableStateMapOf<String, String>()
 val tutorial_scroll_to_index = mutableIntStateOf(-1)
+
+var highcontrastmode = mutableStateOf(false)
+val skin_tone = mutableStateOf("")
+val text_location_bottom = mutableStateOf(true)
+
+val BUTTON_SHAPES = listOf(
+    ButtonShapeOption("Square",  RoundedCornerShape(0.dp)),
+    ButtonShapeOption("Soft",    RoundedCornerShape(15.dp)),
+    ButtonShapeOption("Rounded", RoundedCornerShape(40.dp)),
+    ButtonShapeOption("Circle",  RoundedCornerShape(percent = 50))
+)
+
+val button_shape_name = mutableStateOf("Rounded")
+var item_border_width = 4.dp
 
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
@@ -645,7 +676,12 @@ data class PersistedState(
     val menu_row_text_padding: Float = 4f,
     val ngram_model: NgramModel = NgramModel(),
     val fitzgerald_overrides: Map<String, String> = emptyMap(),
-    val fitzgeraldKey: List<FitzgeraldCategory> = emptyList()
+    val fitzgeraldKey: List<FitzgeraldCategory> = emptyList(),
+    val highcontrastmode: Boolean,
+    val skin_tone: String = "",
+    val text_location_bottom: Boolean = true,
+    val button_shape_name: String = "Rounded",
+    var item_border_width_dp: Float = 4f
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -659,7 +695,7 @@ fun PersistedState.withPaddedLists(): PersistedState = copy(
         val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
         val colors = menu.colors.toMutableList()
         while (colors.size < n) colors.add("")
-        while (uuids.size  < n) uuids.add(java.util.UUID.randomUUID().toString())
+        while (uuids.size  < n) uuids.add(UUID.randomUUID().toString())
         while (urls.size   < n) urls.add("")
         while (custom.size < n) custom.add("")
         while (custom_audio_paths.size < n) custom_audio_paths.add("")
@@ -699,6 +735,8 @@ fun load_vars(state: PersistedState) {
     menu_row_text_size.floatValue = state.menu_row_text_size
     menu_row_text_padding.floatValue = state.menu_row_text_padding
 
+    text_location_bottom.value = state.text_location_bottom
+
     if (state.fitzgeraldKey.isNotEmpty()) {
         fitzgeraldKey.clear()
         fitzgeraldKey.addAll(state.fitzgeraldKey)
@@ -709,6 +747,12 @@ fun load_vars(state: PersistedState) {
 
     MenuList.clear()
     MenuList.addAll(state.menu_list)
+
+    highcontrastmode.value = state.highcontrastmode
+    skin_tone.value = state.skin_tone
+
+    button_shape_name.value = state.button_shape_name
+    item_border_width = state.item_border_width_dp.dp
 }
 
 suspend fun loadAllPreferences(context: Context): Boolean {
@@ -748,11 +792,17 @@ fun currentPersistedState(): PersistedState = PersistedState(
     menu_row_text_padding = menu_row_text_padding.floatValue,
     ngram_model = ngram_model.value,
     fitzgerald_overrides = fitzgerald_overrides.toMap(),
-    fitzgeraldKey = fitzgeraldKey
+    fitzgeraldKey = fitzgeraldKey,
+    highcontrastmode = highcontrastmode.value,
+    skin_tone = skin_tone.value,
+    text_location_bottom = text_location_bottom.value,
+    button_shape_name = button_shape_name.value,
+    item_border_width_dp = item_border_width.value
 )
 
 suspend fun saveAllPreferences(context: Context) {
     killDanglingPointers()
+    clearImageCacheIfImageOptionsChanged(context)
     context.spegen_datastore.edit { prefs ->
         prefs[APP_STATE_KEY] = Json.encodeToString(currentPersistedState().withPaddedLists())
     }
@@ -804,7 +854,7 @@ suspend fun precacheAllImages(context: Context) {
 
     for (url in urls) {
         val request = ImageRequest.Builder(context)
-            .data(url)
+            .data(resolveImageUrl(url))
             .memoryCachePolicy(CachePolicy.DISABLED)
             .diskCachePolicy(CachePolicy.ENABLED)
             .build()
@@ -968,7 +1018,7 @@ fun copyImageToPrivateStorage(context: Context, uri: Uri, itemKey: String): Stri
         }
     } else {
         @Suppress("DEPRECATION")
-        android.graphics.BitmapFactory.decodeStream(
+        BitmapFactory.decodeStream(
             context.contentResolver.openInputStream(uri)
         )
     }
@@ -1087,6 +1137,93 @@ fun importFromZip(context: Context, inputUri: Uri) {
         }
     }
 }
+
+class HighContrastTransformation(
+      private val backgroundColor: Int = android.graphics.Color.BLACK,
+      private val palette: List<Int> = listOf(
+            android.graphics.Color.WHITE,
+    android.graphics.Color.YELLOW,
+    android.graphics.Color.rgb(255, 100, 100), // soft red
+    android.graphics.Color.rgb(100, 200, 255), // cyan
+    android.graphics.Color.rgb(150, 255, 150)  // mint green
+  ),
+  private val whitenessThreshold: Int = 220,
+  private val saturationBoost: Float = 1.4f
+) : Transformation() {
+
+      override val cacheKey: String =
+        "hc-bg$backgroundColor-pal${palette.hashCode()}-t$whitenessThreshold-s$saturationBoost"
+
+      override suspend fun transform(input: Bitmap, size: coil3.size.Size): Bitmap {
+            val output = input.copy(Bitmap.Config.ARGB_8888, true)
+            val w = output.width
+            val h = output.height
+            val pixels = IntArray(w * h)
+            output.getPixels(pixels, 0, w, 0, 0, w, h)
+
+            for (i in pixels.indices) {
+              val pixel = pixels[i]
+              val a = (pixel shr 24) and 0xff
+              val r = (pixel shr 16) and 0xff
+              val g = (pixel shr 8) and 0xff
+              val b = pixel and 0xff
+
+              // Transparent or near-white → background
+              if (a < 128 || (r >= whitenessThreshold && g >= whitenessThreshold && b >= whitenessThreshold)) {
+                pixels[i] = backgroundColor
+                continue
+              }
+
+              // Snap colored pixels to the nearest palette entry
+              val (br, bg, bb) = boostSaturation(r, g, b, saturationBoost)
+              pixels[i] = nearestColor(br, bg, bb, palette)
+            }
+
+            output.setPixels(pixels, 0, w, 0, 0, w, h)
+            return output
+          }
+
+      private fun nearestColor(r: Int, g: Int, b: Int, palette: List<Int>): Int {
+            var best = palette[0]
+            var bestDist = Int.MAX_VALUE
+            for (c in palette) {
+              val pr = (c shr 16) and 0xff
+              val pg = (c shr 8) and 0xff
+              val pb = c and 0xff
+              val dist = (r - pr) * (r - pr) + (g - pg) * (g - pg) + (b - pb) * (b - pb)
+              if (dist < bestDist) { bestDist = dist; best = c }
+            }
+            return best
+          }
+
+      private fun boostSaturation(r: Int, g: Int, b: Int, factor: Float): Triple<Int, Int, Int> {
+            val hsv = FloatArray(3)
+            android.graphics.Color.RGBToHSV(r, g, b, hsv)
+            hsv[1] = (hsv[1] * factor).coerceAtMost(1f)
+            val boosted = android.graphics.Color.HSVToColor(hsv)
+            return Triple(
+              (boosted shr 16) and 0xff,
+              (boosted shr 8) and 0xff,
+              boosted and 0xff
+            )
+          }
+}
+
+data class SkinTone(
+      val name: String,
+      val color: Color,
+      val hexCode: String,  // "1f3fb", empty for default
+      val skinKey: String   // "light", "medium-light", etc.
+)
+
+val SKIN_TONES = listOf(
+      SkinTone("Default",   Color(0xFFFFD580), "",    ""),
+  SkinTone("Light",    Color(0xFFF5DEB3), "1f3fb", "light"),
+  SkinTone("Medium light", Color(0xFFDDB892), "1f3fc", "medium-light"),
+  SkinTone("Medium",    Color(0xFFC68863), "1f3fd", "medium"),
+  SkinTone("Medium dark", Color(0xFF8B5A3C), "1f3fe", "medium-dark"),
+  SkinTone("Dark",     Color(0xFF5C4033), "1f3ff", "dark")
+)
 
 @Composable
 fun GetScreenDimensions() {
@@ -1253,39 +1390,82 @@ suspend fun getAccessToken(): AccessTokenResponse? {
     }
 }
 
-
 suspend fun useApiWithToken(token: String?, search: String): ApiSymbolResponse? {
-    return withContext(Dispatchers.IO) {
-        val params = listOf(
-            "q" to search,
-            "locale" to "en",
-            "safe" to "0",
-            "access_token" to token
-        )
+    if (highcontrastmode.value) {
+        return withContext(Dispatchers.IO) {
+            val params = listOf(
+                "q" to "$search hc:1",
+                "locale" to "en",
+                "safe" to "0",
+                "access_token" to token
+            )
 
-        val (_, _, result) = Fuel.get("https://www.opensymbols.org/api/v2/symbols", params)
-            .responseString()
+            val (_, _, result) = Fuel.get("https://www.opensymbols.org/api/v2/symbols", params)
+                .responseString()
 
-        when (result) {
-            is Result.Failure -> {
-                println("API call failed: ${result.getException().message}")
-                null
-            }
-            is Result.Success -> {
-                var symbolstring = (result.get()).replace("[", "").replace("]", "").split("},")[0]
-
-                if (symbolstring.length > 1) {
-                    symbolstring += "}"
+            when (result) {
+                is Result.Failure -> {
+                    println("API call failed: ${result.getException().message}")
+                    null
                 }
 
-                if (symbolstring.contains("}")) {
-                    // Clean up the string to ensure valid JSON for a single object
-                    symbolstring = symbolstring.dropLast(symbolstring.count { it == '}' } - 1)
+                is Result.Success -> {
+                    var symbolstring =
+                        (result.get()).replace("[", "").replace("]", "").split("},")[0]
 
-                    // Return the decoded object
-                    Json.decodeFromString<ApiSymbolResponse>(symbolstring)
-                } else {
-                    null // Return null if no valid symbol found
+                    if (symbolstring.length > 1) {
+                        symbolstring += "}"
+                    }
+
+                    if (symbolstring.contains("}")) {
+                        // Clean up the string to ensure valid JSON for a single object
+                        symbolstring = symbolstring.dropLast(symbolstring.count { it == '}' } - 1)
+
+                        // Return the decoded object
+                        Json.decodeFromString<ApiSymbolResponse>(symbolstring)
+                    } else {
+                        null // Return null if no valid symbol found
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        return withContext(Dispatchers.IO) {
+            val params = listOf(
+                "q" to search,
+                "locale" to "en",
+                "safe" to "0",
+                "access_token" to token
+            )
+
+            val (_, _, result) = Fuel.get("https://www.opensymbols.org/api/v2/symbols", params)
+                .responseString()
+
+            when (result) {
+                is Result.Failure -> {
+                    println("API call failed: ${result.getException().message}")
+                    null
+                }
+
+                is Result.Success -> {
+                    var symbolstring =
+                        (result.get()).replace("[", "").replace("]", "").split("},")[0]
+
+                    if (symbolstring.length > 1) {
+                        symbolstring += "}"
+                    }
+
+                    if (symbolstring.contains("}")) {
+                        // Clean up the string to ensure valid JSON for a single object
+                        symbolstring = symbolstring.dropLast(symbolstring.count { it == '}' } - 1)
+
+                        // Return the decoded object
+                        Json.decodeFromString<ApiSymbolResponse>(symbolstring)
+                    } else {
+                        null // Return null if no valid symbol found
+                    }
                 }
             }
         }
@@ -1344,6 +1524,15 @@ fun findCachedUrl(word: String): String {
     return ""
 }
 
+fun resolveImageUrl(url: String): String {
+      if (url.isBlank()) return url
+      val tone = SKIN_TONES.find { it.hexCode == skin_tone.value } ?: return url
+      if (tone.hexCode.isEmpty()) return url
+      return url
+        .replace("varianted-skin", "variant-${tone.skinKey}")
+        .replace(Regex("-var[a-zA-Z0-9]+UNI"), "-${tone.hexCode}")
+}
+
 fun copyAudioToStorage(context: Context, uri: Uri, itemKey: String): String {
     return try {
         val dir = File(context.filesDir, "custom_audio").also { it.mkdirs() }
@@ -1364,7 +1553,7 @@ fun copyAudioToStorage(context: Context, uri: Uri, itemKey: String): String {
 fun playAudioFile(path: String) {
     try {
         mediaPlayer?.release()
-        mediaPlayer = android.media.MediaPlayer().apply {
+        mediaPlayer = MediaPlayer().apply {
             setDataSource(path)
             prepare()
             start()
@@ -1380,13 +1569,13 @@ fun startRecording(context: Context, itemKey: String) {
         val dest = File(dir, "$itemKey.m4a")
         recordingPath = dest.absolutePath
         recorder = (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            android.media.MediaRecorder(context)
+            MediaRecorder(context)
         else
-            @Suppress("DEPRECATION") android.media.MediaRecorder()
+            @Suppress("DEPRECATION") (MediaRecorder())
                 ).apply {
-                setAudioSource(android.media.MediaRecorder.AudioSource.MIC)
-                setOutputFormat(android.media.MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(android.media.MediaRecorder.AudioEncoder.AAC)
+                setAudioSource(MediaRecorder.AudioSource.MIC)
+                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
                 setOutputFile(recordingPath)
                 prepare()
                 start()
@@ -1451,14 +1640,14 @@ fun playSentenceSequenced(
     // forward declaration so the callbacks can call playNext()
     lateinit var playNext: () -> Unit
 
-    val ttsListener = object : android.speech.tts.UtteranceProgressListener() {
+    val ttsListener = object : UtteranceProgressListener() {
         override fun onStart(utteranceId: String?) {}
         override fun onError(utteranceId: String?) {
             i++; playNext()
         }
         override fun onDone(utteranceId: String?) {
             i++
-            android.os.Handler(android.os.Looper.getMainLooper()).post { playNext() }
+            Handler(Looper.getMainLooper()).post { playNext() }
         }
     }
     tts?.setOnUtteranceProgressListener(ttsListener)
@@ -1473,7 +1662,7 @@ fun playSentenceSequenced(
             if (audio.isNotBlank()) {
                 try {
                     seqPlayer?.release()
-                    seqPlayer = android.media.MediaPlayer().apply {
+                    seqPlayer = MediaPlayer().apply {
                         setDataSource(audio)
                         setOnCompletionListener {
                             i++
@@ -1580,6 +1769,70 @@ fun <T> ReorderableTermList(
             }
         }
     }
+}
+
+@Composable
+fun <T> ExpandableDropdown(
+      label: String,
+  items: List<T>,
+  onItemSelected: (T) -> Unit,
+  modifier: Modifier = Modifier,
+  header: @Composable () -> Unit,
+  itemContent: @Composable RowScope.(T) -> Unit
+) {
+      var expanded by remember { mutableStateOf(false) }
+
+      Column(modifier = modifier.fillMaxWidth()) {
+            // Collapsed header
+            Row(
+              modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(if (expanded) Color(0xFFD0D0D0) else Color(0xFFE8E8E8))
+                .clickable { expanded = !expanded }
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Text(label, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(end = 12.dp))
+              Box(modifier = Modifier.weight(1f)) { header() }
+              Text(if (expanded) "▲" else "▼", fontSize = 12.sp, color = Color.Gray)
+            }
+
+            // Expanded item list
+            if (expanded) {
+              Column(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .background(Color.White)
+                  .border(
+                    1.dp, Color(0xFFCCCCCC),
+                    RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)
+                  )
+              ) {
+                items.forEachIndexed { index, item ->
+                  Row(
+                    modifier = Modifier
+                      .fillMaxWidth()
+                      .clickable {
+                        onItemSelected(item)
+                        expanded = false
+                      }
+                      .padding(horizontal = 12.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                  ) {
+                    itemContent(item)
+                  }
+                  if (index < items.lastIndex) {
+                    Box(modifier = Modifier
+                      .fillMaxWidth()
+                      .height(1.dp)
+                      .background(Color(0xFFEEEEEE)))
+                  }
+                }
+              }
+            }
+          }
 }
 
 fun Modifier.verticalScrollbar(
@@ -1964,7 +2217,12 @@ fun InputBox_Symbol(index: Int) {
     Box {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(url)
+                .data(resolveImageUrl(url))
+                .apply {
+                    if (highcontrastmode.value) {
+                        transformations(HighContrastTransformation())
+                    }
+                }
                 .build(),
             "Picture of $name",
             modifier = Modifier
@@ -1976,11 +2234,11 @@ fun InputBox_Symbol(index: Int) {
         )
         Text(
             text = name,
-            color = Color.Black,
+            color = if (highcontrastmode.value) {Color.White} else {Color.Black},
             modifier = Modifier
                 .padding(2.dp)
                 .fillMaxSize()
-                .align(Alignment.BottomCenter),
+                .align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}),
             textAlign = TextAlign.Center)
     }
 }
@@ -2030,7 +2288,12 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
     Box()  {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(image_url)
+                .data(resolveImageUrl(image_url))
+                .apply {
+                    if (highcontrastmode.value) {
+                        transformations(HighContrastTransformation())
+                    }
+                }
                 .build(),
             "Picture of $Name",
             modifier = modifier
@@ -2038,8 +2301,8 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
                 .clip(RoundedCornerShape(40.dp))
-                .background(bgColor, RoundedCornerShape(40.dp))
-                .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
+                .border(width = 4.dp, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
                 .clickable(onClick = {
@@ -2093,12 +2356,12 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
         {
             mod = Modifier.zIndex(1000f)
         }
-        Text(text = name, color = Color.Black, modifier = mod
+        Text(text = name, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, modifier = mod
             .offset(x_offset, y_offset)
             .padding(item_text_padding)
             .height(height_dp.dp)
             .width(width_dp.dp)
-            .align(Alignment.BottomCenter), textAlign = TextAlign.Center)
+            .align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}), textAlign = TextAlign.Center)
     }
 }
 
@@ -2123,7 +2386,12 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
     {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(image_url)
+                .data(resolveImageUrl(image_url))
+                .apply {
+                    if (highcontrastmode.value) {
+                        transformations(HighContrastTransformation())
+                    }
+                }
                 .build(),
             "Picture of $name",
             modifier = Modifier
@@ -2131,8 +2399,8 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
                 .clip(RoundedCornerShape(40.dp))
-                .background(bgColor, RoundedCornerShape(40.dp))
-                .border(width = 4.dp, color = Color.Black, shape = RoundedCornerShape(40.dp))
+                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
+                .border(width = 4.dp, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = RoundedCornerShape(40.dp))
                 .padding(box_padding)
                 .scale(1f)
                 .clickable(onClick = {
@@ -2173,13 +2441,13 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
         }
         Text(
             text = name,
-            color = Color.Black,
+            color = if (highcontrastmode.value) {Color.White} else {Color.Black},
             modifier = mod
                 .offset(x_offset, y_offset)
                 .padding(item_text_padding)
                 .height(height_dp.dp)
                 .width(width_dp.dp)
-                .align(Alignment.BottomCenter),
+                .align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}),
             textAlign = TextAlign.Center
         )
 
@@ -2198,7 +2466,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                 lineTo(size.width, size.height)
                 close()
             }
-            drawPath(fold, Color.Black)
+            drawPath(fold, if (highcontrastmode.value) {Color.White} else {Color.Black})
         }
     }
 }
@@ -2412,6 +2680,7 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
             Column(modifier = Modifier.fillMaxSize()) {
               HorizontalPager(
                 state = pagerState,
+                  beyondViewportPageCount = if (show_tutorial.value) (page_count - 1).coerceAtLeast(0) else 0,
                 modifier = Modifier.fillMaxWidth().weight(1f)
               ) { page ->
                 val startIndex = page * items_per_page
@@ -2791,7 +3060,7 @@ fun WordFinder_Card(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
+            .border(4.dp, Color.White, RoundedCornerShape(40.dp))
             .clip(RoundedCornerShape(40.dp))
     ) {
         Row(
@@ -2802,9 +3071,9 @@ fun WordFinder_Card(
             verticalAlignment = Alignment.Top
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current).data(card_url).build(),
+                model = ImageRequest.Builder(LocalContext.current).data(resolveImageUrl(card_url)).apply { if (highcontrastmode.value) { transformations(HighContrastTransformation()) } }.build(),
                 contentDescription = "Picture of $card_name",
-                modifier = Modifier.size(box_size).scale(1f)
+                modifier = Modifier.size(box_size).scale(1f).background(if (highcontrastmode.value) {Color.Black} else {Color.White})
             )
             Column(modifier = Modifier.weight(1f).padding(start = 8.dp)) {
                 Text(
@@ -2873,1031 +3142,1372 @@ fun ButtonGuide_Wordfinder() {
 
 @Composable
 fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
-    val context = LocalContext.current
-    var selectedTab by remember { mutableIntStateOf(0) }
-    val tabs = listOf("UI", "Voice", "Backup", "Misc", "About")
+      val context = LocalContext.current
+      var selectedTab by remember { mutableIntStateOf(0) }
+      val tabs = listOf(
+        "Display", "Access", "Voice", "Vocabulary",
+        "Sentence Box", "Keyboard", "Language", "Data", "About"
+      )
 
-    var done_clicked by remember { mutableStateOf(false) }
-    var unsaved by remember { mutableStateOf<Boolean?>(null) }
+      var done_clicked by remember { mutableStateOf(false) }
+      var unsaved by remember { mutableStateOf<Boolean?>(null) }
 
-    LaunchedEffect(done_clicked) {
-          if (done_clicked) {
-            val prefs = context.spegen_datastore.data.first()
-            val savedJson = prefs[APP_STATE_KEY]
-            unsaved = if (savedJson == null) {
-              println("No saved state -> unsaved=true")
-              true
-            } else {
-              try {
+      LaunchedEffect(done_clicked) {
+            if (done_clicked) {
+              val prefs = context.spegen_datastore.data.first()
+              val savedJson = prefs[APP_STATE_KEY]
+              unsaved = if (savedJson == null) true
+              else try {
                 val saved = Json.decodeFromString<PersistedState>(savedJson)
                   .withPaddedLists()
                   .normalizedForComparison()
                 val current = currentPersistedState().normalizedForComparison()
-                val differs = saved != current
-                println("Inline check: differs=$differs")
-                differs
-              } catch (e: Exception) {
-                  println("Decode failed -> unsaved=true: ${e.message}")
-                true
-              }
+                saved != current
+              } catch (e: Exception) { true }
             }
           }
-    }
-    LaunchedEffect(unsaved) {
-        if (done_clicked && unsaved == false) onClose()
-    }
+      LaunchedEffect(unsaved) {
+            if (done_clicked && unsaved == false) onClose()
+          }
 
-    Box(
+      Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.5f))
-            .zIndex(1500f)
-            .clickable(enabled = false, onClick = {}),
+          .fillMaxSize()
+          .background(Color.Black.copy(alpha = 0.5f))
+          .zIndex(1500f)
+          .clickable(enabled = false, onClick = {}),
         contentAlignment = Alignment.Center
-    ) {
-        Column(
-            modifier = Modifier
+      ) {
+            Column(
+              modifier = Modifier
                 .fillMaxWidth(0.9f)
                 .fillMaxHeight(0.9f)
-        ) {
-            // TAB STRIP
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)) {
+            ) {
+              // Tab strip — scrollable for many tabs
+              val tabScroll = rememberScrollState()
+              Row(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .height(48.dp)
+                  .horizontalScrollbar(tabScroll)
+                  .horizontalScroll(tabScroll)
+              ) {
                 tabs.forEachIndexed { index, label ->
-                    val isSelected = selectedTab == index
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .padding(end = 2.dp)
-                            .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                            .background(if (isSelected) Color.White else Color(0xFFB0B0B0))
-                            .border(
-                                width = if (isSelected) 2.dp else 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
-                            )
-                            .clickable { selectedTab = index },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = label,
-                            color = if (isSelected) Color.Black else Color(0xFF404040),
-                            fontSize = 18.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                        )
-                    }
+                  val isSelected = selectedTab == index
+                  Box(
+                    modifier = Modifier
+                      .width(120.dp)
+                      .fillMaxHeight()
+                      .padding(end = 2.dp)
+                      .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                      .background(if (isSelected) Color.White else Color(0xFFB0B0B0))
+                      .border(
+                        width = if (isSelected) 2.dp else 1.dp,
+                        color = Color.Black,
+                        shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
+                      )
+                      .clickable { selectedTab = index },
+                    contentAlignment = Alignment.Center
+                  ) {
+                    Text(
+                      text = label,
+                      color = if (isSelected) Color.Black else Color(0xFF404040),
+                      fontSize = 16.sp,
+                      fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                      maxLines = 1
+                    )
+                  }
                 }
-            }
+              }
 
-            // CONTENT PANEL
-            Box(
+              // CONTENT PANEL
+              Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .background(Color.White)
-                    .border(2.dp, Color.Black)
-                    .padding(16.dp)
-            ) {
+                  .fillMaxWidth()
+                  .weight(1f)
+                  .background(Color.White)
+                  .border(2.dp, Color.Black)
+                  .padding(16.dp)
+              ) {
                 when (selectedTab) {
-                    0 -> UISettingsContent()
-                    1 -> VoiceSettingsContent()
-                    2 -> BackupSettingsContent()
-                    3 -> MiscSettings(contextmain)
-                    4 -> AboutContent()
+                  0 -> DisplaySettingsContent(contextmain)
+                  1 -> AccessSettingsContent()
+                  2 -> VoiceSettingsContent()
+                  3 -> VocabularySettingsContent()
+                  4 -> SentenceBoxSettingsContent()
+                  5 -> KeyboardSettingsContent()
+                  6 -> LanguageSettingsContent()
+                  7 -> DataSettingsContent(contextmain)
+                  8 -> AboutContent()
                 }
-            }
+              }
 
-            // GLOBAL APPLY & DONE
-            Row(
+              // GLOBAL APPLY & DONE
+              Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
+                  .fillMaxWidth()
+                  .padding(top = 12.dp),
                 horizontalArrangement = Arrangement.End
-            ) {
+              ) {
                 Button(onClick = {
-                    trigger_save.value = true
-                    switchmenuparser.value++
+                  trigger_save.value = true
+                  switchmenuparser.value++
                 }) { Text("Apply") }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = { done_clicked = true }) { Text("Done") }
+              }
             }
-        }
-    }
+          }
 
-    if (done_clicked && unsaved == true) {
-        AlertDialog(
-            onDismissRequest = {
+      if (done_clicked && unsaved == true) {
+            AlertDialog(
+              onDismissRequest = {
                 done_clicked = false
                 unsaved = null
-            },
-            title = { Text("Unsaved Changes") },
-            text = {
+              },
+              title = { Text("Unsaved Changes") },
+              text = {
                 Text(
-                    "You have unsaved changes. Do you want to save them?",
-                    fontSize = 14.sp,
-                    color = Color.Black
+                  "You have unsaved changes. Do you want to save them?",
+                  fontSize = 14.sp,
+                  color = Color.Black
                 )
-            },
-            confirmButton = {
+              },
+              confirmButton = {
                 Button(onClick = {
-                    trigger_save.value = true
-                    switchmenuparser.value++
-                    done_clicked = false
-                    unsaved = null
-                    onClose()
+                  trigger_save.value = true
+                  switchmenuparser.value++
+                  done_clicked = false
+                  unsaved = null
+                  onClose()
                 }) { Text("Save Changes") }
-            },
-            dismissButton = {
+              },
+              dismissButton = {
                 Button(onClick = {
-                    trigger_load.value = true
-                    switchmenuparser.value++
-                    done_clicked = false
-                    unsaved = null
-                    onClose()
+                  trigger_load.value = true
+                  switchmenuparser.value++
+                  done_clicked = false
+                  unsaved = null
+                  onClose()
                 }) { Text("Don't Save") }
-            }
-        )
-    }
+              }
+            )
+          }
 }
 
 @Composable
 fun ExpandableSection(title: String, content: @Composable () -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    Column(modifier = Modifier
+      var expanded by remember { mutableStateOf(false) }
+      Column(modifier = Modifier
         .fillMaxWidth()
         .padding(vertical = 4.dp)) {
-        Row(
-            modifier = Modifier
+            Row(
+              modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(if (expanded) Color(0xFFD0D0D0) else Color(0xFFE8E8E8))
                 .clickable { expanded = !expanded }
                 .padding(horizontal = 12.dp, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Text(
                 text = if (expanded) "▼" else "▶",
                 modifier = Modifier.padding(end = 12.dp),
                 fontSize = 14.sp
-            )
-            Text(
+              )
+              Text(
                 text = title,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.Black
+              )
+            }
+            if (expanded) {
+              Box(
+                modifier = Modifier
+                  .fillMaxWidth()
+                  .padding(start = 24.dp, top = 8.dp, end = 8.dp, bottom = 12.dp)
+              ) {
+                content()
+              }
+            }
+          }
+}
+
+// Display
+
+@Composable
+fun DisplaySettingsContent(context: Context) {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            ExpandableSection("Item Sizing") { ItemSizingSettings() }
+            ExpandableSection("Borders & Spacing") { BorderSpacingSettings() }
+            ExpandableSection("Color Key") { ColorKeySettings() }
+            ExpandableSection("Static Words Row Style") { StaticRowTextSettings() }
+            ExpandableSection("Menu Row Style") { MenuRowTextSettings() }
+            ExpandableSection("Image Options") { ImageOptions(context) }
+            // [Future] High contrast mode for visually impaired users
+            // [Future] Button shapes (rounded, jagged, thought bubble, speech bubble)
+            // [Future] Symbol skin tone selection
+            // [Future] Text on top vs bottom of symbol
+            // [Future] Symbols-only vs words-only display modes
+          }
+}
+
+data class ButtonShapeOption(val name: String, val shape: RoundedCornerShape)
+
+fun currentButtonShape(): RoundedCornerShape =
+    BUTTON_SHAPES.find { it.name == button_shape_name.value }?.shape ?: RoundedCornerShape(40.dp)
+
+suspend fun clearImageCacheIfImageOptionsChanged(context: Context) {
+    val prefs = context.spegen_datastore.data.first()
+    val savedJson = prefs[APP_STATE_KEY] ?: return
+    val saved = try {
+        Json.decodeFromString<PersistedState>(savedJson)
+    } catch (e: Exception) { return }
+
+    val changed =
+        saved.highcontrastmode != highcontrastmode.value ||
+                saved.skin_tone != skin_tone.value
+
+    if (changed) {
+        val loader = SingletonImageLoader.get(context)
+        loader.memoryCache?.clear()
+        loader.diskCache?.clear()
+    }
+}
+
+@Composable
+fun BorderSpacingSettings() {
+    var border by remember { mutableFloatStateOf(item_border_width.value) }
+    var padding by remember { mutableFloatStateOf(box_padding.value) }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Border width", fontSize = 16.sp)
+            Text("${border.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
+        }
+        Slider(
+            value = border,
+            onValueChange = { border = it; item_border_width = it.dp },
+            valueRange = 0f..12f,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text("Item padding", fontSize = 16.sp)
+            Text("${padding.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
+        }
+        Slider(
+            value = padding,
+            onValueChange = { padding = it; box_padding = it.dp },
+            valueRange = 4f..40f,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(Modifier.height(12.dp))
+        Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        Spacer(Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .size(100.dp)
+                .clip(currentButtonShape())
+                .background(Color.White)
+                .border(border.dp, Color.Black, currentButtonShape())
+                .padding(padding.dp)
+        ) {
+            Text("Sample", modifier = Modifier.align(
+                if (text_location_bottom.value) Alignment.BottomCenter else Alignment.TopCenter
+            ), fontSize = 12.sp)
+        }
+    }
+}
+
+@Composable
+fun ImageOptions(context: Context)
+{
+    Row()
+    {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(end = 16.dp),
+        ) {
+            Text("Item Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(8.dp))
+            var preview = remember { mutableStateOf("https://d18vdu4p71yql0.cloudfront.net/libraries/arasaac/woman_2.png.varianted-skin.png") }
+            image_preview(
+                name = "Woman",
+                context = context,
+                previewUrl = preview.value,
+                has_text = true,
+                border_size = 120.dp,
+                box_width = 120.dp,
+                box_height = 240.dp
             )
         }
-        if (expanded) {
+        Column() {
+            Text("High-Contrast Images")
+            Switch(
+                checked = highcontrastmode.value,
+                onCheckedChange = { highcontrastmode.value = it }
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Button shape")
+            Spacer(modifier = Modifier.height(12.dp))
+            SkinToneSettings()
+            if (highcontrastmode.value)
+            {
+                skin_tone.value = ""
+                Text(text = "Can't change skin tone when high-contrast is active.", fontSize = 12.sp)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            TextLocation()
+        }
+    }
+}
+
+@Composable
+fun TextLocation() {
+     val current = text_location_bottom
+    val currentLabel = if (text_location_bottom.value) "Bottom" else "Top"
+     ExpandableDropdown(
+       label = "Text Location",
+       items = listOf("Top", "Bottom"),
+       onItemSelected = { current.value = current.value },
+       header = {
+             Row(verticalAlignment = Alignment.CenterVertically) {
+               Text(if (current.value) {"Bottom"} else {"Top"}, fontSize = 14.sp)
+             }
+           }
+     ) { item ->
+           Text(item, fontSize = 14.sp, modifier = Modifier.weight(1f))
+           if (item == currentLabel) {
+             Spacer(Modifier.width(8.dp))
+             Text("✓", fontSize = 16.sp, color = Color(0xFF1976D2))
+           }
+         }
+}
+@Composable
+fun SkinToneSettings() {
+    val current = SKIN_TONES.find { it.hexCode == skin_tone.value } ?: SKIN_TONES[0]
+    if (highcontrastmode.value)
+    {
+        Box(modifier = Modifier.alpha(0.5f).clickable(onClick = {}))
+        {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color(0xFFE8E8E8))
+                        .padding(horizontal = 12.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Skin tone", fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(end = 12.dp))
+                    Box(modifier = Modifier.weight(1f)) { Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(current.name, fontSize = 14.sp)
+                        Spacer(Modifier.width(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clip(CircleShape)
+                                .background(current.color)
+                                .border(1.dp, Color.Black, CircleShape)
+                        )
+                    } }
+                    Text("▼", fontSize = 12.sp, color = Color.Gray)
+                }
+            }
+        }
+    }
+    else {
+        ExpandableDropdown(
+            label = "Skin tone",
+            items = SKIN_TONES,
+            onItemSelected = { skin_tone.value = it.hexCode },
+            header = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(current.name, fontSize = 14.sp)
+                    Spacer(Modifier.width(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(CircleShape)
+                            .background(current.color)
+                            .border(1.dp, Color.Black, CircleShape)
+                    )
+                }
+            }
+        ) { tone ->
+            Text(tone.name, fontSize = 14.sp, modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 24.dp, top = 8.dp, end = 8.dp, bottom = 12.dp)
-            ) {
-                content()
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .background(tone.color)
+                    .border(1.dp, Color.Black, CircleShape)
+            )
+            if (tone.hexCode == skin_tone.value) {
+                Spacer(Modifier.width(8.dp))
+                Text("✓", fontSize = 16.sp, color = Color(0xFF1976D2))
             }
         }
     }
 }
 
 @Composable
-fun UISettingsContent() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
-        ExpandableSection("Static Words Row") { StaticSymbolRowSettings() }
-        ExpandableSection("Menu Row") { MenuRowSettings() }
-        ExpandableSection("Color Key") { ColorKeySettings() }
-        ExpandableSection("Item Sizing") { ItemSizingSettings() }
-        ExpandableSection("Edit Mode") { EditMode() }
-    }
+fun StaticRowTextSettings() {
+      Column {
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Text size", fontSize = 16.sp)
+              Text("${static_row_text_size.floatValue.toInt()} sp", fontSize = 14.sp, color = Color.Gray)
+            }
+            Slider(
+              value = static_row_text_size.floatValue,
+              onValueChange = { static_row_text_size.floatValue = it },
+              valueRange = 8f..32f,
+              modifier = Modifier.fillMaxWidth()
+            )
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Text padding", fontSize = 16.sp)
+              Text("${static_row_text_padding.floatValue.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
+            }
+            Slider(
+              value = static_row_text_padding.floatValue,
+              onValueChange = { static_row_text_padding.floatValue = it },
+              valueRange = 0f..24f,
+              modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(4.dp))
+            Box(
+              modifier = Modifier
+                .fillMaxWidth()
+                .height(90.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
+                .background(Color(0xFFF5F5F5))
+            ) {
+              Row(modifier = Modifier.fillMaxSize()) {
+                val samples = static_terms.take(3).ifEmpty { listOf("Sample") }
+                samples.forEach { term ->
+                  Box(
+                    modifier = Modifier
+                      .weight(1f)
+                      .fillMaxHeight()
+                      .background(Color.White)
+                      .border(2.dp, Color.Black)
+                  ) {
+                    Text(
+                      text = term,
+                      fontSize = static_row_text_size.floatValue.sp,
+                      modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(static_row_text_padding.floatValue.dp),
+                      textAlign = TextAlign.Center,
+                      maxLines = 2,
+                      overflow = TextOverflow.Ellipsis,
+                      color = Color.Black
+                    )
+                  }
+                }
+              }
+            }
+          }
 }
 
 @Composable
-fun EditMode()
-{
-    Column {
-        Text("Edit symbols, folders, and menus by tapping them.",
-            fontSize = 14.sp, color = Color.DarkGray)
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = {
-            editor_mode.value = true
-            show_settings.value = false
-        }) { Text("Enable editor mode") }
-    }
+fun MenuRowTextSettings() {
+      Column {
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Text size", fontSize = 16.sp)
+              Text("${menu_row_text_size.floatValue.toInt()} sp", fontSize = 14.sp, color = Color.Gray)
+            }
+            Slider(
+              value = menu_row_text_size.floatValue,
+              onValueChange = { menu_row_text_size.floatValue = it },
+              valueRange = 8f..32f,
+              modifier = Modifier.fillMaxWidth()
+            )
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Text padding", fontSize = 16.sp)
+              Text("${menu_row_text_padding.floatValue.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
+            }
+            Slider(
+              value = menu_row_text_padding.floatValue,
+              onValueChange = { menu_row_text_padding.floatValue = it },
+              valueRange = 0f..24f,
+              modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(4.dp))
+            Box(
+              modifier = Modifier
+                .fillMaxWidth()
+                .height(90.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
+                .background(Color(0xFFF5F5F5))
+            ) {
+              Row(modifier = Modifier.fillMaxSize()) {
+                val samples = MenuList.take(3).map { it.title }.ifEmpty { listOf("Menu") }
+                samples.forEach { title ->
+                  Box(
+                    modifier = Modifier
+                      .weight(1f)
+                      .fillMaxHeight()
+                      .background(Color.White)
+                      .border(2.dp, Color.Black)
+                  ) {
+                    Text(
+                      text = title,
+                      fontSize = menu_row_text_size.floatValue.sp,
+                      modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(menu_row_text_padding.floatValue.dp),
+                      textAlign = TextAlign.Center,
+                      maxLines = 2,
+                      overflow = TextOverflow.Ellipsis,
+                      color = Color.Black
+                    )
+                  }
+                }
+              }
+            }
+          }
 }
 
 @Composable
 fun ColorKeySettings() {
-    var editingCategory by remember { mutableStateOf<FitzgeraldCategory?>(null) }
-    var show_add_dialog by remember { mutableStateOf(false)}
+      var editingCategory by remember { mutableStateOf<FitzgeraldCategory?>(null) }
+      var show_add_dialog by remember { mutableStateOf(false) }
 
-    Column {
-        Text(
-            "Customize the colors used for each word category. " +
-                    "Changes apply to all items using that category.",
-            fontSize = 13.sp, color = Color.DarkGray
-        )
-        Spacer(Modifier.height(8.dp))
+      Column {
+            Text(
+              "Customize the colors used for each word category. " +
+                  "Changes apply to all items using that category.",
+              fontSize = 13.sp, color = Color.DarkGray
+            )
+            Spacer(Modifier.height(8.dp))
 
-        fitzgeraldKey.forEach { cat ->
-            Row(
+            fitzgeraldKey.forEach { cat ->
+              Row(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
-            ) {
+              ) {
                 Box(
-                    modifier = Modifier.size(32.dp)
-                        .background(effectiveCategoryColor(cat))
-                        .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
+                  modifier = Modifier.size(32.dp)
+                    .background(effectiveCategoryColor(cat))
+                    .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
                 )
                 Spacer(Modifier.width(12.dp))
                 Text(cat.name, modifier = Modifier.weight(1f), fontSize = 16.sp)
                 if (fitzgerald_overrides.containsKey(cat.name)) {
-                    Button(
-                        onClick = { fitzgerald_overrides.remove(cat.name) },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
-                        modifier = Modifier.padding(end = 4.dp)
-                    ) { Text("Reset") }
+                  Button(
+                    onClick = { fitzgerald_overrides.remove(cat.name) },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
+                    modifier = Modifier.padding(end = 4.dp)
+                  ) { Text("Reset") }
                 }
-                Button(onClick = { fitzgeraldKey -= cat
-                    fitzgerald_overrides.remove(cat.name)
+                Button(onClick = {
+                  fitzgeraldKey -= cat
+                  fitzgerald_overrides.remove(cat.name)
                 }) { Text("Delete") }
                 Spacer(Modifier.width(10.dp))
                 Button(onClick = { editingCategory = cat }) { Text("Edit") }
+              }
             }
-        }
 
-        Spacer(Modifier.height(12.dp))
-        Button(
-            onClick = {
-                show_add_dialog = true
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
-        ) { Text("Add item") }
-        Button(
-            onClick = { fitzgerald_overrides.clear()
+            Spacer(Modifier.height(12.dp))
+            Button(
+              onClick = { show_add_dialog = true },
+              modifier = Modifier.fillMaxWidth(),
+              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+            ) { Text("Add item") }
+            Button(
+              onClick = {
+                fitzgerald_overrides.clear()
                 fitzgeraldKey.clear()
                 fitzgeraldKey.addAll(listOf(
-                    FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
-                    FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
-                    FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
-                    FitzgeraldCategory("Adjective",  Color(0xFF2196F3).toHexString()),  // blue
-                    FitzgeraldCategory("Social",   Color(0xFFE91E63).toHexString()),  // pink
-                    FitzgeraldCategory("Question",  Color(0xFF9C27B0).toHexString()),  // purple
-                    FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),  // brown
-                    FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),  // white
-                    FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
-                ))},
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
-        ) { Text("Reset all to defaults") }
-        if (show_add_dialog) {
-            var typedText by remember { mutableStateOf("") }
-            val focusRequester = remember { FocusRequester() }
-            var displaycolorpicker by remember { mutableStateOf(false) }
-            var tempcolor by remember { mutableStateOf("") }
-            LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
-            }
-            fun submit() {
+                  FitzgeraldCategory("Pronoun",  Color(0xFFFFEB3B).toHexString()),
+                  FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),
+                  FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),
+                  FitzgeraldCategory("Adjective", Color(0xFF2196F3).toHexString()),
+                  FitzgeraldCategory("Social",   Color(0xFFE91E63).toHexString()),
+                  FitzgeraldCategory("Question",  Color(0xFF9C27B0).toHexString()),
+                  FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),
+                  FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),
+                  FitzgeraldCategory("Other",   Color(0xFFBDBDBD).toHexString())
+                ))
+              },
+              modifier = Modifier.fillMaxWidth(),
+              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+            ) { Text("Reset all to defaults") }
+
+            if (show_add_dialog) {
+              var typedText by remember { mutableStateOf("") }
+              val focusRequester = remember { FocusRequester() }
+              var displaycolorpicker by remember { mutableStateOf(false) }
+              var tempcolor by remember { mutableStateOf("") }
+              LaunchedEffect(Unit) { focusRequester.requestFocus() }
+              fun submit() {
                 fitzgeraldKey += FitzgeraldCategory(typedText, tempcolor)
                 displaycolorpicker = false
                 show_add_dialog = false
-            }
-            AlertDialog(
+              }
+              AlertDialog(
                 onDismissRequest = {
-                    show_add_dialog = false
-                    displaycolorpicker = false
+                  show_add_dialog = false
+                  displaycolorpicker = false
                 },
                 title = { Text("Add category", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
                 text = {
-                    Column(modifier = Modifier.fillMaxWidth())
-                    {
-                        Row(modifier = Modifier.fillMaxWidth())
-                        {
-                            TextField(
-                                value = typedText,
-                                onValueChange = { typedText = it },
-                                label = { Text("Enter category name") },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
-                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                            )
-                        }
-                        Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween)
-                        {
-                            Box(
-                                modifier = Modifier.size(32.dp)
-                                    .background(tempcolor.toComposeColor())
-                                    .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
-                            )
-                            Button(onClick = { displaycolorpicker = true }) { Text("Edit") }
-                        }
+                  Column(modifier = Modifier.fillMaxWidth()) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                      TextField(
+                        value = typedText,
+                        onValueChange = { typedText = it },
+                        label = { Text("Enter category name") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                      )
                     }
-                    if (displaycolorpicker) {
-                        ColorPickerDialog(
-                            initialColor = Color.White,
-                            onDismiss = { editingCategory = null },
-                            onConfirm = { picked ->
-                                tempcolor = picked.toHexString()
-                                displaycolorpicker = false
-                            }
-                        )
+                    Row(modifier = Modifier.fillMaxWidth().padding(10.dp),
+                      horizontalArrangement = Arrangement.SpaceBetween) {
+                      Box(
+                        modifier = Modifier.size(32.dp)
+                          .background(tempcolor.toComposeColor())
+                          .border(2.dp, Color.Black, RoundedCornerShape(4.dp))
+                      )
+                      Button(onClick = { displaycolorpicker = true }) { Text("Edit") }
                     }
+                  }
+                  if (displaycolorpicker) {
+                    ColorPickerDialog(
+                      initialColor = Color.White,
+                      onDismiss = { editingCategory = null },
+                      onConfirm = { picked ->
+                        tempcolor = picked.toHexString()
+                        displaycolorpicker = false
+                      }
+                    )
+                  }
                 },
                 confirmButton = { Button(onClick = { submit() }) { Text("Add") } },
                 dismissButton = { Button(onClick = { show_add_dialog = false }) { Text("Cancel") } }
-            )
-        }
+              )
+            }
 
-        editingCategory?.let { cat ->
-            ColorPickerDialog(
+            editingCategory?.let { cat ->
+              ColorPickerDialog(
                 initialColor = effectiveCategoryColor(cat),
                 onDismiss = { editingCategory = null },
                 onConfirm = { picked ->
-                    fitzgerald_overrides[cat.name] = picked.toHexString()
-                    editingCategory = null
+                  fitzgerald_overrides[cat.name] = picked.toHexString()
+                  editingCategory = null
                 }
-            )
-        }
-    }
-}
-
-@Composable
-fun MiscSettings(context: Context) {
-    val activity = LocalActivity.current as? ComponentActivity
-    var show_error_msg = remember { mutableStateOf(false) }
-    Column {
-        Button(
-            onClick = {
-                if (isOnline(context)) {
-                    show_error_msg.value = false
-                    activity?.lifecycleScope?.launch { resolveAndPrecacheAll(activity) }
-                } else {
-                    show_error_msg.value = true
-                }
-            },
-            enabled = !cache_running.value,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                if (cache_running.value)
-                    "Caching ${cache_progress.value} / ${cache_total.value}…"
-                else
-                    "Download all images for offline use"
-            )
-        }
-        if (show_error_msg.value) {
-            Text(
-                "Error: Not connected to the internet!",
-                fontSize = 14.sp,
-                color = Color.Red
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "Offline image caching happens automatically. Use this only if " +
-                    "images aren't loading without an internet connection.",
-            fontSize = 13.sp, color = Color.Gray
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {
-                editor_mode.value = false
-                show_edit_item_dialog.value = false
-                show_add_item_dialog.value = false
-                show_new_menu_dialog.value = false
-                show_autocomplete.value = false
-                show_tutorial.value = true
-                show_settings.value = false
-            },
-            enabled = !cache_running.value,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                "Replay tutorial"
-            )
-        }
-    }
-}
-
-@Composable
-fun BackupSettingsContent() {
-    val context = LocalContext.current
-    var statusMessage by remember { mutableStateOf("") }
-    var isError by remember { mutableStateOf(false) }
-
-    val exportLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument("application/zip")
-    ) { uri: Uri? ->
-        if (uri == null) {
-            statusMessage = "Export cancelled."
-            isError = false
-            return@rememberLauncherForActivityResult
-        }
-        try {
-            exportToZip(context, uri)
-            statusMessage = "Exported successfully."
-            isError = false
-        } catch (e: Exception) {
-            statusMessage = "Export failed: ${e.message}"
-            isError = true
-        }
-    }
-
-    val importLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri: Uri? ->
-        if (uri == null) {
-            statusMessage = "Import cancelled."
-            isError = false
-            return@rememberLauncherForActivityResult
-        }
-        try {
-            importFromZip(context, uri)
-            statusMessage = "Imported successfully."
-            isError = false
-        } catch (e: Exception) {
-            statusMessage = "Import failed: ${e.message}"
-            isError = true
-        }
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
-        Text(
-            "Save your SpeGen vocabulary to a file, or restore from a backup.",
-            fontSize = 14.sp, color = Color.DarkGray
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                val timestamp = java.text.SimpleDateFormat(
-                    "yyyyMMdd_HHmmss", java.util.Locale.getDefault()
-                ).format(java.util.Date())
-                exportLauncher.launch("spegen_backup_$timestamp.spegen")
-            },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-        ) { Text("Export to .zip file") }
-
-        Text(
-            "Exports your vocabulary, settings, and any custom images into a single file that can be transferred to another device or kept as a backup.",
-            fontSize = 13.sp, color = Color.DarkGray
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                importLauncher.launch(
-                    arrayOf(
-                        "application/zip",
-                        "application/octet-stream",
-                        "application/json",
-                        "*/*"
-                    )
-                )
-            },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
-        ) { Text("Import from file") }
-
-        Text(
-            "Accepts .spegen backup files and legacy .json backups. Importing replaces all current vocabulary and settings.",
-            fontSize = 13.sp, color = Color.DarkGray
-        )
-
-        if (statusMessage.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = statusMessage,
-                fontSize = 14.sp,
-                color = if (isError) Color.Red else Color(0xFF2E7D32)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            "Note: Importing replaces all current data. Export first if you want to keep a copy.",
-            fontSize = 12.sp, color = Color.Gray
-        )
-    }
-}
-
-@Composable
-fun StaticSymbolRowSettings() {
-    Column {
-        Text("Words always visible at the bottom of the screen.", fontSize = 14.sp, color = Color.DarkGray)
-        Spacer(modifier = Modifier.height(8.dp))
-        ReorderableTermList(
-            items = static_terms,
-            dragContent = { _, term ->
-                Text(term, fontSize = 16.sp)
-            },
-            trailingContent = { index, _ ->
-                Button(onClick = { static_terms.removeAt(index) },
-                    modifier = Modifier.padding(horizontal = 8.dp)) { Text("Remove") }
+              )
             }
-        )
-        var newTerm by remember { mutableStateOf("") }
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = newTerm,
-                onValueChange = { newTerm = it },
-                modifier = Modifier.weight(1f),
-                singleLine = true,
-                label = { Text("New term") }
-            )
-            Button(
-                onClick = {
-                    val trimmed = newTerm.trim()
-                    if (trimmed.isNotEmpty()) {
-                        static_terms.add(trimmed)
-                        newTerm = ""
-                    }
-                },
-                modifier = Modifier.padding(start = 8.dp)
-            ) { Text("Add") }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Text size", fontSize = 16.sp)
-            Text("${static_row_text_size.floatValue.toInt()} sp", fontSize = 14.sp, color = Color.Gray)
-        }
-        Slider(
-            value = static_row_text_size.floatValue,
-            onValueChange = { static_row_text_size.floatValue = it },
-            valueRange = 8f..32f,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Text padding", fontSize = 16.sp)
-            Text("${static_row_text_padding.floatValue.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
-        }
-        Slider(
-            value = static_row_text_padding.floatValue,
-            onValueChange = { static_row_text_padding.floatValue = it },
-            valueRange = 0f..24f,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-        Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(4.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(90.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
-                .background(Color(0xFFF5F5F5))
-        ) {
-            Row(modifier = Modifier.fillMaxSize()) {
-                val samples = static_terms.take(3).ifEmpty { listOf("Sample") }
-                samples.forEach { term ->
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .background(Color.White)
-                            .border(2.dp, Color.Black)
-                    ) {
-                        Text(
-                            text = term,
-                            fontSize = static_row_text_size.floatValue.sp,
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(static_row_text_padding.floatValue.dp),
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            color = Color.Black
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MenuRowSettings() {
-    Column {
-        Text("Choose which menus appear in the bottom menu row.", fontSize = 14.sp, color = Color.DarkGray)
-        Spacer(modifier = Modifier.height(8.dp))
-        ReorderableTermList(
-            menu_terms_ids,
-            dragContent = { _, menuId ->
-                Text(text = MenuFinder(menuId).title, modifier = Modifier.weight(1f), fontSize = 16.sp)
-            },
-            trailingContent = { _, menuId ->
-                Button(onClick = {
-                    menu_terms_ids.remove(menuId)
-                    if (menu_terms_ids.isEmpty()) {
-                        menu_static_row_height = 0.dp
-                        screen_display.value = !screen_display.value
-                    }
-                }) { Text("Remove") }
-                Spacer(modifier = Modifier.width(8.dp))
-            }
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Text size", fontSize = 16.sp)
-            Text("${menu_row_text_size.floatValue.toInt()} sp", fontSize = 14.sp, color = Color.Gray)
-        }
-        Slider(
-            value = menu_row_text_size.floatValue,
-            onValueChange = { menu_row_text_size.floatValue = it },
-            valueRange = 8f..32f,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Text padding", fontSize = 16.sp)
-            Text("${menu_row_text_padding.floatValue.toInt()} dp", fontSize = 14.sp, color = Color.Gray)
-        }
-        Slider(
-            value = menu_row_text_padding.floatValue,
-            onValueChange = { menu_row_text_padding.floatValue = it },
-            valueRange = 0f..24f,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-        Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(4.dp))
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(90.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
-                .background(Color(0xFFF5F5F5))
-        ) {
-            Row(modifier = Modifier.fillMaxSize()) {
-                val samples = MenuList.take(3).map { it.title }.ifEmpty { listOf("Menu") }
-                samples.forEach { title ->
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
-                            .background(Color.White)
-                            .border(2.dp, Color.Black)
-                    ) {
-                        Text(
-                            text = title,
-                            fontSize = menu_row_text_size.floatValue.sp,
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(menu_row_text_padding.floatValue.dp),
-                            textAlign = TextAlign.Center,
-                            maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
-                            color = Color.Black
-                        )
-                    }
-                }
-            }
-        }
-    }
+          }
 }
 
 @Composable
 fun ItemSizingSettings() {
-    var preview_size by remember { mutableFloatStateOf(box_size.value) }
+      var preview_size by remember { mutableFloatStateOf(box_size.value) }
 
-    val dots_reserve = 22f
-    val item_total_width = preview_size + box_padding.value * 2
-    val item_total_height = preview_size + box_padding.value * 3
-    val items_per_row = (menu_width.value / item_total_width ).toInt().coerceAtLeast(1)
-    val available_height = (menu_height.value - dots_reserve).coerceAtLeast(item_total_height)
-    val rows_per_page = (available_height / item_total_height).toInt().coerceAtLeast(1)
-    val items_per_page = items_per_row * rows_per_page
+      val dots_reserve = 22f
+      val item_total_width = preview_size + box_padding.value * 2
+      val item_total_height = preview_size + box_padding.value * 3
+      val items_per_row = (menu_width.value / item_total_width).toInt().coerceAtLeast(1)
+      val available_height = (menu_height.value - dots_reserve).coerceAtLeast(item_total_height)
+      val rows_per_page = (available_height / item_total_height).toInt().coerceAtLeast(1)
+      val items_per_page = items_per_row * rows_per_page
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+      Column(modifier = Modifier.fillMaxWidth()) {
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween,
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Text("Item size", fontSize = 16.sp)
+              Text("${preview_size.toInt()} dp", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Item size", fontSize = 16.sp)
-            Text(
-                "${preview_size.toInt()} dp",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Slider(
-            value = preview_size,
-            onValueChange = {
+            Slider(
+              value = preview_size,
+              onValueChange = {
                 preview_size = it
                 box_size = it.dp
-            },
-            valueRange = 40f..180f,
-            modifier = Modifier.fillMaxWidth()
-        )
+              },
+              valueRange = 40f..180f,
+              modifier = Modifier.fillMaxWidth()
+            )
 
-        Text(
-            "$items_per_row per row· $rows_per_page rows· $items_per_page per page",
-            fontSize = 13.sp,
-            color = Color.Gray
-        )
+            Text(
+              "$items_per_row per row· $rows_per_page rows· $items_per_page per page",
+              fontSize = 13.sp, color = Color.Gray
+            )
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Preview", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(4.dp))
 
-        val currentMenu = MenuFinder(linked_menu.value)
-        val scrollState = rememberScrollState()
+            val currentMenu = MenuFinder(linked_menu.value)
+            val scrollState = rememberScrollState()
 
-        Box(
-            modifier = Modifier
+            Box(
+              modifier = Modifier
                 .fillMaxWidth()
                 .height(240.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .border(2.dp, Color(0xFFCCCCCC), RoundedCornerShape(8.dp))
                 .background(Color(0xFFF5F5F5))
                 .verticalScroll(scrollState)
-        ) {
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                val preview_count = (items_per_row * minOf(rows_per_page + 1, 4))
-                    .coerceAtMost(24)
-
+              FlowRow(
+                modifier = Modifier.fillMaxWidth().padding(4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+              ) {
+                val preview_count = (items_per_row * minOf(rows_per_page + 1, 4)).coerceAtMost(24)
                 repeat(preview_count) { index ->
-                    Box(
-                        modifier = Modifier
-                            .height(item_total_height.dp)
-                            .width(preview_size.dp)
-                            .background(Color.White)
-                            .border(
-                                2.dp,
-                                Color.Black,
-                                RoundedCornerShape(
-                                    (40f * (preview_size / 100f)).coerceIn(4f, 40f).dp
-                                )
-                            )
-                    ) {
-                        val label = if (index < currentMenu.item_list.size)
-                            currentMenu.item_list[index].replaceFirstChar { it.titlecase() }
-                        else "Word"
-
-                        Text(
-                            text = label,
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(horizontal = 2.dp, vertical = 1.dp),
-                            fontSize = (preview_size / 7f).coerceAtLeast(8f).sp,
-                            textAlign = TextAlign.Center,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = Color.Black
-                        )
-                    }
+                  Box(
+                    modifier = Modifier
+                      .height(item_total_height.dp)
+                      .width(preview_size.dp)
+                      .background(Color.White)
+                      .border(
+                        2.dp, Color.Black,
+                        RoundedCornerShape((40f * (preview_size / 100f)).coerceIn(4f, 40f).dp)
+                      )
+                  ) {
+                    val label = if (index < currentMenu.item_list.size)
+                      currentMenu.item_list[index].replaceFirstChar { it.titlecase() }
+                    else "Word"
+                    Text(
+                      text = label,
+                      modifier = Modifier.align(Alignment.BottomCenter).padding(horizontal = 2.dp, vertical = 1.dp),
+                      fontSize = (preview_size / 7f).coerceAtLeast(8f).sp,
+                      textAlign = TextAlign.Center,
+                      maxLines = 1, overflow = TextOverflow.Ellipsis, color = Color.Black
+                    )
+                  }
                 }
+              }
             }
-        }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Spacer(modifier = Modifier.height(12.dp))
-            Button(
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+              Spacer(modifier = Modifier.height(12.dp))
+              Button(
                 onClick = {
-                    preview_size = 100f
-                    box_size = 100.dp
+                  preview_size = 100f
+                  box_size = 100.dp
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
-            ) { Text("Reset") }
-        }
-    }
+              ) { Text("Reset") }
+            }
+          }
 }
+
+// Access
+
+@Composable
+fun AccessSettingsContent() {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            Text(
+              "Access settings control how users interact with the app. " +
+                  "More options will be available in future releases.",
+              fontSize = 14.sp, color = Color.DarkGray,
+              modifier = Modifier.padding(8.dp)
+            )
+            // [Future] Touch selection mode: tap-on-press / tap-on-release
+            // [Future] Hold-to-select toggle with configurable hold duration (ms)
+            // [Future] Debounce to prevent unintentional repeated taps
+            // [Future] Scanning: row scanning / column scanning / region scanning
+            // [Future] Auto-advance scan rate (configurable interval)
+            // [Future] Scan acceptance modes: accept-on-select / accept-on-release / accept-on-no-click
+            // [Future] Auditory scanning (read targets aloud as they're scanned)
+            // [Future] Mouse / cursor / pointer control with click-to-select
+            // [Future] Dwell-to-select with configurable timeout
+            // [Future] Eye gaze / head tracking integration
+            // [Future] Joystick / external switch input
+            // [Future] Highlight on select (visual confirmation flash)
+            // [Future] Click sound on select
+            // [Future] Button spacing / border size adjustment
+            // [Future] Digital zoom for large grid sizes
+            // [Future] Auditory fishing (re-tap-to-confirm with audio preview)
+          }
+}
+
+// Voice
+
 @Composable
 fun VoiceSettingsContent() {
-    val context = LocalContext.current
-    val example_sentence = "The quick brown fox jumps over the lazy dog."
+      val context = LocalContext.current
+      val example_sentence = "The quick brown fox jumps over the lazy dog."
 
-    Column(modifier = Modifier
+      Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())) {
 
-        // Speech Rate
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Speech rate", fontSize = 16.sp)
-            Text(
+            // Speech Rate
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Speech rate", fontSize = 16.sp)
+              Text(
                 when {
-                    tts_speech_rate.value < 0.6f -> "Very slow"
-                    tts_speech_rate.value < 0.9f -> "Slow"
-                    tts_speech_rate.value < 1.1f -> "Normal"
-                    tts_speech_rate.value < 1.5f -> "Fast"
-                    else -> "Very fast"
-                } + "  (${String.format("%.1f", tts_speech_rate.value)}×)",
-                fontSize = 14.sp,
-                color = Color.Gray
-            )
-        }
-        Slider(
-            value = tts_speech_rate.value,
-            onValueChange = {
+                  tts_speech_rate.value < 0.6f -> "Very slow"
+                  tts_speech_rate.value < 0.9f -> "Slow"
+                  tts_speech_rate.value < 1.1f -> "Normal"
+                  tts_speech_rate.value < 1.5f -> "Fast"
+                  else -> "Very fast"
+                } + " (${String.format("%.1f", tts_speech_rate.value)}×)",
+                fontSize = 14.sp, color = Color.Gray
+              )
+            }
+            Slider(
+              value = tts_speech_rate.value,
+              onValueChange = {
                 tts_speech_rate.value = it
                 tts.value?.setSpeechRate(it)
-            },
-            valueRange = 0.25f..2.0f,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Pitch
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Pitch", fontSize = 16.sp)
-            Text(
-                when {
-                    tts_pitch.value < 0.7f -> "Low"
-                    tts_pitch.value < 0.9f -> "Slightly low"
-                    tts_pitch.value < 1.1f -> "Normal"
-                    tts_pitch.value < 1.4f -> "Slightly high"
-                    else -> "High"
-                } + "  (${String.format("%.1f", tts_pitch.value)}×)",
-                fontSize = 14.sp,
-                color = Color.Gray
+              },
+              valueRange = 0.25f..2.0f,
+              modifier = Modifier.fillMaxWidth()
             )
-        }
-        Slider(
-            value = tts_pitch.value,
-            onValueChange = {
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Pitch
+            Row(
+              modifier = Modifier.fillMaxWidth(),
+              horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+              Text("Pitch", fontSize = 16.sp)
+              Text(
+                when {
+                  tts_pitch.value < 0.7f -> "Low"
+                  tts_pitch.value < 0.9f -> "Slightly low"
+                  tts_pitch.value < 1.1f -> "Normal"
+                  tts_pitch.value < 1.4f -> "Slightly high"
+                  else -> "High"
+                } + " (${String.format("%.1f", tts_pitch.value)}×)",
+                fontSize = 14.sp, color = Color.Gray
+              )
+            }
+            Slider(
+              value = tts_pitch.value,
+              onValueChange = {
                 tts_pitch.value = it
                 tts.value?.setPitch(it)
-            },
-            valueRange = 0.5f..2.0f,
-            modifier = Modifier.fillMaxWidth()
-        )
+              },
+              valueRange = 0.5f..2.0f,
+              modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Pause between words
-        Row(
-            modifier = Modifier
+            // Pause between words
+            Row(
+              modifier = Modifier
                 .fillMaxWidth()
                 .clickable { tts_pause_between_words.value = !tts_pause_between_words.value }
                 .padding(vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              Checkbox(
                 checked = tts_pause_between_words.value,
                 onCheckedChange = { tts_pause_between_words.value = it }
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Column {
+              )
+              Spacer(modifier = Modifier.width(8.dp))
+              Column {
                 Text("Pause between words", fontSize = 16.sp)
                 Text(
-                    "Inserts a short silence between each word when speaking a sentence.",
-                    fontSize = 12.sp,
-                    color = Color.Gray
+                  "Inserts a short silence between each word when speaking a sentence.",
+                  fontSize = 12.sp, color = Color.Gray
                 )
+              }
             }
-        }
-        if (tts_pause_between_words.value) {
-            Row(
+            if (tts_pause_between_words.value) {
+              Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ) {
+              ) {
                 Text("Pause duration", fontSize = 14.sp)
                 Text(
-                    "${"%.1f".format(tts_pause_duration.longValue / 1000f)}s",
-                    fontSize = 14.sp,
-                    color = Color.Gray
+                  "${"%.1f".format(tts_pause_duration.longValue / 1000f)}s",
+                  fontSize = 14.sp, color = Color.Gray
                 )
-            }
-            Slider(
+              }
+              Slider(
                 value = tts_pause_duration.longValue.toFloat(),
                 onValueChange = { tts_pause_duration.longValue = it.toLong() },
                 valueRange = 100f..2000f,
                 modifier = Modifier.fillMaxWidth()
-            )
-        }
+              )
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        // Test voice
-        Button(
-            onClick = {
+            // Test voice
+            Button(
+              onClick = {
                 if (tts_pause_between_words.value) {
-                    val words = example_sentence.split(" ")
-                    tts.value?.speak(words[0], TextToSpeech.QUEUE_FLUSH, null, "word_0")
-                    for (i in 1 until words.size) {
-                        tts.value?.playSilentUtterance(
-                            tts_pause_duration.longValue, TextToSpeech.QUEUE_ADD, "pause_$i"
-                        )
-                        tts.value?.speak(words[i], TextToSpeech.QUEUE_ADD, null, "word_$i")
-                    }
-                } else {
-                    tts.value?.speak(example_sentence, TextToSpeech.QUEUE_FLUSH, null, "preview")
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
-        ) { Text("▶ Test voice") }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text("Voice engine & language", fontSize = 16.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            "Install voice packs, switch engines (if available), or change language in your device's TTS settings.",
-            fontSize = 13.sp, color = Color.Gray
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = {
-                try {
-                    context.startActivity(
-                        Intent("com.android.settings.TTS_SETTINGS").apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                        }
+                  val words = example_sentence.split(" ")
+                  tts.value?.speak(words[0], TextToSpeech.QUEUE_FLUSH, null, "word_0")
+                  for (i in 1 until words.size) {
+                    tts.value?.playSilentUtterance(
+                      tts_pause_duration.longValue, TextToSpeech.QUEUE_ADD, "pause_$i"
                     )
-                } catch (e: Exception) {
-                    println("TTS settings not available on this device")
+                    tts.value?.speak(words[i], TextToSpeech.QUEUE_ADD, null, "word_$i")
+                  }
+                } else {
+                  tts.value?.speak(example_sentence, TextToSpeech.QUEUE_FLUSH, null, "preview")
                 }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("Open device TTS settings") }
+              },
+              modifier = Modifier.fillMaxWidth(),
+              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+            ) { Text("▶ Test voice") }
 
-        Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-        Button(
-            onClick = {
+            Text("Voice engine & language", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+              "Install voice packs, switch engines (if available), or change language in your device's TTS settings.",
+              fontSize = 13.sp, color = Color.Gray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+              onClick = {
+                try {
+                  context.startActivity(
+                    Intent("com.android.settings.TTS_SETTINGS").apply {
+                      flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                  )
+                } catch (e: Exception) {
+                  println("TTS settings not available on this device")
+                }
+              },
+              modifier = Modifier.fillMaxWidth()
+            ) { Text("Open device TTS settings") }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+              onClick = {
                 tts_speech_rate.value = 1.0f
                 tts_pitch.value = 1.0f
                 tts_pause_between_words.value = false
                 tts_pause_duration.longValue = 500L
                 tts.value?.setSpeechRate(1.0f)
                 tts.value?.setPitch(1.0f)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
-        ) { Text("Reset to defaults") }
-    }
+              },
+              modifier = Modifier.fillMaxWidth(),
+              colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575))
+            ) { Text("Reset to defaults") }
+
+            // [Future] Alternate scanning voice (distinct voice for auditory scanning prompts)
+            // [Future] Alternate auditory fishing voice
+            // [Future] Per-button audio recording defaults
+            // [Future] Voice selection from installed engines
+            // [Future] Volume control independent of system volume
+            // [Future] Output target (speaker vs headphones for prompts)
+            // [Future] Message banking (record common phrases in user's natural voice)
+            // [Future] Voice banking (synthesize voice from user's recordings)
+            // [Future] Child / youth voices for younger users
+            // [Future] Gender neutral voice options
+            // [Future] Quick switch between configured voices
+          }
+}
+
+// Vocabulary
+
+@Composable
+fun VocabularySettingsContent() {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            ExpandableSection("Static Words Row") { StaticRowItemsSettings() }
+            ExpandableSection("Menu Row") { MenuRowItemsSettings() }
+            ExpandableSection("Edit Mode") { EditMode() }
+            // [Future] Auto-return to home board after non-linked button press
+            // [Future] Adult content / advanced vocabulary toggle
+            // [Future] Import .obf / .obz boards (Open Board Format)
+            // [Future] Export to .obf / .obz boards
+            // [Future] Pre-built vocabulary templates (download)
+            // [Future] Core word view toggle (high-frequency words only)
+            // [Future] Category-based vs motor-planning layout selector
+            // [Future] Show/hide buttons (per-button visibility for progressive disclosure)
+            // [Future] Quick access to "Babble" — temporarily show all hidden buttons
+            // [Future] Sharing vocabulary sets with other users
+          }
 }
 
 @Composable
-fun AboutContent() {
-    Column(modifier = Modifier
+fun StaticRowItemsSettings() {
+      Column {
+            Text("Words always visible at the bottom of the screen.", fontSize = 14.sp, color = Color.DarkGray)
+            Spacer(modifier = Modifier.height(8.dp))
+            ReorderableTermList(
+              items = static_terms,
+              dragContent = { _, term ->
+                Text(term, fontSize = 16.sp)
+              },
+              trailingContent = { index, _ ->
+                Button(onClick = { static_terms.removeAt(index) },
+                  modifier = Modifier.padding(horizontal = 8.dp)) { Text("Remove") }
+              }
+            )
+            var newTerm by remember { mutableStateOf("") }
+            Row(
+              modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+              verticalAlignment = Alignment.CenterVertically
+            ) {
+              TextField(
+                value = newTerm,
+                onValueChange = { newTerm = it },
+                modifier = Modifier.weight(1f),
+                singleLine = true,
+                label = { Text("New term") }
+              )
+              Button(
+                onClick = {
+                  val trimmed = newTerm.trim()
+                  if (trimmed.isNotEmpty()) {
+                    static_terms.add(trimmed)
+                    newTerm = ""
+                  }
+                },
+                modifier = Modifier.padding(start = 8.dp)
+              ) { Text("Add") }
+            }
+          }
+}
+
+@Composable
+fun MenuRowItemsSettings() {
+      Column {
+            Text("Choose which menus appear in the bottom menu row.", fontSize = 14.sp, color = Color.DarkGray)
+            Spacer(modifier = Modifier.height(8.dp))
+            ReorderableTermList(
+              menu_terms_ids,
+              dragContent = { _, menuId ->
+                Text(text = MenuFinder(menuId).title, modifier = Modifier.weight(1f), fontSize = 16.sp)
+              },
+              trailingContent = { _, menuId ->
+                Button(onClick = {
+                  menu_terms_ids.remove(menuId)
+                  if (menu_terms_ids.isEmpty()) {
+                    menu_static_row_height = 0.dp
+                    screen_display.value = !screen_display.value
+                  }
+                }) { Text("Remove") }
+                Spacer(modifier = Modifier.width(8.dp))
+              }
+            )
+          }
+}
+
+@Composable
+fun EditMode() {
+      Column {
+            Text("Edit symbols, folders, and menus by tapping them.",
+              fontSize = 14.sp, color = Color.DarkGray)
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(onClick = {
+              editor_mode.value = true
+              show_settings.value = false
+            }) { Text("Enable editor mode") }
+          }
+}
+
+// Sentence box
+
+@Composable
+fun SentenceBoxSettingsContent() {
+      Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())) {
-        Text("SpeGen", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = buildAnnotatedString {
+            Text(
+              "Sentence box settings control how the input box at the top behaves. " +
+                  "More options will be available in future releases.",
+              fontSize = 14.sp, color = Color.DarkGray,
+              modifier = Modifier.padding(8.dp)
+            )
+            // [Future] Auto-clear sentence box after speaking
+            // [Future] Speak each word as it's added (vs. only on tap to speak)
+            // [Future] Quick access phrases ("Give me a moment", "I use this device to speak")
+            // [Future] Saved phrases for reuse
+            // [Future] "Hold that thought" — pin current sentence, build another, then resume
+            // [Future] Repeat louder (temporarily increase volume)
+            // [Future] Share sentence externally (text, email, etc.)
+            // [Future] Flip text 180° for showing to another person across from user
+            // [Future] Show/hide images in the sentence box
+            // [Future] Text-only sentence box mode
+            // [Future] Secondary display output (for devices with back-screens)
+            // [Future] Copy plaintext to clipboard
+          }
+}
+
+// Keyboard
+
+@Composable
+fun KeyboardSettingsContent() {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            Text(
+              "Keyboard and autocomplete settings. More options will be available in future releases.",
+              fontSize = 14.sp, color = Color.DarkGray,
+              modifier = Modifier.padding(8.dp)
+            )
+            // [Future] Autocomplete settings — n-gram model parameters live here
+            // [Future] Word prediction strength / depth (number of words to predict)
+            // [Future] Punctuation behavior (auto-period after .! etc.)
+            // [Future] Capitalization (auto-capitalize start of sentence)
+            // [Future] Personalized word prediction (learn from user input over time)
+            // [Future] Read last sentence on sentence-ending punctuation
+            // [Future] Use device native keyboard vs in-app keyboard
+            // [Future] Audio output during spelling (letter name vs phonetic sound)
+            // [Future] Swipe spelling support
+            // [Future] Reset autocomplete learning data
+            // [Future] Custom keyboard layout (alternative to QWERTY)
+            // [Future] Abbreviation auto-expansion
+            // [Future] Auto-contractions (are not → aren't)
+          }
+}
+
+// Language
+
+@Composable
+fun LanguageSettingsContent() {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            Text(
+              "Language and locale settings. More options will be available in future releases.",
+              fontSize = 14.sp, color = Color.DarkGray,
+              modifier = Modifier.padding(8.dp)
+            )
+            // [Future] Primary locale selection
+            // [Future] Multilingual board support (multiple languages on same board)
+            // [Future] Quick switch between configured languages
+            // [Future] Pronunciation override defaults
+            // [Future] Inflections / tenses popup (long-press to apply)
+            // [Future] Automatic grammatical tense suggestions
+            // [Future] Pre-inflection buttons (apply rule to next-selected button)
+            // [Future] Show both language texts simultaneously (translation aid)
+          }
+}
+
+// Data
+
+@Composable
+fun DataSettingsContent(contextmain: Context) {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            ExpandableSection("Backup") { BackupSection() }
+            ExpandableSection("Offline Image Caching") { OfflineImageCacheSection(contextmain) }
+            // [Future] Data logging on/off (track user communication trends with consent)
+            // [Future] Lock editing with PIN / access code
+            // [Future] Cloud sync (across devices)
+            // [Future] Anonymous usage statistics opt-in
+            // [Future] Clear personal word prediction / autocomplete data
+            // [Future] Reset all settings to defaults
+            // [Future] Print vocabulary to PDF (with page numbers for linked buttons)
+            // [Future] Remote editing (let therapists / family edit vocabulary remotely)
+          }
+}
+
+@Composable
+fun BackupSection() {
+      val context = LocalContext.current
+      var statusMessage by remember { mutableStateOf("") }
+      var isError by remember { mutableStateOf(false) }
+
+      val exportLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/zip")
+      ) { uri: Uri? ->
+            if (uri == null) {
+              statusMessage = "Export cancelled."
+              isError = false
+              return@rememberLauncherForActivityResult
+            }
+            try {
+              exportToZip(context, uri)
+              statusMessage = "Exported successfully."
+              isError = false
+            } catch (e: Exception) {
+              statusMessage = "Export failed: ${e.message}"
+              isError = true
+            }
+          }
+
+      val importLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+      ) { uri: Uri? ->
+            if (uri == null) {
+              statusMessage = "Import cancelled."
+              isError = false
+              return@rememberLauncherForActivityResult
+            }
+            try {
+              importFromZip(context, uri)
+              statusMessage = "Imported successfully."
+              isError = false
+            } catch (e: Exception) {
+              statusMessage = "Import failed: ${e.message}"
+              isError = true
+            }
+          }
+
+      Column(modifier = Modifier.fillMaxWidth()) {
+            Text(
+              "Save your SpeGen vocabulary to a file, or restore from a backup.",
+              fontSize = 14.sp, color = Color.DarkGray
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+              onClick = {
+                val timestamp = SimpleDateFormat(
+                  "yyyyMMdd_HHmmss", Locale.getDefault()
+                ).format(Date())
+                exportLauncher.launch("spegen_backup_$timestamp.spegen")
+              },
+              modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            ) { Text("Export to .zip file") }
+
+            Text(
+              "Exports your vocabulary, settings, and any custom images into a single file that can be transferred to another device or kept as a backup.",
+              fontSize = 13.sp, color = Color.DarkGray
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+              onClick = {
+                importLauncher.launch(
+                  arrayOf("application/zip", "application/octet-stream", "application/json", "*/*")
+                )
+              },
+              modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
+            ) { Text("Import from file") }
+
+            Text(
+              "Accepts .zip backup files. Importing replaces all current vocabulary and settings.",
+              fontSize = 13.sp, color = Color.DarkGray
+            )
+
+            if (statusMessage.isNotEmpty()) {
+              Spacer(modifier = Modifier.height(16.dp))
+              Text(
+                text = statusMessage,
+                fontSize = 14.sp,
+                color = if (isError) Color.Red else Color(0xFF2E7D32)
+              )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+              "Note: Importing replaces all current data. Export first if you want to keep a copy.",
+              fontSize = 12.sp, color = Color.Gray
+            )
+          }
+}
+
+@Composable
+fun OfflineImageCacheSection(context: Context) {
+      val scope = rememberCoroutineScope()
+      var show_error_msg = remember { mutableStateOf(false) }
+      Column {
+            Button(
+              onClick = {
+                if (isOnline(context)) {
+                  show_error_msg.value = false
+                  scope.launch { resolveAndPrecacheAll(context) }
+                } else {
+                  show_error_msg.value = true
+                }
+              },
+              enabled = !cache_running.value,
+              modifier = Modifier.fillMaxWidth()
+            ) {
+              Text(
+                if (cache_running.value)
+                  "Caching ${cache_progress.value} / ${cache_total.value}…"
+                else
+                  "Download all images for offline use"
+              )
+            }
+            if (show_error_msg.value) {
+              Text(
+                "Error: Not connected to the internet!",
+                fontSize = 14.sp, color = Color.Red
+              )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+              "Offline image caching happens automatically. Use this only if " +
+                  "images aren't loading without an internet connection.",
+              fontSize = 13.sp, color = Color.Gray
+            )
+          }
+}
+
+// About
+
+@Composable
+fun AboutContent() {
+      Column(modifier = Modifier
+        .fillMaxSize()
+        .verticalScroll(rememberScrollState())) {
+            Text("SpeGen", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+              text = buildAnnotatedString {
                 append("An open-source AAC app developed by Harper Klein Keane. SpeGen's website can be found at the following URL: ")
                 withLink(
-                    LinkAnnotation.Url(
-                        url = "https://hkleinkeane.github.io/spegen/",
-                        styles = TextLinkStyles(style = SpanStyle(color = Color.Blue))
-                    )
+                  LinkAnnotation.Url(
+                    url = "https://hkleinkeane.github.io/spegen/",
+                    styles = TextLinkStyles(style = SpanStyle(color = Color.Blue))
+                  )
                 ) {
-                    append("https://hkleinkeane.github.io/spegen/")
+                  append("https://hkleinkeane.github.io/spegen/")
                 }
                 append(".")
-            },
-            fontSize = 14.sp)
-        Text("License: GNU General Public License v3.0", fontSize = 14.sp, color = Color.Gray)
-    }
+              },
+              fontSize = 14.sp)
+            Text("License: GNU General Public License v3.0", fontSize = 14.sp, color = Color.Gray)
+          }
 }
 
 
@@ -4147,8 +4757,8 @@ fun AutocompleteMenu(modifier: Modifier) {
                     Box(
                         modifier = Modifier
                             .height(box_size + (box_padding * 2))
-                            .background(Color.White)
-                            .border(4.dp, Color.Black, RoundedCornerShape(40.dp))
+                            .background(if (highcontrastmode.value) {Color.Black} else {Color.White})
+                            .border(4.dp, if (highcontrastmode.value) {Color.White} else {Color.Black}, RoundedCornerShape(40.dp))
                             .clickable {
                                 inputboxselecteditems_text += word
                                 inputboxselecteditems_has_symbol += url.isNotBlank()
@@ -4158,14 +4768,14 @@ fun AutocompleteMenu(modifier: Modifier) {
                     ) {
                         if (url.isNotBlank()) {
                             AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current).data(url).build(),
+                                model = ImageRequest.Builder(LocalContext.current).data(resolveImageUrl(url)).apply { if (highcontrastmode.value) { transformations(HighContrastTransformation()) } }.build(),
                                 contentDescription = word,
                                 modifier = Modifier.padding(box_padding).fillMaxSize()
                             )
                             Text(
                                 text = word,
-                                color = Color.Black,
-                                modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
+                                color = if (highcontrastmode.value) {Color.White} else {Color.Black},
+                                modifier = Modifier.align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}).padding(4.dp),
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -4442,7 +5052,7 @@ fun EditItemDialog() {
     val itemUuid by remember {
         mutableStateOf(
             menu.item_uuids.getOrNull(idx)?.takeIf { it.isNotBlank() }
-                ?: java.util.UUID.randomUUID().toString()
+                ?: UUID.randomUUID().toString()
         )
     }
     val imagePicker = rememberLauncherForActivityResult(
@@ -4470,9 +5080,9 @@ fun EditItemDialog() {
     }
     var hasMicPermission by remember {
         mutableStateOf(
-            androidx.core.content.ContextCompat.checkSelfPermission(
-                context, android.Manifest.permission.RECORD_AUDIO
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
         )
     }
     val micPermissionLauncher = rememberLauncherForActivityResult(
@@ -4488,7 +5098,7 @@ fun EditItemDialog() {
             while (customPaths.size < n) customPaths.add("")     // pad to full length
             customPaths[idx] = currentCustomPath
             val uuids = menu.item_uuids.toMutableList()
-            while (uuids.size < n) uuids.add(java.util.UUID.randomUUID().toString())
+            while (uuids.size < n) uuids.add(UUID.randomUUID().toString())
             val custom_audio_paths = menu.custom_audio_paths.toMutableList()
             while (custom_audio_paths.size < n) custom_audio_paths.add("")
             custom_audio_paths[idx] = if (useCustomAudio) currentAudioPath else ""
@@ -4561,26 +5171,27 @@ fun EditItemDialog() {
                             Box(
                                 modifier = Modifier
                                     .size(120.dp)
+                                    .background(if (highcontrastmode.value) {Color.Black} else {Color.White})
                                     .clip(RoundedCornerShape(20.dp))
                                     .border(
                                         if (isSelected) 4.dp else 2.dp,
-                                        if (isSelected) Color(0xFF1976D2) else Color.Black,
+                                        if (highcontrastmode.value) {Color.White} else {Color.Black},
                                         RoundedCornerShape(20.dp)
                                     )
                                     .clickable {
                                         currentCustomPath = urls[index]
                                     }
-                            ) {
+                                ) {
                                 AsyncImage(
                                     model = ImageRequest.Builder(context)
-                                        .data(urls[index])
+                                        .data(resolveImageUrl(urls[index]))
+                                        .apply { if (highcontrastmode.value) { transformations(HighContrastTransformation()) } }
                                         .memoryCachePolicy(
                                             if (urls[index].startsWith("/")) CachePolicy.DISABLED
-                                            else CachePolicy.ENABLED
-                                        )
+                                            else CachePolicy.ENABLED)
                                         .build(),
                                     contentDescription = name,
-                                    modifier = Modifier.padding(4.dp).fillMaxSize()
+                                    modifier = Modifier.clip(RoundedCornerShape(20.dp)).padding(4.dp).fillMaxSize()
                                 )
                             }
                         }
@@ -4590,8 +5201,8 @@ fun EditItemDialog() {
                                     modifier = Modifier
                                         .size(120.dp)
                                         .clip(RoundedCornerShape(20.dp))
-                                        .background(Color.White)
-                                        .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
+                                        .background(if (highcontrastmode.value) {Color.Black} else {Color.White})
+                                        .border(4.dp, if (highcontrastmode.value) {Color.White} else {Color.Black}, RoundedCornerShape(20.dp))
                                         .clickable(enabled = !loadingMore) {
                                             loadMoreTrigger++
                                         }
@@ -4605,6 +5216,7 @@ fun EditItemDialog() {
                                             text = "Load More",
                                             modifier = Modifier.align(Alignment.Center)
                                                 .padding(4.dp),
+                                            color = if (highcontrastmode.value) {Color.White} else {Color.Black},
                                             textAlign = TextAlign.Center, fontSize = 12.sp
                                         )
                                     }
@@ -4705,7 +5317,7 @@ fun EditItemDialog() {
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             Button(onClick = {
                                 if (!hasMicPermission) {
-                                    micPermissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+                                    micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                                 } else if (isRecording) {
                                     currentAudioPath = stopRecording()
                                     currentAudioName = "Recording"
@@ -4852,25 +5464,28 @@ fun EditItemDialog() {
 }
 
 @Composable
-fun image_preview(name: String, context: Context, previewUrl: String, has_text: Boolean)
+fun image_preview(name: String, context: Context, previewUrl: String, has_text: Boolean, border_size: Dp = 20.dp, box_width: Dp = 120.dp, box_height: Dp = 120.dp)
 {
     Box(
         modifier = Modifier
-            .size(120.dp)
-            .background(Color.White)
-            .border(4.dp, Color.Black, RoundedCornerShape(20.dp))
+            .width(box_width)
+            .height(box_height)
+            .clip(RoundedCornerShape(border_size))
+            .background(if (highcontrastmode.value) {Color.Black} else {Color.White})
+            .border(4.dp, if (highcontrastmode.value) {Color.White} else {Color.Black}, RoundedCornerShape(border_size))
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(context).data(previewUrl).build(),
+            model = ImageRequest.Builder(context).data(resolveImageUrl(previewUrl)).apply { if (highcontrastmode.value) { transformations(HighContrastTransformation()) } }.build(),
             contentDescription = "Preview of $name",
-            modifier = Modifier.padding(8.dp).fillMaxSize().clip(RoundedCornerShape(20.dp))
+            modifier = Modifier.padding(8.dp).fillMaxSize().clip(RoundedCornerShape(border_size))
         )
         if (has_text) {
             Text(
                 text = name.replaceFirstChar { it.titlecase() },
-                modifier = Modifier.align(Alignment.BottomCenter).padding(4.dp),
-                textAlign = TextAlign.Center, fontSize = 12.sp
-            )
+                color = if (highcontrastmode.value) {Color.White} else {Color.Black},
+                textAlign = TextAlign.Center, fontSize = 12.sp,
+                modifier = Modifier.align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}).padding(10.dp)
+                )
         }
     }
 }
@@ -4931,7 +5546,7 @@ fun AddItemDialog() {
                             pointers = m.pointers + (if (isSymbol) null else folderTarget),
                             tts = m.tts + (if (isSymbol) ttsType else null),
                             item_type = m.item_type + isSymbol,
-                            item_uuids = m.item_uuids + java.util.UUID.randomUUID().toString()
+                            item_uuids = m.item_uuids + UUID.randomUUID().toString()
                         )
                         MenuList[menuIndex] = updated
                         switchmenuparser.value++
