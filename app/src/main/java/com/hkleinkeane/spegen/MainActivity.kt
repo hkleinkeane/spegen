@@ -302,10 +302,6 @@ var trigger_save = mutableStateOf(false)
 
 var trigger_load = mutableStateOf(false)
 
-var trigger_state_change_check = mutableStateOf(false)
-
-var state_has_changed = mutableStateOf(false)
-
 val show_tutorial = mutableStateOf(false)
 
 var tts_speech_rate = mutableStateOf(1.0f)
@@ -395,7 +391,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                         }
                         wordfinder_highlight_index.intValue = index
                         if (!MenuFinder(wordfinder_path_ids[0]).item_type[index]) {
-                            var total_box_size = box_size + (box_padding * 2)
+                            val total_box_size = box_size + (box_padding * 2)
                             val itemKey = "${wordfinder_path_ids[0]}-$index"
                             val captured = item_positions[itemKey]
                             val density = LocalDensity.current
@@ -444,7 +440,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                     }
                     wordfinder_highlight_index.intValue = index
                     if (MenuFinder(wordfinder_path_ids[0]).item_type[index]) {
-                        var total_box_size = box_size + (box_padding * 2)
+                        val total_box_size = box_size + (box_padding * 2)
                         val itemKey = "${wordfinder_path_ids[0]}-$index"
                         val captured = item_positions[itemKey]
                         val density = LocalDensity.current
@@ -527,12 +523,6 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
                     }
                 }
             }
-            LaunchedEffect(trigger_state_change_check.value) {
-                if (trigger_state_change_check.value) {
-                    state_has_changed.value = hasStateChanged(this@MainActivity)
-                    trigger_state_change_check.value = false
-                }
-            }
         }
     }
     override fun onPause() {
@@ -613,6 +603,22 @@ fun resetToDefaults() {
     static_row_text_padding.floatValue = 4f
     menu_row_text_size.floatValue = 16f
     menu_row_text_padding.floatValue = 4f
+
+    // Reset colors
+    fitzgerald_overrides.clear()
+    fitzgeraldKey.clear()
+    val tempkey = mutableStateListOf<FitzgeraldCategory>(
+        FitzgeraldCategory("Pronoun",   Color(0xFFFFEB3B).toHexString()),  // yellow
+        FitzgeraldCategory("Noun",    Color(0xFFFF9800).toHexString()),  // orange
+        FitzgeraldCategory("Verb",    Color(0xFF4CAF50).toHexString()),  // green
+        FitzgeraldCategory("Adjective",  Color(0xFF2196F3).toHexString()),  // blue
+        FitzgeraldCategory("Social",   Color(0xFFE91E63).toHexString()),  // pink
+        FitzgeraldCategory("Question",  Color(0xFF9C27B0).toHexString()),  // purple
+        FitzgeraldCategory("Adverb",   Color(0xFF795548).toHexString()),  // brown
+        FitzgeraldCategory("Determiner", Color(0xFFFFFFFF).toHexString()),  // white
+        FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
+    )
+    fitzgeraldKey.addAll(tempkey)
 }
 
 @Serializable
@@ -735,7 +741,7 @@ fun currentPersistedState(): PersistedState = PersistedState(
     tts_speech_rate = tts_speech_rate.value,
     tts_pitch = tts_pitch.value,
     tts_pause_between_words = tts_pause_between_words.value,
-    tts_pause_duration = tts_pause_duration.value,
+    tts_pause_duration = tts_pause_duration.longValue,
     static_row_text_size = static_row_text_size.floatValue,
     static_row_text_padding = static_row_text_padding.floatValue,
     menu_row_text_size = menu_row_text_size.floatValue,
@@ -779,15 +785,6 @@ fun PersistedState.normalizedForComparison() = copy(
     menu_list = menu_list.map { it.copy(image_urls = emptyList()) },
     ngram_model = NgramModel()
 )
-suspend fun hasStateChanged(context: Context): Boolean {
-    val prefs = context.spegen_datastore.data.first()
-    val savedJson = prefs[APP_STATE_KEY] ?: return true
-    val savedState = try {
-        Json.decodeFromString<PersistedState>(savedJson)
-    } catch (e: Exception) { return true }
-
-    return currentPersistedState().normalizedForComparison() != savedState.normalizedForComparison()
-}
 
 suspend fun precacheAllImages(context: Context) {
     if (cache_running.value) return
@@ -867,7 +864,7 @@ fun isOnline(context: Context): Boolean {
 fun CachePrompt(context: Context) {
     val scope = rememberCoroutineScope()
     val activity = LocalActivity.current as? ComponentActivity
-    var show_error_msg by remember { mutableStateOf(false) }
+    var show_error_msg = remember { mutableStateOf(false) }
 
     AlertDialog(
         // While caching will swallow dismiss attempts
@@ -905,7 +902,7 @@ fun CachePrompt(context: Context) {
                     )
                 }
             } else {
-                if (show_error_msg)
+                if (show_error_msg.value)
                 {
                     Column(verticalArrangement = Arrangement.spacedBy(6.dp))
                     {
@@ -939,14 +936,14 @@ fun CachePrompt(context: Context) {
             if (!cache_running.value) {
                 Button(onClick = {
                     if (isOnline(context)) {
-                        show_error_msg = false
+                        show_error_msg.value = false
                         scope.launch {
                             resolveAndPrecacheAll(context)
                             show_cache_prompt.value = false // auto-close when done
                         }
                     }
                     else {
-                        show_error_msg = true
+                        show_error_msg.value = true
                     }
                 }) { Text("Download now") }
             }
@@ -2884,7 +2881,27 @@ fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
     var unsaved by remember { mutableStateOf<Boolean?>(null) }
 
     LaunchedEffect(done_clicked) {
-        if (done_clicked) unsaved = hasStateChanged(context)
+          if (done_clicked) {
+            val prefs = context.spegen_datastore.data.first()
+            val savedJson = prefs[APP_STATE_KEY]
+            unsaved = if (savedJson == null) {
+              println("No saved state -> unsaved=true")
+              true
+            } else {
+              try {
+                val saved = Json.decodeFromString<PersistedState>(savedJson)
+                  .withPaddedLists()
+                  .normalizedForComparison()
+                val current = currentPersistedState().normalizedForComparison()
+                val differs = saved != current
+                println("Inline check: differs=$differs")
+                differs
+              } catch (e: Exception) {
+                  println("Decode failed -> unsaved=true: ${e.message}")
+                true
+              }
+            }
+          }
     }
     LaunchedEffect(unsaved) {
         if (done_clicked && unsaved == false) onClose()
@@ -3218,9 +3235,7 @@ fun MiscSettings(context: Context) {
                 if (isOnline(context)) {
                     show_error_msg.value = false
                     activity?.lifecycleScope?.launch { resolveAndPrecacheAll(activity) }
-                }
-                else
-                {
+                } else {
                     show_error_msg.value = true
                 }
             },
@@ -3234,8 +3249,7 @@ fun MiscSettings(context: Context) {
                     "Download all images for offline use"
             )
         }
-        if (show_error_msg.value)
-        {
+        if (show_error_msg.value) {
             Text(
                 "Error: Not connected to the internet!",
                 fontSize = 14.sp,
@@ -3248,6 +3262,24 @@ fun MiscSettings(context: Context) {
                     "images aren't loading without an internet connection.",
             fontSize = 13.sp, color = Color.Gray
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                editor_mode.value = false
+                show_edit_item_dialog.value = false
+                show_add_item_dialog.value = false
+                show_new_menu_dialog.value = false
+                show_autocomplete.value = false
+                show_tutorial.value = true
+                show_settings.value = false
+            },
+            enabled = !cache_running.value,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                "Replay tutorial"
+            )
+        }
     }
 }
 
@@ -4161,7 +4193,25 @@ fun EditorToolbar() {
     var unsaved by remember { mutableStateOf<Boolean?>(null) }
 
     LaunchedEffect(exit_clicked) {
-        if (exit_clicked) unsaved = hasStateChanged(context)
+        if (exit_clicked) {
+            val prefs = context.spegen_datastore.data.first()
+            val savedJson = prefs[APP_STATE_KEY]
+            unsaved = if (savedJson == null) {
+                println("No saved state -> unsaved=true")
+                true
+            } else {
+                try {
+                    val saved = Json.decodeFromString<PersistedState>(savedJson)
+                        .withPaddedLists()
+                        .normalizedForComparison()
+                    val current = currentPersistedState().normalizedForComparison()
+                    val differs = saved != current
+                    differs
+                } catch (e: Exception) {
+                    true
+                }
+            }
+        }
     }
     // No changes -> just exit
     LaunchedEffect(unsaved) {
