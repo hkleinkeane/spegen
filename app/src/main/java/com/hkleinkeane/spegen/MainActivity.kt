@@ -1628,12 +1628,23 @@ fun navigateTo(menuId: Int) {
 @Composable
 fun TutorialOverlay(onFinish: () -> Unit) {
     val slides = listOf(
-        "Welcome to SpeGen" to "Tap symbols to build sentences.",
-        "Categories" to "Tap a folder like People or Actions to find more words.",
-        "Search" to "Tap the Search button on the right to find any word quickly.",
-        "Speak" to "Tap the input bar at the top to read your sentence aloud."
+        "Welcome to SpeGen" to "This is a short tutorial to teach you the basic UI of the app. You can access this tutorial later from settings.",
+        "Folders" to "Tap a folder like Actions or Food to go to another menu with more symbols and folders. Folders always have a black fold in the top right corner.",
+        "Symbols" to "Tap a symbol like More or Want to add it to the input box.",
+        "Input Box" to "The input box is where you compose sentences. Tap it to play the constructed sentence.",
+        "Menu Row" to "These are a list of buttons that will automatically redirect you to the associated menu.",
+        "Static Words Row" to "These are a list of terms that are always at the bottom of the screen regardless of where you are in the application. Tap it to instantly play the word using text-to-speech.",
+        "Keyboard" to "Opens up a dialog that lets you use your device's keyboard to add items to the input box.",
+        "Delete" to "Deletes the last term in the input box.",
+        "Clear" to "Clears the input box of all terms.",
+        "Stop" to "Stops any currently playing text-to-speech.",
+        "Search" to "Search for any terms in any existing menus. It guides you to the term by showing you what buttons you need to press to get to the term.",
+        "Settings" to "Brings you to a settings menu. Links to various options such as: editing UI, backing up settings, or changing the text-to-speech voice settings, and more.",
+        "Back" to "Sends you back to the previous menu you were on.",
+        "Autocomplete" to "Replaces the menu and opens a list of autocomplete options. Autocomplete learns from the patterns in symbols you select to get more accurate and helpful over time. Data is not sent off of your device without your consent.",
     )
     var currentSlide by remember { mutableIntStateOf(0) }
+    val maxSlide = slides.size-1
 
     Box(
         modifier = Modifier
@@ -1659,7 +1670,13 @@ fun TutorialOverlay(onFinish: () -> Unit) {
                 color = Color.White,
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 40.dp)
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            Text(
+                text = "$currentSlide/$maxSlide",
+                color = Color.White,
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
             )
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 if (currentSlide > 0) {
@@ -2861,7 +2878,7 @@ fun UISettingsContent() {
     Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())) {
-        ExpandableSection("Static Symbol Row") { StaticSymbolRowSettings() }
+        ExpandableSection("Static Words Row") { StaticSymbolRowSettings() }
         ExpandableSection("Menu Row") { MenuRowSettings() }
         ExpandableSection("Color Key") { ColorKeySettings() }
         ExpandableSection("Item Sizing") { ItemSizingSettings() }
