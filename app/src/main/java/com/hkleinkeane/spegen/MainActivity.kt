@@ -67,6 +67,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -183,6 +184,14 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import coil3.transform.Transformation
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.TextButton
+import kotlinx.coroutines.delay
 
 const val DEMO_MODE = false
 
@@ -270,6 +279,8 @@ var menu_width = screenWidth - (button_boxes_width * 2)
 var inputboxselecteditems_text = mutableStateListOf<String>()
 
 var inputboxselecteditems_has_symbol = mutableStateListOf<Boolean>()
+
+val inputboxselecteditems_translations = mutableStateListOf<Map<String, String>>()
 
 var tts: MutableState<TextToSpeech?> = mutableStateOf(null)
 
@@ -367,6 +378,14 @@ val BUTTON_SHAPES = listOf(
 val button_shape_name = mutableStateOf("Rounded")
 var item_border_width = 4.dp
 
+val app_locale = mutableStateOf("en")
+val language_image_override = mutableStateOf(false)
+val multilingual_labels = mutableStateOf(false)
+val tts_missing_language = mutableStateOf<String?>(null)
+val show_all_labels = mutableStateOf(true)
+val current_board_language = mutableStateOf("")
+val show_inputbox_language_picker = mutableStateOf(false)
+
 class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     override fun newImageLoader(context: PlatformContext): ImageLoader {
         return ImageLoader.Builder(context)
@@ -396,7 +415,7 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
         setContent {
             tts = rememberTextToSpeech()
             MenuKeyGen()
-            Screen()
+            Screen(this@MainActivity)
             Box()
             {
                 if (createclonefolder.value) {
@@ -570,11 +589,169 @@ class MainActivity : ComponentActivity(), SingletonImageLoader.Factory {
     }
 }
 
+data class AppLanguage(val name: String, val code: String)
+
+val APP_LANGUAGES: List<AppLanguage> by lazy {
+    Locale.getISOLanguages()
+        .map { code -> AppLanguage(Locale.forLanguageTag(code).displayLanguage.ifBlank { code }, code) }
+        .filter { it.name.isNotBlank() && it.name != it.code }
+        .distinctBy { it.code }
+        .sortedBy { it.name }
+}
+
+@Composable
+fun LanguageDropdown(selectedCode: String, onSelected: (AppLanguage) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    var query by remember { mutableStateOf("") }
+    val current = remember(selectedCode) {
+        APP_LANGUAGES.find { it.code == selectedCode }
+            ?: AppLanguage("English", "en")
+    }
+    val filtered = remember(query) {
+        if (query.isBlank()) APP_LANGUAGES
+        else APP_LANGUAGES.filter {
+            it.name.contains(query, ignoreCase = true) || it.code.contains(query, ignoreCase = true)
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(if (expanded) Color(0xFFD0D0D0) else Color(0xFFE8E8E8))
+                .clickable { expanded = !expanded }
+                .padding(horizontal = 12.dp, vertical = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Language", fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(end = 12.dp))
+            Text("${current.name} (${current.code})", fontSize = 14.sp, modifier = Modifier.weight(1f))
+            Text(if (expanded) "▲" else "▼", fontSize = 12.sp, color = Color.Gray)
+        }
+        if (expanded) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .border(1.dp, Color(0xFFCCCCCC),
+                        RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
+            ) {
+                TextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    label = { Text("Search language") },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth().padding(8.dp)
+                )
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 280.dp)
+                ) {
+                    items(filtered, key = { it.code }) { lang ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onSelected(lang); expanded = false; query = ""
+                                }
+                                .padding(horizontal = 12.dp, vertical = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("${lang.name} (${lang.code})", fontSize = 14.sp,
+                                modifier = Modifier.weight(1f))
+                            if (lang.code == selectedCode) {
+                                Text("✓", fontSize = 16.sp, color = Color(0xFF1976D2))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TtsLanguageNotice(context: Context) {
+    val lang = tts_missing_language.value ?: return
+
+    // auto-dismiss after a few seconds
+    LaunchedEffect(lang) {
+        delay(6000)
+        if (tts_missing_language.value == lang) tts_missing_language.value = null
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize().zIndex(3000f),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        Surface(
+            color = Color(0xFF323232),
+            shape = RoundedCornerShape(8.dp),
+            modifier = Modifier.padding(16.dp).fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "$lang needs to be installed to be used for speech.",
+                    color = Color.White, fontSize = 14.sp,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(Modifier.width(8.dp))
+                TextButton(onClick = {
+                    // Prompt the TTS engine to download the missing language data and fall back to the general TTS settings screen if unsupported.
+                    try {
+                        context.startActivity(
+                            Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA)
+                                .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+                        )
+                    } catch (e: Exception) {
+                        try {
+                            context.startActivity(
+                                Intent("com.android.settings.TTS_SETTINGS")
+                                    .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+                            )
+                        } catch (e2: Exception) { }
+                    }
+                    tts_missing_language.value = null
+                }) { Text("INSTALL", color = Color(0xFFFFCC02)) }
+                TextButton(onClick = { tts_missing_language.value = null }) {
+                    Text("DISMISS", color = Color.White)
+                }
+            }
+        }
+    }
+}
+
+fun currentBoardLang(): String = current_board_language.value.ifBlank { app_locale.value }
+
+fun labelForLanguage(menu: menutemplate, index: Int, lang: String): String {
+    val base = menu.item_list.getOrNull(index) ?: ""
+    val translations = menu.item_translations.getOrNull(index) ?: emptyMap()
+    return translations[lang]?.takeIf { it.isNotBlank() } ?: base
+}
+
+fun displayLabel(menu: menutemplate, index: Int?): String {
+    val base = menu.item_list.getOrNull(index ?: 0) ?: ""
+    if (!multilingual_labels.value) return base
+    val translations = menu.item_translations.getOrNull(index ?: 0) ?: emptyMap()
+    if (translations.isEmpty()) return base
+    return if (show_all_labels.value) {
+        (listOf(base) + translations.values).filter { it.isNotBlank() }.distinct().joinToString("\n")
+    } else {
+        labelForLanguage(menu, index ?: 0, currentBoardLang())
+    }
+}
+
 fun resetToDefaults() {
     // Clear composed sentence
     inputboxselecteditems_text.clear()
     inputboxselecteditems_has_symbol.clear()
     inputboxselecteditems_audio.clear()
+    inputboxselecteditems_translations.clear()
     inputboxselecteditems_pron.clear()
 
     // Clear all wordfinder state
@@ -649,6 +826,8 @@ fun resetToDefaults() {
         FitzgeraldCategory("Other",    Color(0xFFBDBDBD).toHexString())  // gray
     )
     fitzgeraldKey.addAll(tempkey)
+
+    app_locale.value = "en"
 }
 
 @Serializable
@@ -680,7 +859,13 @@ data class PersistedState(
     val skin_tone: String = "",
     val text_location_bottom: Boolean = true,
     val button_shape_name: String = "Rounded",
-    var item_border_width_dp: Float = 4f
+    var item_border_width_dp: Float = 4f,
+    val app_locale: String = "en",
+    val language_image_override: Boolean = false,
+    val multilingual_labels: Boolean = false,
+    val show_all_labels: Boolean = true,
+    val current_board_language: String = "",
+    val show_inputbox_language_picker: Boolean = false
 )
 
 fun PersistedState.withPaddedLists(): PersistedState = copy(
@@ -693,14 +878,20 @@ fun PersistedState.withPaddedLists(): PersistedState = copy(
         val custom_audio_names = menu.custom_audio_names.toMutableList()
         val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
         val colors = menu.colors.toMutableList()
+        val locales = menu.item_locales.toMutableList()
+        val item_translations = menu.item_translations.toMutableList()
+        val item_tts_locales = menu.item_tts_locales.toMutableList()
+        while (item_translations.size < n) item_translations.add(emptyMap())
+        while (item_tts_locales.size < n) item_tts_locales.add("")
         while (colors.size < n) colors.add("")
         while (uuids.size  < n) uuids.add(UUID.randomUUID().toString())
         while (urls.size   < n) urls.add("")
         while (custom.size < n) custom.add("")
+        while (locales.size < n) locales.add("")
         while (custom_audio_paths.size < n) custom_audio_paths.add("")
         while (custom_audio_names.size < n) custom_audio_names.add("")
         while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
-        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom, custom_audio_paths = custom_audio_paths, custom_audio_names = custom_audio_names, pronunciation_overrides = pronunciation_overrides, colors = colors)
+        menu.copy(item_uuids = uuids, image_urls = urls, custom_image_paths = custom, custom_audio_paths = custom_audio_paths, custom_audio_names = custom_audio_names, pronunciation_overrides = pronunciation_overrides, colors = colors, item_locales = locales, item_translations = item_translations, item_tts_locales = item_tts_locales)
     }
 )
 
@@ -752,6 +943,13 @@ fun load_vars(state: PersistedState) {
 
     button_shape_name.value = state.button_shape_name
     item_border_width = state.item_border_width_dp.dp
+
+    app_locale.value = state.app_locale
+    language_image_override.value = state.language_image_override
+    multilingual_labels.value = state.multilingual_labels
+    show_all_labels.value = state.show_all_labels
+    current_board_language.value = state.current_board_language
+    show_inputbox_language_picker.value = state.show_inputbox_language_picker
 }
 
 suspend fun loadAllPreferences(context: Context): Boolean {
@@ -796,7 +994,13 @@ fun currentPersistedState(): PersistedState = PersistedState(
     skin_tone = skin_tone.value,
     text_location_bottom = text_location_bottom.value,
     button_shape_name = button_shape_name.value,
-    item_border_width_dp = item_border_width.value
+    item_border_width_dp = item_border_width.value,
+    app_locale = app_locale.value,
+    language_image_override = language_image_override.value,
+    multilingual_labels = multilingual_labels.value,
+    show_all_labels = show_all_labels.value,
+    current_board_language = current_board_language.value,
+    show_inputbox_language_picker = show_inputbox_language_picker.value
 )
 
 suspend fun saveAllPreferences(context: Context) {
@@ -1216,7 +1420,6 @@ data class SkinTone(
 )
 
 val SKIN_TONES = listOf(
-      SkinTone("Default",   Color(0xFFFFD580), "",    ""),
   SkinTone("Light",    Color(0xFFF5DEB3), "1f3fb", "light"),
   SkinTone("Medium light", Color(0xFFDDB892), "1f3fc", "medium-light"),
   SkinTone("Medium",    Color(0xFFC68863), "1f3fd", "medium"),
@@ -1333,6 +1536,15 @@ fun rememberTextToSpeech(): MutableState<TextToSpeech?> {
     return tts
 }
 
+fun resolveSpeech(menu: menutemplate, index: Int): Pair<String, String?> {
+    val defaultLabel = menu.item_list.getOrNull(index) ?: ""
+    if (!multilingual_labels.value) return defaultLabel to null
+    val loc = menu.item_tts_locales.getOrNull(index)?.takeIf { it.isNotBlank() }
+        ?: return defaultLabel to null
+    val translated = menu.item_translations.getOrNull(index)?.get(loc)?.ifBlank { defaultLabel } ?: defaultLabel
+    return translated to loc
+}
+
 data class AccessTokenResponse(
     // Data class for getAccessToken to allow to parse the response data
     val access_token: String,
@@ -1389,12 +1601,12 @@ suspend fun getAccessToken(): AccessTokenResponse? {
     }
 }
 
-suspend fun useApiWithToken(token: String?, search: String): ApiSymbolResponse? {
+suspend fun useApiWithToken(token: String?, search: String, locale: String = app_locale.value): ApiSymbolResponse? {
     if (highcontrastmode.value) {
         return withContext(Dispatchers.IO) {
             val params = listOf(
                 "q" to "$search hc:1",
-                "locale" to "en",
+                "locale" to locale,
                 "safe" to "0",
                 "access_token" to token
             )
@@ -1471,11 +1683,11 @@ suspend fun useApiWithToken(token: String?, search: String): ApiSymbolResponse? 
     }
 }
 
-suspend fun useApiMultipleWithToken(token: String?, search: String, count: Int, index: Int): List<ApiSymbolResponse>? {
+suspend fun useApiMultipleWithToken(token: String?, search: String, locale: String = app_locale.value, count: Int, index: Int): List<ApiSymbolResponse>? {
     return withContext(Dispatchers.IO) {
         val params = listOf(
             "q" to search,
-            "locale" to "en",
+            "locale" to locale,
             "safe" to "0",
             "access_token" to token
         )
@@ -1596,30 +1808,20 @@ fun stopRecording(): String {
     }
 }
 
-fun speakItem(menuId: Int?, itemIndex: Int?, fallbackName: String) {
-    val menu = MenuFinder(menuId)
-    val audioPath = menu.custom_audio_paths.getOrNull(itemIndex ?: -1) ?: ""
-    if (audioPath.isNotBlank()) {
-        playAudioFile(audioPath)
-        return
-    }
-    val pron = menu.pronunciation_overrides.getOrNull(itemIndex ?: -1) ?: ""
-    val toSpeak = pron.ifBlank { fallbackName }
+fun speakItem(menu: menutemplate, index: Int) {
+    val engine = tts.value ?: return
+    val (textRaw, loc) = resolveSpeech(menu, index)
+    val text = menu.pronunciation_overrides.getOrNull(index)?.takeIf { it.isNotBlank() } ?: textRaw
+    val code = loc ?: app_locale.value
+    val locale = Locale.forLanguageTag(code)
 
-    if (tts.value?.isSpeaking == true) tts.value?.stop()
-
-    if (tts_pause_between_words.value) {
-        val words = toSpeak.split(" ")
-        tts.value?.speak(words[0], TextToSpeech.QUEUE_FLUSH, null, "word_0")
-        for (i in 1 until words.size) {
-            tts.value?.playSilentUtterance(
-                tts_pause_duration.value, TextToSpeech.QUEUE_ADD, "pause_$i"
-            )
-            tts.value?.speak(words[i], TextToSpeech.QUEUE_ADD, null, "word_$i")
-        }
-    } else {
-        tts.value?.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, "")
+    val status = engine.setLanguage(locale)
+    if (status == TextToSpeech.LANG_MISSING_DATA || status == TextToSpeech.LANG_NOT_SUPPORTED) {
+        tts_missing_language.value = APP_LANGUAGES.find { it.code == code }?.name
+            ?: locale.displayLanguage.ifBlank { code }
+        engine.language = Locale.getDefault()
     }
+    engine.speak(text, TextToSpeech.QUEUE_FLUSH, null, "item_$index")
 }
 fun playSentenceSequenced(
     tts: TextToSpeech?,
@@ -1906,7 +2108,7 @@ fun TutorialOverlay(onFinish: () -> Unit) {
       fun itemHighlight(isSymbol: Boolean): TutorialHighlight? {
             val key = findFirstItemKey(isSymbol) ?: return null
             val pos = item_positions[key] ?: return null
-          val sz = item_sizes[key]
+            val sz = item_sizes[key]
             if (pos != null) {
               return with(density) {
                 TutorialHighlight(
@@ -2150,6 +2352,44 @@ fun Static_Row_Needs() {
         }
 }
 
+fun boardLanguages(): List<String> {
+    val codes = linkedSetOf(app_locale.value)
+    for (menu in MenuList) for (map in menu.item_translations) codes.addAll(map.keys.filter { it.isNotBlank() })
+    return codes.toList()
+}
+
+@Composable
+fun InputBoxLanguagePicker() {
+    if (!multilingual_labels.value || !show_inputbox_language_picker.value) return
+    var expanded by remember { mutableStateOf(false) }
+    val langs = boardLanguages()
+    val currentCode = currentBoardLang()
+    val currentName = APP_LANGUAGES.find { it.code == currentCode }?.name ?: currentCode
+
+    Box {
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(6.dp))
+                .background(Color(0xFFE8E8E8))
+                .clickable { expanded = !expanded }
+                .padding(horizontal = 10.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(currentName, fontSize = 14.sp)
+            Text(if (expanded) " ▲" else " ▼", fontSize = 11.sp, color = Color.Gray)
+        }
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            langs.forEach { code ->
+                val name = APP_LANGUAGES.find { it.code == code }?.name ?: code
+                DropdownMenuItem(
+                    text = { Text(name + if (code == currentCode) "  ✓" else "") },
+                    onClick = { current_board_language.value = code; expanded = false }
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun InputBox(modifier: Modifier) {
     LaunchedEffect(Unit) {
@@ -2158,7 +2398,10 @@ fun InputBox(modifier: Modifier) {
 
     input_box_height = screenHeight * (1f / 4f)
 
-    Row {
+    Row() {
+        Box()
+        {
+        InputBoxLanguagePicker()
         LazyRow(
             modifier = modifier
                 .width(screenWidth - (button_boxes_width * 2))
@@ -2166,20 +2409,39 @@ fun InputBox(modifier: Modifier) {
                 .background(Color.White)
                 .border(4.dp, Color.Black)
                 .clickable {
+                    val engine = tts.value
+                    val lang = currentBoardLang()
                     if (tts.value?.isSpeaking == true || false) {
                         stopSentenceSequenced(tts.value)
                     } else {
                         val words = inputboxselecteditems_text.mapIndexed { i, w ->
                             inputboxselecteditems_pron.getOrNull(i)?.takeIf { it.isNotBlank() } ?: w
                         }
-                        playSentenceSequenced(
-                            tts = tts.value,
-                            words = words,
-                            audioPaths = inputboxselecteditems_audio.toList(),
-                            pauseMs = tts_pause_duration.value
-                        )
+                                val engine = tts.value
+                                val lang = currentBoardLang()
+
+                                if (engine != null && multilingual_labels.value) {
+                                    val status = engine.setLanguage(Locale.forLanguageTag(lang))
+                                    if (status == TextToSpeech.LANG_MISSING_DATA || status == TextToSpeech.LANG_NOT_SUPPORTED) {
+                                        tts_missing_language.value = APP_LANGUAGES.find { it.code == lang }?.name ?: lang
+                                        engine.language = Locale.getDefault()
+                                    }
+                                }
+
+                                val spokenWords = if (multilingual_labels.value) {
+                                    words.mapIndexed { i, base ->
+                                        inputboxselecteditems_translations.getOrNull(i)?.get(lang)?.takeIf { it.isNotBlank() } ?: base
+                                    }
+                                } else words.toList()
+
+                                playSentenceSequenced(
+                                    tts = engine,
+                                    words = spokenWords,
+                                    audioPaths = inputboxselecteditems_audio.toList(),
+                                    pauseMs = tts_pause_duration.value
+                                )
+                            }
                     }
-                }
         ) {
             if (inputboxselecteditems_text.size == inputboxselecteditems_has_symbol.size) {
                 items(inputboxselecteditems_text.size) { index ->
@@ -2193,6 +2455,7 @@ fun InputBox(modifier: Modifier) {
                 }
             }
         }
+    }
     }
 }
 
@@ -2319,11 +2582,14 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                             val pron = menu.pronunciation_overrides.getOrNull(item_index ?: -1) ?: ""
                             inputboxselecteditems_text += name
                             inputboxselecteditems_has_symbol += true
+                            inputboxselecteditems_translations.add(
+                                MenuFinder(menu_id).item_translations.getOrNull(item_index ?: -1) ?: emptyMap()
+                            )
                             inputboxselecteditems_audio += audioPath
                             inputboxselecteditems_pron += pron
                         }
                         1 -> {  // speak only
-                            speakItem(menu_id, item_index, name)
+                            speakItem(MenuFinder(menu_id), item_index?.toInt() ?: 0)
                         }
                         2 -> {  // both
                             val menu = MenuFinder(menu_id)
@@ -2331,9 +2597,12 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                             val pron = menu.pronunciation_overrides.getOrNull(item_index ?: -1) ?: ""
                             inputboxselecteditems_text += name
                             inputboxselecteditems_has_symbol += true
+                            inputboxselecteditems_translations.add(
+                                MenuFinder(menu_id).item_translations.getOrNull(item_index ?: -1) ?: emptyMap()
+                            )
                             inputboxselecteditems_audio += audioPath
                             inputboxselecteditems_pron += pron
-                            speakItem(menu_id, item_index, name)
+                            speakItem(MenuFinder(menu_id), item_index?.toInt() ?: 0)
                         }
                     }
 
@@ -2355,12 +2624,17 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
         {
             mod = Modifier.zIndex(1000f)
         }
-        Text(text = name, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, modifier = mod
-            .offset(x_offset, y_offset)
-            .padding(item_text_padding)
-            .height(height_dp.dp)
-            .width(width_dp.dp)
-            .align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}), textAlign = TextAlign.Center)
+        Text(
+            text = displayLabel(MenuFinder(menu_id), item_index),
+            modifier = Modifier.align(
+                if (text_location_bottom.value) Alignment.BottomCenter else Alignment.TopCenter
+            ),
+            textAlign = TextAlign.Center,
+            maxLines = if (multilingual_labels.value) 4 else 2,
+            overflow = TextOverflow.Ellipsis,
+            fontSize = 12.sp,
+            color = Color.Black
+        )
     }
 }
 
@@ -2439,15 +2713,15 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
             mod = Modifier.zIndex(1000f)
         }
         Text(
-            text = name,
-            color = if (highcontrastmode.value) {Color.White} else {Color.Black},
-            modifier = mod
-                .offset(x_offset, y_offset)
-                .padding(item_text_padding)
-                .height(height_dp.dp)
-                .width(width_dp.dp)
-                .align(if (text_location_bottom.value) {Alignment.BottomCenter} else {Alignment.TopCenter}),
-            textAlign = TextAlign.Center
+            text = displayLabel(MenuFinder(menu_id), item_index),
+            modifier = Modifier.align(
+                if (text_location_bottom.value) Alignment.BottomCenter else Alignment.TopCenter
+            ),
+            textAlign = TextAlign.Center,
+            maxLines = if (multilingual_labels.value) 4 else 2,
+            overflow = TextOverflow.Ellipsis,
+            fontSize = 14.sp,
+            color = Color.Black
         )
 
         // Folded-corner indicator — marks this item as a folder, not a symbol
@@ -2521,7 +2795,10 @@ data class menutemplate(
     val custom_audio_paths: List<String> = emptyList(),   // recorded/imported audio file path
     val custom_audio_names: List<String> = emptyList(), // recorded/imported audio file name
     val pronunciation_overrides: List<String> = emptyList(), // phonetic respelling text
-    val colors: List<String> = emptyList()  // hex like "#FFEB3B", "" = default white
+    val colors: List<String> = emptyList(),  // hex like "#FFEB3B", "" = default white
+    val item_locales: List<String> = emptyList(), // "" = use default
+    val item_translations: List<Map<String, String>> = emptyList(),  // langCode -> label
+    val item_tts_locales: List<String> = emptyList() // langCode for TTS; "" = default
 )
 
 fun parentsOf(menuId: Int): List<Int> {
@@ -2620,8 +2897,12 @@ fun MenuParser(menutemplate: menutemplate, modifier: Modifier = Modifier) {
               val resolved = mutableListOf<String>()
               menutemplate.item_list.forEachIndexed { index, query ->
                 val existing = cachedUrls.getOrNull(index)
-                val url = if (!existing.isNullOrBlank()) existing
-                else useApiWithToken(accesstoken, query)?.image_url ?: ""
+                val url = if (!existing.isNullOrBlank()) existing else {
+                    val loc = if (language_image_override.value)
+                        menutemplate.item_locales.getOrNull(index)?.takeIf { it.isNotBlank() }
+                    else app_locale.value
+                    useApiWithToken(accesstoken, query, loc?: "")?.image_url ?: ""
+                }
                 item_names.add(query)
                 resolved.add(url)
               }
@@ -3366,14 +3647,22 @@ suspend fun clearImageCacheIfImageOptionsChanged(context: Context) {
         Json.decodeFromString<PersistedState>(savedJson)
     } catch (e: Exception) { return }
 
-    val changed =
-        saved.highcontrastmode != highcontrastmode.value ||
-                saved.skin_tone != skin_tone.value
+    val localechanged = saved.app_locale != app_locale.value
+    val changed = saved.highcontrastmode != highcontrastmode.value || saved.skin_tone != skin_tone.value || localechanged
 
     if (changed) {
         val loader = SingletonImageLoader.get(context)
         loader.memoryCache?.clear()
         loader.diskCache?.clear()
+    }
+
+    if (localechanged)
+    {
+        for (i in MenuList.indices)
+        {
+            MenuList[i] = MenuList[i].copy(image_urls = MenuList[i].image_urls.map { "" })
+        }
+        switchmenuparser.value++
     }
 }
 
@@ -4342,20 +4631,105 @@ fun LanguageSettingsContent() {
       Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())) {
-            Text(
-              "Language and locale settings. More options will be available in future releases.",
-              fontSize = 14.sp, color = Color.DarkGray,
-              modifier = Modifier.padding(8.dp)
-            )
-            // [Future] Primary locale selection
-            // [Future] Multilingual board support (multiple languages on same board)
+            Text("Choose the language used when fetching new symbol images.", fontSize = 14.sp, modifier = Modifier.padding(8.dp))
+            LanguageDropdown(selectedCode = app_locale.value, onSelected = { app_locale.value = it.code})
+            Spacer(modifier = Modifier.height(12.dp))
+            ExpandableSection("Multilingual Options", { MultilingualSettings() })
             // [Future] Quick switch between configured languages
             // [Future] Pronunciation override defaults
             // [Future] Inflections / tenses popup (long-press to apply)
             // [Future] Automatic grammatical tense suggestions
             // [Future] Pre-inflection buttons (apply rule to next-selected button)
-            // [Future] Show both language texts simultaneously (translation aid)
           }
+}
+
+@Composable
+fun MultilingualSettings() {
+    Column(Modifier.fillMaxWidth()) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { language_image_override.value = !language_image_override.value }
+                .padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = language_image_override.value,
+                onCheckedChange = { language_image_override.value = it }
+            )
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text("Language image override", fontSize = 16.sp)
+                Text("Set a language per item in Edit Mode; matching images are fetched for that language.", fontSize = 12.sp, color = Color.Gray)
+            }
+        }
+
+        if (multilingual_labels.value) {
+            Spacer(Modifier.height(8.dp))
+            Text("Label display", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { show_all_labels.value = true }
+                    .padding(vertical = 4.dp)
+            ) {
+                RadioButton(selected = show_all_labels.value, onClick = { show_all_labels.value = true })
+                Text("Show all labels", fontSize = 14.sp)
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { show_all_labels.value = false }
+                    .padding(vertical = 4.dp)
+            ) {
+                RadioButton(selected = !show_all_labels.value, onClick = { show_all_labels.value = false })
+                Text("Show current language only", fontSize = 14.sp)
+            }
+
+            Spacer(Modifier.height(8.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { show_inputbox_language_picker.value = !show_inputbox_language_picker.value }
+                    .padding(vertical = 4.dp)
+            ) {
+                Checkbox(
+                    checked = show_inputbox_language_picker.value,
+                    onCheckedChange = { show_inputbox_language_picker.value = it }
+                )
+                Spacer(Modifier.width(8.dp))
+                Column {
+                    Text("Language selector on input box", fontSize = 16.sp)
+                    Text("Adds a dropdown above the input box to switch the current language.", fontSize = 12.sp, color = Color.Gray)
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { multilingual_labels.value = !multilingual_labels.value }
+                .padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = multilingual_labels.value,
+                onCheckedChange = { multilingual_labels.value = it }
+            )
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text("Multilingual labels", fontSize = 16.sp)
+                Text("Add labels in several languages per item and choose which language to speak.", fontSize = 12.sp, color = Color.Gray)
+            }
+        }
+    }
 }
 
 // Data
@@ -4511,7 +4885,40 @@ fun OfflineImageCacheSection(context: Context) {
                   "images aren't loading without an internet connection.",
               fontSize = 13.sp, color = Color.Gray
             )
+          Spacer(modifier = Modifier.height(16.dp))
+          ClearImageCacheSection(context)
           }
+}
+
+@Composable
+fun ClearImageCacheSection(context: Context) {
+    val scope = rememberCoroutineScope()
+    var cleared by remember { mutableStateOf(false) }
+    Column {
+        Text(
+            "Removes all downloaded item images from this device.",
+            fontSize = 13.sp, color = Color.DarkGray
+        )
+        Spacer(Modifier.height(8.dp))
+        Button(
+            onClick = {
+                scope.launch {
+                    withContext(Dispatchers.IO) {
+                        val loader = SingletonImageLoader.get(context)
+                        loader.memoryCache?.clear()
+                        loader.diskCache?.clear()
+                    }
+                    cleared = true
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
+        ) { Text("Clear image cache") }
+        if (cleared) {
+            Spacer(Modifier.height(8.dp))
+            Text("Image cache cleared.", fontSize = 13.sp, color = Color(0xFF2E7D32))
+        }
+    }
 }
 
 // About
@@ -4613,6 +5020,7 @@ fun Buttonboxes() {
                         inputboxselecteditems_text.clear()
                         inputboxselecteditems_has_symbol.clear()
                         inputboxselecteditems_audio.clear()
+                        inputboxselecteditems_translations.clear()
                         inputboxselecteditems_pron.clear()
                     })
             ) {
@@ -4637,6 +5045,7 @@ fun Buttonboxes() {
                                 inputboxselecteditems_has_symbol.lastIndex
                             )
                             inputboxselecteditems_audio.removeAt(inputboxselecteditems_audio.lastIndex)
+                            inputboxselecteditems_translations.removeAt(inputboxselecteditems_translations.lastIndex)
                             inputboxselecteditems_pron.removeAt(inputboxselecteditems_pron.lastIndex)
                         }
                     })
@@ -5017,11 +5426,19 @@ fun deleteMenu(menuId: Int) {
                 tts        = m.tts.filterIndexed        { idx, _ -> idx !in deadIndices },
                 item_type  = m.item_type.filterIndexed  { idx, _ -> idx !in deadIndices },
                 image_urls = if (m.image_urls.size == m.item_list.size)
-                    m.image_urls.filterIndexed { idx, _ -> idx !in deadIndices }
-                else m.image_urls,
+                    m.image_urls.filterIndexed { idx, _ -> idx !in deadIndices } else m.image_urls,
                 item_uuids = if (m.item_uuids.size == m.item_list.size)
-                    m.item_uuids.filterIndexed { idx, _ -> idx !in deadIndices }
-                else m.item_uuids,
+                    m.item_uuids.filterIndexed { idx, _ -> idx !in deadIndices } else m.item_uuids,
+                custom_audio_paths = if (m.custom_audio_paths.size == m.item_list.size)
+                    m.custom_audio_paths.filterIndexed { idx, _ -> idx !in deadIndices } else m.custom_audio_paths,
+                pronunciation_overrides = if (m.pronunciation_overrides.size == m.item_list.size)
+                    m.pronunciation_overrides.filterIndexed { idx, _ -> idx !in deadIndices } else m.pronunciation_overrides,
+                item_locales = if (m.item_locales.size == m.item_list.size)
+                    m.item_locales.filterIndexed { idx, _ -> idx !in deadIndices } else m.item_locales,
+                item_tts_locales = if (m.item_tts_locales.size == m.item_list.size)
+                    m.item_tts_locales.filterIndexed { idx, _ -> idx !in deadIndices } else m.item_tts_locales,
+                item_translations = if (m.item_translations.size == m.item_list.size)
+                    m.item_translations.filterIndexed { idx, _ -> idx !in deadIndices } else m.item_translations
             )
         }
     }
@@ -5059,8 +5476,71 @@ fun killDanglingPointers() {
                 custom_audio_paths = if (m.custom_audio_paths.size == m.item_list.size)
                     m.custom_audio_paths.filterIndexed { idx, _ -> idx !in dead } else m.custom_audio_paths,
                 pronunciation_overrides = if (m.pronunciation_overrides.size == m.item_list.size)
-                    m.pronunciation_overrides.filterIndexed { idx, _ -> idx !in dead } else m.pronunciation_overrides
+                    m.pronunciation_overrides.filterIndexed { idx, _ -> idx !in dead } else m.pronunciation_overrides,
+                item_locales = if (m.item_locales.size == m.item_list.size)
+                    m.item_locales.filterIndexed { idx, _ -> idx !in dead } else m.item_locales,
+                item_tts_locales = if (m.item_tts_locales.size == m.item_list.size)
+                    m.item_tts_locales.filterIndexed { idx, _ -> idx !in dead } else m.item_tts_locales,
+                item_translations = if (m.item_translations.size == m.item_list.size)
+                    m.item_translations.filterIndexed { idx, _ -> idx !in dead } else m.item_translations
             )
+        }
+    }
+}
+
+@Composable
+fun MultilingualLabelsEditor(
+    translations: Map<String, String>,
+    ttsLocale: String,
+    onTranslationsChange: (Map<String, String>) -> Unit,
+    onTtsLocaleChange: (String) -> Unit
+) {
+    var addingLanguage by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxWidth()) {
+        Text("Labels by language", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        Spacer(Modifier.height(8.dp))
+        translations.forEach { (code, label) ->
+            val langName = APP_LANGUAGES.find { it.code == code }?.name ?: code
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
+                Text("$langName:", fontSize = 13.sp, modifier = Modifier.width(100.dp))
+                TextField(
+                    value = label,
+                    onValueChange = { onTranslationsChange(translations + (code to it)) },
+                    singleLine = true,
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton(onClick = {
+                    onTranslationsChange(translations.toMutableMap().apply { remove(code) })
+                    if (ttsLocale == code) onTtsLocaleChange("")
+                }) { Text("✕") }
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        if (addingLanguage) {
+            LanguageDropdown(
+                selectedCode = "",
+                onSelected = { lang ->
+                    if (!translations.containsKey(lang.code))
+                        onTranslationsChange(translations + (lang.code to ""))
+                    addingLanguage = false
+                }
+            )
+        } else {
+            OutlinedButton(onClick = { addingLanguage = true }) { Text("+ Add language") }
+        }
+        Spacer(Modifier.height(12.dp))
+        Text("Speak using:", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        val ttsOptions = listOf("" to "Default") + translations.keys.map { code ->
+            code to (APP_LANGUAGES.find { it.code == code }?.name ?: code)
+        }
+        ttsOptions.forEach { (code, name) ->
+            Row(verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().clickable { onTtsLocaleChange(code) }
+                    .padding(vertical = 4.dp)) {
+                RadioButton(selected = ttsLocale == code, onClick = { onTtsLocaleChange(code) })
+                Text(name, fontSize = 14.sp)
+            }
         }
     }
 }
@@ -5103,6 +5583,9 @@ fun EditItemDialog() {
     var currentColor by remember { mutableStateOf(menu.colors.getOrNull(idx) ?: "") }
     var dropdownExpanded by remember { mutableStateOf(false) }
     var showColorPicker by remember { mutableStateOf(false) }
+    var currentLocale by remember { mutableStateOf(menu.item_locales.getOrNull(idx) ?: "")}
+    var translations by remember { mutableStateOf(menu.item_translations.getOrNull(idx) ?: emptyMap()) }
+    var ttsLocale by remember { mutableStateOf(menu.item_tts_locales.getOrNull(idx) ?: "") }
 
     val audioPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
@@ -5134,12 +5617,25 @@ fun EditItemDialog() {
             while (custom_audio_paths.size < n) custom_audio_paths.add("")
             custom_audio_paths[idx] = if (useCustomAudio) currentAudioPath else ""
             val audioNames = menu.custom_audio_names.toMutableList()
+            val item_locales = menu.item_locales.toMutableList()
+            while (item_locales.size < n) item_locales.add("")
+            val localeChanged = (item_locales.getOrNull(idx) ?: "") != currentLocale
+            item_locales[idx] = currentLocale
+            val urls = menu.image_urls.toMutableList()
+            while (urls.size < n) urls.add("")
+            if (localeChanged) urls[idx] = ""
             while (audioNames.size < n) audioNames.add("")
             audioNames[idx] = if (useCustomAudio) currentAudioName.trim() else ""
             val pronunciation_overrides = menu.pronunciation_overrides.toMutableList()
             while (pronunciation_overrides.size < n) pronunciation_overrides.add("")
             val colors = menu.colors.toMutableList()
             while (colors.size < n) colors.add("")
+            val item_translations = menu.item_translations.toMutableList()
+            while (item_translations.size < n) item_translations.add(emptyMap())
+            item_translations[idx] = translations
+            val item_tts_locales = menu.item_tts_locales.toMutableList()
+            while (item_tts_locales.size < n) item_tts_locales.add("")
+            item_tts_locales[idx] = ttsLocale
             colors[idx] = currentColor
             pronunciation_overrides[idx] = if (!useCustomAudio) pronunciation.trim() else ""
             uuids[idx] = itemUuid
@@ -5153,7 +5649,11 @@ fun EditItemDialog() {
                 custom_audio_paths = custom_audio_paths,
                 custom_audio_names = audioNames,
                 pronunciation_overrides = pronunciation_overrides,
-                colors = colors
+                colors = colors,
+                item_locales = item_locales,
+                image_urls = urls,
+                item_translations = item_translations,
+                item_tts_locales = item_tts_locales
             )
             switchmenuparser.value++
         }
@@ -5189,6 +5689,25 @@ fun EditItemDialog() {
                     Text("Name", fontSize = 14.sp)
                     TextField(value = name, onValueChange = { name = it }, singleLine = true)
                     Spacer(modifier = Modifier.height(12.dp))
+                    if (language_image_override.value)
+                    {
+                        Text("Item language", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                        LanguageDropdown(
+                            selectedCode = currentLocale.ifBlank { app_locale.value },
+                            onSelected = { currentLocale = it.code }
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+                    if (multilingual_labels.value) {
+                        Spacer(Modifier.height(12.dp))
+                        MultilingualLabelsEditor(
+                            translations = translations,
+                            ttsLocale = ttsLocale,
+                            onTranslationsChange = { translations = it },
+                            onTtsLocaleChange = { ttsLocale = it }
+                        )
+                        Spacer(Modifier.height(12.dp))
+                    }
                     Text("Image", fontSize = 14.sp)
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(3),
@@ -5258,9 +5777,11 @@ fun EditItemDialog() {
                     LaunchedEffect(loadMoreTrigger) {
                         if (loadMoreTrigger == 0) return@LaunchedEffect
                         loadingMore = true
+                        val loc = if (language_image_override.value) currentLocale.ifBlank { app_locale.value } else app_locale.value
                         val results = useApiMultipleWithToken(
                             accesstoken,
                             name,
+                            loc,
                             9,
                             possible_images_count + 9
                         )
@@ -5676,7 +6197,7 @@ fun EditorOverlay()
 }
 
 @Composable
-fun Screen() {
+fun Screen(contextMain: Context) {
     if (screen_display.value) {
         Box(
             modifier = Modifier
@@ -5702,6 +6223,7 @@ fun Screen() {
                     Menu(Modifier)
                 }
             }
+            TtsLanguageNotice(contextMain)
         }
     }
     if (!screen_display.value) {
