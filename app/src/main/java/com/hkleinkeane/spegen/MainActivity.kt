@@ -2398,6 +2398,7 @@ fun InputBox(modifier: Modifier) {
 
     input_box_height = screenHeight * (1f / 4f)
 
+
     Row() {
         Box()
         {
