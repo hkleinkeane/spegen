@@ -1723,7 +1723,9 @@ suspend fun useApiMultipleWithToken(token: String?, search: String, locale: Stri
             }
             is Result.Success -> {
                 for (i in 0 until count) {
-                    var symbolstring = (result.get()).replace("[", "").replace("]", "").split("},")[i+index]
+                    val chunks = (result.get()).replace("[", "").replace("]", "").split("},")
+                    if (i + index >= chunks.size) break
+                    var symbolstring = chunks[i + index]
                     if (symbolstring.length > 1) {
                         symbolstring += "}"
                     }
@@ -2694,7 +2696,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
                 .clip(currentButtonShape())
-                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
+                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, currentButtonShape())
                 .border(width = item_border_width, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = currentButtonShape())
                 .padding(box_padding)
                 .scale(1f)
