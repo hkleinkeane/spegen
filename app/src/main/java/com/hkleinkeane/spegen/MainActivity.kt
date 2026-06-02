@@ -191,6 +191,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.text.capitalize
 import kotlinx.coroutines.delay
 
 const val DEMO_MODE = false
@@ -735,7 +736,10 @@ fun labelForLanguage(menu: menutemplate, index: Int, lang: String): String {
 }
 
 fun displayLabel(menu: menutemplate, index: Int?): String {
-    val base = menu.item_list.getOrNull(index ?: 0) ?: ""
+    val raw = menu.item_list.getOrNull(index ?: 0) ?: ""
+    val base = raw.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(Locale.forLanguageTag(app_locale.value)) else it.toString()
+    }
     if (!multilingual_labels.value) return base
     val translations = menu.item_translations.getOrNull(index ?: 0) ?: emptyMap()
     if (translations.isEmpty()) return base
@@ -745,7 +749,6 @@ fun displayLabel(menu: menutemplate, index: Int?): String {
         labelForLanguage(menu, index ?: 0, currentBoardLang())
     }
 }
-
 fun resetToDefaults() {
     // Clear composed sentence
     inputboxselecteditems_text.clear()
@@ -807,9 +810,9 @@ fun resetToDefaults() {
 
     // Reset row variables
     static_row_text_size.floatValue = 16f
-    static_row_text_padding.floatValue = 4f
+    static_row_text_padding.floatValue = 8f
     menu_row_text_size.floatValue = 16f
-    menu_row_text_padding.floatValue = 4f
+    menu_row_text_padding.floatValue = 8f
 
     // Reset colors
     fitzgerald_overrides.clear()
@@ -828,6 +831,22 @@ fun resetToDefaults() {
     fitzgeraldKey.addAll(tempkey)
 
     app_locale.value = "en"
+    box_size = 100.dp
+    box_padding = 20.dp
+    item_text_padding = 20.dp
+    highcontrastmode.value = false
+    skin_tone.value = ""
+    text_location_bottom.value = true
+    button_shape_name.value = "Rounded"
+    item_border_width = 4.dp
+
+    language_image_override.value = false
+    multilingual_labels.value = false
+    show_all_labels.value = true
+    current_board_language.value = ""
+    show_inputbox_language_picker.value = false
+
+    ngram_model.value = seedNgramModel()
 }
 
 @Serializable
@@ -1646,7 +1665,7 @@ suspend fun useApiWithToken(token: String?, search: String, locale: String = app
         return withContext(Dispatchers.IO) {
             val params = listOf(
                 "q" to search,
-                "locale" to "en",
+                "locale" to locale,
                 "safe" to "0",
                 "access_token" to token
             )
@@ -2359,14 +2378,14 @@ fun boardLanguages(): List<String> {
 }
 
 @Composable
-fun InputBoxLanguagePicker() {
+fun InputBoxLanguagePicker(modifier: Modifier = Modifier) {
     if (!multilingual_labels.value || !show_inputbox_language_picker.value) return
     var expanded by remember { mutableStateOf(false) }
     val langs = boardLanguages()
     val currentCode = currentBoardLang()
     val currentName = APP_LANGUAGES.find { it.code == currentCode }?.name ?: currentCode
 
-    Box {
+    Box(modifier = modifier) {
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(6.dp))
@@ -2402,8 +2421,7 @@ fun InputBox(modifier: Modifier) {
     Row() {
         Box()
         {
-        InputBoxLanguagePicker()
-        LazyRow(
+            LazyRow(
             modifier = modifier
                 .width(screenWidth - (button_boxes_width * 2))
                 .height(input_box_height)
@@ -2456,6 +2474,9 @@ fun InputBox(modifier: Modifier) {
                 }
             }
         }
+            InputBoxLanguagePicker(
+                modifier = Modifier.align(Alignment.TopStart).padding(6.dp)
+            )
     }
     }
 }
@@ -2564,7 +2585,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
                 .height(box_size + Vertical_Stretch + (box_padding * 3))
                 .width(box_size)
                 .clip(currentButtonShape())
-                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, RoundedCornerShape(40.dp))
+                .background(if (highcontrastmode.value) {Color.Black} else {bgColor}, currentButtonShape())
                 .border(width = item_border_width, color = if (highcontrastmode.value) {Color.White} else {Color.Black}, shape = currentButtonShape())
                 .padding(box_padding)
                 .scale(1f)
@@ -2634,7 +2655,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
             maxLines = if (multilingual_labels.value) 4 else 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 12.sp,
-            color = Color.Black
+            color = if (highcontrastmode.value) Color.White else Color.Black,
         )
     }
 }
@@ -2722,25 +2743,23 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
             maxLines = if (multilingual_labels.value) 4 else 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 14.sp,
-            color = Color.Black
+            color = if (highcontrastmode.value) Color.White else Color.Black,
         )
 
         // Folded-corner indicator — marks this item as a folder, not a symbol
-        val fold_size = (box_size.value * 0.25f).dp
+        val fold_size = (box_size.value * 0.22f).coerceIn(8f, 48f).dp
+        val fold_inset = (box_size.value * 0.10f).coerceAtLeast(2f).dp
         Canvas(
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .offset(x_offset, y_offset)
-                .padding(box_padding)
+                .padding(fold_inset)   // was box_padding
                 .size(fold_size)
         ) {
             val fold = Path().apply {
-                moveTo(0f, 0f)
-                lineTo(size.width, 0f)
-                lineTo(size.width, size.height)
-                close()
+                moveTo(0f, 0f); lineTo(size.width, 0f); lineTo(size.width, size.height); close()
             }
-            drawPath(fold, if (highcontrastmode.value) {Color.White} else {Color.Black})
+            drawPath(fold, if (highcontrastmode.value) Color.White else Color.Black)
         }
     }
 }
@@ -3073,15 +3092,14 @@ fun Menurowbox(modifier: Modifier, i: Int, menu_terms_ids: MutableList<Int>) {
                 })
                 .drawWithContent {
                     drawContent()
-
-                    val foldSize = size.height * 0.25f
+                    val foldSize = (size.height * 0.25f).coerceIn(8.dp.toPx(), 48.dp.toPx())
                     val path = Path().apply {
                         moveTo(size.width - foldSize, 0f)
                         lineTo(size.width, 0f)
                         lineTo(size.width, foldSize)
                         close()
                     }
-                    drawPath(path, Color.Black)
+                    drawPath(path, if (highcontrastmode.value) Color.White else Color.Black)
                 }
         ) {
             Text(
@@ -4649,85 +4667,74 @@ fun MultilingualSettings() {
     Column(Modifier.fillMaxWidth()) {
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .clickable { language_image_override.value = !language_image_override.value }
                 .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = language_image_override.value,
-                onCheckedChange = { language_image_override.value = it }
-            )
+            Checkbox(checked = language_image_override.value,
+                onCheckedChange = { language_image_override.value = it })
             Spacer(Modifier.width(8.dp))
             Column {
                 Text("Language image override", fontSize = 16.sp)
-                Text("Set a language per item in Edit Mode; matching images are fetched for that language.", fontSize = 12.sp, color = Color.Gray)
+                Text("Set a language per item in Edit Mode; matching images are fetched for that language.",
+                    fontSize = 12.sp, color = Color.Gray)
             }
         }
 
-        if (multilingual_labels.value) {
-            Spacer(Modifier.height(8.dp))
-            Text("Label display", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { show_all_labels.value = true }
-                    .padding(vertical = 4.dp)
-            ) {
-                RadioButton(selected = show_all_labels.value, onClick = { show_all_labels.value = true })
-                Text("Show all labels", fontSize = 14.sp)
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { show_all_labels.value = false }
-                    .padding(vertical = 4.dp)
-            ) {
-                RadioButton(selected = !show_all_labels.value, onClick = { show_all_labels.value = false })
-                Text("Show current language only", fontSize = 14.sp)
-            }
-
-            Spacer(Modifier.height(8.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { show_inputbox_language_picker.value = !show_inputbox_language_picker.value }
-                    .padding(vertical = 4.dp)
-            ) {
-                Checkbox(
-                    checked = show_inputbox_language_picker.value,
-                    onCheckedChange = { show_inputbox_language_picker.value = it }
-                )
-                Spacer(Modifier.width(8.dp))
-                Column {
-                    Text("Language selector on input box", fontSize = 16.sp)
-                    Text("Adds a dropdown above the input box to switch the current language.", fontSize = 12.sp, color = Color.Gray)
-                }
-            }
-        }
+        Spacer(Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .clickable { multilingual_labels.value = !multilingual_labels.value }
                 .padding(vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Checkbox(
-                checked = multilingual_labels.value,
-                onCheckedChange = { multilingual_labels.value = it }
-            )
+            Checkbox(checked = multilingual_labels.value,
+                onCheckedChange = { multilingual_labels.value = it })
             Spacer(Modifier.width(8.dp))
             Column {
                 Text("Multilingual labels", fontSize = 16.sp)
-                Text("Add labels in several languages per item and choose which language to speak.", fontSize = 12.sp, color = Color.Gray)
+                Text("Add labels in several languages per item and choose which language to speak.",
+                    fontSize = 12.sp, color = Color.Gray)
+            }
+        }
+
+        if (multilingual_labels.value) {
+            Column(modifier = Modifier.padding(start = 32.dp, top = 4.dp)) {
+                Text("Label display", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable { show_all_labels.value = true }.padding(vertical = 4.dp)
+                ) {
+                    RadioButton(selected = show_all_labels.value, onClick = { show_all_labels.value = true })
+                    Text("Show all labels", fontSize = 14.sp)
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable { show_all_labels.value = false }.padding(vertical = 4.dp)
+                ) {
+                    RadioButton(selected = !show_all_labels.value, onClick = { show_all_labels.value = false })
+                    Text("Show current language only", fontSize = 14.sp)
+                }
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable { show_inputbox_language_picker.value = !show_inputbox_language_picker.value }
+                        .padding(vertical = 4.dp)
+                ) {
+                    Checkbox(checked = show_inputbox_language_picker.value,
+                        onCheckedChange = { show_inputbox_language_picker.value = it })
+                    Spacer(Modifier.width(8.dp))
+                    Column {
+                        Text("Language selector on input box", fontSize = 16.sp)
+                        Text("Adds a dropdown on the input box to switch the current language.",
+                            fontSize = 12.sp, color = Color.Gray)
+                    }
+                }
             }
         }
     }
