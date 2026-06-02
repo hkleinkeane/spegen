@@ -194,7 +194,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.ui.text.capitalize
 import kotlinx.coroutines.delay
 
-const val DEMO_MODE = true
+const val DEMO_MODE = false
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -2380,7 +2380,7 @@ fun Static_Row_Needs() {
     var box_color = Color.White // Set as var to be able to be customized by user later
     var border_size = 2.dp // Set as var to be able to be customized by user later
     var border_color = Color.Black // Set as var to be able to be customized by user later
-    var width = (screenWidth/static_terms.size.dp).dp // Determine width of boxes by dividing screen width by total number of boxes which is equal to number of needed terms
+    var width = screenWidth / static_terms.size // Determine width of boxes by dividing screen width by total number of boxes which is equal to number of needed terms
     var y_offset = (screenHeight-static_row_height) // Determines Y offset by subtracting height from the total screen width
     var x_offset = (0).dp // Determines X offset. Not needed since the first box starts at the left edge of the screen.
     for (i in 0 until static_terms.size) // For loop to create modular number of boxes. Starts at zero due to X offset calculations and ends at the number of terms minus 1 since it starts at zero
@@ -2500,8 +2500,14 @@ fun InputBox(modifier: Modifier) {
                                     tts = engine,
                                     words = spokenWords,
                                     audioPaths = inputboxselecteditems_audio.toList(),
-                                    pauseMs = tts_pause_duration.value
+                                    pauseMs = tts_pause_duration.longValue
                                 )
+                        if (inputboxselecteditems_text.isNotEmpty()) {
+                            ngram_model.value.record(
+                                inputboxselecteditems_text.map { it.lowercase() }
+                            )
+                            trigger_save.value = true
+                        }
                             }
                     }
         ) {
@@ -2768,7 +2774,6 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
                         wordfinder_display_buttonguide.intValue = 0
                         createclonefolder.value = false
                         createclonesymbol.value = false
-                        navigateTo(LinkedMenu)
                     }
                 })
         )
@@ -3572,11 +3577,11 @@ fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
               ) {
                 when (selectedTab) {
                   0 -> DisplaySettingsContent(contextmain)
-                  2 -> VoiceSettingsContent()
-                  3 -> VocabularySettingsContent()
-                  6 -> LanguageSettingsContent()
-                  7 -> DataSettingsContent(contextmain)
-                  8 -> AboutContent()
+                  1 -> VoiceSettingsContent()
+                  2 -> VocabularySettingsContent()
+                  3 -> LanguageSettingsContent()
+                  4 -> DataSettingsContent(contextmain)
+                  5 -> AboutContent()
                 }
               }
 
@@ -5169,6 +5174,9 @@ fun Buttonboxes() {
             if (trimmed.isNotEmpty()) {
                 inputboxselecteditems_text += trimmed
                 inputboxselecteditems_has_symbol += false
+                inputboxselecteditems_audio += ""
+                inputboxselecteditems_translations.add(emptyMap())
+                inputboxselecteditems_pron += ""
             }
             showKeyboard = false
         }
@@ -5250,6 +5258,7 @@ fun AutocompleteMenu(modifier: Modifier) {
                                 inputboxselecteditems_text += word
                                 inputboxselecteditems_has_symbol += url.isNotBlank()
                                 inputboxselecteditems_audio += ""
+                                inputboxselecteditems_translations.add(emptyMap())
                                 inputboxselecteditems_pron += ""
                             }
                     ) {
