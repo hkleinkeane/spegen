@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-05-29T19:53:46.690720Z">
+        <DropdownSelection timestamp="2026-06-02T00:56:11.316372300Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=37131FDHS0033L" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\harpe\.android\avd\New_Device_2.avd" />
             </handle>
           </Target>
         </DropdownSelection>

@@ -194,7 +194,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.ui.text.capitalize
 import kotlinx.coroutines.delay
 
-const val DEMO_MODE = false
+const val DEMO_MODE = true
 
 val Context.spegen_datastore by preferencesDataStore(name = "spegen_settings")
 private val APP_STATE_KEY = stringPreferencesKey("app_state")
@@ -1053,8 +1053,12 @@ fun menutemplate.displayUrl(idx: Int): String {
     return image_urls.getOrNull(idx) ?: ""
 }
 
-fun PersistedState.normalizedForComparison() = copy(
-    menu_list = menu_list.map { it.copy(image_urls = emptyList()) },
+fun PersistedState.normalizedForComparison() = withPaddedLists().copy(
+    static_row_height       = 0f,
+    menu_static_row_height  = 0f,
+    button_boxes_width      = 0f,
+    input_box_height_dp     = 0f,
+    menu_list   = menu_list.map { it.copy(image_urls = emptyList()) },
     ngram_model = NgramModel()
 )
 
@@ -2126,22 +2130,19 @@ fun TutorialOverlay(onFinish: () -> Unit) {
         return null
     }
 
-      fun itemHighlight(isSymbol: Boolean): TutorialHighlight? {
-            val key = findFirstItemKey(isSymbol) ?: return null
-            val pos = item_positions[key] ?: return null
-            val sz = item_sizes[key]
-            if (pos != null) {
-              return with(density) {
-                TutorialHighlight(
-                  x = pos.x.toDp(),
-                  y = pos.y.toDp(),
-                  width = sz?.width?.toDp() ?: box_size,
-                  height = sz?.height?.toDp() ?: (box_size + box_padding*3)
-                )
-              }
-            }
-            return TutorialHighlight(0.dp, input_box_height, menu_width, menu_height)
-          }
+    fun itemHighlight(isSymbol: Boolean): TutorialHighlight? {
+        val key = findFirstItemKey(isSymbol) ?: return null
+        val pos = item_positions[key] ?: return null
+        val sz = item_sizes[key]
+        return with(density) {
+            TutorialHighlight(
+                x = pos.x.toDp(),
+                y = pos.y.toDp(),
+                width  = sz?.width?.toDp()  ?: box_size,
+                height = sz?.height?.toDp() ?: (box_size + box_padding * 3)
+            )
+        }
+    }
 
     data class TutorialSlide(
         val title: String,
@@ -2213,29 +2214,69 @@ fun TutorialOverlay(onFinish: () -> Unit) {
       var currentSlide by remember { mutableIntStateOf(0) }
       val maxSlide = slides.size - 1
       val current = slides[currentSlide]
-      val highlight = when (val s = current.lookupSymbol) {
-          null -> current.highlight
-          else -> itemHighlight(s) ?: TutorialHighlight(0.dp, input_box_height, menu_width, menu_height)
-      }
 
       val cardWidth = (screenWidth * 0.85f).coerceAtMost(420.dp)
       val cardEstimatedHeight = 220.dp
-      val (cardX, cardY) = remember(highlight, currentSlide) {
-            if (highlight == null) {
-              (screenWidth - cardWidth) / 2 to (screenHeight - cardEstimatedHeight) / 2
-            } else {
-              val belowY = highlight.y + highlight.height + 16.dp
-              val aboveY = highlight.y - cardEstimatedHeight - 16.dp
-              val y = when {
-                belowY + cardEstimatedHeight < screenHeight - 16.dp -> belowY
-                aboveY >= 16.dp -> aboveY
-                else -> (screenHeight - cardEstimatedHeight) / 2
-              }
-              val rawX = (highlight.x + highlight.width / 2) - cardWidth / 2
-              val x = rawX.coerceIn(8.dp, screenWidth - cardWidth - 8.dp)
-              x to y
+        val highlight = when (val s = current.lookupSymbol) {
+            null -> current.highlight
+            else -> itemHighlight(s) ?: TutorialHighlight(0.dp, input_box_height, menu_width, menu_height)
+        }
+
+    val (cardX, cardY) = remember(highlight, currentSlide) {
+        if (highlight == null) {
+            (screenWidth - cardWidth) / 2 to (screenHeight - cardEstimatedHeight) / 2
+        } else {
+            val gap = 16.dp
+            val safeBottom = screenHeight - cardEstimatedHeight - gap
+            val centeredX = ((highlight.x + highlight.width / 2) - cardWidth / 2)
+                .coerceIn(gap, screenWidth - cardWidth - gap)
+            val centeredY = ((highlight.y + highlight.height / 2) - cardEstimatedHeight / 2)
+                .coerceIn(gap, screenHeight - cardEstimatedHeight - gap)
+
+            fun overlapsHighlight(cx: Dp, cy: Dp): Boolean {
+                val noOverlapH = cx + cardWidth  <= highlight.x ||
+                        cx              >= highlight.x + highlight.width
+                val noOverlapV = cy + cardEstimatedHeight <= highlight.y ||
+                        cy                       >= highlight.y + highlight.height
+                return !(noOverlapH || noOverlapV)
             }
-          }
+
+            fun fitsOnScreen(cx: Dp, cy: Dp) =
+                cx >= gap && cy >= gap &&
+                        cx + cardWidth          <= screenWidth  - gap &&
+                        cy + cardEstimatedHeight <= screenHeight - gap
+
+            // Below
+            val belowY = highlight.y + highlight.height + gap
+            val belowX = centeredX
+            // Above
+            val aboveY = highlight.y - cardEstimatedHeight - gap
+            val aboveX = centeredX
+            // Right
+            val rightX = highlight.x + highlight.width + gap
+            val rightY = centeredY
+            // Left
+            val leftX  = highlight.x - cardWidth - gap
+            val leftY  = centeredY
+
+            val candidates = listOf(
+                belowX to belowY,
+                aboveX to aboveY,
+                rightX to rightY,
+                leftX  to leftY
+            )
+
+            candidates.firstOrNull { (cx, cy) ->
+                fitsOnScreen(cx, cy) && !overlapsHighlight(cx, cy)
+            } ?: ((screenWidth - cardWidth) / 2 to (screenHeight - cardEstimatedHeight) / 2)
+        }
+    }
+    val lookupIsSymbol = current.lookupSymbol
+    LaunchedEffect(lookupIsSymbol, item_positions.size) {
+        if (lookupIsSymbol != null) {
+            findFirstItemKey(lookupIsSymbol)
+        }
+    }
 
     LaunchedEffect(currentSlide) {
         val target = when (current.lookupSymbol)
@@ -2652,7 +2693,7 @@ fun Symbol(Name: String, image_url: String, Vertical_Stretch: Dp, tts_type: Int,
             text = displayLabel(MenuFinder(menu_id), item_index),
             modifier = Modifier.align(
                 if (text_location_bottom.value) Alignment.BottomCenter else Alignment.TopCenter
-            ),
+            ).padding(vertical = 6.dp, horizontal = 4.dp),
             textAlign = TextAlign.Center,
             maxLines = if (multilingual_labels.value) 4 else 2,
             overflow = TextOverflow.Ellipsis,
@@ -2740,7 +2781,7 @@ fun Folder(Name: String, image_url: String, LinkedMenu: Int, Vertical_Stretch: D
             text = displayLabel(MenuFinder(menu_id), item_index),
             modifier = Modifier.align(
                 if (text_location_bottom.value) Alignment.BottomCenter else Alignment.TopCenter
-            ),
+            ).padding(vertical = 6.dp, horizontal = 4.dp),
             textAlign = TextAlign.Center,
             maxLines = if (multilingual_labels.value) 4 else 2,
             overflow = TextOverflow.Ellipsis,
@@ -3446,8 +3487,7 @@ fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
       val context = LocalContext.current
       var selectedTab by remember { mutableIntStateOf(0) }
       val tabs = listOf(
-        "Display", "Access", "Voice", "Vocabulary",
-        "Sentence Box", "Keyboard", "Language", "Data", "About"
+        "Display", "Voice", "Vocabulary", "Language", "Data", "About"
       )
 
       var done_clicked by remember { mutableStateOf(false) }
@@ -3462,7 +3502,7 @@ fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
                 val saved = Json.decodeFromString<PersistedState>(savedJson)
                   .withPaddedLists()
                   .normalizedForComparison()
-                val current = currentPersistedState().normalizedForComparison()
+                val current = currentPersistedState().withPaddedLists().normalizedForComparison()
                 saved != current
               } catch (e: Exception) { true }
             }
@@ -3532,11 +3572,8 @@ fun SettingsScreen(contextmain: Context, onClose: () -> Unit) {
               ) {
                 when (selectedTab) {
                   0 -> DisplaySettingsContent(contextmain)
-                  1 -> AccessSettingsContent()
                   2 -> VoiceSettingsContent()
                   3 -> VocabularySettingsContent()
-                  4 -> SentenceBoxSettingsContent()
-                  5 -> KeyboardSettingsContent()
                   6 -> LanguageSettingsContent()
                   7 -> DataSettingsContent(contextmain)
                   8 -> AboutContent()
@@ -5264,7 +5301,7 @@ fun EditorToolbar() {
                     val saved = Json.decodeFromString<PersistedState>(savedJson)
                         .withPaddedLists()
                         .normalizedForComparison()
-                    val current = currentPersistedState().normalizedForComparison()
+                    val current = currentPersistedState().withPaddedLists().normalizedForComparison()
                     val differs = saved != current
                     differs
                 } catch (e: Exception) {
