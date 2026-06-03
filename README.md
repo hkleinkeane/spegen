@@ -16,7 +16,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Madirish2601/SpeGen/">
+  <a href="https://github.com/hkleinkeane/SpeGen/">
     <img src="images/SpeGen_Logo.png" alt="Logo" width="175" height="175">
   </a>
 
@@ -26,9 +26,9 @@
     AAC application for Android that is built to be useful and intuitive
     <br />
     <br />
-    <a href="https://github.com/Madirish2601/SpeGen/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/hkleinkeane/SpeGen/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/Madirish2601/SpeGen/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/hkleinkeane/SpeGen/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -53,7 +53,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-SpeGen is an Android AAC app that is in active development and will be free upon release. The goal of this project is to be a budget-friendly and accessible app that anyone can use for communication. SpeGen is licensed under the GNU General Public License v3.0. If you want to support development as an AAC user or a caretaker of someone who uses an AAC device or app without directly contributing, check out [this form].  
+SpeGen is an Android AAC app that is in active development and will be free upon release. The goal of this project is to be a budget-friendly and accessible app that anyone can use for communication. SpeGen is licensed under the GNU General Public License v3.0. If you want to support development as an AAC user or a caretaker of someone who uses an AAC device or app without directly contributing or testing the application, check out [this form]. If you are interested in testing out SpeGen and have an Android device, please add your email to [this linked form] and I will contact you with further instructions.
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -61,7 +61,7 @@ Note: Features are actively being worked on that may not be listed on the roadma
 
 - [ ] Potential ports to iOS or other devices
 
-See the [open issues](https://github.com/Madirish2601/SpeGen/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/hkleinkeane/SpeGen/issues) for a full list of proposed features (and known issues).
 
 
 <!-- CONTRIBUTING -->
@@ -81,8 +81,8 @@ Don't forget to give the project a star! Thanks again!
 
 ### Top contributors:
 
-<a href="https://github.com/Madirish2601/SpeGen/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Madirish2601/SpeGen" alt="contrib.rocks image" />
+<a href="https://github.com/hkleinkeane/SpeGen/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hkleinkeane/SpeGen" alt="contrib.rocks image" />
 </a>
 
 
@@ -91,7 +91,7 @@ Don't forget to give the project a star! Thanks again!
 
 Email - harperkleinkeane@gmail.com
 
-Project Link: [https://github.com/Madirish2601/SpeGen](https://github.com/Madirish2601/SpeGen) and [https://hkleinkeane.github.io/spegen/](https://hkleinkeane.github.io/spegen/)
+Project Link: [https://hkleinkeane.github.io/spegen/](https://hkleinkeane.github.io/spegen/)
 
 
 <!-- ACKNOWLEDGMENTS -->
@@ -104,20 +104,22 @@ Project Link: [https://github.com/Madirish2601/SpeGen](https://github.com/Madiri
 
 [this form]: https://forms.gle/1LsHpvnRj59wychY8
 
+[this linked form]: https://forms.gle/ZGtSkEEU4KPwapoh9
+
 [Madirish2600]: https://github.com/madirish
 
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Madirish2601/SpeGen.svg?style=for-the-badge
-[contributors-url]: https://github.com/Madirish2601/SpeGen/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Madirish2601/SpeGen.svg?style=for-the-badge
-[forks-url]: https://github.com/Madirish2601/SpeGen/network/members
-[stars-shield]: https://img.shields.io/github/stars/Madirish2601/SpeGen.svg?style=for-the-badge
-[stars-url]: https://github.com/Madirish2601/SpeGen/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Madirish2601/SpeGen.svg?style=for-the-badge
-[issues-url]: https://github.com/Madirish2601/SpeGen/issues
+[contributors-shield]: https://img.shields.io/github/contributors/hkleinkeane/SpeGen.svg?style=for-the-badge
+[contributors-url]: https://github.com/hkleinkeane/SpeGen/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/hkleinkeane/SpeGen.svg?style=for-the-badge
+[forks-url]: https://github.com/hkleinkeane/SpeGen/network/members
+[stars-shield]: https://img.shields.io/github/stars/hkleinkeane/SpeGen.svg?style=for-the-badge
+[stars-url]: https://github.com/hkleinkeane/SpeGen/stargazers
+[issues-shield]: https://img.shields.io/github/issues/hkleinkeane/SpeGen.svg?style=for-the-badge
+[issues-url]: https://github.com/hkleinkeane/SpeGen/issues
 [product-screenshot]: images/screenshot.png
-[commits-shield]: https://img.shields.io/github/commit-activity/t/Madirish2601/SpeGen.svg?style=for-the-badge
-[commits-url]: https://github.com/Madirish2601/SpeGen/graphs/commit-activity
+[commits-shield]: https://img.shields.io/github/commit-activity/t/hkleinkeane/SpeGen.svg?style=for-the-badge
+[commits-url]: https://github.com/hkleinkeane/SpeGen/graphs/commit-activity
 <!-- Shields.io badges. You can a comprehensive list with many more badges at: https://github.com/inttter/md-badges -->
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
