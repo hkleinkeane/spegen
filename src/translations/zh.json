@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "后退",
+    "next": "下一个",
+    "done": "完毕",
+    "skip": "跳过",
+    "cancel": "取消",
+    "add": "添加",
+    "save": "节省",
+    "close": "关闭",
+    "reset": "重置"
+  },
+  "banners": {
+    "ttsMissingVoice": "{name} ({code}) 没有安装语音。使用默认语音。",
+    "ttsInstallAndroid": "点击打开设备的语音设置，然后安装该语言的语音数据。",
+    "ttsInstallIos": "要添加语音，请打开“设置”→“辅助功能”→“语音内容”→“语音”，然后下载该语音。点击即可关闭。",
+    "ttsInstallWeb": "语音来自您的操作系统——请在系统语音设置中添加此语言的语音。点击即可关闭。",
+    "updateAvailable": "有更新可用——点击重新加载"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "欢迎来到SpeGen",
+        "body": "这是一个简短的教程，旨在向您介绍该应用的基本用户界面。您稍后可以从“设置”中访问此教程。"
+      },
+      {
+        "title": "文件夹",
+        "body": "点击文件夹即可进入包含更多图标和文件夹的另一个菜单。文件夹右上角始终会显示黑色折痕。"
+      },
+      {
+        "title": "符号",
+        "body": "点击符号即可将其添加到输入框中。"
+      },
+      {
+        "title": "输入框",
+        "body": "输入框用于输入句子。点击输入框即可播放生成的句子。"
+      },
+      {
+        "title": "菜单行",
+        "body": "这些按钮会自动跳转到相应的菜单。"
+      },
+      {
+        "title": "静态词行",
+        "body": "无论您身处屏幕何处，这些术语始终显示在屏幕底部。点击即可立即朗读。"
+      },
+      {
+        "title": "键盘",
+        "body": "打开一个对话框，允许您使用设备的键盘向输入框添加项目。"
+      },
+      {
+        "title": "删除",
+        "body": "删除输入框中的最后一个词。"
+      },
+      {
+        "title": "清除",
+        "body": "清空输入框中的所有词语。"
+      },
+      {
+        "title": "停止",
+        "body": "停止当前正在播放的文本转语音功能。"
+      },
+      {
+        "title": "搜索",
+        "body": "在任何菜单中搜索任何词语。它会高亮显示你需要按的按钮，引导你找到该词语。"
+      },
+      {
+        "title": "设置",
+        "body": "打开设置菜单：编辑面板、备份数据、更改文本转语音语音等等。"
+      },
+      {
+        "title": "后退",
+        "body": "返回到您之前所在的菜单。"
+      },
+      {
+        "title": "自动完成",
+        "body": "将菜单替换为自动完成选项列表，这些选项会根据您选择的符号进行学习。未经您的同意，数据绝不会离开您的设备。"
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "查找单词/物品",
+    "subtitle": "搜索每个菜单，然后点击高亮显示的按钮导航到该词。",
+    "placeholder": "输入一个词……",
+    "noMatches": "没有匹配项。",
+    "find": "寻找",
+    "close": "关闭",
+    "finding": "找到“{word}” - 点击高亮显示的按钮",
+    "cancel": "取消"
+  },
+  "autocomplete": {
+    "suggestions": "建议",
+    "after": "在“{word}”之后",
+    "none": "暂无建议。"
+  },
+  "settings": {
+    "title": "设置",
+    "apply": "申请",
+    "done": "完毕",
+    "tabs": {
+      "display": "展示",
+      "voice": "嗓音",
+      "vocabulary": "词汇",
+      "language": "语言",
+      "data": "数据",
+      "about": "关于",
+      "feedback": "反馈"
+    },
+    "display": {
+      "preview": "预览",
+      "staticRowLabel": "静态词行",
+      "menuRowLabel": "菜单行",
+      "previewStaticTerms": [
+        "是的",
+        "不",
+        "更多的"
+      ],
+      "previewMenuTitles": [
+        "人们",
+        "食物",
+        "行动"
+      ],
+      "itemSizing": "商品尺寸",
+      "itemWidthSize": "物品宽度尺寸",
+      "itemHeightSize": "物品高度尺寸",
+      "gridSize": "适应网格",
+      "gridHint": "调整项目大小以适应网格：输入列和行，然后点击“应用”。",
+      "gridCols": "上校",
+      "gridRows": "行",
+      "gridApply": "申请",
+      "bordersSpacing": "边框和间距",
+      "borderWidth": "边框宽度",
+      "itemPadding": "物品填充",
+      "staticRowStyle": "静态文字行样式",
+      "menuRowStyle": "菜单行样式",
+      "textSize": "文本大小",
+      "textPadding": "文本填充",
+      "buttonShape": "纽扣形状",
+      "labelPosition": "标签位置",
+      "top": "顶部",
+      "bottom": "底部",
+      "skinTone": "肤色",
+      "theme": "主题",
+      "themeLight": "光",
+      "themeDark": "黑暗的",
+      "themeSystem": "系统",
+      "themeNote": "深色模式会改变应用程序的屏幕和菜单样式。图标按钮颜色和高对比度模式不受影响。",
+      "highContrast": "高对比度",
+      "highContrastHint": "黑色背景，白色边框和标签，采用简化的调色板，用于展示商品图片。"
+    },
+    "voice": {
+      "speechRate": "语速",
+      "pitch": "沥青",
+      "pauseBetweenWords": "词与词之间停顿",
+      "pauseDuration": "暂停时长",
+      "testPhrase": "这是语音设置测试。",
+      "testVoice": "测试语音",
+      "translateSentence": "翻译口语句子",
+      "translateSentenceHint": "为了获得更自然的语法，请一次性翻译整个句子，而不是逐字翻译。非英语语言默认启用此功能。需要联网。",
+      "voiceLabel": "嗓音",
+      "voiceHint": "选择应用语言的语音合成音。语音合成音由您的设备或浏览器提供。",
+      "voiceDefault": "默认（系统）",
+      "noVoices": "未找到该语言的语音。",
+      "openDeviceTts": "打开设备 TTS 设置",
+      "ttsOpenFailed": "无法打开设备 TTS 设置：{e}",
+      "resetToDefaults": "恢复默认设置",
+      "resetDone": "语音设置已恢复为默认值。"
+    },
+    "vocabulary": {
+      "editorMode": "编辑器模式",
+      "editorModeHint": "点击面板上的符号和文件夹即可编辑它们，使用工具栏上的按钮即可编辑菜单。",
+      "enableEditorMode": "启用编辑器模式",
+      "staticRow": "静态词行",
+      "staticRowHint": "无论你在应用的哪个位置，文字始终显示在屏幕底部。拖动 ≡ 即可重新排序。",
+      "addPhrasePlaceholder": "添加短语",
+      "addPhrase": "添加",
+      "menuRow": "菜单行",
+      "menuRowHint": "使用面板和主菜单时，菜单快捷方式显示在静态行的上方。拖动 ≡ 可重新排序。",
+      "menuRowEmpty": "该行没有菜单。",
+      "addMenuToRow": "将菜单添加到行",
+      "allMenusInRow": "所有菜单都已排列好。"
+    },
+    "language": {
+      "appLanguage": "应用程序语言",
+      "appLanguageHint": "用于语音、图像搜索和标签翻译。更改此设置将重新加载所有图像。",
+      "translationDisclaimer": "应用文本使用 Google 翻译 API 进行翻译，因此部分翻译可能不准确。如果您发现错误，请使用“设置”中的“反馈”按钮进行报告——请注明语言并提出修改建议。",
+      "autoTranslate": "自动翻译",
+      "translateUi": "翻译应用程序界面",
+      "translateUiHint": "以应用语言显示菜单、按钮和设置。",
+      "translateLabels": "翻译黑板和菜单标签",
+      "translateLabelsHint": "自动将符号标签、菜单名称和静态文字行翻译成应用语言。需要联网。",
+      "multilingual": "多种语言",
+      "perItemImageLanguage": "单件图像语言",
+      "perItemImageLanguageHint": "让每个项目用它自己的语言搜索图像。",
+      "multilingualLabels": "多语言标签",
+      "multilingualLabelsHint": "为每个项目（在编辑模式下）添加其他语言的额外文本标签。启用此功能后，切换语言时，只有看板项目标签停止自动翻译（改为使用您手动添加的标签）；静态文字行名称和菜单名称仍会自动翻译。",
+      "spokenLanguages": "口语",
+      "spokenLanguagesHint": "您可以在输入框中切换语言。应用语言为基准语言；未手动标注的项目将自动翻译以进行语音识别。此功能需要联网，并且在英语环境中默认禁用。",
+      "base": "根据",
+      "addLanguage": "添加语言"
+    },
+    "data": {
+      "backupRestore": "备份与恢复",
+      "backupRestoreHint": "将所有电路板、设置、自定义图像和录制的音频导出或导入为一个备份文件，您可以将其传输到另一台设备或保存在设备存储中。",
+      "downloadBackup": "下载备份",
+      "exportBackup": "导出备份",
+      "saveBackupToDevice": "将备份保存到设备（选择文件夹）",
+      "importBackup": "导入备份",
+      "security": "安全",
+      "securityHint": "需要输入 PIN 码才能打开“设置”和编辑器。这可以确保用户在主界面中无法在没有 PIN 码的情况下编辑设置。点击“应用”或“完成”后设置即保存。",
+      "changePin": "更改密码",
+      "removePin": "移除密码",
+      "setPin": "设置密码",
+      "recoveryQuestions": "恢复问题",
+      "recoveryQuestionsHint": "用于重置忘记的PIN码。建议至少添加一个密码。如果没有添加密码，则只能通过重新安装应用程序来清除忘记的PIN码。",
+      "question": "问题",
+      "ownQuestionPlaceholder": "或者输入您自己的问题",
+      "answer": "回答",
+      "addQuestion": "+ 添加问题",
+      "pinPlaceholder": "密码（至少4位数字）",
+      "confirmPinPlaceholder": "确认密码",
+      "pinTooShort": "密码必须至少为4位数字。",
+      "pinsDoNotMatch": "密码不匹配。",
+      "reset": "重置",
+      "restoreDefaults": "恢复默认设置",
+      "backupFormatNote": ".spegen 备份文件是一个压缩的 ZIP 文件，其中包含您的电路板、设置、自定义图像和录制的音频。导入操作会替换所有当前的电路板和设置。",
+      "preparingDownload": "正在准备下载……",
+      "backupDownloaded": "备份已下载。",
+      "openingShareSheet": "初始股份清单…",
+      "shareSheetHint": "使用共享表单保存备份。",
+      "sharingUnavailable": "不支持分享。",
+      "chooseFolder": "选择要保存的文件夹……",
+      "savedToFolder": "已保存到您选择的文件夹。",
+      "saveCanceled": "保存已取消。",
+      "saveFailed": "保存失败：{e}",
+      "chooseBackupFile": "选择一个备份文件……",
+      "importCanceled": "进口已取消。",
+      "importWebFileMissing": "导入失败：缺少 Web 文件句柄。",
+      "importDone": "已导入。主板已重新加载。",
+      "importFailed": "导入失败：{e}",
+      "confirmReset": "再次点击“恢复默认设置”进行确认。警告：此操作会清除您的电路板数据。",
+      "resetDone": "恢复默认主板。",
+      "resetFailed": "重置失败：{e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "SpeGen 是一款由 Harper Klein Keane 开发的开源 AAC 应用。SpeGen 的 GitHub 页面地址为：",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "该网站地址为：",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "许可证：GNU 通用公共许可证 v3.0",
+      "showTutorialAgain": "再次显示欢迎教程",
+      "privacyPolicy": "隐私政策"
+    },
+    "feedback": {
+      "title": "提交反馈",
+      "intro": "发现 bug 或有功能建议？请告诉我！此表单将自动在 Spegen 的 GitHub 代码库中创建一个跟踪 issue。",
+      "category": "问题类别",
+      "categories": [
+        "漏洞",
+        "建议",
+        "其他"
+      ],
+      "header": "标题/摘要",
+      "headerPlaceholder": "简要概括问题",
+      "details": "详情/正文",
+      "detailsPlaceholder": "请提供重现错误步骤或详细说明您的功能想法……",
+      "submitting": "正在提交……",
+      "submit": "提交反馈",
+      "missingFields": "请提供标题和完整详细信息。",
+      "submittingStatus": "提交反馈……",
+      "submitted": "反馈已成功提交！谢谢。",
+      "submitFailed": "问题提交失败：{msg}",
+      "networkError": "提交反馈时出现网络错误：{e}"
+    }
+  },
+  "board": {
+    "settings": "设置",
+    "search": "搜索",
+    "stop": "停止",
+    "keyboard": "键盘",
+    "delete": "删除",
+    "clear": "清除",
+    "back": "后退",
+    "autocomplete": "自动完成",
+    "addText": "添加文本"
+  },
+  "editor": {
+    "title": "编辑模式",
+    "addItem": "+ 物品",
+    "addMenu": "+ 菜单",
+    "deleteMenu": "- 菜单",
+    "gotoMenu": "前往菜单",
+    "applyChanges": "应用更改",
+    "exit": "出口"
+  },
+  "languageDropdown": {
+    "select": "选择…",
+    "searchPlaceholder": "搜索语言"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "仅输入",
+      "只说",
+      "两个都"
+    ],
+    "addItem": {
+      "title": "将项目添加到{menuTitle}",
+      "name": "姓名",
+      "symbol": "象征",
+      "folder": "文件夹",
+      "folderTargetMenu": "文件夹目标菜单"
+    },
+    "newMenu": {
+      "title": "创建新菜单",
+      "menuTitle": "菜单标题",
+      "emptyNote": "菜单目前为空。请输入菜单内容，然后使用“+ 项目”添加项目。",
+      "create": "创造"
+    },
+    "deleteMenu": {
+      "title": "删除菜单",
+      "hint": "打开已删除菜单的文件夹也将被删除。",
+      "delete": "删除"
+    },
+    "gotoMenu": {
+      "title": "进入菜单",
+      "hint": "允许您在编辑器模式下跳转到菜单。",
+      "goTo": "前往"
+    },
+    "unsaved": {
+      "title": "未保存的更改",
+      "body": "您有未保存的更改。是否保存？",
+      "dontSave": "不要保存",
+      "saveChanges": "保存更改"
+    },
+    "pinLock": {
+      "enterTitle": "请输入密码",
+      "lockedHint": "设置和编辑器已被锁定。",
+      "pinPlaceholder": "别针",
+      "unlock": "开锁",
+      "forgotPin": "忘记密码？",
+      "incorrectPin": "密码错误。",
+      "noQuestions": "由于未设置恢复问题，因此无法重置 PIN 码。请重新安装应用程序以清除 PIN 码（这将清除所有电路板上的数据）。",
+      "answerToReset": "重置PIN码的答案",
+      "answerHint": "正确回答所有问题（不区分大小写）。",
+      "answerPlaceholder": "回答",
+      "verify": "核实",
+      "answersIncorrect": "一个或多个答案不正确。",
+      "setNewPin": "设置新的PIN码",
+      "newPinPlaceholder": "新密码（至少4位数字）",
+      "confirmNewPinPlaceholder": "确认新密码",
+      "saveNewPin": "保存新密码",
+      "pinTooShort": "密码必须至少为4位数字。",
+      "pinsDoNotMatch": "密码不匹配。"
+    },
+    "colorPicker": {
+      "title": "选择一种颜色",
+      "hue": "色调：{deg}°",
+      "ok": "好的"
+    },
+    "editItem": {
+      "name": "姓名",
+      "itemLanguage": "项目语言",
+      "language": "语言",
+      "labelsByLanguage": "按语言分类",
+      "add": "添加",
+      "addLanguage": "+ 添加语言",
+      "image": "图像",
+      "loading": "加载中…",
+      "loadMoreImages": "加载更多图片",
+      "findImages": "查找图片",
+      "chooseCustomImage": "选择自定义图片",
+      "resetToDefault": "重置为默认值",
+      "audio": "声音的",
+      "useItemName": "使用项目名称",
+      "useCustomAudio": "使用自定义音频",
+      "audioClip": "音频片段",
+      "record": "记录",
+      "stop": "停止",
+      "importFromDevice": "从设备导入",
+      "preview": "▶ 预览",
+      "clearAudio": "清晰的音频",
+      "renameAudioClip": "重命名音频片段",
+      "clipNamePlaceholder": "剪辑名称",
+      "pronHint": "（可选）重新拼写名称，以便正确发音（例如“MIS-chiv-us”）。",
+      "pronPlaceholder": "发音",
+      "color": "颜色",
+      "custom": "风俗",
+      "default": "默认",
+      "editCustomColor": "编辑自定义颜色",
+      "pickCustomColor": "选择自定义颜色",
+      "ttsBehavior": "TTS行为",
+      "delete": "删除"
+    }
+  }
+}

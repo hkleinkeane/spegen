@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Z powrotem",
+    "next": "Następny",
+    "done": "Zrobione",
+    "skip": "Pominąć",
+    "cancel": "Anulować",
+    "add": "Dodać",
+    "save": "Ratować",
+    "close": "Zamknąć",
+    "reset": "Nastawić"
+  },
+  "banners": {
+    "ttsMissingVoice": "Brak zainstalowanego głosu dla {name} ({code}). Mówienie domyślnym głosem.",
+    "ttsInstallAndroid": "Kliknij, aby otworzyć ustawienia mowy w urządzeniu, a następnie zainstaluj dane głosowe dla tego języka.",
+    "ttsInstallIos": "Aby dodać głos, otwórz Ustawienia → Dostępność → Treści mówione → Głosy i pobierz głos. Dotknij, aby go odrzucić.",
+    "ttsInstallWeb": "Głosy pochodzą z systemu operacyjnego — dodaj głos dla tego języka w ustawieniach mowy systemu. Dotknij, aby wyłączyć.",
+    "updateAvailable": "Dostępna aktualizacja — dotknij, aby ponownie załadować"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Witamy w SpeGen",
+        "body": "To krótki samouczek, który nauczy Cię podstaw interfejsu użytkownika aplikacji. Możesz później przejść do tego samouczka w Ustawieniach."
+      },
+      {
+        "title": "Lornetka składana",
+        "body": "Kliknij folder, aby przejść do innego menu z większą liczbą symboli i folderów. Foldery zawsze mają czarną zakładkę w prawym górnym rogu."
+      },
+      {
+        "title": "Symbolika",
+        "body": "Kliknij symbol, aby dodać go do pola wprowadzania."
+      },
+      {
+        "title": "Pole wprowadzania danych",
+        "body": "Pole wprowadzania służy do tworzenia zdań. Dotknij go, aby odtworzyć utworzone zdanie."
+      },
+      {
+        "title": "Wiersz menu",
+        "body": "Są to przyciski, które automatycznie kierują do odpowiedniego menu."
+      },
+      {
+        "title": "Statyczny wiersz słów",
+        "body": "Te terminy są zawsze widoczne na dole ekranu, niezależnie od tego, gdzie jesteś. Dotknij jednego z nich, aby natychmiast je wypowiedzieć."
+      },
+      {
+        "title": "Klawiatura",
+        "body": "Otwiera okno dialogowe, które umożliwia dodawanie elementów do pola wprowadzania danych za pomocą klawiatury urządzenia."
+      },
+      {
+        "title": "Usuwać",
+        "body": "Usuwa ostatni wyraz z pola wprowadzania."
+      },
+      {
+        "title": "Jasne",
+        "body": "Wyczyść pole wprowadzania danych ze wszystkich terminów."
+      },
+      {
+        "title": "Zatrzymywać się",
+        "body": "Zatrzymuje aktualnie odtwarzany tekst na mowę."
+      },
+      {
+        "title": "Szukaj",
+        "body": "Wyszukaj dowolny termin w dowolnym menu. System poprowadzi Cię do tego terminu, podświetlając przyciski, które musisz nacisnąć."
+      },
+      {
+        "title": "Ustawienia",
+        "body": "Otwiera menu ustawień: edycja planszy, tworzenie kopii zapasowej danych, zmiana głosu zamiany tekstu na mowę i wiele innych."
+      },
+      {
+        "title": "Z powrotem",
+        "body": "Przenosi Cię z powrotem do poprzednio otwartego menu."
+      },
+      {
+        "title": "Automatyczne uzupełnianie",
+        "body": "Zastępuje menu listą opcji autouzupełniania, które uczą się na podstawie wybranych symboli. Dane nigdy nie opuszczają Twojego urządzenia bez Twojej zgody."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Znajdź słowo/element",
+    "subtitle": "Przeszukaj każde menu, a następnie kliknij podświetlone przyciski, aby przejść do szukanego słowa.",
+    "placeholder": "Wpisz słowo…",
+    "noMatches": "Brak wyników.",
+    "find": "Znajdować",
+    "close": "Zamknąć",
+    "finding": "Aby znaleźć „{word}” – dotknij podświetlonego przycisku",
+    "cancel": "Anulować"
+  },
+  "autocomplete": {
+    "suggestions": "Sugestie",
+    "after": "Po „{word}”",
+    "none": "Na razie brak sugestii."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "apply": "Stosować",
+    "done": "Zrobione",
+    "tabs": {
+      "display": "Wyświetlacz",
+      "voice": "Głos",
+      "vocabulary": "Słownictwo",
+      "language": "Język",
+      "data": "Dane",
+      "about": "O",
+      "feedback": "Informacja zwrotna"
+    },
+    "display": {
+      "preview": "Zapowiedź",
+      "staticRowLabel": "Statyczny wiersz słów",
+      "menuRowLabel": "Wiersz menu",
+      "previewStaticTerms": [
+        "Tak",
+        "NIE",
+        "Więcej"
+      ],
+      "previewMenuTitles": [
+        "Ludzie",
+        "Żywność",
+        "Akcje"
+      ],
+      "itemSizing": "Rozmiar przedmiotu",
+      "itemWidthSize": "Szerokość przedmiotu",
+      "itemHeightSize": "Wysokość przedmiotu",
+      "gridSize": "Dopasuj do siatki",
+      "gridHint": "Skaluj rozmiar elementu, aby dopasować go do siatki: wprowadź kolumny i wiersze, a następnie kliknij Zastosuj.",
+      "gridCols": "Cols",
+      "gridRows": "Wydziwianie",
+      "gridApply": "Stosować",
+      "bordersSpacing": "Granice i odstępy",
+      "borderWidth": "Szerokość obramowania",
+      "itemPadding": "Wypełnienie elementu",
+      "staticRowStyle": "Styl wiersza słów statycznych",
+      "menuRowStyle": "Styl wiersza menu",
+      "textSize": "Rozmiar tekstu",
+      "textPadding": "Wypełnienie tekstu",
+      "buttonShape": "Kształt guzika",
+      "labelPosition": "Pozycja etykiety",
+      "top": "Szczyt",
+      "bottom": "Spód",
+      "skinTone": "Odcień skóry",
+      "theme": "Temat",
+      "themeLight": "Światło",
+      "themeDark": "Ciemny",
+      "themeSystem": "System",
+      "themeNote": "Motyw ciemny dotyczy ekranów i menu aplikacji. Kolory przycisków symboli i tryb wysokiego kontrastu pozostają niezmienione.",
+      "highContrast": "Wysoki kontrast",
+      "highContrastHint": "Czarne tło, białe obramowania i etykiety z uproszczoną paletą kolorów dla obrazów przedmiotów."
+    },
+    "voice": {
+      "speechRate": "Tempo mowy",
+      "pitch": "Poziom",
+      "pauseBetweenWords": "Pauza między słowami",
+      "pauseDuration": "Czas trwania pauzy",
+      "testPhrase": "To jest test ustawień głosu.",
+      "testVoice": "Głos testowy",
+      "translateSentence": "Przetłumacz zdania mówione",
+      "translateSentenceHint": "Przetłumacz całe zdanie na raz, aby uzyskać bardziej naturalną gramatykę, zamiast tłumaczyć słowo po słowie. Opcja domyślnie włączona dla języków innych niż angielski. Wymagany internet.",
+      "voiceLabel": "Głos",
+      "voiceHint": "Wybierz głos używany do odtwarzania mowy w języku Twojej aplikacji. Głosy są udostępniane przez Twoje urządzenie lub przeglądarkę.",
+      "voiceDefault": "Domyślne (systemowe)",
+      "noVoices": "Nie znaleziono głosów dla tego języka.",
+      "openDeviceTts": "Otwórz ustawienia TTS urządzenia",
+      "ttsOpenFailed": "Nie można otworzyć ustawień TTS urządzenia: {e}",
+      "resetToDefaults": "Przywróć ustawienia domyślne",
+      "resetDone": "Przywrócono ustawienia głosu do domyślnych."
+    },
+    "vocabulary": {
+      "editorMode": "Tryb edytora",
+      "editorModeHint": "Edytuj symbole i foldery, dotykając ich na tablicy, i użyj przycisków na pasku narzędzi, aby edytować menu.",
+      "enableEditorMode": "Włącz tryb edytora",
+      "staticRow": "Statyczny wiersz słów",
+      "staticRowHint": "Słowa są zawsze widoczne u dołu ekranu, niezależnie od tego, w którym miejscu aplikacji się znajdujesz. Przeciągnij ≡, aby zmienić kolejność.",
+      "addPhrasePlaceholder": "Dodaj frazę",
+      "addPhrase": "Dodać",
+      "menuRow": "Wiersz menu",
+      "menuRowHint": "Skróty menu wyświetlane tuż nad rzędem statycznym podczas korzystania z tablicy i menu głównego. Przeciągnij ≡, aby zmienić kolejność.",
+      "menuRowEmpty": "Brak menu w tym rzędzie.",
+      "addMenuToRow": "Dodaj menu do wiersza",
+      "allMenusInRow": "Wszystkie menu są już w wierszu."
+    },
+    "language": {
+      "appLanguage": "Język aplikacji",
+      "appLanguageHint": "Służy do wyszukiwania mowy, obrazów i tłumaczenia etykiet. Zmiana tego powoduje ponowne załadowanie wszystkich obrazów.",
+      "translationDisclaimer": "Teksty w aplikacji są tłumaczone za pomocą interfejsu API Tłumacza Google, więc niektóre tłumaczenia mogą być niedokładne. Jeśli zauważysz błąd, skorzystaj z przycisku „Opinia” w Ustawieniach, aby go zgłosić — podaj język i sugerowaną poprawkę.",
+      "autoTranslate": "Tłumaczenie automatyczne",
+      "translateUi": "Przetłumacz interfejs aplikacji",
+      "translateUiHint": "Wyświetlaj menu, przyciski i ustawienia w języku aplikacji.",
+      "translateLabels": "Przetłumacz etykiety na tablicy i w menu",
+      "translateLabelsHint": "Automatycznie tłumacz etykiety symboli, nazwy menu i statyczne słowa na język aplikacji. Wymaga dostępu do internetu.",
+      "multilingual": "Wielojęzyczny",
+      "perItemImageLanguage": "Język obrazów dla poszczególnych elementów",
+      "perItemImageLanguageHint": "Pozwól każdemu elementowi wyszukiwać obrazy we własnym języku.",
+      "multilingualLabels": "Etykiety wielojęzyczne",
+      "multilingualLabelsHint": "Dodaj dodatkowe etykiety tekstowe dla każdego elementu (w trybie edycji) dla innych języków. Po włączeniu, tylko etykiety elementów tablicy przestają być automatycznie tłumaczone po zmianie języka (zamiast tego używane są etykiety ręczne); statyczne słowa w wierszach i nazwy menu nadal są tłumaczone automatycznie.",
+      "spokenLanguages": "Języki mówione",
+      "spokenLanguagesHint": "Języki, między którymi można przełączać się z pola wprowadzania. Język aplikacji jest bazą; elementy bez etykiety ręcznej są automatycznie tłumaczone na mowę. Ta funkcja wymaga połączenia z internetem i jest pomijana w przypadku języka angielskiego.",
+      "base": "Opierać",
+      "addLanguage": "Dodaj język"
+    },
+    "data": {
+      "backupRestore": "Kopia zapasowa i przywracanie",
+      "backupRestoreHint": "Eksportuj lub importuj wszystkie plansze, ustawienia, obrazy niestandardowe i nagrane dźwięki jako pojedynczy plik kopii zapasowej, który możesz przenieść na inne urządzenie lub zachować w pamięci swojego urządzenia.",
+      "downloadBackup": "Pobierz kopię zapasową",
+      "exportBackup": "Eksportuj kopię zapasową",
+      "saveBackupToDevice": "Zapisz kopię zapasową na urządzeniu (wybierz folder)",
+      "importBackup": "Importuj kopię zapasową",
+      "security": "Bezpieczeństwo",
+      "securityHint": "Wymagaj podania kodu PIN do otwarcia Ustawień i edytora. Dzięki temu użytkownik nie będzie mógł edytować ustawień bez podania kodu PIN w głównym interfejsie. Ustawienia zostaną zapisane po kliknięciu „Zastosuj” lub „Gotowe”.",
+      "changePin": "Zmień PIN",
+      "removePin": "Usuń PIN",
+      "setPin": "Ustaw PIN",
+      "recoveryQuestions": "Pytania dotyczące odzyskiwania",
+      "recoveryQuestionsHint": "Służy do resetowania zapomnianego kodu PIN. Zaleca się dodanie co najmniej jednego. Bez niego zapomniany kod PIN można usunąć tylko poprzez ponowną instalację aplikacji.",
+      "question": "Pytanie",
+      "ownQuestionPlaceholder": "Lub wpisz własne pytanie",
+      "answer": "Odpowiedź",
+      "addQuestion": "+ Dodaj pytanie",
+      "pinPlaceholder": "PIN (min. 4 cyfry)",
+      "confirmPinPlaceholder": "Potwierdź PIN",
+      "pinTooShort": "PIN musi składać się z co najmniej 4 cyfr.",
+      "pinsDoNotMatch": "Kody PIN nie są zgodne.",
+      "reset": "Nastawić",
+      "restoreDefaults": "Przywróć ustawienia domyślne",
+      "backupFormatNote": "Kopia zapasowa .spegen to skompresowany plik ZIP zawierający Twoje plansze, ustawienia, niestandardowe obrazy i nagrane audio w jednym pliku. Importowanie zastępuje wszystkie bieżące plansze i ustawienia.",
+      "preparingDownload": "Przygotowywanie do pobrania…",
+      "backupDownloaded": "Kopia zapasowa została pobrana.",
+      "openingShareSheet": "Otwieranie arkusza akcji…",
+      "shareSheetHint": "Użyj arkusza udostępniania, aby zapisać kopię zapasową.",
+      "sharingUnavailable": "Udostępnianie nie jest dostępne.",
+      "chooseFolder": "Wybierz folder, w którym chcesz zapisać…",
+      "savedToFolder": "Zapisano w wybranym folderze.",
+      "saveCanceled": "Zapisz anulowano.",
+      "saveFailed": "Nie udało się zapisać: {e}",
+      "chooseBackupFile": "Wybierz plik kopii zapasowej…",
+      "importCanceled": "Import anulowany.",
+      "importWebFileMissing": "Import nie powiódł się: Brakuje uchwytu pliku internetowego.",
+      "importDone": "Importowane. Plansza ponownie załadowana.",
+      "importFailed": "Import nie powiódł się: {e}",
+      "confirmReset": "Kliknij ponownie „Przywróć domyślne”, aby potwierdzić. Uwaga: spowoduje to usunięcie Twoich tablic.",
+      "resetDone": "Przywrócono domyślne plansze.",
+      "resetFailed": "Reset nie powiódł się: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Aplikacja AAC typu open source opracowana przez Harper Klein Keane. Stronę SpeGen na GitHubie można znaleźć pod adresem",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", a stronę internetową można znaleźć pod adresem",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licencja: GNU General Public License v3.0",
+      "showTutorialAgain": "Pokaż ponownie samouczek powitalny",
+      "privacyPolicy": "Polityka prywatności"
+    },
+    "feedback": {
+      "title": "Prześlij opinię",
+      "intro": "Znalazłeś błąd lub masz prośbę o dodanie funkcji? Daj mi znać! Ten formularz automatycznie utworzy zgłoszenie do śledzenia w repozytorium GitHub Spegen.",
+      "category": "Kategoria wydania",
+      "categories": [
+        "Błąd",
+        "Sugestia",
+        "Inny"
+      ],
+      "header": "Nagłówek / Podsumowanie",
+      "headerPlaceholder": "Krótko podsumuj problem",
+      "details": "Szczegóły / Ciało",
+      "detailsPlaceholder": "Podaj kroki umożliwiające odtworzenie błędu lub rozwinięcie pomysłu na funkcję...",
+      "submitting": "Przedkładający...",
+      "submit": "Prześlij opinię",
+      "missingFields": "Proszę podać nagłówek i pełne szczegóły.",
+      "submittingStatus": "Przesyłanie opinii...",
+      "submitted": "Opinia została pomyślnie przesłana! Dziękujemy.",
+      "submitFailed": "Nie udało się przesłać problemu: {msg}",
+      "networkError": "Błąd sieciowy podczas przesyłania opinii: {e}"
+    }
+  },
+  "board": {
+    "settings": "Ustawienia",
+    "search": "Szukaj",
+    "stop": "Zatrzymywać się",
+    "keyboard": "Klawiatura",
+    "delete": "Usuwać",
+    "clear": "Jasne",
+    "back": "Z powrotem",
+    "autocomplete": "Automatyczne uzupełnianie",
+    "addText": "Dodaj tekst"
+  },
+  "editor": {
+    "title": "TRYB EDYTORA",
+    "addItem": "+ Przedmiot",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menu",
+    "gotoMenu": "Przejdź do menu",
+    "applyChanges": "Zastosuj zmiany",
+    "exit": "Wyjście"
+  },
+  "languageDropdown": {
+    "select": "Wybierać…",
+    "searchPlaceholder": "Wyszukaj język"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Tylko pisz",
+      "Tylko mów",
+      "Obydwa"
+    ],
+    "addItem": {
+      "title": "Dodaj element do {menuTitle}",
+      "name": "Nazwa",
+      "symbol": "Symbol",
+      "folder": "Falcówka",
+      "folderTargetMenu": "Menu docelowe folderu"
+    },
+    "newMenu": {
+      "title": "Utwórz nowe menu",
+      "menuTitle": "Tytuł menu",
+      "emptyNote": "Menu jest puste. Wejdź do niego i użyj „+ Element”, aby dodać elementy.",
+      "create": "Tworzyć"
+    },
+    "deleteMenu": {
+      "title": "Usuń menu",
+      "hint": "Foldery otwierające usunięte menu również zostaną usunięte.",
+      "delete": "Usuwać"
+    },
+    "gotoMenu": {
+      "title": "Przejdź do menu",
+      "hint": "Umożliwia przejście do menu w trybie edytora.",
+      "goTo": "Przejdź do"
+    },
+    "unsaved": {
+      "title": "Niezapisane zmiany",
+      "body": "Masz niezapisane zmiany. Czy chcesz je zapisać?",
+      "dontSave": "Nie zapisuj",
+      "saveChanges": "Zapisz zmiany"
+    },
+    "pinLock": {
+      "enterTitle": "Wprowadź PIN",
+      "lockedHint": "Ustawienia i edytor są zablokowane.",
+      "pinPlaceholder": "SZPILKA",
+      "unlock": "Odblokować",
+      "forgotPin": "Zapomniałeś PIN-u?",
+      "incorrectPin": "Nieprawidłowy PIN.",
+      "noQuestions": "Nie ustawiono pytań odzyskiwania, więc nie można zresetować kodu PIN. Zainstaluj ponownie aplikację, aby go wyczyścić (spowoduje to usunięcie wszystkich tablic).",
+      "answerToReset": "Odpowiedź na resetowanie PIN-u",
+      "answerHint": "Odpowiedz poprawnie na wszystkie pytania (bez względu na wielkość liter).",
+      "answerPlaceholder": "Odpowiedź",
+      "verify": "Zweryfikować",
+      "answersIncorrect": "Jedna lub więcej odpowiedzi jest nieprawidłowa.",
+      "setNewPin": "Ustaw nowy PIN",
+      "newPinPlaceholder": "Nowy PIN (min. 4 cyfry)",
+      "confirmNewPinPlaceholder": "Potwierdź nowy PIN",
+      "saveNewPin": "Zapisz nowy PIN",
+      "pinTooShort": "PIN musi składać się z co najmniej 4 cyfr.",
+      "pinsDoNotMatch": "Kody PIN nie są zgodne."
+    },
+    "colorPicker": {
+      "title": "Wybierz kolor",
+      "hue": "Odcień: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Nazwa",
+      "itemLanguage": "Język elementu",
+      "language": "Język",
+      "labelsByLanguage": "Etykiety według języka",
+      "add": "Dodać",
+      "addLanguage": "+ Dodaj język",
+      "image": "Obraz",
+      "loading": "Załadunek…",
+      "loadMoreImages": "Załaduj więcej obrazów",
+      "findImages": "Znajdź obrazy",
+      "chooseCustomImage": "Wybierz niestandardowy obraz",
+      "resetToDefault": "Przywróć ustawienia domyślne",
+      "audio": "Audio",
+      "useItemName": "Użyj nazwy przedmiotu",
+      "useCustomAudio": "Użyj niestandardowego dźwięku",
+      "audioClip": "Klip audio",
+      "record": "Nagrywać",
+      "stop": "Zatrzymywać się",
+      "importFromDevice": "Importuj z urządzenia",
+      "preview": "▶ Podgląd",
+      "clearAudio": "Czysty dźwięk",
+      "renameAudioClip": "Zmień nazwę klipu audio",
+      "clipNamePlaceholder": "Nazwa klipu",
+      "pronHint": "Opcjonalnie: zmień pisownię imienia, aby było wymawiane poprawnie (np. „MIS-chiv-us”).",
+      "pronPlaceholder": "Wymowa",
+      "color": "Kolor",
+      "custom": "Zwyczaj",
+      "default": "Domyślny",
+      "editCustomColor": "Edytuj niestandardowy kolor",
+      "pickCustomColor": "Wybierz niestandardowy kolor",
+      "ttsBehavior": "Zachowanie TTS",
+      "delete": "Usuwać"
+    }
+  }
+}

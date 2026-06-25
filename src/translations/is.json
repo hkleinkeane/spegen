@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Til baka",
+    "next": "Næst",
+    "done": "Lokið",
+    "skip": "Sleppa",
+    "cancel": "Hætta við",
+    "add": "Bæta við",
+    "save": "Vista",
+    "close": "Loka",
+    "reset": "Endurstilla"
+  },
+  "banners": {
+    "ttsMissingVoice": "Engin rödd sett upp fyrir {name} ({code}). Talað er með sjálfgefnu röddinni.",
+    "ttsInstallAndroid": "Ýttu til að opna talstillingar tækisins og settu síðan upp raddgögn fyrir þetta tungumál.",
+    "ttsInstallIos": "Til að bæta því við skaltu opna Stillingar → Aðgengi → Talað efni → Raddir og sækja röddina. Ýttu til að hunsa.",
+    "ttsInstallWeb": "Raddir koma frá stýrikerfinu þínu — bættu við einni fyrir þetta tungumál í talstillingum kerfisins. Ýttu til að loka.",
+    "updateAvailable": "Uppfærsla í boði — ýttu til að endurhlaða"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Velkomin(n) í SpeGen",
+        "body": "Þetta er stutt kennsla til að kenna þér grunnatriði í notendaviðmóti forritsins. Þú getur nálgast þessa kennslu síðar í Stillingum."
+      },
+      {
+        "title": "Möppur",
+        "body": "Ýttu á möppu til að fara í aðra valmynd með fleiri táknum og möppum. Möppur eru alltaf með svarta fellingu efst í hægra horninu."
+      },
+      {
+        "title": "Tákn",
+        "body": "Ýttu á tákn til að bæta því við innsláttarreitinn."
+      },
+      {
+        "title": "Inntaksreitur",
+        "body": "Innsláttarreiturinn er þar sem þú setur saman setningar. Ýttu á hann til að spila uppbyggða setninguna."
+      },
+      {
+        "title": "Valmyndaröð",
+        "body": "Þetta eru hnappar sem vísa þér sjálfkrafa á viðeigandi valmynd."
+      },
+      {
+        "title": "Röð kyrrstæðra orða",
+        "body": "Þessi hugtök eru alltaf neðst á skjánum, sama hvar þú ert. Ýttu á eitt til að segja það samstundis."
+      },
+      {
+        "title": "Lyklaborð",
+        "body": "Opnar glugga sem gerir þér kleift að nota lyklaborð tækisins til að bæta við hlutum í innsláttarreitinn."
+      },
+      {
+        "title": "Eyða",
+        "body": "Eyðir síðasta hugtakinu í innsláttarreitnum."
+      },
+      {
+        "title": "Hreinsa",
+        "body": "Hreinsar innsláttarreitinn af öllum hugtökum."
+      },
+      {
+        "title": "Stöðva",
+        "body": "Stöðvar alla talgervilsbreytingu sem er verið að spila."
+      },
+      {
+        "title": "Leita",
+        "body": "Leitaðu að hvaða hugtaki sem er í hvaða valmynd sem er. Það leiðir þig að hugtakinu með því að auðkenna hnappa sem þú þarft að ýta á."
+      },
+      {
+        "title": "Stillingar",
+        "body": "Opnar stillingarvalmyndina: breyta borðinu, taka afrit af gögnum, breyta talgervil og fleira."
+      },
+      {
+        "title": "Til baka",
+        "body": "Sendir þig aftur í fyrri valmyndina sem þú varst á."
+      },
+      {
+        "title": "Sjálfvirk útfylling",
+        "body": "Skiptir út valmyndinni fyrir lista yfir sjálfvirka útfyllingu sem læra af táknunum sem þú velur. Gögn fara aldrei úr tækinu þínu án samþykkis."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Finna orð/hlut",
+    "subtitle": "Leitaðu í öllum valmyndum og smelltu síðan á merktu hnappana til að fletta að orðinu.",
+    "placeholder": "Sláðu inn orð…",
+    "noMatches": "Engar samsvörun.",
+    "find": "Finna",
+    "close": "Loka",
+    "finding": "Að finna „{word}“ - ýttu á merkta hnappinn",
+    "cancel": "Hætta við"
+  },
+  "autocomplete": {
+    "suggestions": "Tillögur",
+    "after": "Eftir „{word}“",
+    "none": "Engar tillögur ennþá."
+  },
+  "settings": {
+    "title": "Stillingar",
+    "apply": "Sækja um",
+    "done": "Lokið",
+    "tabs": {
+      "display": "Sýna",
+      "voice": "Rödd",
+      "vocabulary": "Orðaforði",
+      "language": "Tungumál",
+      "data": "Gögn",
+      "about": "Um",
+      "feedback": "Ábendingar"
+    },
+    "display": {
+      "preview": "Forskoðun",
+      "staticRowLabel": "Röð með kyrrstæðum orðum",
+      "menuRowLabel": "Valmyndaröð",
+      "previewStaticTerms": [
+        "Já",
+        "Nei",
+        "Meira"
+      ],
+      "previewMenuTitles": [
+        "Fólk",
+        "Matur",
+        "Aðgerðir"
+      ],
+      "itemSizing": "Stærð hlutar",
+      "itemWidthSize": "Breidd hlutar",
+      "itemHeightSize": "Hæð hlutar",
+      "gridSize": "Passa við grind",
+      "gridHint": "Stilla stærð hlutar til að passa í grind: sláðu inn dálka og raðir og pikkaðu síðan á Nota.",
+      "gridCols": "Cols",
+      "gridRows": "Raðir",
+      "gridApply": "Sækja um",
+      "bordersSpacing": "Rammar og bil",
+      "borderWidth": "Breidd ramma",
+      "itemPadding": "Bólstrun hluta",
+      "staticRowStyle": "Röðstíll fyrir kyrrstæðar orð",
+      "menuRowStyle": "Stíll valmyndarraða",
+      "textSize": "Stærð texta",
+      "textPadding": "Textafylling",
+      "buttonShape": "Hnapplaga",
+      "labelPosition": "Staðsetning merkimiða",
+      "top": "Efst",
+      "bottom": "Neðst",
+      "skinTone": "Húðlitur",
+      "theme": "Þema",
+      "themeLight": "Ljós",
+      "themeDark": "Dökkt",
+      "themeSystem": "Kerfi",
+      "themeNote": "Dökk stilling breytir þema skjáa og valmynda forritsins. Litir á táknhnappum og stilling með miklum birtuskilum eru óbreytt.",
+      "highContrast": "Mikil birtuskil",
+      "highContrastHint": "Svartur bakgrunnur, hvítir rammar og merkimiðar með einfölduðum litatöflu fyrir myndir af vörum."
+    },
+    "voice": {
+      "speechRate": "Talhraði",
+      "pitch": "Tónleikar",
+      "pauseBetweenWords": "Hlé á milli orða",
+      "pauseDuration": "Lengd hlés",
+      "testPhrase": "Þetta er prófun á raddstillingunum.",
+      "testVoice": "Prófaðu rödd",
+      "translateSentence": "Þýða talaðar setningar",
+      "translateSentenceHint": "Þýddu alla setninguna í einu til að fá eðlilegri málfræði, í stað orð fyrir orð. Sjálfgefið virkt fyrir tungumál sem ekki eru enska. Krefst nettengingar.",
+      "voiceLabel": "Rödd",
+      "voiceHint": "Veldu röddina sem notuð er fyrir tal á tungumáli forritsins. Raddir koma frá tækinu þínu eða vafranum.",
+      "voiceDefault": "Sjálfgefið (kerfi)",
+      "noVoices": "Engar raddir fundust fyrir þetta tungumál.",
+      "openDeviceTts": "Opna TTS-stillingar tækisins",
+      "ttsOpenFailed": "Gat ekki opnað TTS-stillingar tækisins: {e}",
+      "resetToDefaults": "Endurstilla á sjálfgefnar stillingar",
+      "resetDone": "Rödd endurstillt á sjálfgefnar stillingar."
+    },
+    "vocabulary": {
+      "editorMode": "Ritstjórnarstilling",
+      "editorModeHint": "Breyttu táknum og möppum með því að smella á þau á borðinu og notaðu hnappana á tækjastikunni til að breyta valmyndum.",
+      "enableEditorMode": "Virkja ritstjórnarstillingu",
+      "staticRow": "Röð með kyrrstæðum orðum",
+      "staticRowHint": "Orð eru alltaf sýnileg neðst á skjánum, óháð því hvar þú ert í forritinu. Dragðu ≡ til að endurraða.",
+      "addPhrasePlaceholder": "Bæta við orðasambandi",
+      "addPhrase": "Bæta við",
+      "menuRow": "Valmyndaröð",
+      "menuRowHint": "Flýtileiðir í valmyndum eru sýndir rétt fyrir ofan kyrrstöðuröðina þegar borðið og aðalvalmyndin eru notuð. Dragðu ≡ til að endurraða.",
+      "menuRowEmpty": "Engir matseðlar í röðinni.",
+      "addMenuToRow": "Bæta við valmynd í röð",
+      "allMenusInRow": "Allar matseðlar eru þegar komnir í röðina."
+    },
+    "language": {
+      "appLanguage": "Tungumál forritsins",
+      "appLanguageHint": "Notað fyrir tal, myndaleit og þýðingu merkimiða. Ef þessu er breytt, hleður það allar myndirnar aftur.",
+      "translationDisclaimer": "Texti forritsins er þýddur með Google Translate API, þannig að sumar þýðingar geta verið ónákvæmar. Ef þú tekur eftir villu skaltu nota „Ábendingar“ hnappinn í Stillingum til að tilkynna hana — tilgreindu tungumálið og tillögu að leiðréttingu.",
+      "autoTranslate": "Sjálfvirk þýðing",
+      "translateUi": "Þýða forritsviðmótið",
+      "translateUiHint": "Sýna valmyndir, hnappa og stillingar á forritsmáli.",
+      "translateLabels": "Þýða merkimiða á borðum og matseðlum",
+      "translateLabelsHint": "Þýða sjálfkrafa táknmerki, valmyndanöfn og kyrrstæðar orðaraðir yfir á forritið. Þarfnast nettengingar.",
+      "multilingual": "Fjöltyngd",
+      "perItemImageLanguage": "Myndmál fyrir hverja einingu",
+      "perItemImageLanguageHint": "Leyfðu hverjum hlut að leita að myndum á sínu eigin tungumáli.",
+      "multilingualLabels": "Fjöltyngdarmerki",
+      "multilingualLabelsHint": "Bætið við auka textamerkingum fyrir hvert atriði (í breytingarstillingu) fyrir önnur tungumál. Þegar þetta er virkt, stöðvast sjálfvirk þýðing aðeins á merkimiðum fyrir atriði á borðinu þegar skipt er um tungumál (handvirku merkimiðarnir eru notaðir í staðinn); kyrrstæð orð í röðum og valmyndum þýðast enn sjálfvirkt.",
+      "spokenLanguages": "Töluð tungumál",
+      "spokenLanguagesHint": "Tungumál sem þú getur skipt á milli úr innsláttarreitnum. Tungumál forritsins er grunnurinn; atriði án handvirkrar merkingar eru sjálfvirkt þýdd fyrir tal. Þessi aðgerð krefst internettengingar og er sleppt fyrir ensku.",
+      "base": "Grunnur",
+      "addLanguage": "Bæta við tungumáli"
+    },
+    "data": {
+      "backupRestore": "Afritun og endurheimt",
+      "backupRestoreHint": "Flytjið út eða inn öll spjöld, stillingar, sérsniðnar myndir og upptekið hljóð sem eina afritunarskrá sem þið getið flutt yfir á annað tæki eða geymt í geymslu tækisins.",
+      "downloadBackup": "Sækja afrit",
+      "exportBackup": "Flytja út afrit",
+      "saveBackupToDevice": "Vista afrit á tæki (veldu möppu)",
+      "importBackup": "Flytja inn afrit",
+      "security": "Öryggi",
+      "securityHint": "Krefst PIN-númers til að opna Stillingar og ritilinn. Þetta er hægt að nota til að tryggja að notandinn geti ekki breytt stillingum án PIN-númersins í aðalviðmótinu. Vistað þegar þú ýtir á Nota eða Lokið.",
+      "changePin": "Breyta PIN-númeri",
+      "removePin": "Fjarlægja PIN-númer",
+      "setPin": "Stilltu PIN-númer",
+      "recoveryQuestions": "Spurningar um bata",
+      "recoveryQuestionsHint": "Notað til að endurstilla gleymt PIN-númer. Mælt er með að bæta við að minnsta kosti einu. Án þess er aðeins hægt að hreinsa gleymt PIN-númer með því að endursetja appið.",
+      "question": "Spurning",
+      "ownQuestionPlaceholder": "Eða skrifaðu þína eigin spurningu",
+      "answer": "Svar",
+      "addQuestion": "+ Bæta við spurningu",
+      "pinPlaceholder": "PIN-númer (minnst 4 tölustafir)",
+      "confirmPinPlaceholder": "Staðfesta PIN-númer",
+      "pinTooShort": "PIN-númerið verður að vera að minnsta kosti fjórir tölustafir.",
+      "pinsDoNotMatch": "PIN-númerin stemma ekki.",
+      "reset": "Endurstilla",
+      "restoreDefaults": "Endurheimta sjálfgefnar stillingar",
+      "backupFormatNote": ".spegen afritið er þjappað ZIP skrá sem inniheldur borðin þín, stillingar, sérsniðnar myndir og upptökur af hljóði í einni skrá. Innflutningur kemur í stað allra núverandi borða og stillinga.",
+      "preparingDownload": "Undirbýr niðurhal…",
+      "backupDownloaded": "Afrit sótt.",
+      "openingShareSheet": "Opnar deiliblað…",
+      "shareSheetHint": "Notaðu deiliblaðið til að vista afritið þitt.",
+      "sharingUnavailable": "Deiling er ekki í boði.",
+      "chooseFolder": "Veldu möppu til að vista í…",
+      "savedToFolder": "Vistað í möppuna sem þú valdir.",
+      "saveCanceled": "Vista hætt.",
+      "saveFailed": "Vista mistókst: {e}",
+      "chooseBackupFile": "Veldu afritunarskrá…",
+      "importCanceled": "Innflutningi hætt.",
+      "importWebFileMissing": "Innflutningur mistókst: Vefskráarhandfang vantar.",
+      "importDone": "Innflutt. Borð endurhlaðið.",
+      "importFailed": "Innflutningur mistókst: {e}",
+      "confirmReset": "Ýttu aftur á „Endurstilla sjálfgefnar stillingar“ til að staðfesta. Viðvörun: þetta eyðir borðunum þínum.",
+      "resetDone": "Endurheimti sjálfgefin borð.",
+      "resetFailed": "Endurstilling mistókst: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Opinn hugbúnaður fyrir AAC, þróaður af Harper Klein Keane. GitHub síðu SpeGen er að finna á",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", og vefsíðuna má finna á",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Leyfi: GNU General Public License v3.0",
+      "showTutorialAgain": "Sýna velkomin kennslumyndband aftur",
+      "privacyPolicy": "Persónuverndarstefna"
+    },
+    "feedback": {
+      "title": "Senda inn ábendingu",
+      "intro": "Fannstu villu eða hefurðu beiðni um eiginleika? Láttu mig vita! Þetta eyðublað mun sjálfkrafa opna fyrir rakningarvandamál í GitHub geymslu Spegen.",
+      "category": "Flokkur málefnis",
+      "categories": [
+        "Bug",
+        "Tillaga",
+        "Annað"
+      ],
+      "header": "Fyrirsögn / Yfirlit",
+      "headerPlaceholder": "Gerðu stutta grein fyrir málinu",
+      "details": "Upplýsingar / Líkami",
+      "detailsPlaceholder": "Gefðu leiðbeiningar til að endurskapa villu eða útvíkka hugmynd þína um eiginleika...",
+      "submitting": "Sendi inn...",
+      "submit": "Senda inn ábendingu",
+      "missingFields": "Vinsamlegast gefðu bæði fyrirsögn og allar upplýsingar.",
+      "submittingStatus": "Sendi inn ábendingu...",
+      "submitted": "Ábending send inn! Þakka þér fyrir.",
+      "submitFailed": "Mistókst að senda inn mál: {msg}",
+      "networkError": "Netvilla við að senda ábendingar: {e}"
+    }
+  },
+  "board": {
+    "settings": "Stillingar",
+    "search": "Leita",
+    "stop": "Stöðva",
+    "keyboard": "Lyklaborð",
+    "delete": "Eyða",
+    "clear": "Hreinsa",
+    "back": "Til baka",
+    "autocomplete": "Sjálfvirk útfylling",
+    "addText": "Bæta við texta"
+  },
+  "editor": {
+    "title": "RITSTJÓRAHAMUR",
+    "addItem": "+ Vara",
+    "addMenu": "+ Valmynd",
+    "deleteMenu": "- Matseðill",
+    "gotoMenu": "Fara í valmynd",
+    "applyChanges": "Virkja breytingar",
+    "exit": "Útgönguleið"
+  },
+  "languageDropdown": {
+    "select": "Veldu…",
+    "searchPlaceholder": "Leitarmál"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Aðeins gerð",
+      "Talaðu aðeins",
+      "Báðir"
+    ],
+    "addItem": {
+      "title": "Bæta við lið í {menuTitle}",
+      "name": "Nafn",
+      "symbol": "Tákn",
+      "folder": "Mappa",
+      "folderTargetMenu": "Markvalmynd möppu"
+    },
+    "newMenu": {
+      "title": "Búa til nýjan matseðil",
+      "menuTitle": "Titill valmyndar",
+      "emptyNote": "Valmyndin er búin til tóm. Farðu inn í hana og notaðu „+ Hlutur“ til að bæta við hlutum.",
+      "create": "Búa til"
+    },
+    "deleteMenu": {
+      "title": "Eyða valmynd",
+      "hint": "Möppur sem opna eydda valmynd verða einnig fjarlægðar.",
+      "delete": "Eyða"
+    },
+    "gotoMenu": {
+      "title": "Fara í valmynd",
+      "hint": "Gerir þér kleift að hoppa í valmynd í ritstjórnarstillingu.",
+      "goTo": "Fara á"
+    },
+    "unsaved": {
+      "title": "Óvistaðar breytingar",
+      "body": "Þú hefur óvistaðar breytingar. Viltu vista þær?",
+      "dontSave": "Ekki vista",
+      "saveChanges": "Vista breytingar"
+    },
+    "pinLock": {
+      "enterTitle": "Sláðu inn PIN-númer",
+      "lockedHint": "Stillingar og ritill eru læstir.",
+      "pinPlaceholder": "PIN-númer",
+      "unlock": "Opna",
+      "forgotPin": "Gleymdirðu PIN-númerinu?",
+      "incorrectPin": "Rangt PIN-númer.",
+      "noQuestions": "Engar endurheimtarspurningar eru stilltar, þannig að ekki er hægt að endurstilla PIN-númerið. Endursetjið forritið til að hreinsa það (þetta eyðir öllum spjöldum).",
+      "answerToReset": "Svar við endurstillingu PIN-númers",
+      "answerHint": "Svaraðu öllum spurningum rétt (ekki háð háðs- eða lágstöfum).",
+      "answerPlaceholder": "Svar",
+      "verify": "Staðfesta",
+      "answersIncorrect": "Eitt eða fleiri svör eru röng.",
+      "setNewPin": "Setja nýtt PIN-númer",
+      "newPinPlaceholder": "Nýtt PIN-númer (minnst 4 tölustafir)",
+      "confirmNewPinPlaceholder": "Staðfesta nýtt PIN-númer",
+      "saveNewPin": "Vista nýtt PIN-númer",
+      "pinTooShort": "PIN-númerið verður að vera að minnsta kosti fjórir tölustafir.",
+      "pinsDoNotMatch": "PIN-númerin stemma ekki."
+    },
+    "colorPicker": {
+      "title": "Veldu lit",
+      "hue": "Litbrigði: {deg}°",
+      "ok": "Í lagi"
+    },
+    "editItem": {
+      "name": "Nafn",
+      "itemLanguage": "Tungumál hlutar",
+      "language": "Tungumál",
+      "labelsByLanguage": "Merki eftir tungumáli",
+      "add": "Bæta við",
+      "addLanguage": "+ Bæta við tungumáli",
+      "image": "Mynd",
+      "loading": "Hleður…",
+      "loadMoreImages": "Hlaða inn fleiri myndum",
+      "findImages": "Finna myndir",
+      "chooseCustomImage": "Veldu sérsniðna mynd",
+      "resetToDefault": "Endurstilla í sjálfgefið ástand",
+      "audio": "Hljóð",
+      "useItemName": "Nota heiti hlutar",
+      "useCustomAudio": "Nota sérsniðið hljóð",
+      "audioClip": "Hljóðbrot",
+      "record": "Upptaka",
+      "stop": "Stöðva",
+      "importFromDevice": "Flytja inn úr tæki",
+      "preview": "▶ Forskoðun",
+      "clearAudio": "Hreint hljóð",
+      "renameAudioClip": "Endurnefna hljóðbrot",
+      "clipNamePlaceholder": "Nafn myndskeiðs",
+      "pronHint": "Valfrjálst: stafsettu nafnið upp á nýtt svo það sé rétt lesið (t.d. „MIS-chiv-us“).",
+      "pronPlaceholder": "Framburður",
+      "color": "Litur",
+      "custom": "Sérsniðin",
+      "default": "Sjálfgefið",
+      "editCustomColor": "Breyta sérsniðnum lit",
+      "pickCustomColor": "Veldu sérsniðinn lit",
+      "ttsBehavior": "TTS hegðun",
+      "delete": "Eyða"
+    }
+  }
+}

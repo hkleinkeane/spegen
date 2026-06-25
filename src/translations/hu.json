@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Vissza",
+    "next": "Következő",
+    "done": "Kész",
+    "skip": "Kihagyás",
+    "cancel": "Mégsem",
+    "add": "Hozzáadás",
+    "save": "Megtakarítás",
+    "close": "Közeli",
+    "reset": "Visszaállítás"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nincs telepített hang a {name} ({code}) szakaszokhoz. Az alapértelmezett hanggal beszél.",
+    "ttsInstallAndroid": "Koppintson az eszköz beszédbeállításainak megnyitásához, majd telepítse a hangadatokat ehhez a nyelvhez.",
+    "ttsInstallIos": "A hozzáadáshoz nyissa meg a Beállítások → Akadálymentesítés → Hangos tartalom → Hangok menüpontot, és töltse le a hangot. Koppintson az elvetéshez.",
+    "ttsInstallWeb": "A hangok az operációs rendszerből származnak – adjon hozzá egyet ehhez a nyelvhez a rendszerbeszéd-beállításokban. Koppintson az elvetéshez.",
+    "updateAvailable": "Frissítés elérhető – koppintson az újratöltéshez"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Üdvözöljük a SpeGennél",
+        "body": "Ez egy rövid oktatóanyag, amely megtanítja az alkalmazás alapvető felhasználói felületét. Később a Beállítások menüpontban érheted el ezt az oktatóanyagot."
+      },
+      {
+        "title": "Mappák",
+        "body": "Koppintson egy mappára, hogy egy másik menübe lépjen, ahol további szimbólumok és mappák találhatók. A mappák jobb felső sarkában mindig fekete hajtás látható."
+      },
+      {
+        "title": "Szimbólumok",
+        "body": "Koppintson egy szimbólumra, hogy hozzáadja azt a beviteli mezőhöz."
+      },
+      {
+        "title": "Beviteli mező",
+        "body": "A beviteli mezőben fogalmazhatod meg a mondatokat. Koppints rá a létrehozott mondat lejátszásához."
+      },
+      {
+        "title": "Menü sor",
+        "body": "Ezek olyan gombok, amelyek automatikusan átirányítanak a megfelelő menübe."
+      },
+      {
+        "title": "Statikus szavak sora",
+        "body": "Ezek a kifejezések mindig a képernyő alján láthatók, függetlenül attól, hogy hol tartózkodik. Koppintson rájuk, hogy azonnal kimondja."
+      },
+      {
+        "title": "Billentyűzet",
+        "body": "Megnyit egy párbeszédablakot, amely lehetővé teszi, hogy eszköze billentyűzetével elemeket adjon hozzá a beviteli mezőhöz."
+      },
+      {
+        "title": "Töröl",
+        "body": "Törli az utolsó kifejezést a beviteli mezőben."
+      },
+      {
+        "title": "Világos",
+        "body": "Törli a beviteli mezőt az összes kifejezéstől."
+      },
+      {
+        "title": "Stop",
+        "body": "Leállítja az aktuálisan lejátszott szövegfelolvasót."
+      },
+      {
+        "title": "Keresés",
+        "body": "Bármelyik kifejezésre rákereshet bármelyik menüben. A program a megnyomandó gombok kiemelésével vezeti el Önt a kívánt kifejezéshez."
+      },
+      {
+        "title": "Beállítások",
+        "body": "Megnyitja a beállítások menüt: a tábla szerkesztése, adatok biztonsági mentése, a szövegfelolvasó hangjának módosítása és egyebek."
+      },
+      {
+        "title": "Vissza",
+        "body": "Visszaküldi az előző menübe, ahol voltál."
+      },
+      {
+        "title": "Automatikus kiegészítés",
+        "body": "A menüt egy automatikus kiegészítési opciók listájával helyettesíti, amelyek a kiválasztott szimbólumokból tanulnak. Az adatok soha nem hagyják el az eszközét beleegyezés nélkül."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Keressen egy szót/elemet",
+    "subtitle": "Keressen az összes menüben, majd kattintson a kiemelt gombokra a szóhoz való navigáláshoz.",
+    "placeholder": "Írj be egy szót…",
+    "noMatches": "Nincsenek találatok.",
+    "find": "Lelet",
+    "close": "Közeli",
+    "finding": "„{word}” megkereséséhez koppintson a kiemelt gombra",
+    "cancel": "Mégsem"
+  },
+  "autocomplete": {
+    "suggestions": "Javaslatok",
+    "after": "„{word}” után",
+    "none": "Még nincsenek javaslatok."
+  },
+  "settings": {
+    "title": "Beállítások",
+    "apply": "Jelentkezés",
+    "done": "Kész",
+    "tabs": {
+      "display": "Kijelző",
+      "voice": "Hang",
+      "vocabulary": "Szójegyzék",
+      "language": "Nyelv",
+      "data": "Adat",
+      "about": "Körülbelül",
+      "feedback": "Visszacsatolás"
+    },
+    "display": {
+      "preview": "Előnézet",
+      "staticRowLabel": "Statikus szavak sora",
+      "menuRowLabel": "Menü sor",
+      "previewStaticTerms": [
+        "Igen",
+        "Nem",
+        "Több"
+      ],
+      "previewMenuTitles": [
+        "Emberek",
+        "Élelmiszer",
+        "Műveletek"
+      ],
+      "itemSizing": "Elemméretezés",
+      "itemWidthSize": "Elem szélessége",
+      "itemHeightSize": "Elem magassága",
+      "gridSize": "Rácshoz igazítás",
+      "gridHint": "Az elem méretének rácshoz igazítása: adja meg az oszlopokat és sorokat, majd koppintson az Alkalmaz gombra.",
+      "gridCols": "Oszlopok",
+      "gridRows": "Sorok",
+      "gridApply": "Jelentkezés",
+      "bordersSpacing": "Szegélyek és térközök",
+      "borderWidth": "Szegély szélessége",
+      "itemPadding": "Elem kitöltés",
+      "staticRowStyle": "Statikus szavak sorstílusa",
+      "menuRowStyle": "Menü sor stílusa",
+      "textSize": "Betűméret",
+      "textPadding": "Szövegkitöltés",
+      "buttonShape": "Gomb alakja",
+      "labelPosition": "Címke pozíciója",
+      "top": "Felső",
+      "bottom": "Alsó",
+      "skinTone": "Bőrtónus",
+      "theme": "Téma",
+      "themeLight": "Fény",
+      "themeDark": "Sötét",
+      "themeSystem": "Rendszer",
+      "themeNote": "A sötét mód témákat jelenít meg az alkalmazás képernyőin és menüiben. A szimbólumgombok színei és a nagy kontrasztú mód nem változik.",
+      "highContrast": "Nagy kontraszt",
+      "highContrastHint": "Fekete háttér, fehér szegélyek és címkék egyszerűsített színpalettával a tételek képeihez."
+    },
+    "voice": {
+      "speechRate": "Beszédtempó",
+      "pitch": "Hangmagasság",
+      "pauseBetweenWords": "Szünet a szavak között",
+      "pauseDuration": "Szünet időtartama",
+      "testPhrase": "Ez a hangbeállítások tesztelése.",
+      "testVoice": "Teszthang",
+      "translateSentence": "Kimondott mondatok fordítása",
+      "translateSentenceHint": "A természetesebb nyelvtan érdekében fordítsa le egyszerre az egész mondatot, ne szavanként. Alapértelmezés szerint be van kapcsolva nem angol nyelvek esetén. Internetkapcsolat szükséges.",
+      "voiceLabel": "Hang",
+      "voiceHint": "Válassza ki az alkalmazás nyelvén használt beszédhangot. A hangokat az eszköze vagy a böngészője biztosítja.",
+      "voiceDefault": "Alapértelmezett (rendszer)",
+      "noVoices": "Nem találhatók hangok ehhez a nyelvhez.",
+      "openDeviceTts": "Eszköz TTS-beállításainak megnyitása",
+      "ttsOpenFailed": "Nem sikerült megnyitni az eszköz TTS-beállításait: {e}",
+      "resetToDefaults": "Alapértelmezett beállítások visszaállítása",
+      "resetDone": "A hang visszaállt az alapértelmezett értékekre."
+    },
+    "vocabulary": {
+      "editorMode": "Szerkesztő mód",
+      "editorModeHint": "A szimbólumokat és mappákat a táblán megérintve szerkesztheted, a menüket pedig az eszköztár gombjaival szerkesztheted.",
+      "enableEditorMode": "Szerkesztő mód engedélyezése",
+      "staticRow": "Statikus szavak sora",
+      "staticRowHint": "A szavak mindig láthatók a képernyő alján, függetlenül attól, hogy az alkalmazás melyik részén tartózkodik. Húzza a ≡ jelet az átrendezéshez.",
+      "addPhrasePlaceholder": "Kifejezés hozzáadása",
+      "addPhrase": "Hozzáadás",
+      "menuRow": "Menü sor",
+      "menuRowHint": "A menüparancsok a statikus sor felett jelennek meg a tábla és a főmenü használatakor. Húzza a ≡ jelet az átrendezéshez.",
+      "menuRowEmpty": "Nincsenek menük a sorban.",
+      "addMenuToRow": "Menü hozzáadása sorhoz",
+      "allMenusInRow": "Az összes menü már szerepel a sorban."
+    },
+    "language": {
+      "appLanguage": "Alkalmazás nyelve",
+      "appLanguageHint": "Beszédhez, képkereséshez és címkefordításhoz használatos. Ennek módosítása az összes képet újratölti.",
+      "translationDisclaimer": "Az alkalmazás szövegét a Google Translate API fordítja le, ezért egyes fordítások pontatlanok lehetnek. Ha hibát észlel, kérjük, használja a Beállításokban található Visszajelzés gombot a bejelentéshez – tüntesse fel a nyelvet és a javasolt javítást.",
+      "autoTranslate": "Automatikus fordítás",
+      "translateUi": "Fordító alkalmazás felülete",
+      "translateUiHint": "Menük, gombok és beállítások megjelenítése az alkalmazás nyelvén.",
+      "translateLabels": "Tábla- és menücímkék fordítása",
+      "translateLabelsHint": "Automatikusan lefordítja a szimbólumfeliratokat, menüneveket és a statikus szavak sorát az alkalmazás nyelvére. Internetkapcsolat szükséges.",
+      "multilingual": "Többnyelvű",
+      "perItemImageLanguage": "Elemenkénti képnyelv",
+      "perItemImageLanguageHint": "Minden elem a saját nyelvén keressen képeket.",
+      "multilingualLabels": "Többnyelvű címkék",
+      "multilingualLabelsHint": "Elemenként további szöveges címkék hozzáadása (szerkesztési módban) más nyelvekhez. Ha engedélyezve van, csak a táblaelemek címkéinek automatikus fordítása áll le a nyelvváltáskor (helyette a manuálisan beállított címkéket használja a rendszer); a statikus szavak, sorok és menünevek továbbra is automatikusan lefordításra kerülnek.",
+      "spokenLanguages": "Beszélt nyelvek",
+      "spokenLanguagesHint": "A beviteli mezőben válthat nyelvek között. Az alkalmazás nyelve az alap; a manuálisan címkézett elemeket automatikusan lefordítja a rendszer beszédhangra. Ehhez a funkcióhoz internetkapcsolat szükséges, és angol esetén kihagyásra kerül.",
+      "base": "Bázis",
+      "addLanguage": "Nyelv hozzáadása"
+    },
+    "data": {
+      "backupRestore": "Biztonsági mentés és visszaállítás",
+      "backupRestoreHint": "Exportáld vagy importáld az összes táblát, beállítást, egyéni képet és rögzített hangot egyetlen biztonsági mentési fájlként, amelyet átvihetsz egy másik eszközre, vagy megőrizhetsz a saját eszközöd tárhelyén.",
+      "downloadBackup": "Biztonsági mentés letöltése",
+      "exportBackup": "Biztonsági mentés exportálása",
+      "saveBackupToDevice": "Biztonsági mentés mentése az eszközre (válasszon mappát)",
+      "importBackup": "Biztonsági mentés importálása",
+      "security": "Biztonság",
+      "securityHint": "PIN-kód szükséges a Beállítások és a szerkesztő megnyitásához. Ezzel biztosítható, hogy a felhasználó ne szerkeszthesse a beállításokat PIN-kód nélkül a fő felületen. Menti a rendszer, ha az Alkalmaz vagy a Kész gombra koppintasz.",
+      "changePin": "PIN-kód módosítása",
+      "removePin": "PIN-kód eltávolítása",
+      "setPin": "PIN-kód beállítása",
+      "recoveryQuestions": "Helyreállítási kérdések",
+      "recoveryQuestionsHint": "Elfelejtett PIN-kód visszaállítására szolgál. Javasoljuk, hogy legalább egyet adjon meg. PIN-kód hozzáadása nélkül az elfelejtett PIN-kód csak az alkalmazás újratelepítésével törölhető.",
+      "question": "Kérdés",
+      "ownQuestionPlaceholder": "Vagy írd be a saját kérdésedet",
+      "answer": "Válasz",
+      "addQuestion": "+ Kérdés hozzáadása",
+      "pinPlaceholder": "PIN-kód (minimum 4 számjegy)",
+      "confirmPinPlaceholder": "PIN-kód megerősítése",
+      "pinTooShort": "A PIN-kódnak legalább 4 számjegyből kell állnia.",
+      "pinsDoNotMatch": "A PIN-kódok nem egyeznek.",
+      "reset": "Visszaállítás",
+      "restoreDefaults": "Alapértelmezett beállítások visszaállítása",
+      "backupFormatNote": "A .spegen biztonsági mentés egy tömörített ZIP fájl, amely egyetlen fájlban tartalmazza a tábláidat, beállításaidat, egyéni képeidet és rögzített hanganyagaidat. Az importálás felülírja az összes aktuális táblát és beállítást.",
+      "preparingDownload": "Letöltés előkészítése…",
+      "backupDownloaded": "Biztonsági mentés letöltve.",
+      "openingShareSheet": "Megosztási lap megnyitása…",
+      "shareSheetHint": "A biztonsági mentéshez használd a megosztási lapot.",
+      "sharingUnavailable": "A megosztás nem érhető el.",
+      "chooseFolder": "Válasszon egy mappát a mentéshez…",
+      "savedToFolder": "Mentve a kiválasztott mappába.",
+      "saveCanceled": "Mentés megszakítva.",
+      "saveFailed": "Mentés sikertelen: {e}",
+      "chooseBackupFile": "Válasszon egy biztonsági mentési fájlt…",
+      "importCanceled": "Importálás megszakítva.",
+      "importWebFileMissing": "Importálás sikertelen: hiányzik a webfájl azonosítója.",
+      "importDone": "Importálva. Tábla újratöltve.",
+      "importFailed": "Importálás sikertelen: {e}",
+      "confirmReset": "Koppintson ismét az „Alapértelmezett beállítások visszaállítása” gombra a megerősítéshez. Figyelem: ez törli a tábláit.",
+      "resetDone": "Visszaállított alapértelmezett táblák.",
+      "resetFailed": "Sikertelen visszaállítás: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Egy nyílt forráskódú AAC alkalmazás, amelyet Harper Klein Keane fejlesztett ki. A SpeGen GitHub oldala itt található:",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", és a weboldal megtalálható a következő címen:",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licenc: GNU Általános Nyilvános Licenc v3.0",
+      "showTutorialAgain": "Mutassa meg újra az üdvözlő oktatóanyagot",
+      "privacyPolicy": "Adatvédelmi irányelvek"
+    },
+    "feedback": {
+      "title": "Visszajelzés küldése",
+      "intro": "Hibát találtál, vagy van egy funkciókérésed? Tudasd velem! Ez az űrlap automatikusan megnyit egy követési problémát a Spegen GitHub repository-jában.",
+      "category": "Probléma kategória",
+      "categories": [
+        "Bogár",
+        "Javaslat",
+        "Más"
+      ],
+      "header": "Fejléc / Összefoglaló",
+      "headerPlaceholder": "Röviden foglalja össze a problémát",
+      "details": "Részletek / Karosszéria",
+      "detailsPlaceholder": "Adjon meg lépéseket a hiba reprodukálásához vagy a funkcióötlet bővítéséhez...",
+      "submitting": "Beküldés...",
+      "submit": "Visszajelzés küldése",
+      "missingFields": "Kérjük, adjon meg egy fejlécet és minden részletet.",
+      "submittingStatus": "Visszajelzés küldése...",
+      "submitted": "Visszajelzés sikeresen elküldve! Köszönjük.",
+      "submitFailed": "Nem sikerült elküldeni a problémát: {msg}",
+      "networkError": "Hálózati hiba a visszajelzés elküldésekor: {e}"
+    }
+  },
+  "board": {
+    "settings": "Beállítások",
+    "search": "Keresés",
+    "stop": "Stop",
+    "keyboard": "Billentyűzet",
+    "delete": "Töröl",
+    "clear": "Világos",
+    "back": "Vissza",
+    "autocomplete": "Automatikus kiegészítés",
+    "addText": "Szöveg hozzáadása"
+  },
+  "editor": {
+    "title": "SZERKESZTŐI MÓD",
+    "addItem": "+ Elem",
+    "addMenu": "+ Menü",
+    "deleteMenu": "- Menü",
+    "gotoMenu": "Menü megnyitása",
+    "applyChanges": "Változtatások alkalmazása",
+    "exit": "Kijárat"
+  },
+  "languageDropdown": {
+    "select": "Válasszon…",
+    "searchPlaceholder": "Keresési nyelv"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Csak gépelés",
+      "Csak beszélni",
+      "Mindkét"
+    ],
+    "addItem": {
+      "title": "Elem hozzáadása a {menuTitle}-hoz",
+      "name": "Név",
+      "symbol": "Szimbólum",
+      "folder": "Mappa",
+      "folderTargetMenu": "Mappa célmenü"
+    },
+    "newMenu": {
+      "title": "Új menü létrehozása",
+      "menuTitle": "Menü címe",
+      "emptyNote": "A menü üresen jön létre. Lépj be, és a „+ Elem” gombbal adj hozzá elemeket.",
+      "create": "Teremt"
+    },
+    "deleteMenu": {
+      "title": "Menü törlése",
+      "hint": "A törölt menüt megnyitó mappák is eltávolításra kerülnek.",
+      "delete": "Töröl"
+    },
+    "gotoMenu": {
+      "title": "Menü megnyitása",
+      "hint": "Szerkesztő módban lehetővé teszi egy menü megnyitását.",
+      "goTo": "Ugrás ide"
+    },
+    "unsaved": {
+      "title": "Nem mentett változtatások",
+      "body": "Vannak mentetlen módosításai. Szeretné menteni őket?",
+      "dontSave": "Ne mentse el",
+      "saveChanges": "Változtatások mentése"
+    },
+    "pinLock": {
+      "enterTitle": "PIN-kód megadása",
+      "lockedHint": "A beállítások és a szerkesztő zárolva vannak.",
+      "pinPlaceholder": "PIN-kód",
+      "unlock": "Kinyit",
+      "forgotPin": "Elfelejtette a PIN-kódját?",
+      "incorrectPin": "Helytelen PIN-kód.",
+      "noQuestions": "Nincsenek beállítva helyreállítási kérdések, így a PIN-kód nem állítható vissza. Telepítse újra az alkalmazást a törléshez (ez törli az összes táblát).",
+      "answerToReset": "Válasz a PIN-kód visszaállításához",
+      "answerHint": "Válaszolj minden kérdésre helyesen (nem kis- és nagybetűérzékeny).",
+      "answerPlaceholder": "Válasz",
+      "verify": "Ellenőrzés",
+      "answersIncorrect": "Egy vagy több válasz helytelen.",
+      "setNewPin": "Új PIN-kód beállítása",
+      "newPinPlaceholder": "Új PIN-kód (minimum 4 számjegy)",
+      "confirmNewPinPlaceholder": "Új PIN-kód megerősítése",
+      "saveNewPin": "Új PIN-kód mentése",
+      "pinTooShort": "A PIN-kódnak legalább 4 számjegyből kell állnia.",
+      "pinsDoNotMatch": "A PIN-kódok nem egyeznek."
+    },
+    "colorPicker": {
+      "title": "Válasszon egy színt",
+      "hue": "Színárnyalat: {deg}°",
+      "ok": "RENDBEN"
+    },
+    "editItem": {
+      "name": "Név",
+      "itemLanguage": "Elem nyelve",
+      "language": "Nyelv",
+      "labelsByLanguage": "Címkék nyelv szerint",
+      "add": "Hozzáadás",
+      "addLanguage": "+ Nyelv hozzáadása",
+      "image": "Kép",
+      "loading": "Terhelés…",
+      "loadMoreImages": "További képek betöltése",
+      "findImages": "Képek keresése",
+      "chooseCustomImage": "Válasszon egyéni képet",
+      "resetToDefault": "Visszaállítás az alapértelmezettre",
+      "audio": "Hang",
+      "useItemName": "Használja az elem nevét",
+      "useCustomAudio": "Egyéni hang használata",
+      "audioClip": "Hangfelvétel",
+      "record": "Rekord",
+      "stop": "Stop",
+      "importFromDevice": "Importálás az eszközről",
+      "preview": "▶ Előnézet",
+      "clearAudio": "Tiszta hangzás",
+      "renameAudioClip": "Hangklip átnevezése",
+      "clipNamePlaceholder": "Klip neve",
+      "pronHint": "Opcionális: írd át a nevet úgy, hogy helyesen hangozzon el (pl. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Kiejtés",
+      "color": "Szín",
+      "custom": "Szokás",
+      "default": "Alapértelmezett",
+      "editCustomColor": "Egyéni szín szerkesztése",
+      "pickCustomColor": "Válasszon egyéni színt",
+      "ttsBehavior": "TTS viselkedés",
+      "delete": "Töröl"
+    }
+  }
+}

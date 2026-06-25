@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Nazad",
+    "next": "Sljedeći",
+    "done": "Gotovo",
+    "skip": "Preskočiti",
+    "cancel": "Otkazati",
+    "add": "Dodati",
+    "save": "Uštedjeti",
+    "close": "Zatvoriti",
+    "reset": "Resetiraj"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nema instaliranog glasa za {name} ({code}). Govor se vrši zadanim glasom.",
+    "ttsInstallAndroid": "Dodirnite za otvaranje postavki govora na uređaju, a zatim instalirajte glasovne podatke za ovaj jezik.",
+    "ttsInstallIos": "Da biste ga dodali, otvorite Postavke → Pristupačnost → Govorni sadržaj → Glasovi i preuzmite glas. Dodirnite za odbacivanje.",
+    "ttsInstallWeb": "Glasovi dolaze iz vašeg operativnog sustava — dodajte jedan za ovaj jezik u postavkama govora sustava. Dodirnite za odbacivanje.",
+    "updateAvailable": "Dostupno ažuriranje — dodirnite za ponovno pokretanje"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Dobrodošli u SpeGen",
+        "body": "Ovo je kratki vodič koji će vas naučiti osnovnom korisničkom sučelju aplikacije. Vodiču možete pristupiti kasnije iz Postavki."
+      },
+      {
+        "title": "Mape",
+        "body": "Dodirnite mapu za prelazak na drugi izbornik s više simbola i mapa. Mape uvijek imaju crni pregib u gornjem desnom kutu."
+      },
+      {
+        "title": "Simboli",
+        "body": "Dodirnite simbol da biste ga dodali u okvir za unos."
+      },
+      {
+        "title": "Okvir za unos",
+        "body": "Okvir za unos je mjesto gdje sastavljate rečenice. Dodirnite ga za reprodukciju složene rečenice."
+      },
+      {
+        "title": "Redak izbornika",
+        "body": "To su gumbi koji vas automatski preusmjeravaju na pridruženi izbornik."
+      },
+      {
+        "title": "Redak statičnih riječi",
+        "body": "Ovi pojmovi su uvijek na dnu zaslona bez obzira gdje se nalazite. Dodirnite jedan da biste ga odmah izgovorili."
+      },
+      {
+        "title": "Tipkovnica",
+        "body": "Otvara dijalog koji vam omogućuje korištenje tipkovnice uređaja za dodavanje stavki u okvir za unos."
+      },
+      {
+        "title": "Izbrisati",
+        "body": "Briše posljednji pojam u polju za unos."
+      },
+      {
+        "title": "Jasan",
+        "body": "Briše polje za unos od svih pojmova."
+      },
+      {
+        "title": "Stop",
+        "body": "Zaustavlja trenutno reproduciranu pretvorbu teksta u govor."
+      },
+      {
+        "title": "Pretraživanje",
+        "body": "Pretražite bilo koji pojam u bilo kojem izborniku. Vodi vas do pojma označavanjem gumba koje trebate pritisnuti."
+      },
+      {
+        "title": "Postavke",
+        "body": "Otvara izbornik postavki: uređivanje ploče, sigurnosno kopiranje podataka, promjena glasa za pretvaranje teksta u govor i još mnogo toga."
+      },
+      {
+        "title": "Nazad",
+        "body": "Vraća vas na prethodni izbornik na kojem ste bili."
+      },
+      {
+        "title": "Samodovršavanje",
+        "body": "Zamjenjuje izbornik popisom opcija automatskog dovršavanja koje uče iz simbola koje odaberete. Podaci nikada ne napuštaju vaš uređaj bez pristanka."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Pronađi riječ/stavku",
+    "subtitle": "Pretražite svaki izbornik, a zatim kliknite istaknute gumbe za navigaciju do riječi.",
+    "placeholder": "Upišite riječ…",
+    "noMatches": "Nema podudaranja.",
+    "find": "Pronaći",
+    "close": "Zatvoriti",
+    "finding": "Pronalaženje „{word}” - dodirnite označeni gumb",
+    "cancel": "Otkazati"
+  },
+  "autocomplete": {
+    "suggestions": "Prijedlozi",
+    "after": "Nakon \"{word}\"",
+    "none": "Još nema prijedloga."
+  },
+  "settings": {
+    "title": "Postavke",
+    "apply": "Primijeni",
+    "done": "Gotovo",
+    "tabs": {
+      "display": "Prikaz",
+      "voice": "Glas",
+      "vocabulary": "Vokabular",
+      "language": "Jezik",
+      "data": "Podaci",
+      "about": "Oko",
+      "feedback": "Povratne informacije"
+    },
+    "display": {
+      "preview": "Pregled",
+      "staticRowLabel": "Redak statičnih riječi",
+      "menuRowLabel": "Redak izbornika",
+      "previewStaticTerms": [
+        "Da",
+        "Ne",
+        "Više"
+      ],
+      "previewMenuTitles": [
+        "Ljudi",
+        "Hrana",
+        "Radnje"
+      ],
+      "itemSizing": "Veličina artikla",
+      "itemWidthSize": "Širina stavke",
+      "itemHeightSize": "Visina stavke",
+      "gridSize": "Prilagodi mreži",
+      "gridHint": "Prilagodite veličinu stavke mreži: unesite stupce i retke, a zatim dodirnite Primijeni.",
+      "gridCols": "Stupci",
+      "gridRows": "Redovi",
+      "gridApply": "Primijeni",
+      "bordersSpacing": "Obrubi i razmaci",
+      "borderWidth": "Širina obruba",
+      "itemPadding": "Raspona stavke",
+      "staticRowStyle": "Stil retka sa statičnim riječima",
+      "menuRowStyle": "Stil retka izbornika",
+      "textSize": "Veličina teksta",
+      "textPadding": "Podloga za tekst",
+      "buttonShape": "Oblik gumba",
+      "labelPosition": "Položaj oznake",
+      "top": "Vrh",
+      "bottom": "Dno",
+      "skinTone": "Ton kože",
+      "theme": "Tema",
+      "themeLight": "Svjetlo",
+      "themeDark": "Tamno",
+      "themeSystem": "Sustav",
+      "themeNote": "Tamni način rada teme zaslona i izbornika aplikacije. Boje gumba simbola i način rada visokog kontrasta ostaju nepromijenjeni.",
+      "highContrast": "Visoki kontrast",
+      "highContrastHint": "Crna pozadina, bijeli obrubi i oznake s pojednostavljenom paletom boja za slike artikala."
+    },
+    "voice": {
+      "speechRate": "Brzina govora",
+      "pitch": "Točka glasa",
+      "pauseBetweenWords": "Pauza između riječi",
+      "pauseDuration": "Trajanje pauze",
+      "testPhrase": "Ovo je test postavki glasa.",
+      "testVoice": "Testni glas",
+      "translateSentence": "Prevedi izgovorene rečenice",
+      "translateSentenceHint": "Prevedite cijelu rečenicu odjednom za prirodniju gramatiku, umjesto riječ po riječ. Uključeno prema zadanim postavkama za jezike koji nisu engleski. Potreban je internet.",
+      "voiceLabel": "Glas",
+      "voiceHint": "Odaberite glas koji će se koristiti za govor na jeziku vaše aplikacije. Glasove pruža vaš uređaj ili preglednik.",
+      "voiceDefault": "Zadano (sustav)",
+      "noVoices": "Nisu pronađeni glasovi za ovaj jezik.",
+      "openDeviceTts": "Otvori postavke TTS-a uređaja",
+      "ttsOpenFailed": "Nije moguće otvoriti postavke TTS-a uređaja: {e}",
+      "resetToDefaults": "Vrati na zadane postavke",
+      "resetDone": "Glas je vraćen na zadane postavke."
+    },
+    "vocabulary": {
+      "editorMode": "Način rada urednika",
+      "editorModeHint": "Uredite simbole i mape dodirom na ploču i koristite gumbe na alatnoj traci za uređivanje izbornika.",
+      "enableEditorMode": "Omogući način rada za uređivanje",
+      "staticRow": "Redak statičnih riječi",
+      "staticRowHint": "Riječi su uvijek vidljive na dnu zaslona bez obzira gdje se nalazite u aplikaciji. Povucite ≡ za promjenu redoslijeda.",
+      "addPhrasePlaceholder": "Dodajte frazu",
+      "addPhrase": "Dodati",
+      "menuRow": "Redak izbornika",
+      "menuRowHint": "Prečaci izbornika prikazani su odmah iznad statičnog retka pri korištenju ploče i glavnog izbornika. Povucite ≡ za promjenu redoslijeda.",
+      "menuRowEmpty": "Nema izbornika u retku.",
+      "addMenuToRow": "Dodaj izbornik u redak",
+      "allMenusInRow": "Svi jelovnici su već u retku."
+    },
+    "language": {
+      "appLanguage": "Jezik aplikacije",
+      "appLanguageHint": "Koristi se za govor, pretraživanje slika i prijevod oznaka. Promjenom ovoga ponovno se učitavaju sve slike.",
+      "translationDisclaimer": "Tekst aplikacije preveden je pomoću Google Translate API-ja, tako da neki prijevodi mogu biti netočni. Ako uočite grešku, prijavite je gumbom Povratne informacije u Postavkama - navedite jezik i predloženi ispravak.",
+      "autoTranslate": "Automatski prijevod",
+      "translateUi": "Sučelje aplikacije Prevodi",
+      "translateUiHint": "Prikaži izbornike, gumbe i postavke na jeziku aplikacije.",
+      "translateLabels": "Prevedi oznake ploče i izbornika",
+      "translateLabelsHint": "Automatski prevedi oznake simbola, nazive izbornika i redak statičkih riječi na jezik aplikacije. Potrebna je internetska veza.",
+      "multilingual": "Višejezičnost",
+      "perItemImageLanguage": "Jezik slike po stavci",
+      "perItemImageLanguageHint": "Neka svaka stavka traži slike na svom jeziku.",
+      "multilingualLabels": "Višejezične oznake",
+      "multilingualLabelsHint": "Dodajte dodatne tekstualne oznake po stavci (u načinu uređivanja) za ostale jezike. Dok je omogućeno, samo oznake stavki ploče prestaju se automatski prevoditi kada promijenite jezik (umjesto toga koriste se vaše ručne oznake); nazivi redaka statičkih riječi i izbornika i dalje se automatski prevode.",
+      "spokenLanguages": "Govorni jezici",
+      "spokenLanguagesHint": "Jezike možete mijenjati iz okvira za unos. Jezik aplikacije je osnovni; stavke bez ručne oznake automatski se prevode za govor. Za ovu značajku potreban je internet i preskače se za engleski.",
+      "base": "Baza",
+      "addLanguage": "Dodaj jezik"
+    },
+    "data": {
+      "backupRestore": "Sigurnosna kopija i vraćanje",
+      "backupRestoreHint": "Izvezite ili uvezite sve ploče, postavke, prilagođene slike i snimljeni zvuk kao jednu sigurnosnu kopiju koju možete prenijeti na drugi uređaj ili pohraniti u memoriju uređaja.",
+      "downloadBackup": "Preuzmi sigurnosnu kopiju",
+      "exportBackup": "Izvoz sigurnosne kopije",
+      "saveBackupToDevice": "Spremi sigurnosnu kopiju na uređaj (odaberi mapu)",
+      "importBackup": "Uvoz sigurnosne kopije",
+      "security": "Sigurnost",
+      "securityHint": "Za otvaranje Postavki i uređivača potreban je PIN. To se može koristiti kako bi se osiguralo da korisnik ne može uređivati postavke bez PIN-a dok je u glavnom sučelju. Sprema se kada dodirnete Primijeni ili Gotovo.",
+      "changePin": "Promjena PIN-a",
+      "removePin": "Ukloni PIN",
+      "setPin": "Postavite PIN",
+      "recoveryQuestions": "Pitanja o oporavku",
+      "recoveryQuestionsHint": "Koristi se za resetiranje zaboravljenog PIN-a. Preporučuje se dodati barem jedan. Bez njega, zaboravljeni PIN može se izbrisati samo ponovnom instalacijom aplikacije.",
+      "question": "Pitanje",
+      "ownQuestionPlaceholder": "Ili upišite vlastito pitanje",
+      "answer": "Odgovor",
+      "addQuestion": "+ Dodaj pitanje",
+      "pinPlaceholder": "PIN (min. 4 znamenke)",
+      "confirmPinPlaceholder": "Potvrdite PIN",
+      "pinTooShort": "PIN mora imati najmanje 4 znamenke.",
+      "pinsDoNotMatch": "PIN-ovi se ne podudaraju.",
+      "reset": "Resetiraj",
+      "restoreDefaults": "Vrati zadane postavke",
+      "backupFormatNote": "Sigurnosna kopija .spegen je komprimirana ZIP datoteka koja sadrži vaše ploče, postavke, prilagođene slike i snimljeni zvuk u jednoj datoteci. Uvozom se zamjenjuju sve trenutne ploče i postavke.",
+      "preparingDownload": "Priprema preuzimanja…",
+      "backupDownloaded": "Sigurnosna kopija preuzeta.",
+      "openingShareSheet": "Otvaranje tablice za dijeljenje…",
+      "shareSheetHint": "Upotrijebite tablicu za dijeljenje za spremanje sigurnosne kopije.",
+      "sharingUnavailable": "Dijeljenje nije dostupno.",
+      "chooseFolder": "Odaberite mapu za spremanje…",
+      "savedToFolder": "Spremljeno u mapu koju ste odabrali.",
+      "saveCanceled": "Spremanje otkazano.",
+      "saveFailed": "Spremanje nije uspjelo: {e}",
+      "chooseBackupFile": "Odaberite datoteku sigurnosne kopije…",
+      "importCanceled": "Uvoz otkazan.",
+      "importWebFileMissing": "Uvoz nije uspio: Nedostaje identifikator web datoteke.",
+      "importDone": "Uvezeno. Ploča je ponovno učitana.",
+      "importFailed": "Uvoz nije uspio: {e}",
+      "confirmReset": "Ponovno dodirnite \"Vrati na zadane postavke\" za potvrdu. Upozorenje: ovime se brišu vaše ploče.",
+      "resetDone": "Vraćene su zadane ploče.",
+      "resetFailed": "Resetiranje nije uspjelo: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Aplikacija otvorenog koda za AAC koju je razvio Harper Klein Keane. SpeGenova GitHub stranica može se pronaći na",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", a web-stranica se može pronaći na",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licenca: GNU Opća javna licenca v3.0",
+      "showTutorialAgain": "Ponovno prikaži vodič dobrodošlice",
+      "privacyPolicy": "Pravila o privatnosti"
+    },
+    "feedback": {
+      "title": "Pošalji povratne informacije",
+      "intro": "Jeste li pronašli grešku ili imate zahtjev za značajku? Javite mi! Ovaj obrazac će automatski otvoriti problem za praćenje na Spegenovom GitHub repozitoriju.",
+      "category": "Kategorija problema",
+      "categories": [
+        "Bug",
+        "Prijedlog",
+        "Ostalo"
+      ],
+      "header": "Zaglavlje / Sažetak",
+      "headerPlaceholder": "Ukratko sažmite problem",
+      "details": "Detalji / Tijelo",
+      "detailsPlaceholder": "Navedite korake za reprodukciju greške ili proširenje vaše ideje za značajku...",
+      "submitting": "Slanje...",
+      "submit": "Pošalji povratne informacije",
+      "missingFields": "Molimo vas da navedete i zaglavlje i sve detalje.",
+      "submittingStatus": "Slanje povratnih informacija...",
+      "submitted": "Povratne informacije uspješno poslane! Hvala vam.",
+      "submitFailed": "Nije uspjelo slanje problema: {msg}",
+      "networkError": "Mrežna pogreška prilikom slanja povratnih informacija: {e}"
+    }
+  },
+  "board": {
+    "settings": "Postavke",
+    "search": "Pretraživanje",
+    "stop": "Stop",
+    "keyboard": "Tipkovnica",
+    "delete": "Izbrisati",
+    "clear": "Jasan",
+    "back": "Nazad",
+    "autocomplete": "Samodovršavanje",
+    "addText": "Dodaj tekst"
+  },
+  "editor": {
+    "title": "NAČIN UREĐIVANJA",
+    "addItem": "+ Stavka",
+    "addMenu": "+ Izbornik",
+    "deleteMenu": "- Jelovnik",
+    "gotoMenu": "Idi na izbornik",
+    "applyChanges": "Primijeni promjene",
+    "exit": "Izlaz "
+  },
+  "languageDropdown": {
+    "select": "Odaberite…",
+    "searchPlaceholder": "Jezik pretraživanja"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Samo tip",
+      "Samo govori",
+      "Oba"
+    ],
+    "addItem": {
+      "title": "Dodaj stavku u {menuTitle}",
+      "name": "Ime",
+      "symbol": "Simbol",
+      "folder": "Mapa",
+      "folderTargetMenu": "Izbornik cilja mape"
+    },
+    "newMenu": {
+      "title": "Izradi novi jelovnik",
+      "menuTitle": "Naslov izbornika",
+      "emptyNote": "Jelovnik je stvoren prazan. Uđite u njega i upotrijebite \"+ Stavka\" za dodavanje stavki.",
+      "create": "Stvoriti"
+    },
+    "deleteMenu": {
+      "title": "Brisanje izbornika",
+      "hint": "Mape koje otvaraju izbrisani izbornik također će biti uklonjene.",
+      "delete": "Izbrisati"
+    },
+    "gotoMenu": {
+      "title": "Idi na izbornik",
+      "hint": "Omogućuje vam prelazak na izbornik dok ste u načinu rada za uređivanje.",
+      "goTo": "Idi na"
+    },
+    "unsaved": {
+      "title": "Nespremljene promjene",
+      "body": "Imate nespremljene promjene. Želite li ih spremiti?",
+      "dontSave": "Ne spremaj",
+      "saveChanges": "Spremi promjene"
+    },
+    "pinLock": {
+      "enterTitle": "Unesite PIN",
+      "lockedHint": "Postavke i uređivač su zaključani.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Otključati",
+      "forgotPin": "Zaboravili ste PIN?",
+      "incorrectPin": "Neispravan PIN.",
+      "noQuestions": "Nisu postavljena pitanja za oporavak, pa se PIN ne može resetirati. Ponovno instalirajte aplikaciju da biste ga izbrisali (time se brišu sve ploče).",
+      "answerToReset": "Odgovor za resetiranje PIN-a",
+      "answerHint": "Odgovorite točno na svako pitanje (bez razlikovanja velikih i malih slova).",
+      "answerPlaceholder": "Odgovor",
+      "verify": "Potvrdi",
+      "answersIncorrect": "Jedan ili više odgovora su netočni.",
+      "setNewPin": "Postavite novi PIN",
+      "newPinPlaceholder": "Novi PIN (min. 4 znamenke)",
+      "confirmNewPinPlaceholder": "Potvrdite novi PIN",
+      "saveNewPin": "Spremi novi PIN",
+      "pinTooShort": "PIN mora imati najmanje 4 znamenke.",
+      "pinsDoNotMatch": "PIN-ovi se ne podudaraju."
+    },
+    "colorPicker": {
+      "title": "Odaberite boju",
+      "hue": "Nijansa: {deg}°",
+      "ok": "U REDU"
+    },
+    "editItem": {
+      "name": "Ime",
+      "itemLanguage": "Jezik stavke",
+      "language": "Jezik",
+      "labelsByLanguage": "Oznake po jeziku",
+      "add": "Dodati",
+      "addLanguage": "+ Dodaj jezik",
+      "image": "Slika",
+      "loading": "Učitavanje…",
+      "loadMoreImages": "Učitaj više slika",
+      "findImages": "Pronađi slike",
+      "chooseCustomImage": "Odaberite prilagođenu sliku",
+      "resetToDefault": "Vrati na zadano",
+      "audio": "Zvuk",
+      "useItemName": "Koristi naziv stavke",
+      "useCustomAudio": "Koristi prilagođeni zvuk",
+      "audioClip": "Zvučni isječak",
+      "record": "Snimiti",
+      "stop": "Stop",
+      "importFromDevice": "Uvoz s uređaja",
+      "preview": "▶ Pregled",
+      "clearAudio": "Čist zvuk",
+      "renameAudioClip": "Preimenuj audio isječak",
+      "clipNamePlaceholder": "Naziv isječka",
+      "pronHint": "Neobavezno: preformulirajte ime kako bi se ispravno izgovorilo (npr. \"MIS-čiv-us\").",
+      "pronPlaceholder": "Izgovor",
+      "color": "Boja",
+      "custom": "Običaj",
+      "default": "Zadano",
+      "editCustomColor": "Uredi prilagođenu boju",
+      "pickCustomColor": "Odaberite prilagođenu boju",
+      "ttsBehavior": "Ponašanje TTS-a",
+      "delete": "Izbrisati"
+    }
+  }
+}

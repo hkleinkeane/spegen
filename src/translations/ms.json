@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Kembali",
+    "next": "Seterusnya",
+    "done": "Selesai",
+    "skip": "Langkau",
+    "cancel": "Batal",
+    "add": "Tambah",
+    "save": "Simpan",
+    "close": "Tutup",
+    "reset": "Tetapkan semula"
+  },
+  "banners": {
+    "ttsMissingVoice": "Tiada suara yang dipasang untuk {name} ({code}). Bercakap dengan suara lalai.",
+    "ttsInstallAndroid": "Ketik untuk membuka tetapan pertuturan peranti anda, kemudian pasang data suara untuk bahasa ini.",
+    "ttsInstallIos": "Untuk menambahkannya, buka Tetapan → Kebolehcapaian → Kandungan Lisan → Suara dan muat turun suara tersebut. Ketik untuk menutup.",
+    "ttsInstallWeb": "Suara datang daripada sistem pengendalian anda — tambahkan satu untuk bahasa ini dalam tetapan pertuturan sistem anda. Ketik untuk menolak.",
+    "updateAvailable": "Kemas kini tersedia — ketik untuk memuatkan semula"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Selamat datang ke SpeGen",
+        "body": "Ini ialah tutorial ringkas untuk mengajar anda antara muka pengguna asas aplikasi. Anda boleh mengakses tutorial ini kemudian daripada Tetapan."
+      },
+      {
+        "title": "Folder",
+        "body": "Ketik folder untuk pergi ke menu lain dengan lebih banyak simbol dan folder. Folder sentiasa mempunyai lipatan hitam di penjuru kanan sebelah atas."
+      },
+      {
+        "title": "Simbol",
+        "body": "Ketik simbol untuk menambahkannya ke kotak input."
+      },
+      {
+        "title": "Kotak Input",
+        "body": "Kotak input ialah tempat anda menyusun ayat. Ketik padanya untuk memainkan ayat yang dibina."
+      },
+      {
+        "title": "Baris Menu",
+        "body": "Ini adalah butang yang secara automatik mengalihkan anda ke menu yang berkaitan."
+      },
+      {
+        "title": "Baris Perkataan Statik",
+        "body": "Istilah-istilah ini sentiasa berada di bahagian bawah skrin di mana sahaja anda berada. Ketik salah satu untuk menyebutnya serta-merta."
+      },
+      {
+        "title": "Papan kekunci",
+        "body": "Membuka dialog yang membolehkan anda menggunakan papan kekunci peranti anda untuk menambah item pada kotak input."
+      },
+      {
+        "title": "Padam",
+        "body": "Memadam istilah terakhir dalam kotak input."
+      },
+      {
+        "title": "Jelas",
+        "body": "Mengosongkan kotak input daripada semua istilah."
+      },
+      {
+        "title": "Berhenti",
+        "body": "Menghentikan sebarang teks-ke-pertuturan yang sedang dimainkan."
+      },
+      {
+        "title": "Carian",
+        "body": "Cari sebarang istilah dalam mana-mana menu. Ia membimbing anda ke istilah tersebut dengan menyerlahkan butang yang perlu anda tekan."
+      },
+      {
+        "title": "Tetapan",
+        "body": "Membuka menu tetapan: mengedit papan, membuat sandaran data, menukar suara teks-ke-pertuturan dan banyak lagi."
+      },
+      {
+        "title": "Kembali",
+        "body": "Menghantar anda kembali ke menu sebelumnya yang anda gunakan."
+      },
+      {
+        "title": "Autolengkap",
+        "body": "Menggantikan menu dengan senarai pilihan autolengkap yang belajar daripada simbol yang anda pilih. Data tidak akan meninggalkan peranti anda tanpa persetujuan."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Cari perkataan/item",
+    "subtitle": "Cari di setiap menu, kemudian klik butang yang diserlahkan untuk menavigasi ke perkataan tersebut.",
+    "placeholder": "Taip perkataan…",
+    "noMatches": "Tiada padanan.",
+    "find": "Cari",
+    "close": "Tutup",
+    "finding": "Mencari “{word}” - ketik butang yang diserlahkan",
+    "cancel": "Batal"
+  },
+  "autocomplete": {
+    "suggestions": "Cadangan",
+    "after": "Selepas \"{word}\"",
+    "none": "Tiada cadangan lagi."
+  },
+  "settings": {
+    "title": "Tetapan",
+    "apply": "Mohon",
+    "done": "Selesai",
+    "tabs": {
+      "display": "Paparan",
+      "voice": "Suara",
+      "vocabulary": "Perbendaharaan Kata",
+      "language": "Bahasa",
+      "data": "Data",
+      "about": "Mengenai",
+      "feedback": "Maklum balas"
+    },
+    "display": {
+      "preview": "Pratonton",
+      "staticRowLabel": "Baris perkataan statik",
+      "menuRowLabel": "Baris menu",
+      "previewStaticTerms": [
+        "Ya",
+        "Tidak",
+        "Lebih lanjut"
+      ],
+      "previewMenuTitles": [
+        "Orang ramai",
+        "Makanan",
+        "Tindakan"
+      ],
+      "itemSizing": "Saiz item",
+      "itemWidthSize": "Saiz lebar item",
+      "itemHeightSize": "Saiz ketinggian item",
+      "gridSize": "Padankan dengan grid",
+      "gridHint": "Skalakan saiz item agar sesuai dengan grid: masukkan lajur dan baris, kemudian ketik Gunakan.",
+      "gridCols": "Kol",
+      "gridRows": "Baris",
+      "gridApply": "Mohon",
+      "bordersSpacing": "Sempadan & jarak",
+      "borderWidth": "Lebar sempadan",
+      "itemPadding": "Pelapik item",
+      "staticRowStyle": "Gaya baris perkataan statik",
+      "menuRowStyle": "Gaya baris menu",
+      "textSize": "Saiz teks",
+      "textPadding": "Pelapik teks",
+      "buttonShape": "Bentuk butang",
+      "labelPosition": "Kedudukan label",
+      "top": "Atas",
+      "bottom": "Bawah",
+      "skinTone": "Tona kulit",
+      "theme": "Tema",
+      "themeLight": "Cahaya",
+      "themeDark": "Gelap",
+      "themeSystem": "Sistem",
+      "themeNote": "Tema mod gelap pada skrin dan menu aplikasi. Warna butang simbol dan mod kontras tinggi tidak terjejas.",
+      "highContrast": "Kontras tinggi",
+      "highContrastHint": "Latar belakang hitam, sempadan putih dan label dengan palet warna ringkas untuk imej item."
+    },
+    "voice": {
+      "speechRate": "Kadar pertuturan",
+      "pitch": "Padang",
+      "pauseBetweenWords": "Jeda antara perkataan",
+      "pauseDuration": "Tempoh jeda",
+      "testPhrase": "Ini adalah ujian tetapan suara.",
+      "testVoice": "Uji suara",
+      "translateSentence": "Terjemahkan ayat yang dituturkan",
+      "translateSentenceHint": "Terjemahkan keseluruhan ayat sekaligus untuk tatabahasa yang lebih semula jadi, bukannya perkataan demi perkataan. Dihidupkan secara lalai untuk bahasa bukan Inggeris. Memerlukan internet.",
+      "voiceLabel": "Suara",
+      "voiceHint": "Pilih suara yang digunakan untuk pertuturan dalam bahasa aplikasi anda. Suara disediakan oleh peranti atau pelayar anda.",
+      "voiceDefault": "Lalai (sistem)",
+      "noVoices": "Tiada suara ditemui untuk bahasa ini.",
+      "openDeviceTts": "Buka tetapan TTS peranti",
+      "ttsOpenFailed": "Tidak dapat membuka tetapan TTS peranti: {e}",
+      "resetToDefaults": "Tetapkan semula kepada tetapan lalai",
+      "resetDone": "Tetapan semula suara kepada tetapan lalai."
+    },
+    "vocabulary": {
+      "editorMode": "Mod penyunting",
+      "editorModeHint": "Edit simbol dan folder dengan mengetiknya pada papan dan gunakan butang pada bar alat untuk mengedit menu.",
+      "enableEditorMode": "Dayakan mod editor",
+      "staticRow": "Baris perkataan statik",
+      "staticRowHint": "Perkataan sentiasa kelihatan di bahagian bawah skrin tanpa mengira lokasi anda dalam aplikasi. Seret ≡ untuk menyusun semula.",
+      "addPhrasePlaceholder": "Tambahkan frasa",
+      "addPhrase": "Tambah",
+      "menuRow": "Baris menu",
+      "menuRowHint": "Pintasan menu ditunjukkan betul-betul di atas baris statik apabila menggunakan papan dan menu utama. Seret ≡ untuk menyusun semula.",
+      "menuRowEmpty": "Tiada menu dalam baris.",
+      "addMenuToRow": "Tambah menu pada baris",
+      "allMenusInRow": "Semua menu sudah ada dalam baris."
+    },
+    "language": {
+      "appLanguage": "Bahasa aplikasi",
+      "appLanguageHint": "Digunakan untuk pertuturan, carian imej dan terjemahan label. Menukar ini akan memuatkan semula semua imej.",
+      "translationDisclaimer": "Teks aplikasi diterjemahkan dengan API Google Translate, jadi sesetengah terjemahan mungkin tidak tepat. Jika anda menemui ralat, sila gunakan butang Maklum Balas dalam Tetapan untuk melaporkannya — sertakan bahasa dan pembetulan yang dicadangkan.",
+      "autoTranslate": "Terjemahan automatik",
+      "translateUi": "Antara muka aplikasi terjemahan",
+      "translateUiHint": "Tunjukkan menu, butang dan tetapan dalam bahasa aplikasi.",
+      "translateLabels": "Terjemahkan label papan & menu",
+      "translateLabelsHint": "Terjemahkan label simbol, nama menu dan baris perkataan statik secara automatik ke dalam bahasa aplikasi. Memerlukan internet.",
+      "multilingual": "Berbilang bahasa",
+      "perItemImageLanguage": "Bahasa imej setiap item",
+      "perItemImageLanguageHint": "Biarkan setiap item mencari imej dalam bahasanya sendiri.",
+      "multilingualLabels": "Label berbilang bahasa",
+      "multilingualLabelsHint": "Tambahkan label teks tambahan bagi setiap item (dalam mod edit) untuk bahasa lain. Semasa diaktifkan, hanya label item papan berhenti diterjemahkan secara automatik apabila anda menukar bahasa (label manual anda digunakan); baris perkataan statik dan nama menu masih diterjemahkan secara automatik.",
+      "spokenLanguages": "Bahasa yang dituturkan",
+      "spokenLanguagesHint": "Bahasa yang boleh anda tukar antara satu sama lain dari kotak input. Bahasa aplikasi adalah asas; item tanpa label manual diterjemahkan secara automatik untuk pertuturan. Ciri ini memerlukan internet dan dilangkau untuk bahasa Inggeris.",
+      "base": "Pangkalan",
+      "addLanguage": "Tambah bahasa"
+    },
+    "data": {
+      "backupRestore": "Sandarkan & pulihkan",
+      "backupRestoreHint": "Eksport atau import semua papan, tetapan, imej tersuai dan audio yang dirakam sebagai fail sandaran tunggal yang boleh anda pindahkan ke peranti lain atau simpan dalam storan peranti anda.",
+      "downloadBackup": "Muat turun sandaran",
+      "exportBackup": "Eksport sandaran",
+      "saveBackupToDevice": "Simpan sandaran ke peranti (pilih folder)",
+      "importBackup": "Import sandaran",
+      "security": "Keselamatan",
+      "securityHint": "Memerlukan PIN untuk membuka Tetapan dan editor. Ini boleh digunakan untuk memastikan pengguna tidak boleh mengedit tetapan tanpa PIN semasa berada di antara muka utama. Disimpan apabila anda mengetik Guna atau Selesai.",
+      "changePin": "Tukar PIN",
+      "removePin": "Alih keluar PIN",
+      "setPin": "Tetapkan PIN",
+      "recoveryQuestions": "Soalan pemulihan",
+      "recoveryQuestionsHint": "Digunakan untuk menetapkan semula PIN yang terlupa. Adalah disyorkan untuk menambah sekurang-kurangnya satu. Tanpa sebarang PIN, PIN yang terlupa hanya boleh dipadamkan dengan memasang semula aplikasi.",
+      "question": "Soalan",
+      "ownQuestionPlaceholder": "Atau taip soalan anda sendiri",
+      "answer": "Jawapan",
+      "addQuestion": "+ Tambah soalan",
+      "pinPlaceholder": "PIN (minimum 4 digit)",
+      "confirmPinPlaceholder": "Sahkan PIN",
+      "pinTooShort": "PIN mestilah sekurang-kurangnya 4 digit.",
+      "pinsDoNotMatch": "PIN tidak sepadan.",
+      "reset": "Tetapkan semula",
+      "restoreDefaults": "Pulihkan tetapan lalai",
+      "backupFormatNote": "Sandaran .spegen ialah ZIP termampat yang menyimpan papan, tetapan, imej tersuai dan audio yang dirakam dalam satu fail. Mengimport menggantikan semua papan dan tetapan semasa.",
+      "preparingDownload": "Menyediakan muat turun…",
+      "backupDownloaded": "Sandaran telah dimuat turun.",
+      "openingShareSheet": "Membuka helaian perkongsian…",
+      "shareSheetHint": "Gunakan helaian kongsi untuk menyimpan sandaran anda.",
+      "sharingUnavailable": "Perkongsian tidak tersedia.",
+      "chooseFolder": "Pilih folder untuk disimpan ke dalam…",
+      "savedToFolder": "Disimpan ke folder yang anda pilih.",
+      "saveCanceled": "Simpanan dibatalkan.",
+      "saveFailed": "Simpanan gagal: {e}",
+      "chooseBackupFile": "Pilih fail sandaran…",
+      "importCanceled": "Import dibatalkan.",
+      "importWebFileMissing": "Import gagal: Pemegang fail web tiada.",
+      "importDone": "Diimport. Papan telah dimuat semula.",
+      "importFailed": "Import gagal: {e}",
+      "confirmReset": "Ketik \"Pulihkan tetapan lalai\" sekali lagi untuk mengesahkan. Amaran: ini akan memadamkan papan anda.",
+      "resetDone": "Papan lalai yang dipulihkan.",
+      "resetFailed": "Tetapan semula gagal: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Aplikasi AAC sumber terbuka yang dibangunkan oleh Harper Klein Keane. Halaman GitHub SpeGen boleh didapati di",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", dan laman web tersebut boleh didapati di",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lesen: Lesen Awam Am GNU v3.0",
+      "showTutorialAgain": "Tunjukkan tutorial alu-aluan sekali lagi",
+      "privacyPolicy": "Dasar Privasi"
+    },
+    "feedback": {
+      "title": "Hantar Maklum Balas",
+      "intro": "Menemui pepijat atau mempunyai permintaan ciri? Beritahu saya! Borang ini akan membuka isu penjejakan secara automatik pada repositori GitHub Spegen.",
+      "category": "Kategori Isu",
+      "categories": [
+        "Pepijat",
+        "Cadangan",
+        "Lain-lain"
+      ],
+      "header": "Tajuk / Ringkasan",
+      "headerPlaceholder": "Ringkaskan isu tersebut secara ringkas",
+      "details": "Butiran / Badan",
+      "detailsPlaceholder": "Berikan langkah-langkah untuk menghasilkan semula pepijat atau mengembangkan idea ciri anda...",
+      "submitting": "Menyerahkan...",
+      "submit": "Hantar Maklum Balas",
+      "missingFields": "Sila berikan pengepala dan butiran penuh.",
+      "submittingStatus": "Menghantar maklum balas...",
+      "submitted": "Maklum balas berjaya dihantar! Terima kasih.",
+      "submitFailed": "Gagal menghantar isu: {msg}",
+      "networkError": "Ralat rangkaian semasa menghantar maklum balas: {e}"
+    }
+  },
+  "board": {
+    "settings": "Tetapan",
+    "search": "Carian",
+    "stop": "Berhenti",
+    "keyboard": "Papan kekunci",
+    "delete": "Padam",
+    "clear": "Jelas",
+    "back": "Kembali",
+    "autocomplete": "Autolengkap",
+    "addText": "Tambah teks"
+  },
+  "editor": {
+    "title": "MOD EDITOR",
+    "addItem": "+ Item",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menu",
+    "gotoMenu": "Pergi ke Menu",
+    "applyChanges": "Gunakan Perubahan",
+    "exit": "Keluar"
+  },
+  "languageDropdown": {
+    "select": "Pilih…",
+    "searchPlaceholder": "Cari bahasa"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Jenis sahaja",
+      "Bercakap sahaja",
+      "Kedua-duanya"
+    ],
+    "addItem": {
+      "title": "Tambah item pada {menuTitle}",
+      "name": "Nama",
+      "symbol": "Simbol",
+      "folder": "Folder",
+      "folderTargetMenu": "Menu sasaran folder"
+    },
+    "newMenu": {
+      "title": "Cipta menu baharu",
+      "menuTitle": "Tajuk menu",
+      "emptyNote": "Menu ini dibuat kosong. Masukkannya dan gunakan \"+ Item\" untuk menambah item.",
+      "create": "Cipta"
+    },
+    "deleteMenu": {
+      "title": "Padam menu",
+      "hint": "Folder yang membuka menu yang dipadam juga akan dialih keluar.",
+      "delete": "Padam"
+    },
+    "gotoMenu": {
+      "title": "Pergi ke menu",
+      "hint": "Membolehkan anda melompat ke menu semasa dalam mod editor.",
+      "goTo": "Pergi Ke"
+    },
+    "unsaved": {
+      "title": "Perubahan Tidak Disimpan",
+      "body": "Anda mempunyai perubahan yang belum disimpan. Adakah anda ingin menyimpannya?",
+      "dontSave": "Jangan Simpan",
+      "saveChanges": "Simpan Perubahan"
+    },
+    "pinLock": {
+      "enterTitle": "Masukkan PIN",
+      "lockedHint": "Tetapan dan editor dikunci.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Buka kunci",
+      "forgotPin": "Lupa PIN?",
+      "incorrectPin": "PIN salah.",
+      "noQuestions": "Tiada soalan pemulihan ditetapkan, jadi PIN tidak boleh ditetapkan semula. Pasang semula aplikasi untuk mengosongkannya (ini akan memadamkan semua papan).",
+      "answerToReset": "Jawapan untuk menetapkan semula PIN",
+      "answerHint": "Jawab setiap soalan dengan betul (tidak sensitif huruf besar/kecil).",
+      "answerPlaceholder": "Jawapan",
+      "verify": "Sahkan",
+      "answersIncorrect": "Satu atau lebih jawapan adalah salah.",
+      "setNewPin": "Tetapkan PIN baharu",
+      "newPinPlaceholder": "PIN baharu (minimum 4 digit)",
+      "confirmNewPinPlaceholder": "Sahkan PIN baharu",
+      "saveNewPin": "Simpan PIN baharu",
+      "pinTooShort": "PIN mestilah sekurang-kurangnya 4 digit.",
+      "pinsDoNotMatch": "PIN tidak sepadan."
+    },
+    "colorPicker": {
+      "title": "Pilih warna",
+      "hue": "Warna: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Nama",
+      "itemLanguage": "Bahasa item",
+      "language": "Bahasa",
+      "labelsByLanguage": "Label mengikut bahasa",
+      "add": "Tambah",
+      "addLanguage": "+ Tambah bahasa",
+      "image": "Imej",
+      "loading": "Memuatkan…",
+      "loadMoreImages": "Muatkan lebih banyak imej",
+      "findImages": "Cari imej",
+      "chooseCustomImage": "Pilih imej tersuai",
+      "resetToDefault": "Tetapkan semula kepada lalai",
+      "audio": "Audio",
+      "useItemName": "Gunakan nama item",
+      "useCustomAudio": "Gunakan audio tersuai",
+      "audioClip": "Klip audio",
+      "record": "Rekod",
+      "stop": "Berhenti",
+      "importFromDevice": "Import daripada peranti",
+      "preview": "▶ Pratonton",
+      "clearAudio": "Audio yang jelas",
+      "renameAudioClip": "Namakan semula klip audio",
+      "clipNamePlaceholder": "Nama klip",
+      "pronHint": "Pilihan: eja semula nama supaya ia disebut dengan betul (cth. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Sebutan",
+      "color": "Warna",
+      "custom": "Tersuai",
+      "default": "Lalai",
+      "editCustomColor": "Edit warna tersuai",
+      "pickCustomColor": "Pilih warna tersuai",
+      "ttsBehavior": "Tingkah laku TTS",
+      "delete": "Padam"
+    }
+  }
+}

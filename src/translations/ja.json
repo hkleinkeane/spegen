@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "戻る",
+    "next": "次",
+    "done": "終わり",
+    "skip": "スキップ",
+    "cancel": "キャンセル",
+    "add": "追加",
+    "save": "保存",
+    "close": "近い",
+    "reset": "リセット"
+  },
+  "banners": {
+    "ttsMissingVoice": "{name}（{code}）には音声がインストールされていません。デフォルトの音声で話します。",
+    "ttsInstallAndroid": "タップしてデバイスの音声設定を開き、この言語の音声データをインストールしてください。",
+    "ttsInstallIos": "追加するには、「設定」→「アクセシビリティ」→「音声コンテンツ」→「音声」を開き、音声をダウンロードしてください。タップすると閉じます。",
+    "ttsInstallWeb": "音声はオペレーティングシステムから提供されます。システム音声設定でこの言語の音声を追加してください。タップして閉じます。",
+    "updateAvailable": "アップデートが利用可能です — タップして再読み込み"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "SpeGenへようこそ",
+        "body": "これは、アプリの基本的なユーザーインターフェースを説明する短いチュートリアルです。このチュートリアルは、後で設定画面からアクセスできます。"
+      },
+      {
+        "title": "フォルダー",
+        "body": "フォルダをタップすると、さらに多くの記号やフォルダが表示される別のメニューに移動します。フォルダの右上隅には常に黒い折り目があります。"
+      },
+      {
+        "title": "シンボル",
+        "body": "記号をタップして入力ボックスに追加します。"
+      },
+      {
+        "title": "入力ボックス",
+        "body": "入力欄に文章を入力してください。タップすると、作成した文章が再生されます。"
+      },
+      {
+        "title": "メニュー行",
+        "body": "これらは、関連するメニューに自動的に移動するボタンです。"
+      },
+      {
+        "title": "静的ワード行",
+        "body": "これらの用語は、画面のどこにいても常に画面下部に表示されます。タップするとすぐに音声で読み上げられます。"
+      },
+      {
+        "title": "キーボード",
+        "body": "入力ボックスに項目を追加するために、デバイスのキーボードを使用できるダイアログを開きます。"
+      },
+      {
+        "title": "消去",
+        "body": "入力ボックス内の最後の項目を削除します。"
+      },
+      {
+        "title": "クリア",
+        "body": "入力ボックス内のすべての用語をクリアします。"
+      },
+      {
+        "title": "停止",
+        "body": "現在再生中のテキスト読み上げ機能を停止します。"
+      },
+      {
+        "title": "検索",
+        "body": "どのメニューでも、任意の用語を検索できます。検索に必要なボタンをハイライト表示することで、目的の用語までスムーズに移動できます。"
+      },
+      {
+        "title": "設定",
+        "body": "設定メニューを開きます。ボードの編集、データのバックアップ、テキスト読み上げ音声の変更などを行うことができます。"
+      },
+      {
+        "title": "戻る",
+        "body": "前のメニュー画面に戻ります。"
+      },
+      {
+        "title": "オートコンプリート",
+        "body": "メニューを、選択した記号から学習するオートコンプリート候補のリストに置き換えます。データは同意なしにデバイスから外部に送信されることはありません。"
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "単語/アイテムを探す",
+    "subtitle": "すべてのメニューを検索し、ハイライト表示されたボタンをクリックして目的の単語に移動します。",
+    "placeholder": "単語を入力してください…",
+    "noMatches": "一致する項目はありません。",
+    "find": "探す",
+    "close": "近い",
+    "finding": "「{word}」を探す - ハイライトされたボタンをタップする",
+    "cancel": "キャンセル"
+  },
+  "autocomplete": {
+    "suggestions": "提案",
+    "after": "「{word}」の後",
+    "none": "まだ提案はありません。"
+  },
+  "settings": {
+    "title": "設定",
+    "apply": "適用する",
+    "done": "終わり",
+    "tabs": {
+      "display": "画面",
+      "voice": "声",
+      "vocabulary": "語彙",
+      "language": "言語",
+      "data": "データ",
+      "about": "について",
+      "feedback": "フィードバック"
+    },
+    "display": {
+      "preview": "プレビュー",
+      "staticRowLabel": "静的単語行",
+      "menuRowLabel": "メニュー行",
+      "previewStaticTerms": [
+        "はい",
+        "いいえ",
+        "もっと"
+      ],
+      "previewMenuTitles": [
+        "人々",
+        "食べ物",
+        "行動"
+      ],
+      "itemSizing": "商品のサイズ",
+      "itemWidthSize": "アイテムの幅サイズ",
+      "itemHeightSize": "商品の高さサイズ",
+      "gridSize": "グリッドに合わせる",
+      "gridHint": "アイテムのサイズをグリッドに合わせて調整するには、列と行を入力し、「適用」をタップします。",
+      "gridCols": "コルズ",
+      "gridRows": "行",
+      "gridApply": "適用する",
+      "bordersSpacing": "境界線と間隔",
+      "borderWidth": "枠線の幅",
+      "itemPadding": "アイテムのパディング",
+      "staticRowStyle": "静的単語行スタイル",
+      "menuRowStyle": "メニュー行スタイル",
+      "textSize": "テキストサイズ",
+      "textPadding": "テキストのパディング",
+      "buttonShape": "ボタン型",
+      "labelPosition": "ラベルの位置",
+      "top": "トップ",
+      "bottom": "底",
+      "skinTone": "肌の色",
+      "theme": "テーマ",
+      "themeLight": "ライト",
+      "themeDark": "暗い",
+      "themeSystem": "システム",
+      "themeNote": "ダークモードを有効にすると、アプリの画面とメニューのテーマが変更されます。シンボルボタンの色やハイコントラストモードには影響しません。",
+      "highContrast": "高コントラスト",
+      "highContrastHint": "商品画像には、黒の背景、白の枠線、簡略化されたカラーパレットを使用したラベルを採用しています。"
+    },
+    "voice": {
+      "speechRate": "話す速度",
+      "pitch": "ピッチ",
+      "pauseBetweenWords": "単語と単語の間に間を置く",
+      "pauseDuration": "一時停止時間",
+      "testPhrase": "これは音声設定のテストです。",
+      "testVoice": "テスト音声",
+      "translateSentence": "話し言葉を翻訳する",
+      "translateSentenceHint": "単語ごとに翻訳するのではなく、文全体を一度に翻訳することで、より自然な文法を実現します。英語以外の言語ではデフォルトで有効になっています。インターネット接続が必要です。",
+      "voiceLabel": "声",
+      "voiceHint": "アプリの言語で使用する音声を選択してください。音声はデバイスまたはブラウザによって提供されます。",
+      "voiceDefault": "デフォルト（システム）",
+      "noVoices": "この言語に対応する音声は見つかりませんでした。",
+      "openDeviceTts": "デバイスのTTS設定を開く",
+      "ttsOpenFailed": "デバイスのTTS設定を開けませんでした: {e}",
+      "resetToDefaults": "初期設定に戻す",
+      "resetDone": "音声設定が初期状態に戻りました。"
+    },
+    "vocabulary": {
+      "editorMode": "エディターモード",
+      "editorModeHint": "ボード上でシンボルやフォルダをタップして編集し、ツールバーのボタンを使ってメニューを編集します。",
+      "enableEditorMode": "エディターモードを有効にする",
+      "staticRow": "静的単語行",
+      "staticRowHint": "アプリ内のどこにいても、画面下部に常に文字が表示されます。≡ をドラッグして並べ替えます。",
+      "addPhrasePlaceholder": "フレーズを追加する",
+      "addPhrase": "追加",
+      "menuRow": "メニュー行",
+      "menuRowHint": "ボードとメインメニューを使用しているときは、固定行のすぐ上にメニューショートカットが表示されます。≡をドラッグして並べ替えることができます。",
+      "menuRowEmpty": "その列にはメニューがありません。",
+      "addMenuToRow": "行にメニューを追加する",
+      "allMenusInRow": "メニューはすべて既に列に並んでいます。"
+    },
+    "language": {
+      "appLanguage": "アプリの言語",
+      "appLanguageHint": "音声認識、画像検索、ラベル翻訳に使用されます。この値を変更すると、すべての画像が再読み込みされます。",
+      "translationDisclaimer": "アプリ内のテキストはGoogle翻訳APIを使用して翻訳されているため、翻訳が不正確な場合があります。誤りを見つけた場合は、設定画面のフィードバックボタンからご報告ください。その際、言語と修正案をご記入ください。",
+      "autoTranslate": "自動翻訳",
+      "translateUi": "アプリのインターフェースを翻訳する",
+      "translateUiHint": "メニュー、ボタン、設定をアプリの言語で表示します。",
+      "translateLabels": "ボードとメニューのラベルを翻訳する",
+      "translateLabelsHint": "シンボルラベル、メニュー名、静的テキスト行をアプリの言語に自動翻訳します。インターネット接続が必要です。",
+      "multilingual": "多言語対応",
+      "perItemImageLanguage": "アイテムごとの画像言語",
+      "perItemImageLanguageHint": "各項目がそれぞれの言語で画像を検索できるようにする。",
+      "multilingualLabels": "多言語ラベル",
+      "multilingualLabelsHint": "編集モードで、各項目に他の言語用のテキストラベルを追加できます。この機能を有効にすると、言語を切り替えたときにボード項目のラベルのみが自動翻訳されなくなります（代わりに手動で設定したラベルが使用されます）。静的な単語行とメニュー名は引き続き自動翻訳されます。",
+      "spokenLanguages": "話されている言語",
+      "spokenLanguagesHint": "入力ボックスから切り替え可能な言語。アプリの言語がベースとなり、手動でラベル付けされていない項目は音声用に自動翻訳されます。この機能はインターネット接続が必要で、英語では利用できません。",
+      "base": "ベース",
+      "addLanguage": "言語を追加"
+    },
+    "data": {
+      "backupRestore": "バックアップと復元",
+      "backupRestoreHint": "すべてのボード、設定、カスタムイメージ、録音済み音声を単一のバックアップファイルとしてエクスポートまたはインポートし、別のデバイスに転送したり、デバイスのストレージに保存したりできます。",
+      "downloadBackup": "バックアップをダウンロード",
+      "exportBackup": "バックアップをエクスポート",
+      "saveBackupToDevice": "バックアップをデバイスに保存します（フォルダを選択してください）",
+      "importBackup": "バックアップをインポートする",
+      "security": "安全",
+      "securityHint": "設定とエディターを開く際にPINコードの入力を必須にします。これにより、メインインターフェースでPINコードがないとユーザーが設定を編集できないようにすることができます。設定は「適用」または「完了」をタップすると保存されます。",
+      "changePin": "PINを変更する",
+      "removePin": "PINを削除する",
+      "setPin": "PINを設定する",
+      "recoveryQuestions": "回復に関する質問",
+      "recoveryQuestionsHint": "PINを忘れた場合にリセットするために使用します。少なくとも1つは登録することをお勧めします。PINが登録されていない場合、忘れたPINはアプリを再インストールすることでしかリセットできません。",
+      "question": "質問",
+      "ownQuestionPlaceholder": "または、独自の質問を入力してください。",
+      "answer": "答え",
+      "addQuestion": "+ 質問を追加",
+      "pinPlaceholder": "暗証番号（最低4桁）",
+      "confirmPinPlaceholder": "PINコードを確認してください",
+      "pinTooShort": "PINは4桁以上でなければなりません。",
+      "pinsDoNotMatch": "暗証番号が一致しません。",
+      "reset": "リセット",
+      "restoreDefaults": "デフォルト設定に戻す",
+      "backupFormatNote": ".spegenバックアップファイルは、ボード、設定、カスタムイメージ、録音済みオーディオを1つのファイルに圧縮したZIPファイルです。インポートすると、現在のすべてのボードと設定が置き換えられます。",
+      "preparingDownload": "ダウンロード準備中…",
+      "backupDownloaded": "バックアップがダウンロードされました。",
+      "openingShareSheet": "新規株式公開…",
+      "shareSheetHint": "バックアップを保存するには、共有シートを使用してください。",
+      "sharingUnavailable": "共有機能は利用できません。",
+      "chooseFolder": "保存先のフォルダを選択してください…",
+      "savedToFolder": "選択したフォルダに保存されました。",
+      "saveCanceled": "保存がキャンセルされました。",
+      "saveFailed": "保存に失敗しました: {e}",
+      "chooseBackupFile": "バックアップファイルを選択してください…",
+      "importCanceled": "輸入はキャンセルされました。",
+      "importWebFileMissing": "インポートに失敗しました：Webファイルハンドルがありません。",
+      "importDone": "輸入済み。ボードを再読み込みしました。",
+      "importFailed": "インポート失敗: {e}",
+      "confirmReset": "確認のため、もう一度「デフォルトに戻す」をタップしてください。警告：この操作を行うと、ボードの内容がすべて消去されます。",
+      "resetDone": "デフォルトのボードを復元しました。",
+      "resetFailed": "リセット失敗: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Harper Klein Keane氏が開発したオープンソースのAACアプリ。SpeGenのGitHubページはこちらです。",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "ウェブサイトは、",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "ライセンス: GNU General Public License v3.0",
+      "showTutorialAgain": "ウェルカムチュートリアルをもう一度表示します",
+      "privacyPolicy": "プライバシーポリシー"
+    },
+    "feedback": {
+      "title": "フィードバックを送信",
+      "intro": "バグを発見しましたか？それとも機能のリクエストがありますか？ぜひお知らせください！このフォームにご記入いただくと、SpegenのGitHubリポジトリに自動的に追跡課題が作成されます。",
+      "category": "問題カテゴリ",
+      "categories": [
+        "バグ",
+        "提案",
+        "他の"
+      ],
+      "header": "見出し／概要",
+      "headerPlaceholder": "問題点を簡潔にまとめてください。",
+      "details": "詳細／本体",
+      "detailsPlaceholder": "バグを再現する手順を記載するか、機能のアイデアを詳しく説明してください。",
+      "submitting": "送信中...",
+      "submit": "フィードバックを送信",
+      "missingFields": "ヘッダーと詳細情報の両方をご提供ください。",
+      "submittingStatus": "フィードバックを送信しています...",
+      "submitted": "フィードバックが正常に送信されました！ありがとうございます。",
+      "submitFailed": "問題の送信に失敗しました: {msg}",
+      "networkError": "フィードバック送信時のネットワークエラー: {e}"
+    }
+  },
+  "board": {
+    "settings": "設定",
+    "search": "検索",
+    "stop": "停止",
+    "keyboard": "キーボード",
+    "delete": "消去",
+    "clear": "クリア",
+    "back": "戻る",
+    "autocomplete": "オートコンプリート",
+    "addText": "テキストを追加"
+  },
+  "editor": {
+    "title": "エディターモード",
+    "addItem": "+ アイテム",
+    "addMenu": "+ メニュー",
+    "deleteMenu": "メニュー",
+    "gotoMenu": "メニューへ移動",
+    "applyChanges": "変更を適用する",
+    "exit": "出口"
+  },
+  "languageDropdown": {
+    "select": "選択…",
+    "searchPlaceholder": "検索言語"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "タイプのみ",
+      "話すだけ",
+      "両方"
+    ],
+    "addItem": {
+      "title": "{menuTitle}に項目を追加する",
+      "name": "名前",
+      "symbol": "シンボル",
+      "folder": "フォルダ",
+      "folderTargetMenu": "フォルダターゲットメニュー"
+    },
+    "newMenu": {
+      "title": "新しいメニューを作成する",
+      "menuTitle": "メニュータイトル",
+      "emptyNote": "メニューは空のまま作成されます。メニューを開き、「+アイテム」を使用してアイテムを追加してください。",
+      "create": "作成する"
+    },
+    "deleteMenu": {
+      "title": "メニューを削除する",
+      "hint": "削除されたメニューを開くフォルダも削除されます。",
+      "delete": "消去"
+    },
+    "gotoMenu": {
+      "title": "メニューへ移動",
+      "hint": "エディターモード中にメニューにジャンプできます。",
+      "goTo": "行く"
+    },
+    "unsaved": {
+      "title": "保存されていない変更",
+      "body": "保存されていない変更があります。保存しますか？",
+      "dontSave": "保存しない",
+      "saveChanges": "変更を保存"
+    },
+    "pinLock": {
+      "enterTitle": "PINを入力してください",
+      "lockedHint": "設定とエディターはロックされています。",
+      "pinPlaceholder": "ピン",
+      "unlock": "ロック解除",
+      "forgotPin": "PINコードを忘れましたか？",
+      "incorrectPin": "PINコードが間違っています。",
+      "noQuestions": "復旧用の質問が設定されていないため、PINをリセットできません。アプリを再インストールしてクリアしてください（これにより、すべてのボードが消去されます）。",
+      "answerToReset": "PINをリセットするための回答",
+      "answerHint": "すべての質問に正しく答えてください（大文字・小文字は区別されません）。",
+      "answerPlaceholder": "答え",
+      "verify": "確認する",
+      "answersIncorrect": "一つ以上の回答が間違っています。",
+      "setNewPin": "新しいPINを設定する",
+      "newPinPlaceholder": "新しい暗証番号（最低4桁）",
+      "confirmNewPinPlaceholder": "新しいPINを確認してください",
+      "saveNewPin": "新しいPINを保存",
+      "pinTooShort": "PINは4桁以上でなければなりません。",
+      "pinsDoNotMatch": "暗証番号が一致しません。"
+    },
+    "colorPicker": {
+      "title": "色を選んでください",
+      "hue": "色相: {deg}°",
+      "ok": "わかりました"
+    },
+    "editItem": {
+      "name": "名前",
+      "itemLanguage": "アイテム言語",
+      "language": "言語",
+      "labelsByLanguage": "言語によるラベル",
+      "add": "追加",
+      "addLanguage": "+ 言語を追加",
+      "image": "画像",
+      "loading": "読み込み中…",
+      "loadMoreImages": "さらに画像を表示する",
+      "findImages": "画像を探す",
+      "chooseCustomImage": "カスタム画像を選択",
+      "resetToDefault": "初期設定に戻す",
+      "audio": "オーディオ",
+      "useItemName": "アイテム名を使用する",
+      "useCustomAudio": "カスタムオーディオを使用する",
+      "audioClip": "音声クリップ",
+      "record": "記録",
+      "stop": "停止",
+      "importFromDevice": "デバイスからインポート",
+      "preview": "▶プレビュー",
+      "clearAudio": "クリアな音声",
+      "renameAudioClip": "オーディオクリップの名前を変更する",
+      "clipNamePlaceholder": "クリップ名",
+      "pronHint": "オプション：名前を正しく発音できるようにスペルを修正してください（例：「ミスチバス」）。",
+      "pronPlaceholder": "発音",
+      "color": "色",
+      "custom": "カスタム",
+      "default": "デフォルト",
+      "editCustomColor": "カスタムカラーを編集",
+      "pickCustomColor": "カスタムカラーを選択",
+      "ttsBehavior": "TTSの動作",
+      "delete": "消去"
+    }
+  }
+}

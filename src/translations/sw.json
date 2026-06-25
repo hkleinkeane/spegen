@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Rudi",
+    "next": "Inayofuata",
+    "done": "Imekamilika",
+    "skip": "Ruka",
+    "cancel": "Ghairi",
+    "add": "Ongeza",
+    "save": "Hifadhi",
+    "close": "Funga",
+    "reset": "Weka upya"
+  },
+  "banners": {
+    "ttsMissingVoice": "Hakuna sauti iliyosakinishwa kwa {name} ({code}). Inazungumza kwa sauti chaguo-msingi.",
+    "ttsInstallAndroid": "Gusa ili kufungua mipangilio ya usemi ya kifaa chako, kisha usakinishe data ya sauti kwa lugha hii.",
+    "ttsInstallIos": "Ili kuiongeza, fungua Mipangilio → Ufikiaji → Maudhui Yanayosemwa → Sauti na upakue sauti. Gusa ili kuiondoa.",
+    "ttsInstallWeb": "Sauti hutoka kwenye mfumo wako wa uendeshaji — ongeza moja kwa lugha hii katika mipangilio ya usemi wa mfumo wako. Gusa ili kuondoa.",
+    "updateAvailable": "Sasisho linapatikana — gusa ili kupakia upya"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Karibu SpeGen",
+        "body": "Huu ni mafunzo mafupi ya kukufundisha kiolesura cha msingi cha programu. Unaweza kufikia mafunzo haya baadaye kutoka kwa Mipangilio."
+      },
+      {
+        "title": "Folda",
+        "body": "Gusa folda ili uende kwenye menyu nyingine yenye alama na folda zaidi. Folda huwa na mkunjo mweusi kwenye kona ya juu kulia."
+      },
+      {
+        "title": "Alama",
+        "body": "Gusa ishara ili kuiongeza kwenye kisanduku cha kuingiza data."
+      },
+      {
+        "title": "Kisanduku cha Kuingiza",
+        "body": "Kisanduku cha kuingiza ni mahali unapotunga sentensi. Kiguse ili kucheza sentensi iliyojengwa."
+      },
+      {
+        "title": "Safu Mlalo ya Menyu",
+        "body": "Hizi ni vitufe vinavyokuelekeza kiotomatiki kwenye menyu inayohusiana."
+      },
+      {
+        "title": "Safu ya Maneno Tuli",
+        "body": "Masharti haya huwa chini ya skrini kila wakati bila kujali uko wapi. Gusa moja ili kuyatamka papo hapo."
+      },
+      {
+        "title": "Kibodi",
+        "body": "Hufungua kidirisha kinachokuruhusu kutumia kibodi ya kifaa chako kuongeza vipengee kwenye kisanduku cha kuingiza data."
+      },
+      {
+        "title": "Futa",
+        "body": "Hufuta neno la mwisho kwenye kisanduku cha kuingiza."
+      },
+      {
+        "title": "Wazi",
+        "body": "Hufuta kisanduku cha kuingiza maneno yote."
+      },
+      {
+        "title": "Simamisha",
+        "body": "Huzuia uchezaji wowote wa maandishi-kwa-usemi unaoendelea kwa sasa."
+      },
+      {
+        "title": "Tafuta",
+        "body": "Tafuta neno lolote katika menyu yoyote. Linakuongoza kwenye neno kwa kuangazia vitufe unavyohitaji kubonyeza."
+      },
+      {
+        "title": "Mipangilio",
+        "body": "Hufungua menyu ya mipangilio: kuhariri ubao, kuhifadhi nakala rudufu ya data, kubadilisha sauti ya maandishi-kuwa-usemi, na zaidi."
+      },
+      {
+        "title": "Rudi",
+        "body": "Inakurudisha kwenye menyu ya awali uliyokuwa ukitumia."
+      },
+      {
+        "title": "Kukamilisha kiotomatiki",
+        "body": "Hubadilisha menyu na orodha ya chaguo za kukamilisha kiotomatiki zinazojifunza kutokana na alama unazochagua. Data haiondoki kamwe kwenye kifaa chako bila idhini."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Tafuta neno/kipengee",
+    "subtitle": "Tafuta kila menyu, kisha bofya vitufe vilivyoangaziwa ili uende kwenye neno.",
+    "placeholder": "Andika neno…",
+    "noMatches": "Hakuna mechi.",
+    "find": "Tafuta",
+    "close": "Funga",
+    "finding": "Kupata “{word}” - gusa kitufe kilichoangaziwa",
+    "cancel": "Ghairi"
+  },
+  "autocomplete": {
+    "suggestions": "Mapendekezo",
+    "after": "Baada ya \"{word}\"",
+    "none": "Hakuna mapendekezo bado."
+  },
+  "settings": {
+    "title": "Mipangilio",
+    "apply": "Tuma maombi",
+    "done": "Imekamilika",
+    "tabs": {
+      "display": "Onyesho",
+      "voice": "Sauti",
+      "vocabulary": "Msamiati",
+      "language": "Lugha",
+      "data": "Data",
+      "about": "Kuhusu",
+      "feedback": "Maoni"
+    },
+    "display": {
+      "preview": "Hakikisho",
+      "staticRowLabel": "Safu mlalo ya maneno tuli",
+      "menuRowLabel": "Safu mlalo ya menyu",
+      "previewStaticTerms": [
+        "Ndiyo",
+        "Hapana",
+        "Zaidi"
+      ],
+      "previewMenuTitles": [
+        "Watu",
+        "Chakula",
+        "Vitendo"
+      ],
+      "itemSizing": "Ukubwa wa bidhaa",
+      "itemWidthSize": "Ukubwa wa upana wa bidhaa",
+      "itemHeightSize": "Ukubwa wa urefu wa bidhaa",
+      "gridSize": "Inafaa kwenye gridi ya taifa",
+      "gridHint": "Pima ukubwa wa kipengee ili kilingane na gridi: ingiza safu wima na safu mlalo, kisha gusa Tumia.",
+      "gridCols": "Kol",
+      "gridRows": "Safu",
+      "gridApply": "Tuma maombi",
+      "bordersSpacing": "Mipaka na nafasi",
+      "borderWidth": "Upana wa mpaka",
+      "itemPadding": "Upau wa bidhaa",
+      "staticRowStyle": "Mtindo wa safu mlalo ya maneno tuli",
+      "menuRowStyle": "Mtindo wa safu mlalo ya menyu",
+      "textSize": "Ukubwa wa maandishi",
+      "textPadding": "Upau wa maandishi",
+      "buttonShape": "Umbo la kitufe",
+      "labelPosition": "Nafasi ya lebo",
+      "top": "Juu",
+      "bottom": "Chini",
+      "skinTone": "Rangi ya ngozi",
+      "theme": "Mandhari",
+      "themeLight": "Mwanga",
+      "themeDark": "Nyeusi",
+      "themeSystem": "Mfumo",
+      "themeNote": "Mandhari ya hali nyeusi huweka skrini na menyu za programu. Rangi za vitufe vya alama na hali ya utofautishaji wa hali ya juu haziathiriwi.",
+      "highContrast": "Tofauti kubwa",
+      "highContrastHint": "Mandharinyuma nyeusi, mipaka nyeupe na lebo zenye rangi iliyorahisishwa kwa picha za bidhaa."
+    },
+    "voice": {
+      "speechRate": "Kiwango cha usemi",
+      "pitch": "Lami",
+      "pauseBetweenWords": "Pumzika kati ya maneno",
+      "pauseDuration": "Muda wa kusitisha",
+      "testPhrase": "Huu ni jaribio la mipangilio ya sauti.",
+      "testVoice": "Sauti ya jaribio",
+      "translateSentence": "Tafsiri sentensi zinazozungumzwa",
+      "translateSentenceHint": "Tafsiri sentensi nzima kwa wakati mmoja kwa sarufi ya asili zaidi, badala ya neno kwa neno. Imewashwa kwa chaguo-msingi kwa lugha zisizo za Kiingereza. Inahitaji intaneti.",
+      "voiceLabel": "Sauti",
+      "voiceHint": "Chagua sauti inayotumika kwa usemi katika lugha ya programu yako. Sauti hutolewa na kifaa au kivinjari chako.",
+      "voiceDefault": "Chaguo-msingi (mfumo)",
+      "noVoices": "Hakuna sauti zilizopatikana kwa lugha hii.",
+      "openDeviceTts": "Fungua mipangilio ya TTS ya kifaa",
+      "ttsOpenFailed": "Haikuweza kufungua mipangilio ya TTS ya kifaa: {e}",
+      "resetToDefaults": "Rudisha kwenye chaguo-msingi",
+      "resetDone": "Kuweka upya sauti kwenye chaguo-msingi."
+    },
+    "vocabulary": {
+      "editorMode": "Hali ya kihariri",
+      "editorModeHint": "Hariri alama na folda kwa kuzigonga ubaoni na utumie vitufe kwenye upau wa vidhibiti kuhariri menyu.",
+      "enableEditorMode": "Washa hali ya kihariri",
+      "staticRow": "Safu mlalo ya maneno tuli",
+      "staticRowHint": "Maneno huonekana kila wakati chini ya skrini bila kujali mahali ulipo kwenye programu. Buruta ≡ ili kupanga upya.",
+      "addPhrasePlaceholder": "Ongeza kifungu cha maneno",
+      "addPhrase": "Ongeza",
+      "menuRow": "Safu mlalo ya menyu",
+      "menuRowHint": "Njia za mkato za menyu zinaonyeshwa juu kidogo ya safu mlalo tuli unapotumia ubao na menyu kuu. Buruta ≡ ili kupanga upya.",
+      "menuRowEmpty": "Hakuna menyu kwenye safu mlalo.",
+      "addMenuToRow": "Ongeza menyu kwenye safu mlalo",
+      "allMenusInRow": "Menyu zote tayari ziko kwenye safu mlalo."
+    },
+    "language": {
+      "appLanguage": "Lugha ya programu",
+      "appLanguageHint": "Inatumika kwa ajili ya usemi, utafutaji wa picha, na tafsiri ya lebo. Kubadilisha hii hupakia tena picha zote.",
+      "translationDisclaimer": "Maandishi ya programu hutafsiriwa kwa kutumia API ya Google Translate, kwa hivyo baadhi ya tafsiri zinaweza kuwa si sahihi. Ukiona hitilafu, tafadhali tumia kitufe cha Maoni katika Mipangilio ili kuripoti — jumuisha lugha na marekebisho yaliyopendekezwa.",
+      "autoTranslate": "Tafsiri otomatiki",
+      "translateUi": "Tafsiri kiolesura cha programu",
+      "translateUiHint": "Onyesha menyu, vitufe na mipangilio katika lugha ya programu.",
+      "translateLabels": "Tafsiri lebo za ubao na menyu",
+      "translateLabelsHint": "Tafsiri kiotomatiki lebo za alama, majina ya menyu na maneno tuli huwekwa kwenye safu wima katika lugha ya programu. Inahitaji intaneti.",
+      "multilingual": "Lugha nyingi",
+      "perItemImageLanguage": "Lugha ya picha ya kila kipengee",
+      "perItemImageLanguageHint": "Acha kila kitu kitafute picha katika lugha yake.",
+      "multilingualLabels": "Lebo za lugha nyingi",
+      "multilingualLabelsHint": "Ongeza lebo za maandishi ya ziada kwa kila kipengee (katika hali ya kuhariri) kwa lugha zingine. Wakati imewezeshwa, lebo za vipengee vya ubao pekee ndizo huacha kutafsiri kiotomatiki unapobadilisha lugha (lebo zako za mwongozo ndizo zinazotumika badala yake); maneno tuli safu mlalo na majina ya menyu bado hutafsiri kiotomatiki.",
+      "spokenLanguages": "Lugha zinazozungumzwa",
+      "spokenLanguagesHint": "Lugha unazoweza kubadilisha kati ya kutoka kwenye kisanduku cha kuingiza data. Lugha ya programu ndiyo msingi; vipengee visivyo na lebo ya mwongozo hutafsiriwa kiotomatiki kwa ajili ya usemi. Kipengele hiki kinahitaji intaneti na hakijatumika kwa Kiingereza.",
+      "base": "Msingi",
+      "addLanguage": "Ongeza lugha"
+    },
+    "data": {
+      "backupRestore": "Hifadhi nakala rudufu na urejeshe",
+      "backupRestoreHint": "Hamisha au ingiza bodi zote, mipangilio, picha maalum na sauti iliyorekodiwa kama faili moja ya nakala rudufu ambayo unaweza kuhamisha hadi kwenye kifaa kingine au kuhifadhi kwenye hifadhi ya kifaa chako.",
+      "downloadBackup": "Pakua nakala rudufu",
+      "exportBackup": "Hamisha nakala rudufu",
+      "saveBackupToDevice": "Hifadhi nakala rudufu kwenye kifaa (chagua folda)",
+      "importBackup": "Ingiza nakala rudufu",
+      "security": "Usalama",
+      "securityHint": "Inahitaji PIN ili kufungua Mipangilio na kihariri. Hii inaweza kutumika kuhakikisha kwamba mtumiaji hawezi kuhariri mipangilio bila PIN anapokuwa kwenye kiolesura kikuu. Huhifadhiwa unapobonyeza Tuma au Umemaliza.",
+      "changePin": "Badilisha PIN",
+      "removePin": "Ondoa PIN",
+      "setPin": "Weka PIN",
+      "recoveryQuestions": "Maswali ya kupona",
+      "recoveryQuestionsHint": "Inatumika kuweka upya PIN iliyosahaulika. Inashauriwa kuongeza angalau moja. Bila yoyote, PIN iliyosahaulika inaweza kufutwa tu kwa kusakinisha upya programu.",
+      "question": "Swali",
+      "ownQuestionPlaceholder": "Au andika swali lako mwenyewe",
+      "answer": "Jibu",
+      "addQuestion": "+ Ongeza swali",
+      "pinPlaceholder": "PIN (idadi ya chini ya tarakimu 4)",
+      "confirmPinPlaceholder": "Thibitisha PIN",
+      "pinTooShort": "PIN lazima iwe na angalau tarakimu 4.",
+      "pinsDoNotMatch": "PIN hazilingani.",
+      "reset": "Weka upya",
+      "restoreDefaults": "Rejesha chaguo-msingi",
+      "backupFormatNote": "Hifadhi nakala ya .spegen ni ZIP iliyobanwa inayoshikilia bodi zako, mipangilio, picha maalum na sauti iliyorekodiwa katika faili moja. Kuingiza hubadilisha bodi na mipangilio yote ya sasa.",
+      "preparingDownload": "Inaandaa upakuaji…",
+      "backupDownloaded": "Imepakua nakala rudufu.",
+      "openingShareSheet": "Inafungua karatasi ya kushiriki…",
+      "shareSheetHint": "Tumia karatasi ya kushiriki ili kuhifadhi nakala rudufu yako.",
+      "sharingUnavailable": "Kushiriki hakupatikani.",
+      "chooseFolder": "Chagua folda ya kuhifadhi ndani ya…",
+      "savedToFolder": "Imehifadhiwa kwenye folda uliyochagua.",
+      "saveCanceled": "Hifadhi imeghairiwa.",
+      "saveFailed": "Imeshindwa kuhifadhi: {e}",
+      "chooseBackupFile": "Chagua faili mbadala…",
+      "importCanceled": "Uingizaji umeghairiwa.",
+      "importWebFileMissing": "Imeshindwa kuingiza: Kishikio cha faili ya wavuti hakipo.",
+      "importDone": "Imeingizwa. Bodi imepakiwa tena.",
+      "importFailed": "Imeshindwa kuingiza: {e}",
+      "confirmReset": "Gusa \"Rejesha chaguo-msingi\" tena ili kuthibitisha. Onyo: hii inafuta bodi zako.",
+      "resetDone": "Bodi chaguo-msingi zilizorejeshwa.",
+      "resetFailed": "Imeshindwa kuweka upya: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Programu ya AAC ya chanzo huria iliyotengenezwa na Harper Klein Keane. Ukurasa wa GitHub wa SpeGen unaweza kupatikana katika",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", na tovuti inaweza kupatikana katika",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Leseni: Leseni ya Umma ya Jumla ya GNU v3.0",
+      "showTutorialAgain": "Onyesha mafunzo ya kukaribisha tena",
+      "privacyPolicy": "Sera ya Faragha"
+    },
+    "feedback": {
+      "title": "Wasilisha Maoni",
+      "intro": "Umepata hitilafu au una ombi la kipengele? Nijulishe! Fomu hii itafungua kiotomatiki tatizo la ufuatiliaji kwenye hazina ya GitHub ya Spegen.",
+      "category": "Aina ya Toleo",
+      "categories": [
+        "Mdudu",
+        "Pendekezo",
+        "Nyingine"
+      ],
+      "header": "Kichwa/Muhtasari",
+      "headerPlaceholder": "Toa muhtasari wa suala hilo kwa ufupi",
+      "details": "Maelezo / Mwili",
+      "detailsPlaceholder": "Toa hatua za kuzalisha hitilafu au kupanua wazo lako la kipengele...",
+      "submitting": "Inawasilisha...",
+      "submit": "Wasilisha Maoni",
+      "missingFields": "Tafadhali toa kichwa cha habari na maelezo kamili.",
+      "submittingStatus": "Inawasilisha maoni...",
+      "submitted": "Maoni yamewasilishwa kwa ufanisi! Asante.",
+      "submitFailed": "Imeshindwa kuwasilisha tatizo: {msg}",
+      "networkError": "Hitilafu ya mtandao katika kuwasilisha maoni: {e}"
+    }
+  },
+  "board": {
+    "settings": "Mipangilio",
+    "search": "Tafuta",
+    "stop": "Simamisha",
+    "keyboard": "Kibodi",
+    "delete": "Futa",
+    "clear": "Wazi",
+    "back": "Rudi",
+    "autocomplete": "Kukamilisha kiotomatiki",
+    "addText": "Ongeza maandishi"
+  },
+  "editor": {
+    "title": "MFANO WA MHARIRI",
+    "addItem": "+ Bidhaa",
+    "addMenu": "+ Menyu",
+    "deleteMenu": "- Menyu",
+    "gotoMenu": "Nenda kwenye Menyu",
+    "applyChanges": "Tumia Mabadiliko",
+    "exit": "Utgång"
+  },
+  "languageDropdown": {
+    "select": "Chagua…",
+    "searchPlaceholder": "Lugha ya utafutaji"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Aina pekee",
+      "Sema tu",
+      "Zote mbili"
+    ],
+    "addItem": {
+      "title": "Ongeza kipengee kwenye {menuTitle}",
+      "name": "Jina",
+      "symbol": "Alama",
+      "folder": "Folda",
+      "folderTargetMenu": "Menyu lengwa ya folda"
+    },
+    "newMenu": {
+      "title": "Unda menyu mpya",
+      "menuTitle": "Kichwa cha menyu",
+      "emptyNote": "Menyu imeundwa tupu. Ingiza na utumie \"+ Kipengee\" kuongeza vipengee.",
+      "create": "Unda"
+    },
+    "deleteMenu": {
+      "title": "Futa menyu",
+      "hint": "Folda zinazofungua menyu iliyofutwa pia zitaondolewa.",
+      "delete": "Futa"
+    },
+    "gotoMenu": {
+      "title": "Nenda kwenye menyu",
+      "hint": "Hukuruhusu kuruka hadi kwenye menyu ukiwa katika hali ya kihariri.",
+      "goTo": "Nenda Kwa"
+    },
+    "unsaved": {
+      "title": "Mabadiliko Yasiyohifadhiwa",
+      "body": "Una mabadiliko ambayo hayajahifadhiwa. Je, unataka kuyahifadhi?",
+      "dontSave": "Usihifadhi",
+      "saveChanges": "Hifadhi Mabadiliko"
+    },
+    "pinLock": {
+      "enterTitle": "Weka PIN",
+      "lockedHint": "Mipangilio na kihariri vimefungwa.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Fungua",
+      "forgotPin": "Umesahau PIN?",
+      "incorrectPin": "PIN si sahihi.",
+      "noQuestions": "Hakuna maswali ya kurejesha yaliyowekwa, kwa hivyo PIN haiwezi kuwekwa upya. Sakinisha tena programu ili kuifuta (hii inafuta bodi zote).",
+      "answerToReset": "Jibu la kuweka upya PIN",
+      "answerHint": "Jibu kila swali kwa usahihi (sio kwa kuzingatia herufi kubwa).",
+      "answerPlaceholder": "Jibu",
+      "verify": "Thibitisha",
+      "answersIncorrect": "Jibu moja au zaidi si sahihi.",
+      "setNewPin": "Weka PIN mpya",
+      "newPinPlaceholder": "PIN Mpya (idadi ya chini ya tarakimu 4)",
+      "confirmNewPinPlaceholder": "Thibitisha PIN mpya",
+      "saveNewPin": "Hifadhi PIN mpya",
+      "pinTooShort": "PIN lazima iwe na angalau tarakimu 4.",
+      "pinsDoNotMatch": "PIN hazilingani."
+    },
+    "colorPicker": {
+      "title": "Chagua rangi",
+      "hue": "Rangi: {deg}°",
+      "ok": "Sawa"
+    },
+    "editItem": {
+      "name": "Jina",
+      "itemLanguage": "Lugha ya bidhaa",
+      "language": "Lugha",
+      "labelsByLanguage": "Lebo kwa lugha",
+      "add": "Ongeza",
+      "addLanguage": "+ Ongeza lugha",
+      "image": "Picha",
+      "loading": "Inapakia…",
+      "loadMoreImages": "Pakia picha zaidi",
+      "findImages": "Tafuta picha",
+      "chooseCustomImage": "Chagua picha maalum",
+      "resetToDefault": "Rudisha hadi chaguo-msingi",
+      "audio": "Sauti",
+      "useItemName": "Tumia jina la kipengee",
+      "useCustomAudio": "Tumia sauti maalum",
+      "audioClip": "Klipu ya sauti",
+      "record": "Rekodi",
+      "stop": "Simamisha",
+      "importFromDevice": "Ingiza kutoka kwa kifaa",
+      "preview": "▶ Hakikisho",
+      "clearAudio": "Futa sauti",
+      "renameAudioClip": "Badilisha jina la klipu ya sauti",
+      "clipNamePlaceholder": "Jina la klipu",
+      "pronHint": "Hiari: andika jina upya ili litamkwe kwa usahihi (k.m. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Matamshi",
+      "color": "Rangi",
+      "custom": "Maalum",
+      "default": "Chaguo-msingi",
+      "editCustomColor": "Hariri rangi maalum",
+      "pickCustomColor": "Chagua rangi maalum",
+      "ttsBehavior": "Tabia ya TTS",
+      "delete": "Futa"
+    }
+  }
+}

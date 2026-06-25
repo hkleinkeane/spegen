@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Indietro",
+    "next": "Prossimo",
+    "done": "Fatto",
+    "skip": "Saltare",
+    "cancel": "Cancellare",
+    "add": "Aggiungere",
+    "save": "Salva",
+    "close": "Vicino",
+    "reset": "Reset"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nessuna voce installata per {name} ({code}). Verrà utilizzata la voce predefinita.",
+    "ttsInstallAndroid": "Tocca per aprire le impostazioni vocali del tuo dispositivo, quindi installa i dati vocali per questa lingua.",
+    "ttsInstallIos": "Per aggiungerla, apri Impostazioni → Accessibilità → Contenuti vocali → Voci e scarica la voce. Tocca per chiudere.",
+    "ttsInstallWeb": "Le voci provengono dal tuo sistema operativo: aggiungine una per questa lingua nelle impostazioni vocali del sistema. Tocca per chiudere.",
+    "updateAvailable": "Aggiornamento disponibile: tocca per ricaricare"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Benvenuti in SpeGen",
+        "body": "Questo è un breve tutorial che ti insegnerà le basi dell'interfaccia utente dell'app. Potrai accedere a questo tutorial in seguito dalle Impostazioni."
+      },
+      {
+        "title": "Cartelle",
+        "body": "Tocca una cartella per accedere a un altro menu con ulteriori simboli e cartelle. Le cartelle presentano sempre una piega nera nell'angolo in alto a destra."
+      },
+      {
+        "title": "Simboli",
+        "body": "Tocca un simbolo per aggiungerlo alla casella di input."
+      },
+      {
+        "title": "Casella di input",
+        "body": "Nella casella di input puoi comporre le frasi. Toccala per riprodurre la frase composta."
+      },
+      {
+        "title": "Riga del menu",
+        "body": "Si tratta di pulsanti che reindirizzano automaticamente l'utente al menu corrispondente."
+      },
+      {
+        "title": "Riga di parole statiche",
+        "body": "Questi termini sono sempre visualizzati in fondo allo schermo, ovunque tu sia. Toccane uno per pronunciarlo immediatamente."
+      },
+      {
+        "title": "Tastiera",
+        "body": "Si apre una finestra di dialogo che consente di utilizzare la tastiera del dispositivo per aggiungere elementi alla casella di input."
+      },
+      {
+        "title": "Eliminare",
+        "body": "Elimina l'ultimo termine nella casella di input."
+      },
+      {
+        "title": "Chiaro",
+        "body": "Cancella tutti i termini dalla casella di input."
+      },
+      {
+        "title": "Fermare",
+        "body": "Interrompe qualsiasi riproduzione di sintesi vocale attualmente in corso."
+      },
+      {
+        "title": "Ricerca",
+        "body": "Cerca qualsiasi termine in qualsiasi menu. Ti guida verso il termine evidenziato dai pulsanti che devi premere."
+      },
+      {
+        "title": "Impostazioni",
+        "body": "Apre il menu delle impostazioni: consente di modificare la lavagna, eseguire il backup dei dati, cambiare la voce della sintesi vocale e altro ancora."
+      },
+      {
+        "title": "Indietro",
+        "body": "Ti riporta al menu precedente."
+      },
+      {
+        "title": "Completamento automatico",
+        "body": "Sostituisce il menu con un elenco di opzioni di completamento automatico che apprendono dai simboli selezionati. I dati non lasciano mai il dispositivo senza il consenso dell'utente."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Trova una parola/un elemento",
+    "subtitle": "Cerca in ogni menu, quindi fai clic sui pulsanti evidenziati per navigare fino alla parola.",
+    "placeholder": "Digita una parola…",
+    "noMatches": "Nessuna corrispondenza.",
+    "find": "Trovare",
+    "close": "Vicino",
+    "finding": "Trova “{word}” - tocca il pulsante evidenziato",
+    "cancel": "Cancellare"
+  },
+  "autocomplete": {
+    "suggestions": "Suggerimenti",
+    "after": "Dopo \"{word}\"",
+    "none": "Nessun suggerimento ancora."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "apply": "Fare domanda a",
+    "done": "Fatto",
+    "tabs": {
+      "display": "Display",
+      "voice": "Voce",
+      "vocabulary": "Vocabolario",
+      "language": "Lingua",
+      "data": "Dati",
+      "about": "Di",
+      "feedback": "Feedback"
+    },
+    "display": {
+      "preview": "Anteprima",
+      "staticRowLabel": "Riga di parole statiche",
+      "menuRowLabel": "Riga del menu",
+      "previewStaticTerms": [
+        "SÌ",
+        "NO",
+        "Di più"
+      ],
+      "previewMenuTitles": [
+        "Persone",
+        "Cibo",
+        "Azioni"
+      ],
+      "itemSizing": "Dimensioni dell'articolo",
+      "itemWidthSize": "dimensione della larghezza dell'articolo",
+      "itemHeightSize": "Dimensioni altezza articolo",
+      "gridSize": "Adatta alla griglia",
+      "gridHint": "Ridimensiona gli elementi per adattarli alla griglia: inserisci colonne e righe, quindi tocca Applica.",
+      "gridCols": "Cols",
+      "gridRows": "file",
+      "gridApply": "Fare domanda a",
+      "bordersSpacing": "Bordi e spaziatura",
+      "borderWidth": "larghezza del bordo",
+      "itemPadding": "Imbottitura dell'articolo",
+      "staticRowStyle": "Stile di riga delle parole statiche",
+      "menuRowStyle": "Stile riga menu",
+      "textSize": "Dimensione della colonna",
+      "textPadding": "spaziatura del testo",
+      "buttonShape": "forma a bottone",
+      "labelPosition": "Posizione dell'etichetta",
+      "top": "Superiore",
+      "bottom": "Metter il fondo a",
+      "skinTone": "Tonalità della pelle",
+      "theme": "Tema",
+      "themeLight": "Leggero",
+      "themeDark": "Buio",
+      "themeSystem": "Sistema",
+      "themeNote": "La modalità scura applica un tema scuro alle schermate e ai menu dell'app. I colori dei pulsanti e la modalità ad alto contrasto rimangono invariati.",
+      "highContrast": "Contrasto elevato",
+      "highContrastHint": "Sfondo nero, bordi bianchi ed etichette con una palette di colori semplificata per le immagini degli articoli."
+    },
+    "voice": {
+      "speechRate": "velocità del parlato",
+      "pitch": "Pece",
+      "pauseBetweenWords": "Pausa tra le parole",
+      "pauseDuration": "Durata della pausa",
+      "testPhrase": "Si tratta di un test delle impostazioni vocali.",
+      "testVoice": "Voce di prova",
+      "translateSentence": "Tradurre le frasi pronunciate",
+      "translateSentenceHint": "Traduci l'intera frase in una volta sola per una grammatica più naturale, invece che parola per parola. Attivata di default per le lingue diverse dall'inglese. Richiede una connessione a Internet.",
+      "voiceLabel": "Voce",
+      "voiceHint": "Scegli la voce da utilizzare per la sintesi vocale nella lingua della tua app. Le voci sono fornite dal tuo dispositivo o dal browser.",
+      "voiceDefault": "Predefinito (sistema)",
+      "noVoices": "Nessuna voce trovata per questa lingua.",
+      "openDeviceTts": "Apri le impostazioni TTS del dispositivo",
+      "ttsOpenFailed": "Impossibile aprire le impostazioni TTS del dispositivo: {e}",
+      "resetToDefaults": "Ripristina le impostazioni predefinite",
+      "resetDone": "Il volume è stato ripristinato alle impostazioni predefinite."
+    },
+    "vocabulary": {
+      "editorMode": "Modalità editor",
+      "editorModeHint": "Modifica simboli e cartelle toccandoli sulla lavagna e utilizza i pulsanti sulla barra degli strumenti per modificare i menu.",
+      "enableEditorMode": "Abilita la modalità editor",
+      "staticRow": "Riga di parole statiche",
+      "staticRowHint": "Le parole sono sempre visibili nella parte inferiore dello schermo, indipendentemente dalla sezione dell'app in cui ti trovi. Trascina ≡ per riordinarle.",
+      "addPhrasePlaceholder": "Aggiungi una frase",
+      "addPhrase": "Aggiungere",
+      "menuRow": "Riga del menu",
+      "menuRowHint": "I tasti di scelta rapida del menu vengono visualizzati appena sopra la riga statica quando si utilizzano la lavagna e il menu principale. Trascina ≡ per riordinarli.",
+      "menuRowEmpty": "Nessun menù nella fila.",
+      "addMenuToRow": "Aggiungi il menu alla riga",
+      "allMenusInRow": "Tutti i menu sono già in fila."
+    },
+    "language": {
+      "appLanguage": "Lingua dell'app",
+      "appLanguageHint": "Utilizzato per la sintesi vocale, la ricerca di immagini e la traduzione di etichette. Modificando questa impostazione, tutte le immagini vengono ricaricate.",
+      "translationDisclaimer": "Il testo dell'app viene tradotto utilizzando l'API di Google Traduttore, pertanto alcune traduzioni potrebbero essere imprecise. Se riscontri un errore, utilizza il pulsante Feedback nelle Impostazioni per segnalarlo, specificando la lingua e la correzione suggerita.",
+      "autoTranslate": "Traduzione automatica",
+      "translateUi": "Interfaccia dell'app di traduzione",
+      "translateUiHint": "Mostra menu, pulsanti e impostazioni nella lingua dell'app.",
+      "translateLabels": "Traduci le etichette della lavagna e del menù",
+      "translateLabelsHint": "Traduce automaticamente le etichette dei simboli, i nomi dei menu e le righe di testo statico nella lingua dell'app. Richiede una connessione a Internet.",
+      "multilingual": "Multilingue",
+      "perItemImageLanguage": "Linguaggio delle immagini per ogni elemento",
+      "perItemImageLanguageHint": "Permetti a ciascun elemento di cercare immagini nella propria lingua.",
+      "multilingualLabels": "Etichette multilingue",
+      "multilingualLabelsHint": "Aggiungi etichette di testo extra per ogni elemento (in modalità di modifica) per altre lingue. Quando questa opzione è attiva, solo le etichette degli elementi della bacheca smettono di tradursi automaticamente quando cambi lingua (vengono utilizzate le etichette scritte manualmente); le parole statiche che compongono i nomi di riga e di menu continuano a tradursi automaticamente.",
+      "spokenLanguages": "Lingue parlate",
+      "spokenLanguagesHint": "È possibile passare da una lingua all'altra tramite la casella di input. La lingua predefinita è quella dell'app; gli elementi senza un'etichetta manuale vengono tradotti automaticamente per la sintesi vocale. Questa funzione richiede una connessione a Internet e non è disponibile per la lingua inglese.",
+      "base": "Base",
+      "addLanguage": "Aggiungi lingua"
+    },
+    "data": {
+      "backupRestore": "Backup e ripristino",
+      "backupRestoreHint": "Esporta o importa tutte le schede, le impostazioni, le immagini personalizzate e l'audio registrato in un unico file di backup che puoi trasferire su un altro dispositivo o conservare nella memoria del tuo dispositivo.",
+      "downloadBackup": "Scarica il backup",
+      "exportBackup": "Esporta backup",
+      "saveBackupToDevice": "Salva il backup sul dispositivo (scegli la cartella)",
+      "importBackup": "Importa backup",
+      "security": "Sicurezza",
+      "securityHint": "Richiedi un PIN per aprire le Impostazioni e l'editor. Questo serve a garantire che l'utente non possa modificare le impostazioni senza il PIN quando si trova nell'interfaccia principale. Il PIN viene salvato quando si tocca Applica o Fine.",
+      "changePin": "Cambia PIN",
+      "removePin": "Rimuovere il PIN",
+      "setPin": "Imposta un PIN",
+      "recoveryQuestions": "Domande sul recupero",
+      "recoveryQuestionsHint": "Serve per reimpostare un PIN dimenticato. Si consiglia di aggiungerne almeno uno. Senza alcun PIN, un PIN dimenticato può essere cancellato solo reinstallando l'app.",
+      "question": "Domanda",
+      "ownQuestionPlaceholder": "Oppure digita la tua domanda",
+      "answer": "Risposta",
+      "addQuestion": "+ Aggiungi domanda",
+      "pinPlaceholder": "PIN (minimo 4 cifre)",
+      "confirmPinPlaceholder": "Conferma il PIN",
+      "pinTooShort": "Il PIN deve essere composto da almeno 4 cifre.",
+      "pinsDoNotMatch": "I PIN non corrispondono.",
+      "reset": "Reset",
+      "restoreDefaults": "Ripristina le impostazioni predefinite",
+      "backupFormatNote": "Il backup .spegen è un file ZIP compresso che contiene le tue schede, le impostazioni, le immagini personalizzate e l'audio registrato in un unico file. L'importazione sovrascrive tutte le schede e le impostazioni correnti.",
+      "preparingDownload": "Preparazione del download in corso…",
+      "backupDownloaded": "Backup scaricato.",
+      "openingShareSheet": "Foglio di apertura delle azioni…",
+      "shareSheetHint": "Utilizza il menu di condivisione per salvare il backup.",
+      "sharingUnavailable": "La condivisione non è disponibile.",
+      "chooseFolder": "Scegli una cartella in cui salvare i dati…",
+      "savedToFolder": "Salvato nella cartella selezionata.",
+      "saveCanceled": "Salvataggio annullato.",
+      "saveFailed": "Salvataggio non riuscito: {e}",
+      "chooseBackupFile": "Scegli un file di backup…",
+      "importCanceled": "Importazione annullata.",
+      "importWebFileMissing": "Importazione non riuscita: handle del file web mancante.",
+      "importDone": "Importato. Scheda ricaricata.",
+      "importFailed": "Importazione non riuscita: {e}",
+      "confirmReset": "Tocca di nuovo \"Ripristina impostazioni predefinite\" per confermare. Attenzione: questa operazione cancellerà le tue schede.",
+      "resetDone": "Schede predefinite ripristinate.",
+      "resetFailed": "Ripristino non riuscito: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Un'app AAC open-source sviluppata da Harper Klein Keane. La pagina GitHub di SpeGen è disponibile all'indirizzo",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "e il sito web è reperibile all'indirizzo",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licenza: GNU General Public License v3.0",
+      "showTutorialAgain": "Mostra di nuovo il tutorial di benvenuto",
+      "privacyPolicy": "politica sulla riservatezza"
+    },
+    "feedback": {
+      "title": "Invia feedback",
+      "intro": "Hai trovato un bug o hai una richiesta di funzionalità? Fammi sapere! Questo modulo aprirà automaticamente una segnalazione di bug sul repository GitHub di Spegen.",
+      "category": "Categoria del problema",
+      "categories": [
+        "Insetto",
+        "Suggerimento",
+        "Altro"
+      ],
+      "header": "Intestazione / Sommario",
+      "headerPlaceholder": "Riassumi brevemente il problema",
+      "details": "Dettagli / Corpo",
+      "detailsPlaceholder": "Descrivi i passaggi per riprodurre il bug o approfondisci la tua idea di funzionalità...",
+      "submitting": "Invio in corso...",
+      "submit": "Invia feedback",
+      "missingFields": "Si prega di fornire sia un'intestazione che tutti i dettagli.",
+      "submittingStatus": "Invio del feedback in corso...",
+      "submitted": "Feedback inviato correttamente! Grazie.",
+      "submitFailed": "Impossibile inviare il problema: {msg}",
+      "networkError": "Errore di rete durante l'invio del feedback: {e}"
+    }
+  },
+  "board": {
+    "settings": "Impostazioni",
+    "search": "Ricerca",
+    "stop": "Fermare",
+    "keyboard": "Tastiera",
+    "delete": "Eliminare",
+    "clear": "Chiaro",
+    "back": "Indietro",
+    "autocomplete": "Completamento automatico",
+    "addText": "Aggiungi testo"
+  },
+  "editor": {
+    "title": "MODALITÀ EDITOR",
+    "addItem": "+ Articolo",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menù",
+    "gotoMenu": "Vai al menu",
+    "applyChanges": "Applica le modifiche",
+    "exit": "Uscita"
+  },
+  "languageDropdown": {
+    "select": "Selezionare…",
+    "searchPlaceholder": "Lingua di ricerca"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Digitare soltanto",
+      "Parlare soltanto",
+      "Entrambi"
+    ],
+    "addItem": {
+      "title": "Aggiungi l'elemento a {menuTitle}",
+      "name": "Nome",
+      "symbol": "Simbolo",
+      "folder": "Cartella",
+      "folderTargetMenu": "Menu di destinazione della cartella"
+    },
+    "newMenu": {
+      "title": "Crea un nuovo menu",
+      "menuTitle": "Titolo del menu",
+      "emptyNote": "Il menu viene creato vuoto. Accedivi e usa \"+ Elemento\" per aggiungere elementi.",
+      "create": "Creare"
+    },
+    "deleteMenu": {
+      "title": "Elimina un menu",
+      "hint": "Anche le cartelle che aprono un menu eliminato verranno rimosse.",
+      "delete": "Eliminare"
+    },
+    "gotoMenu": {
+      "title": "Vai a un menu",
+      "hint": "Consente di accedere a un menu mentre si è in modalità editor.",
+      "goTo": "Vai a"
+    },
+    "unsaved": {
+      "title": "Modifiche non salvate",
+      "body": "Sono presenti modifiche non salvate. Vuoi salvarle?",
+      "dontSave": "Non salvare",
+      "saveChanges": "Salva le modifiche"
+    },
+    "pinLock": {
+      "enterTitle": "Inserisci il PIN",
+      "lockedHint": "Le impostazioni e l'editor sono bloccati.",
+      "pinPlaceholder": "SPILLO",
+      "unlock": "Sbloccare",
+      "forgotPin": "Hai dimenticato il PIN?",
+      "incorrectPin": "PIN errato.",
+      "noQuestions": "Non sono state impostate domande di recupero, quindi il PIN non può essere reimpostato. Reinstalla l'app per cancellarlo (in questo modo verranno eliminate tutte le schede).",
+      "answerToReset": "Risposta per reimpostare il PIN",
+      "answerHint": "Rispondi correttamente a tutte le domande (senza distinzione tra maiuscole e minuscole).",
+      "answerPlaceholder": "Risposta",
+      "verify": "Verificare",
+      "answersIncorrect": "Una o più risposte sono errate.",
+      "setNewPin": "Imposta un nuovo PIN",
+      "newPinPlaceholder": "Nuovo PIN (minimo 4 cifre)",
+      "confirmNewPinPlaceholder": "Conferma il nuovo PIN",
+      "saveNewPin": "Salva il nuovo PIN",
+      "pinTooShort": "Il PIN deve essere composto da almeno 4 cifre.",
+      "pinsDoNotMatch": "I PIN non corrispondono."
+    },
+    "colorPicker": {
+      "title": "Scegli un colore",
+      "hue": "Tonalità: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Nome",
+      "itemLanguage": "Lingua dell'articolo",
+      "language": "Lingua",
+      "labelsByLanguage": "Etichette per lingua",
+      "add": "Aggiungere",
+      "addLanguage": "+ Aggiungi lingua",
+      "image": "Immagine",
+      "loading": "Caricamento…",
+      "loadMoreImages": "Carica altre immagini",
+      "findImages": "Trova immagini",
+      "chooseCustomImage": "Scegli un'immagine personalizzata",
+      "resetToDefault": "Ripristina le impostazioni predefinite",
+      "audio": "Audio",
+      "useItemName": "Utilizzare il nome dell'elemento",
+      "useCustomAudio": "Utilizzare audio personalizzato",
+      "audioClip": "Clip audio",
+      "record": "Documentazione",
+      "stop": "Fermare",
+      "importFromDevice": "Importa dal dispositivo",
+      "preview": "▶ Anteprima",
+      "clearAudio": "Audio nitido",
+      "renameAudioClip": "Rinominare la clip audio",
+      "clipNamePlaceholder": "Nome della clip",
+      "pronHint": "Facoltativo: riscrivere il nome in modo che venga pronunciato correttamente (ad esempio, \"MIS-chiv-us\").",
+      "pronPlaceholder": "Pronuncia",
+      "color": "Colore",
+      "custom": "Costume",
+      "default": "Predefinito",
+      "editCustomColor": "Modifica colore personalizzato",
+      "pickCustomColor": "Scegli un colore personalizzato",
+      "ttsBehavior": "Comportamento TTS",
+      "delete": "Eliminare"
+    }
+  }
+}

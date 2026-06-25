@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Tillbaka",
+    "next": "Nästa",
+    "done": "Gjort",
+    "skip": "Hoppa",
+    "cancel": "Avboka",
+    "add": "Tillägga",
+    "save": "Spara",
+    "close": "Nära",
+    "reset": "Återställa"
+  },
+  "banners": {
+    "ttsMissingVoice": "Ingen installerad röst för {name} ({code}). Talar med standardrösten.",
+    "ttsInstallAndroid": "Tryck för att öppna enhetens talinställningar och installera sedan röstdata för det här språket.",
+    "ttsInstallIos": "För att lägga till den, öppna Inställningar → Tillgänglighet → Uppläst innehåll → Röster och ladda ner rösten. Tryck för att avvisa.",
+    "ttsInstallWeb": "Röster kommer från ditt operativsystem – lägg till en för det här språket i dina systeminställningar för tal. Tryck för att stänga.",
+    "updateAvailable": "Uppdatering tillgänglig – tryck för att ladda om"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Välkommen till SpeGen",
+        "body": "Det här är en kort handledning som lär dig appens grundläggande användargränssnitt. Du kan komma åt handledningen senare från Inställningar."
+      },
+      {
+        "title": "Mappar",
+        "body": "Tryck på en mapp för att gå till en annan meny med fler symboler och mappar. Mappar har alltid ett svart veck i det övre högra hörnet."
+      },
+      {
+        "title": "Symboler",
+        "body": "Tryck på en symbol för att lägga till den i inmatningsrutan."
+      },
+      {
+        "title": "Inmatningsruta",
+        "body": "Inmatningsrutan är där du skriver meningar. Tryck på den för att spela upp den konstruerade meningen."
+      },
+      {
+        "title": "Menyrad",
+        "body": "Det här är knappar som automatiskt omdirigerar dig till den tillhörande menyn."
+      },
+      {
+        "title": "Statiska ordrad",
+        "body": "Dessa termer finns alltid längst ner på skärmen oavsett var du befinner dig. Tryck på en för att läsa den direkt."
+      },
+      {
+        "title": "Tangentbord",
+        "body": "Öppnar en dialogruta som låter dig använda enhetens tangentbord för att lägga till objekt i inmatningsrutan."
+      },
+      {
+        "title": "Radera",
+        "body": "Tar bort den sista termen i inmatningsrutan."
+      },
+      {
+        "title": "Rensa",
+        "body": "Rensar inmatningsrutan på alla termer."
+      },
+      {
+        "title": "Stopp",
+        "body": "Stoppar all text-till-tal-uppspelning som för närvarande spelas."
+      },
+      {
+        "title": "Söka",
+        "body": "Sök efter valfri term i valfri meny. Den vägleder dig till termen genom att markera knapparna du behöver trycka på."
+      },
+      {
+        "title": "Inställningar",
+        "body": "Öppnar inställningsmenyn: redigera tavlan, säkerhetskopiera data, ändra röst för text-till-tal och mer."
+      },
+      {
+        "title": "Tillbaka",
+        "body": "Skickar tillbaka dig till föregående meny du var på."
+      },
+      {
+        "title": "Autoslutför",
+        "body": "Ersätter menyn med en lista med alternativ för automatisk komplettering som lär sig av de symboler du väljer. Data lämnar aldrig din enhet utan samtycke."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Hitta ett ord/objekt",
+    "subtitle": "Sök i varje meny och klicka sedan på de markerade knapparna för att navigera till ordet.",
+    "placeholder": "Skriv ett ord…",
+    "noMatches": "Inga matchningar.",
+    "find": "Hitta",
+    "close": "Nära",
+    "finding": "Hitta “{word}” – tryck på den markerade knappen",
+    "cancel": "Avboka"
+  },
+  "autocomplete": {
+    "suggestions": "Förslag",
+    "after": "Efter \"{word}\"",
+    "none": "Inga förslag ännu."
+  },
+  "settings": {
+    "title": "Inställningar",
+    "apply": "Tillämpas",
+    "done": "Gjort",
+    "tabs": {
+      "display": "Visa",
+      "voice": "Röst",
+      "vocabulary": "Ordförråd",
+      "language": "Språk",
+      "data": "Data",
+      "about": "Om",
+      "feedback": "Feed-back"
+    },
+    "display": {
+      "preview": "Förhandsvisning",
+      "staticRowLabel": "Statiska ordrad",
+      "menuRowLabel": "Menyrad",
+      "previewStaticTerms": [
+        "Ja",
+        "Inga",
+        "Mer"
+      ],
+      "previewMenuTitles": [
+        "Personer",
+        "Mat",
+        "Åtgärder"
+      ],
+      "itemSizing": "Artikelstorlek",
+      "itemWidthSize": "Artikelbredd Storlek",
+      "itemHeightSize": "Artikelhöjd Storlek",
+      "gridSize": "Anpassa till rutnät",
+      "gridHint": "Skala objektstorleken så att den passar ett rutnät: ange kolumner och rader och tryck sedan på Verkställ.",
+      "gridCols": "Kolumner",
+      "gridRows": "Rader",
+      "gridApply": "Tillämpas",
+      "bordersSpacing": "Kanter och avstånd",
+      "borderWidth": "Kantbredd",
+      "itemPadding": "Objektfyllning",
+      "staticRowStyle": "Statiska ord radformat",
+      "menuRowStyle": "Menyradsstil",
+      "textSize": "Textstorlek",
+      "textPadding": "Textfyllning",
+      "buttonShape": "Knappform",
+      "labelPosition": "Etikettposition",
+      "top": "Bästa",
+      "bottom": "Botten",
+      "skinTone": "Hudton",
+      "theme": "Tema",
+      "themeLight": "Ljus",
+      "themeDark": "Mörk",
+      "themeSystem": "System",
+      "themeNote": "Mörkt läge anpassar teman för appens skärmar och menyer. Färgerna på symbolknapparna och högkontrastläget påverkas inte.",
+      "highContrast": "Hög kontrast",
+      "highContrastHint": "Svart bakgrund, vita kanter och etiketter med förenklad färgpalett för artikelbilder."
+    },
+    "voice": {
+      "speechRate": "Talhastighet",
+      "pitch": "Tonhöjd",
+      "pauseBetweenWords": "Paus mellan orden",
+      "pauseDuration": "Pausens varaktighet",
+      "testPhrase": "Detta är ett test av röstinställningarna.",
+      "testVoice": "Teströst",
+      "translateSentence": "Översätt talade meningar",
+      "translateSentenceHint": "Översätt hela meningen på en gång för mer naturlig grammatik, istället för ord för ord. På som standard för språk som inte är engelska. Kräver internet.",
+      "voiceLabel": "Röst",
+      "voiceHint": "Välj den röst som används för tal på ditt appspråk. Röster tillhandahålls av din enhet eller webbläsare.",
+      "voiceDefault": "Standard (system)",
+      "noVoices": "Inga röster hittades för det här språket.",
+      "openDeviceTts": "Öppna enhetens TTS-inställningar",
+      "ttsOpenFailed": "Kunde inte öppna enhetens TTS-inställningar: {e}",
+      "resetToDefaults": "Återställ till standardinställningarna",
+      "resetDone": "Röst återställd till standardinställningarna."
+    },
+    "vocabulary": {
+      "editorMode": "Redigeringsläge",
+      "editorModeHint": "Redigera symboler och mappar genom att trycka på dem på tavlan och använd knapparna i verktygsfältet för att redigera menyer.",
+      "enableEditorMode": "Aktivera redigeringsläge",
+      "staticRow": "Statiska ordrad",
+      "staticRowHint": "Orden syns alltid längst ner på skärmen oavsett var du befinner dig i appen. Dra ≡ för att ändra ordningen.",
+      "addPhrasePlaceholder": "Lägg till en fras",
+      "addPhrase": "Tillägga",
+      "menuRow": "Menyrad",
+      "menuRowHint": "Menygenvägar visas precis ovanför den statiska raden när du använder tavlan och huvudmenyn. Dra ≡ för att ändra ordningen.",
+      "menuRowEmpty": "Inga menyer i raden.",
+      "addMenuToRow": "Lägg till meny på rad",
+      "allMenusInRow": "Alla menyer finns redan på raden."
+    },
+    "language": {
+      "appLanguage": "Appspråk",
+      "appLanguageHint": "Används för tal, bildsökning och etikettöversättning. Om du ändrar detta laddas alla bilder om.",
+      "translationDisclaimer": "Apptexten översätts med Google Translate API, så vissa översättningar kan vara felaktiga. Om du upptäcker ett fel kan du använda Feedback-knappen i Inställningarna för att rapportera det – inkludera språket och den föreslagna korrigeringen.",
+      "autoTranslate": "Automatisk översättning",
+      "translateUi": "Översätt appgränssnittet",
+      "translateUiHint": "Visa menyer, knappar och inställningar på appens språk.",
+      "translateLabels": "Översätt tavlor och menyetiketter",
+      "translateLabelsHint": "Översätt symboletiketter, menynamn och rader med statiska ord automatiskt till appens språk. Kräver internet.",
+      "multilingual": "Flerspråkig",
+      "perItemImageLanguage": "Bildspråk per objekt",
+      "perItemImageLanguageHint": "Låt varje objekt söka efter bilder på sitt eget språk.",
+      "multilingualLabels": "Flerspråkiga etiketter",
+      "multilingualLabelsHint": "Lägg till extra textetiketter per objekt (i redigeringsläge) för andra språk. Medan det är aktiverat stoppar endast etiketter för anslagstavlor automatisk översättning när du byter språk (dina manuella etiketter används istället); de statiska orden rad- och menynamn översätts fortfarande automatiskt.",
+      "spokenLanguages": "Talade språk",
+      "spokenLanguagesHint": "Språk som du kan växla mellan från inmatningsrutan. Appens språk är basen; objekt utan manuell etikett översätts automatiskt för tal. Den här funktionen kräver internetanslutning och hoppas över för engelska.",
+      "base": "Bas",
+      "addLanguage": "Lägg till språk"
+    },
+    "data": {
+      "backupRestore": "Säkerhetskopiering och återställning",
+      "backupRestoreHint": "Exportera eller importera alla anslagstavlor, inställningar, anpassade bilder och inspelat ljud som en enda säkerhetskopia som du kan överföra till en annan enhet eller spara i enhetens lagring.",
+      "downloadBackup": "Ladda ner säkerhetskopia",
+      "exportBackup": "Exportera säkerhetskopia",
+      "saveBackupToDevice": "Spara säkerhetskopia på enhet (välj mapp)",
+      "importBackup": "Importera säkerhetskopia",
+      "security": "Säkerhet",
+      "securityHint": "Kräv en PIN-kod för att öppna Inställningar och redigeraren. Detta kan användas för att säkerställa att användaren inte kan redigera inställningar utan PIN-koden i huvudgränssnittet. Sparas när du trycker på Verkställ eller Klar.",
+      "changePin": "Ändra PIN-kod",
+      "removePin": "Ta bort PIN-koden",
+      "setPin": "Ställ in en PIN-kod",
+      "recoveryQuestions": "Återhämtningsfrågor",
+      "recoveryQuestionsHint": "Används för att återställa en glömd PIN-kod. Det rekommenderas att lägga till minst en. Utan en PIN-kod kan en glömd PIN-kod bara raderas genom att installera om appen.",
+      "question": "Fråga",
+      "ownQuestionPlaceholder": "Eller skriv din egen fråga",
+      "answer": "Svar",
+      "addQuestion": "+ Lägg till fråga",
+      "pinPlaceholder": "PIN-kod (minst 4 siffror)",
+      "confirmPinPlaceholder": "Bekräfta PIN-koden",
+      "pinTooShort": "PIN-koden måste vara minst 4 siffror lång.",
+      "pinsDoNotMatch": "PIN-koderna matchar inte.",
+      "reset": "Återställa",
+      "restoreDefaults": "Återställ standardinställningar",
+      "backupFormatNote": ".spegen-säkerhetskopian är en komprimerad ZIP-fil som innehåller dina anslagstavlor, inställningar, anpassade bilder och inspelat ljud i en enda fil. Importen ersätter alla aktuella anslagstavlor och inställningar.",
+      "preparingDownload": "Förbereder nedladdning…",
+      "backupDownloaded": "Säkerhetskopiering nedladdad.",
+      "openingShareSheet": "Öppnar delningsblad…",
+      "shareSheetHint": "Använd delningsarket för att spara din säkerhetskopia.",
+      "sharingUnavailable": "Delning är inte tillgängligt.",
+      "chooseFolder": "Välj en mapp att spara i…",
+      "savedToFolder": "Sparad i den mapp du valde.",
+      "saveCanceled": "Sparandet avbröts.",
+      "saveFailed": "Spara misslyckades: {e}",
+      "chooseBackupFile": "Välj en säkerhetskopia…",
+      "importCanceled": "Importen avbröts.",
+      "importWebFileMissing": "Importen misslyckades: Webbfilens referens saknas.",
+      "importDone": "Importerad. Brädet laddades om.",
+      "importFailed": "Importen misslyckades: {e}",
+      "confirmReset": "Tryck på \"Återställ standardinställningar\" igen för att bekräfta. Varning: detta raderar dina anslagstavlor.",
+      "resetDone": "Återställde standardtavlor.",
+      "resetFailed": "Återställning misslyckades: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "En AAC-app med öppen källkod utvecklad av Harper Klein Keane. SpeGens GitHub-sida finns på",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", och webbplatsen finns på",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licens: GNU General Public License v3.0",
+      "showTutorialAgain": "Visa välkomsthandledningen igen",
+      "privacyPolicy": "Integritetspolicy"
+    },
+    "feedback": {
+      "title": "Skicka feedback",
+      "intro": "Har du hittat en bugg eller har du en funktionsförfrågan? Låt mig veta! Det här formuläret öppnar automatiskt ett spårningsproblem på Spegens GitHub-arkiv.",
+      "category": "Problemkategori",
+      "categories": [
+        "Bugga",
+        "Förslag",
+        "Andra"
+      ],
+      "header": "Rubrik / Sammanfattning",
+      "headerPlaceholder": "Sammanfatta kortfattat problemet",
+      "details": "Detaljer / Kropp",
+      "detailsPlaceholder": "Ange steg för att reproducera felet eller utöka din funktionsidé...",
+      "submitting": "Skickar in...",
+      "submit": "Skicka feedback",
+      "missingFields": "Vänligen ange både en rubrik och fullständiga detaljer.",
+      "submittingStatus": "Skicka in feedback...",
+      "submitted": "Feedbacken har skickats! Tack.",
+      "submitFailed": "Kunde inte skicka in ärendet: {msg}",
+      "networkError": "Nätverksfel vid sändning av feedback: {e}"
+    }
+  },
+  "board": {
+    "settings": "Inställningar",
+    "search": "Söka",
+    "stop": "Stopp",
+    "keyboard": "Tangentbord",
+    "delete": "Radera",
+    "clear": "Rensa",
+    "back": "Tillbaka",
+    "autocomplete": "Autoslutför",
+    "addText": "Lägg till text"
+  },
+  "editor": {
+    "title": "REDIGERARLÄGE",
+    "addItem": "+ Artikel",
+    "addMenu": "+ Meny",
+    "deleteMenu": "- Meny",
+    "gotoMenu": "Gå till menyn",
+    "applyChanges": "Tillämpa ändringar",
+    "exit": "Utgång"
+  },
+  "languageDropdown": {
+    "select": "Välja…",
+    "searchPlaceholder": "Sökspråk"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Endast typ",
+      "Tala bara",
+      "Både"
+    ],
+    "addItem": {
+      "title": "Lägg till artikel i {menuTitle}",
+      "name": "Namn",
+      "symbol": "Symbol",
+      "folder": "Mapp",
+      "folderTargetMenu": "Mappmålmeny"
+    },
+    "newMenu": {
+      "title": "Skapa ny meny",
+      "menuTitle": "Menytitel",
+      "emptyNote": "Menyn skapas tom. Gå in i den och använd \"+ Objekt\" för att lägga till objekt.",
+      "create": "Skapa"
+    },
+    "deleteMenu": {
+      "title": "Ta bort en meny",
+      "hint": "Mappar som öppnar en borttagen meny kommer också att tas bort.",
+      "delete": "Radera"
+    },
+    "gotoMenu": {
+      "title": "Gå till en meny",
+      "hint": "Låter dig hoppa till en meny i redigeringsläge.",
+      "goTo": "Gå till"
+    },
+    "unsaved": {
+      "title": "Osparade ändringar",
+      "body": "Du har ändringar som inte sparats. Vill du spara dem?",
+      "dontSave": "Spara inte",
+      "saveChanges": "Spara ändringar"
+    },
+    "pinLock": {
+      "enterTitle": "Ange PIN-koden",
+      "lockedHint": "Inställningarna och redigeraren är låsta.",
+      "pinPlaceholder": "STIFT",
+      "unlock": "Låsa upp",
+      "forgotPin": "Glömt PIN-koden?",
+      "incorrectPin": "Felaktig PIN-kod.",
+      "noQuestions": "Inga återställningsfrågor är inställda, så PIN-koden kan inte återställas. Installera om appen för att rensa den (detta raderar alla anslagstavlor).",
+      "answerToReset": "Svar för att återställa PIN-koden",
+      "answerHint": "Svara korrekt på varje fråga (ej skiftlägeskänsligt).",
+      "answerPlaceholder": "Svar",
+      "verify": "Kontrollera",
+      "answersIncorrect": "Ett eller flera svar är felaktiga.",
+      "setNewPin": "Ställ in en ny PIN-kod",
+      "newPinPlaceholder": "Ny PIN-kod (minst 4 siffror)",
+      "confirmNewPinPlaceholder": "Bekräfta ny PIN-kod",
+      "saveNewPin": "Spara ny PIN-kod",
+      "pinTooShort": "PIN-koden måste vara minst 4 siffror lång.",
+      "pinsDoNotMatch": "PIN-koderna matchar inte."
+    },
+    "colorPicker": {
+      "title": "Välj en färg",
+      "hue": "Färgton: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Namn",
+      "itemLanguage": "Artikelspråk",
+      "language": "Språk",
+      "labelsByLanguage": "Etiketter efter språk",
+      "add": "Tillägga",
+      "addLanguage": "+ Lägg till språk",
+      "image": "Bild",
+      "loading": "Belastning…",
+      "loadMoreImages": "Ladda fler bilder",
+      "findImages": "Hitta bilder",
+      "chooseCustomImage": "Välj anpassad bild",
+      "resetToDefault": "Återställ till standard",
+      "audio": "Audio",
+      "useItemName": "Använd objektnamn",
+      "useCustomAudio": "Använd anpassat ljud",
+      "audioClip": "Ljudklipp",
+      "record": "Spela in",
+      "stop": "Stopp",
+      "importFromDevice": "Importera från enhet",
+      "preview": "▶ Förhandsgranska",
+      "clearAudio": "Klart ljud",
+      "renameAudioClip": "Byt namn på ljudklipp",
+      "clipNamePlaceholder": "Klippnamn",
+      "pronHint": "Valfritt: stava om namnet så att det uttalas korrekt (t.ex. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Uttal",
+      "color": "Färg",
+      "custom": "Beställnings",
+      "default": "Standard",
+      "editCustomColor": "Redigera anpassad färg",
+      "pickCustomColor": "Välj anpassad färg",
+      "ttsBehavior": "TTS-beteende",
+      "delete": "Radera"
+    }
+  }
+}

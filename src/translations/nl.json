@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Rug",
+    "next": "Volgende",
+    "done": "Klaar",
+    "skip": "Overslaan",
+    "cancel": "Annuleren",
+    "add": "Toevoegen",
+    "save": "Redden",
+    "close": "Dichtbij",
+    "reset": "Reset"
+  },
+  "banners": {
+    "ttsMissingVoice": "Geen geïnstalleerde stem voor {name} ({code}). Er wordt gesproken met de standaardstem.",
+    "ttsInstallAndroid": "Tik om de spraakinstellingen van je apparaat te openen en installeer vervolgens de spraakgegevens voor deze taal.",
+    "ttsInstallIos": "Om de stem toe te voegen, ga naar Instellingen → Toegankelijkheid → Gesproken inhoud → Stemmen en download de stem. Tik om te sluiten.",
+    "ttsInstallWeb": "De stemmen zijn afkomstig van je besturingssysteem. Voeg een stem voor deze taal toe in de spraakinstellingen van je systeem. Tik om te sluiten.",
+    "updateAvailable": "Update beschikbaar — tik om opnieuw te laden"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Welkom bij SpeGen",
+        "body": "Dit is een korte handleiding om je de basisinterface van de app te leren. Je kunt deze handleiding later via de instellingen raadplegen."
+      },
+      {
+        "title": "Mappen",
+        "body": "Tik op een map om naar een ander menu te gaan met meer symbolen en mappen. Mappen hebben altijd een zwarte vouw in de rechterbovenhoek."
+      },
+      {
+        "title": "Symbolen",
+        "body": "Tik op een symbool om het aan het invoerveld toe te voegen."
+      },
+      {
+        "title": "Invoervak",
+        "body": "In het invoerveld typ je zinnen. Tik erop om de zin af te spelen."
+      },
+      {
+        "title": "Menu-rij",
+        "body": "Dit zijn knoppen die je automatisch doorverwijzen naar het bijbehorende menu."
+      },
+      {
+        "title": "Statische woordenrij",
+        "body": "Deze termen staan altijd onderaan het scherm, waar u zich ook bevindt. Tik op een term om deze direct uit te spreken."
+      },
+      {
+        "title": "Toetsenbord",
+        "body": "Hiermee wordt een dialoogvenster geopend waarin u het toetsenbord van uw apparaat kunt gebruiken om items aan het invoerveld toe te voegen."
+      },
+      {
+        "title": "Verwijderen",
+        "body": "Verwijdert de laatste term in het invoerveld."
+      },
+      {
+        "title": "Duidelijk",
+        "body": "Verwijdert alle termen uit het invoerveld."
+      },
+      {
+        "title": "Stop",
+        "body": "Stopt alle momenteel afspelende tekst-naar-spraak."
+      },
+      {
+        "title": "Zoekopdracht",
+        "body": "Zoek naar een term in een menu. De zoekfunctie leidt je naar de term door de knoppen die je moet indrukken te markeren."
+      },
+      {
+        "title": "Instellingen",
+        "body": "Opent het instellingenmenu: het bord bewerken, gegevens back-uppen, de spraakstem wijzigen en meer."
+      },
+      {
+        "title": "Rug",
+        "body": "Hiermee ga je terug naar het vorige menu."
+      },
+      {
+        "title": "Automatisch aanvullen",
+        "body": "Vervangt het menu door een lijst met autocomplete-opties die leren van de symbolen die u selecteert. Gegevens verlaten uw apparaat nooit zonder uw toestemming."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Zoek een woord/item",
+    "subtitle": "Doorzoek alle menu's en klik vervolgens op de gemarkeerde knoppen om naar het woord te navigeren.",
+    "placeholder": "Typ een woord…",
+    "noMatches": "Geen overeenkomsten gevonden.",
+    "find": "Vinden",
+    "close": "Dichtbij",
+    "finding": "Zoekt u “{word}”? Tik dan op de gemarkeerde knop.",
+    "cancel": "Annuleren"
+  },
+  "autocomplete": {
+    "suggestions": "Suggesties",
+    "after": "Na \"{word}\"",
+    "none": "Nog geen suggesties."
+  },
+  "settings": {
+    "title": "Instellingen",
+    "apply": "Toepassen",
+    "done": "Klaar",
+    "tabs": {
+      "display": "Weergave",
+      "voice": "Stem",
+      "vocabulary": "Vocabulaire",
+      "language": "Taal",
+      "data": "Gegevens",
+      "about": "Over",
+      "feedback": "Feedback"
+    },
+    "display": {
+      "preview": "Voorbeeld",
+      "staticRowLabel": "Statische woordenrij",
+      "menuRowLabel": "Menu-rij",
+      "previewStaticTerms": [
+        "Ja",
+        "Nee",
+        "Meer"
+      ],
+      "previewMenuTitles": [
+        "Mensen",
+        "Voedsel",
+        "Acties"
+      ],
+      "itemSizing": "Maatvoering van het artikel",
+      "itemWidthSize": "Breedte van het artikel",
+      "itemHeightSize": "Hoogte van het artikel",
+      "gridSize": "Aanpassen aan raster",
+      "gridHint": "Pas de grootte van de items aan zodat ze in een raster passen: voer het aantal kolommen en rijen in en tik vervolgens op Toepassen.",
+      "gridCols": "Kolen",
+      "gridRows": "Rijen",
+      "gridApply": "Toepassen",
+      "bordersSpacing": "Randen en afstand",
+      "borderWidth": "Randbreedte",
+      "itemPadding": "Artikelvulling",
+      "staticRowStyle": "Statische woorden rijstijl",
+      "menuRowStyle": "Menu rijstijl",
+      "textSize": "Tekstgrootte",
+      "textPadding": "Tekstopvulling",
+      "buttonShape": "Knopvorm",
+      "labelPosition": "Positie van het label",
+      "top": "Bovenkant",
+      "bottom": "Onderkant",
+      "skinTone": "Huidskleur",
+      "theme": "Thema",
+      "themeLight": "Licht",
+      "themeDark": "Donker",
+      "themeSystem": "Systeem",
+      "themeNote": "De donkere modus past het thema van de schermen en menu's van de app aan. De kleuren van de symboolknoppen en de modus met hoog contrast blijven ongewijzigd.",
+      "highContrast": "Hoog contrast",
+      "highContrastHint": "Zwarte achtergrond, witte randen en labels met een vereenvoudigd kleurenpalet voor productafbeeldingen."
+    },
+    "voice": {
+      "speechRate": "Spraaksnelheid",
+      "pitch": "Toonhoogte",
+      "pauseBetweenWords": "Pauze tussen woorden",
+      "pauseDuration": "Pauzeduur",
+      "testPhrase": "Dit is een test van de steminstellingen.",
+      "testVoice": "Teststem",
+      "translateSentence": "Vertaal gesproken zinnen",
+      "translateSentenceHint": "Vertaal de hele zin in één keer voor een meer natuurlijke grammatica, in plaats van woord voor woord. Standaard ingeschakeld voor niet-Engelse talen. Vereist een internetverbinding.",
+      "voiceLabel": "Stem",
+      "voiceHint": "Kies de stem die wordt gebruikt voor spraak in de taal van uw app. Stemmen worden geleverd door uw apparaat of browser.",
+      "voiceDefault": "Standaard (systeem)",
+      "noVoices": "Er zijn geen stemmen gevonden voor deze taal.",
+      "openDeviceTts": "Open de TTS-instellingen van het apparaat.",
+      "ttsOpenFailed": "Kon de TTS-instellingen van het apparaat niet openen: {e}",
+      "resetToDefaults": "Terugzetten naar standaardinstellingen",
+      "resetDone": "Steminstellingen terugzetten naar standaardwaarden."
+    },
+    "vocabulary": {
+      "editorMode": "Bewerkingsmodus",
+      "editorModeHint": "Bewerk symbolen en mappen door erop te tikken op het bord en gebruik de knoppen op de werkbalk om menu's te bewerken.",
+      "enableEditorMode": "Editormodus inschakelen",
+      "staticRow": "Statische woordenrij",
+      "staticRowHint": "De woorden blijven altijd onderaan het scherm zichtbaar, ongeacht waar je je in de app bevindt. Sleep ≡ om de volgorde te wijzigen.",
+      "addPhrasePlaceholder": "Voeg een zin toe",
+      "addPhrase": "Toevoegen",
+      "menuRow": "Menu-rij",
+      "menuRowHint": "Menusneltoetsen worden net boven de statische rij weergegeven wanneer u het bord en het hoofdmenu gebruikt. Sleep ≡ om de volgorde te wijzigen.",
+      "menuRowEmpty": "Geen menu's in deze rij.",
+      "addMenuToRow": "Voeg menu toe aan rij",
+      "allMenusInRow": "Alle menu's staan al op de rij."
+    },
+    "language": {
+      "appLanguage": "App-taal",
+      "appLanguageHint": "Wordt gebruikt voor spraakherkenning, beeldherkenning en labelvertaling. Als u dit wijzigt, worden alle afbeeldingen opnieuw geladen.",
+      "translationDisclaimer": "De tekst in de app wordt vertaald met de Google Translate API, waardoor sommige vertalingen mogelijk onnauwkeurig zijn. Als u een fout ontdekt, kunt u deze melden via de feedbackknop in de instellingen. Vermeld daarbij de taal en de voorgestelde correctie.",
+      "autoTranslate": "Automatische vertaling",
+      "translateUi": "App-interface vertalen",
+      "translateUiHint": "Toon menu's, knoppen en instellingen in de taal van de app.",
+      "translateLabels": "Vertaal de bord- en menulabels",
+      "translateLabelsHint": "Automatisch symbolen, menunamen en de rij met statische woorden vertalen naar de taal van de app. Internetverbinding vereist.",
+      "multilingual": "Meertalig",
+      "perItemImageLanguage": "Afbeeldingstaal per item",
+      "perItemImageLanguageHint": "Laat elk item zoeken naar afbeeldingen in de eigen taal.",
+      "multilingualLabels": "Meertalige labels",
+      "multilingualLabelsHint": "Voeg extra tekstlabels per item toe (in de bewerkingsmodus) voor andere talen. Wanneer deze functie is ingeschakeld, worden alleen de labels van borditems niet meer automatisch vertaald wanneer u van taal wisselt (uw handmatig ingevoerde labels worden dan gebruikt); de statische woorden voor rij- en menunamen worden nog steeds automatisch vertaald.",
+      "spokenLanguages": "Gesproken talen",
+      "spokenLanguagesHint": "Je kunt via het invoerveld wisselen tussen de talen. De taal van de app is de basistaal; items zonder handmatig label worden automatisch vertaald voor spraak. Deze functie vereist een internetverbinding en is niet beschikbaar voor Engels.",
+      "base": "Baseren",
+      "addLanguage": "Taal toevoegen"
+    },
+    "data": {
+      "backupRestore": "Back-up en herstel",
+      "backupRestoreHint": "Exporteer of importeer alle boards, instellingen, aangepaste afbeeldingen en opgenomen audio als één back-upbestand dat u naar een ander apparaat kunt overzetten of in het geheugen van uw apparaat kunt bewaren.",
+      "downloadBackup": "Back-up downloaden",
+      "exportBackup": "Exporteer back-up",
+      "saveBackupToDevice": "Back-up opslaan op apparaat (map kiezen)",
+      "importBackup": "Importeer back-up",
+      "security": "Beveiliging",
+      "securityHint": "Vereis een pincode om de instellingen en de editor te openen. Dit kan worden gebruikt om ervoor te zorgen dat de gebruiker de instellingen niet kan bewerken zonder de pincode wanneer hij zich in de hoofdinterface bevindt. De wijzigingen worden opgeslagen wanneer u op Toepassen of Klaar tikt.",
+      "changePin": "PIN wijzigen",
+      "removePin": "PIN verwijderen",
+      "setPin": "Stel een pincode in",
+      "recoveryQuestions": "Herstelvragen",
+      "recoveryQuestionsHint": "Hiermee kunt u een vergeten pincode opnieuw instellen. Het is aan te raden om er minstens één toe te voegen. Zonder pincode kan een vergeten pincode alleen worden gewist door de app opnieuw te installeren.",
+      "question": "Vraag",
+      "ownQuestionPlaceholder": "Of typ je eigen vraag",
+      "answer": "Antwoord",
+      "addQuestion": "+ Vraag toevoegen",
+      "pinPlaceholder": "PIN (minimaal 4 cijfers)",
+      "confirmPinPlaceholder": "Bevestig de pincode",
+      "pinTooShort": "De pincode moet minimaal 4 cijfers bevatten.",
+      "pinsDoNotMatch": "De pincodes komen niet overeen.",
+      "reset": "Reset",
+      "restoreDefaults": "Standaardinstellingen herstellen",
+      "backupFormatNote": "De .spegen-back-up is een gecomprimeerd ZIP-bestand met daarin uw boards, instellingen, aangepaste afbeeldingen en opgenomen audio. Bij het importeren worden alle huidige boards en instellingen vervangen.",
+      "preparingDownload": "Download wordt voorbereid…",
+      "backupDownloaded": "Back-up gedownload.",
+      "openingShareSheet": "Aandelenoverzicht openen…",
+      "shareSheetHint": "Gebruik het deelmenu om uw back-up op te slaan.",
+      "sharingUnavailable": "Delen is niet mogelijk.",
+      "chooseFolder": "Kies een map om in op te slaan…",
+      "savedToFolder": "Opgeslagen in de map die u hebt gekozen.",
+      "saveCanceled": "Opslaan geannuleerd.",
+      "saveFailed": "Opslaan mislukt: {e}",
+      "chooseBackupFile": "Kies een back-upbestand…",
+      "importCanceled": "Import geannuleerd.",
+      "importWebFileMissing": "Importeren mislukt: De webbestandshandle ontbreekt.",
+      "importDone": "Geïmporteerd. Board opnieuw geladen.",
+      "importFailed": "Import mislukt: {e}",
+      "confirmReset": "Tik nogmaals op \"Standaardinstellingen herstellen\" om te bevestigen. Waarschuwing: hiermee worden uw boards gewist.",
+      "resetDone": "De standaardinstellingen zijn hersteld.",
+      "resetFailed": "Reset mislukt: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "SpeGen is een open-source AAC-app ontwikkeld door Harper Klein Keane. De GitHub-pagina van SpeGen is te vinden op [link].",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "en de website is te vinden op",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licentie: GNU General Public License v3.0",
+      "showTutorialAgain": "Toon de welkomsthandleiding opnieuw",
+      "privacyPolicy": "Privacybeleid"
+    },
+    "feedback": {
+      "title": "Feedback verzenden",
+      "intro": "Heb je een bug gevonden of een functieverzoek? Laat het me weten! Dit formulier opent automatisch een tracking issue in de GitHub-repository van Spegen.",
+      "category": "Probleemcategorie",
+      "categories": [
+        "Beestje",
+        "Suggestie",
+        "Ander"
+      ],
+      "header": "Koptekst / Samenvatting",
+      "headerPlaceholder": "Vat het probleem kort samen.",
+      "details": "Details / Lichaam",
+      "detailsPlaceholder": "Geef stappen om de bug te reproduceren of licht je idee voor een nieuwe functie verder toe...",
+      "submitting": "Verzenden...",
+      "submit": "Feedback verzenden",
+      "missingFields": "Geef zowel een koptekst als alle details op.",
+      "submittingStatus": "Feedback verzenden...",
+      "submitted": "Feedback succesvol verzonden! Dank u wel.",
+      "submitFailed": "Probleem niet ingediend: {msg}",
+      "networkError": "Netwerkfout bij het verzenden van feedback: {e}"
+    }
+  },
+  "board": {
+    "settings": "Instellingen",
+    "search": "Zoekopdracht",
+    "stop": "Stop",
+    "keyboard": "Toetsenbord",
+    "delete": "Verwijderen",
+    "clear": "Duidelijk",
+    "back": "Rug",
+    "autocomplete": "Automatisch aanvullen",
+    "addText": "Voeg tekst toe"
+  },
+  "editor": {
+    "title": "BEWERKINGSMODUS",
+    "addItem": "+ Artikel",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menu",
+    "gotoMenu": "Ga naar het menu",
+    "applyChanges": "Wijzigingen toepassen",
+    "exit": "Uitgang"
+  },
+  "languageDropdown": {
+    "select": "Selecteer…",
+    "searchPlaceholder": "Zoektaal"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Alleen typen",
+      "Spreek alleen",
+      "Beide"
+    ],
+    "addItem": {
+      "title": "Voeg item toe aan {menuTitle}",
+      "name": "Naam",
+      "symbol": "Symbool",
+      "folder": "Map",
+      "folderTargetMenu": "Mapdoelmenu"
+    },
+    "newMenu": {
+      "title": "Nieuw menu aanmaken",
+      "menuTitle": "Menutitel",
+      "emptyNote": "Het menu wordt leeg aangemaakt. Open het en gebruik \"+ Item\" om items toe te voegen.",
+      "create": "Creëren"
+    },
+    "deleteMenu": {
+      "title": "Een menu verwijderen",
+      "hint": "Mappen die een verwijderd menu openen, worden ook verwijderd.",
+      "delete": "Verwijderen"
+    },
+    "gotoMenu": {
+      "title": "Ga naar een menu",
+      "hint": "Hiermee kun je vanuit de bewerkingsmodus direct naar een menu springen.",
+      "goTo": "Ga naar"
+    },
+    "unsaved": {
+      "title": "Niet-opgeslagen wijzigingen",
+      "body": "Je hebt nog niet-opgeslagen wijzigingen. Wil je ze opslaan?",
+      "dontSave": "Niet opslaan",
+      "saveChanges": "Wijzigingen opslaan"
+    },
+    "pinLock": {
+      "enterTitle": "Voer de pincode in",
+      "lockedHint": "De instellingen en de editor zijn vergrendeld.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Ontgrendelen",
+      "forgotPin": "Pincode vergeten?",
+      "incorrectPin": "Onjuiste pincode.",
+      "noQuestions": "Er zijn geen herstelvragen ingesteld, dus de pincode kan niet worden gereset. Installeer de app opnieuw om dit te wissen (hiermee worden alle borden gewist).",
+      "answerToReset": "Antwoord om de pincode opnieuw in te stellen",
+      "answerHint": "Beantwoord alle vragen correct (hoofdlettergevoeligheid speelt geen rol).",
+      "answerPlaceholder": "Antwoord",
+      "verify": "Verifiëren",
+      "answersIncorrect": "Een of meer antwoorden zijn onjuist.",
+      "setNewPin": "Stel een nieuwe pincode in.",
+      "newPinPlaceholder": "Nieuwe pincode (minimaal 4 cijfers)",
+      "confirmNewPinPlaceholder": "Bevestig nieuwe pincode",
+      "saveNewPin": "Nieuwe pincode opslaan",
+      "pinTooShort": "De pincode moet minimaal 4 cijfers bevatten.",
+      "pinsDoNotMatch": "De pincodes komen niet overeen."
+    },
+    "colorPicker": {
+      "title": "Kies een kleur",
+      "hue": "Kleurtoon: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Naam",
+      "itemLanguage": "Artikeltaal",
+      "language": "Taal",
+      "labelsByLanguage": "Labels per taal",
+      "add": "Toevoegen",
+      "addLanguage": "+ Taal toevoegen",
+      "image": "Afbeelding",
+      "loading": "Laden…",
+      "loadMoreImages": "Meer afbeeldingen laden",
+      "findImages": "Zoek afbeeldingen",
+      "chooseCustomImage": "Kies een aangepaste afbeelding",
+      "resetToDefault": "Terugzetten naar standaardinstellingen",
+      "audio": "Audio",
+      "useItemName": "Gebruik de itemnaam",
+      "useCustomAudio": "Gebruik aangepaste audio",
+      "audioClip": "Audioclip",
+      "record": "Dossier",
+      "stop": "Stop",
+      "importFromDevice": "Importeren vanaf apparaat",
+      "preview": "▶ Voorbeeld",
+      "clearAudio": "Heldere audio",
+      "renameAudioClip": "Audioclip hernoemen",
+      "clipNamePlaceholder": "Clipnaam",
+      "pronHint": "Optioneel: herschrijf de naam zodat deze correct wordt uitgesproken (bijv. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Uitspraak",
+      "color": "Kleur",
+      "custom": "Aangepast",
+      "default": "Standaard",
+      "editCustomColor": "Aangepaste kleur bewerken",
+      "pickCustomColor": "Kies een aangepaste kleur",
+      "ttsBehavior": "TTS-gedrag",
+      "delete": "Verwijderen"
+    }
+  }
+}

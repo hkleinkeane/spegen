@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Mặt sau",
+    "next": "Kế tiếp",
+    "done": "Xong",
+    "skip": "Nhảy",
+    "cancel": "Hủy bỏ",
+    "add": "Thêm vào",
+    "save": "Cứu",
+    "close": "Đóng",
+    "reset": "Cài lại"
+  },
+  "banners": {
+    "ttsMissingVoice": "Không có giọng nói nào được cài đặt cho {name} ({code}). Đang nói bằng giọng nói mặc định.",
+    "ttsInstallAndroid": "Chạm để mở cài đặt giọng nói của thiết bị, sau đó cài đặt dữ liệu giọng nói cho ngôn ngữ này.",
+    "ttsInstallIos": "Để thêm giọng nói, hãy mở Cài đặt → Trợ năng → Nội dung giọng nói → Giọng nói và tải xuống giọng nói. Chạm để đóng.",
+    "ttsInstallWeb": "Giọng nói phát ra từ hệ điều hành của bạn — hãy thêm giọng nói cho ngôn ngữ này trong cài đặt giọng nói của hệ thống. Chạm để tắt.",
+    "updateAvailable": "Có bản cập nhật — chạm để tải lại"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Chào mừng đến với SpeGen",
+        "body": "Đây là một hướng dẫn ngắn gọn để giúp bạn làm quen với giao diện người dùng cơ bản của ứng dụng. Bạn có thể truy cập hướng dẫn này sau từ phần Cài đặt."
+      },
+      {
+        "title": "Thư mục",
+        "body": "Chạm vào một thư mục để chuyển đến menu khác với nhiều biểu tượng và thư mục hơn. Các thư mục luôn có một đường gấp màu đen ở góc trên bên phải."
+      },
+      {
+        "title": "Biểu tượng",
+        "body": "Chạm vào biểu tượng để thêm nó vào ô nhập liệu."
+      },
+      {
+        "title": "Hộp nhập liệu",
+        "body": "Ô nhập liệu là nơi bạn soạn câu. Chạm vào đó để phát câu đã soạn."
+      },
+      {
+        "title": "Hàng menu",
+        "body": "Đây là các nút tự động chuyển hướng bạn đến menu tương ứng."
+      },
+      {
+        "title": "Hàng từ tĩnh",
+        "body": "Các thuật ngữ này luôn hiển thị ở cuối màn hình bất kể bạn đang ở đâu. Chạm vào một thuật ngữ để đọc ngay lập tức."
+      },
+      {
+        "title": "Bàn phím",
+        "body": "Mở hộp thoại cho phép bạn sử dụng bàn phím của thiết bị để thêm các mục vào ô nhập liệu."
+      },
+      {
+        "title": "Xóa bỏ",
+        "body": "Xóa mục cuối cùng trong ô nhập liệu."
+      },
+      {
+        "title": "Thông thoáng",
+        "body": "Xóa tất cả các từ trong ô nhập liệu."
+      },
+      {
+        "title": "Dừng lại",
+        "body": "Dừng mọi đoạn văn bản chuyển thành giọng nói đang phát."
+      },
+      {
+        "title": "Tìm kiếm",
+        "body": "Tìm kiếm bất kỳ thuật ngữ nào trong bất kỳ menu nào. Công cụ sẽ hướng dẫn bạn đến thuật ngữ đó bằng cách làm nổi bật các nút bạn cần nhấn."
+      },
+      {
+        "title": "Cài đặt",
+        "body": "Mở menu cài đặt: chỉnh sửa bảng, sao lưu dữ liệu, thay đổi giọng nói chuyển văn bản thành giọng nói, và nhiều hơn nữa."
+      },
+      {
+        "title": "Mặt sau",
+        "body": "Đưa bạn trở lại menu trước đó."
+      },
+      {
+        "title": "Tự động hoàn thành",
+        "body": "Ứng dụng này thay thế menu bằng danh sách các tùy chọn tự động hoàn thành, học hỏi từ các ký hiệu bạn chọn. Dữ liệu sẽ không bao giờ rời khỏi thiết bị của bạn nếu không có sự cho phép."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Tìm một từ/mục",
+    "subtitle": "Tìm kiếm trong mọi menu, sau đó nhấp vào các nút được tô sáng để điều hướng đến từ khóa.",
+    "placeholder": "Nhập một từ…",
+    "noMatches": "Không tìm thấy kết quả phù hợp.",
+    "find": "Tìm thấy",
+    "close": "Đóng",
+    "finding": "Tìm “{word}” - chạm vào nút được tô sáng",
+    "cancel": "Hủy bỏ"
+  },
+  "autocomplete": {
+    "suggestions": "Gợi ý",
+    "after": "Sau \"{word}\"",
+    "none": "Chưa có đề xuất nào."
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "apply": "Áp dụng",
+    "done": "Xong",
+    "tabs": {
+      "display": "Trưng bày",
+      "voice": "Tiếng nói",
+      "vocabulary": "Từ vựng",
+      "language": "Ngôn ngữ",
+      "data": "Dữ liệu",
+      "about": "Về",
+      "feedback": "Nhận xét"
+    },
+    "display": {
+      "preview": "Xem trước",
+      "staticRowLabel": "Hàng từ tĩnh",
+      "menuRowLabel": "Hàng menu",
+      "previewStaticTerms": [
+        "Đúng",
+        "KHÔNG",
+        "Hơn"
+      ],
+      "previewMenuTitles": [
+        "Mọi người",
+        "Đồ ăn",
+        "Hành động"
+      ],
+      "itemSizing": "Kích thước sản phẩm",
+      "itemWidthSize": "Kích thước chiều rộng của mục",
+      "itemHeightSize": "Chiều cao kích thước sản phẩm",
+      "gridSize": "Điều chỉnh cho phù hợp với lưới",
+      "gridHint": "Điều chỉnh kích thước mục sao cho phù hợp với lưới: nhập số cột và hàng, sau đó nhấn Áp dụng.",
+      "gridCols": "Đại tá",
+      "gridRows": "Hàng",
+      "gridApply": "Áp dụng",
+      "bordersSpacing": "Viền và khoảng cách",
+      "borderWidth": "Độ rộng viền",
+      "itemPadding": "Đệm vật phẩm",
+      "staticRowStyle": "Kiểu hàng chữ tĩnh",
+      "menuRowStyle": "kiểu hàng menu",
+      "textSize": "Kích thước chữ",
+      "textPadding": "Khoảng cách văn bản",
+      "buttonShape": "Hình dạng nút",
+      "labelPosition": "Vị trí nhãn",
+      "top": "Đứng đầu",
+      "bottom": "Đáy",
+      "skinTone": "Màu da",
+      "theme": "Chủ đề",
+      "themeLight": "Ánh sáng",
+      "themeDark": "Tối tăm",
+      "themeSystem": "Hệ thống",
+      "themeNote": "Chế độ tối sẽ thay đổi giao diện màn hình và menu của ứng dụng. Màu sắc nút biểu tượng và chế độ tương phản cao không bị ảnh hưởng.",
+      "highContrast": "Độ tương phản cao",
+      "highContrastHint": "Nền đen, viền trắng và nhãn với bảng màu đơn giản cho hình ảnh sản phẩm."
+    },
+    "voice": {
+      "speechRate": "Tốc độ nói",
+      "pitch": "Sân bóng đá",
+      "pauseBetweenWords": "Tạm dừng giữa các từ",
+      "pauseDuration": "Thời gian tạm dừng",
+      "testPhrase": "Đây là bài kiểm tra cài đặt giọng nói.",
+      "testVoice": "Kiểm tra giọng nói",
+      "translateSentence": "Dịch các câu nói",
+      "translateSentenceHint": "Dịch toàn bộ câu cùng một lúc để ngữ pháp tự nhiên hơn, thay vì dịch từng từ. Chức năng này được bật mặc định cho các ngôn ngữ không phải tiếng Anh. Cần có kết nối internet.",
+      "voiceLabel": "Tiếng nói",
+      "voiceHint": "Hãy chọn giọng nói được sử dụng cho phần thuyết trình bằng ngôn ngữ ứng dụng của bạn. Giọng nói được cung cấp bởi thiết bị hoặc trình duyệt của bạn.",
+      "voiceDefault": "Mặc định (hệ thống)",
+      "noVoices": "Không tìm thấy giọng nói nào cho ngôn ngữ này.",
+      "openDeviceTts": "Mở cài đặt TTS của thiết bị",
+      "ttsOpenFailed": "Không thể mở cài đặt TTS của thiết bị: {e}",
+      "resetToDefaults": "Khôi phục về cài đặt mặc định",
+      "resetDone": "Chức năng giọng nói được khôi phục về cài đặt mặc định."
+    },
+    "vocabulary": {
+      "editorMode": "Chế độ chỉnh sửa",
+      "editorModeHint": "Chỉnh sửa các biểu tượng và thư mục bằng cách chạm vào chúng trên bảng và sử dụng các nút trên thanh công cụ để chỉnh sửa menu.",
+      "enableEditorMode": "Bật chế độ chỉnh sửa",
+      "staticRow": "Hàng từ tĩnh",
+      "staticRowHint": "Các từ luôn hiển thị ở cuối màn hình bất kể bạn đang ở vị trí nào trong ứng dụng. Kéo biểu tượng ≡ để sắp xếp lại thứ tự.",
+      "addPhrasePlaceholder": "Thêm một cụm từ",
+      "addPhrase": "Thêm vào",
+      "menuRow": "Hàng menu",
+      "menuRowHint": "Các phím tắt menu được hiển thị ngay phía trên hàng cố định khi sử dụng bảng và menu chính. Kéo ≡ để sắp xếp lại thứ tự.",
+      "menuRowEmpty": "Không có thực đơn nào trong hàng đó.",
+      "addMenuToRow": "Thêm menu vào hàng",
+      "allMenusInRow": "Tất cả các thực đơn đã được sắp xếp sẵn trên cùng một hàng."
+    },
+    "language": {
+      "appLanguage": "Ngôn ngữ ứng dụng",
+      "appLanguageHint": "Được sử dụng cho tìm kiếm giọng nói, hình ảnh và dịch nhãn. Thay đổi tùy chọn này sẽ tải lại tất cả hình ảnh.",
+      "translationDisclaimer": "Văn bản trong ứng dụng được dịch bằng API Google Translate, vì vậy một số bản dịch có thể không chính xác. Nếu bạn phát hiện lỗi, vui lòng sử dụng nút Phản hồi trong Cài đặt để báo cáo — bao gồm ngôn ngữ và đề xuất sửa lỗi.",
+      "autoTranslate": "Dịch tự động",
+      "translateUi": "Giao diện ứng dụng dịch",
+      "translateUiHint": "Hiển thị menu, nút và cài đặt bằng ngôn ngữ của ứng dụng.",
+      "translateLabels": "Dịch nhãn bảng và thực đơn",
+      "translateLabelsHint": "Tự động dịch nhãn biểu tượng, tên menu và hàng từ tĩnh sang ngôn ngữ của ứng dụng. Cần có kết nối internet.",
+      "multilingual": "Đa ngôn ngữ",
+      "perItemImageLanguage": "Ngôn ngữ hình ảnh cho từng mục",
+      "perItemImageLanguageHint": "Hãy để mỗi mục tìm kiếm hình ảnh bằng ngôn ngữ của riêng nó.",
+      "multilingualLabels": "Nhãn đa ngôn ngữ",
+      "multilingualLabelsHint": "Thêm nhãn văn bản bổ sung cho mỗi mục (ở chế độ chỉnh sửa) cho các ngôn ngữ khác. Khi được bật, chỉ các nhãn mục trên bảng mới ngừng tự động dịch khi bạn chuyển đổi ngôn ngữ (các nhãn do bạn tự dịch sẽ được sử dụng thay thế); các từ tĩnh trong hàng và tên menu vẫn tự động dịch.",
+      "spokenLanguages": "Ngôn ngữ nói",
+      "spokenLanguagesHint": "Bạn có thể chuyển đổi giữa các ngôn ngữ từ hộp nhập liệu. Ngôn ngữ mặc định của ứng dụng là ngôn ngữ cơ bản; các mục không có nhãn thủ công sẽ được tự động dịch bằng giọng nói. Tính năng này cần có kết nối internet và bị bỏ qua đối với tiếng Anh.",
+      "base": "Căn cứ",
+      "addLanguage": "Thêm ngôn ngữ"
+    },
+    "data": {
+      "backupRestore": "Sao lưu và phục hồi",
+      "backupRestoreHint": "Xuất hoặc nhập tất cả các bảng mạch, cài đặt, hình ảnh tùy chỉnh và âm thanh đã ghi thành một tệp sao lưu duy nhất mà bạn có thể chuyển sang thiết bị khác hoặc lưu trữ trong bộ nhớ thiết bị của mình.",
+      "downloadBackup": "Tải xuống bản sao lưu",
+      "exportBackup": "Xuất bản sao lưu",
+      "saveBackupToDevice": "Lưu bản sao lưu vào thiết bị (chọn thư mục)",
+      "importBackup": "Nhập bản sao lưu",
+      "security": "Bảo vệ",
+      "securityHint": "Yêu cầu mã PIN để mở Cài đặt và trình chỉnh sửa. Điều này nhằm đảm bảo người dùng không thể chỉnh sửa cài đặt nếu không có mã PIN khi ở giao diện chính. Cài đặt sẽ được lưu khi bạn nhấn Áp dụng hoặc Xong.",
+      "changePin": "Thay đổi mã PIN",
+      "removePin": "Xóa mã PIN",
+      "setPin": "Đặt mã PIN",
+      "recoveryQuestions": "Câu hỏi phục hồi",
+      "recoveryQuestionsHint": "Ứng dụng này dùng để đặt lại mã PIN đã quên. Nên thêm ít nhất một mã PIN. Nếu không có mã PIN nào, bạn chỉ có thể xóa mã PIN đã quên bằng cách cài đặt lại ứng dụng.",
+      "question": "Câu hỏi",
+      "ownQuestionPlaceholder": "Hoặc nhập câu hỏi của riêng bạn.",
+      "answer": "Trả lời",
+      "addQuestion": "+ Thêm câu hỏi",
+      "pinPlaceholder": "Mã PIN (tối thiểu 4 chữ số)",
+      "confirmPinPlaceholder": "Xác nhận mã PIN",
+      "pinTooShort": "Mã PIN phải có ít nhất 4 chữ số.",
+      "pinsDoNotMatch": "Mã PIN không khớp.",
+      "reset": "Cài lại",
+      "restoreDefaults": "Khôi phục cài đặt mặc định",
+      "backupFormatNote": "Tệp sao lưu .spegen là một tệp ZIP nén chứa các bo mạch, cài đặt, hình ảnh tùy chỉnh và âm thanh đã ghi của bạn trong một tệp duy nhất. Việc nhập tệp sẽ thay thế tất cả các bo mạch và cài đặt hiện có.",
+      "preparingDownload": "Đang chuẩn bị tải xuống…",
+      "backupDownloaded": "Bản sao lưu đã được tải xuống.",
+      "openingShareSheet": "Bảng kê khai cổ phần ban đầu…",
+      "shareSheetHint": "Sử dụng bảng chia sẻ để lưu bản sao lưu của bạn.",
+      "sharingUnavailable": "Tính năng chia sẻ hiện không khả dụng.",
+      "chooseFolder": "Chọn thư mục để lưu vào…",
+      "savedToFolder": "Đã lưu vào thư mục bạn đã chọn.",
+      "saveCanceled": "Việc lưu đã bị hủy.",
+      "saveFailed": "Lưu thất bại: {e}",
+      "chooseBackupFile": "Chọn một tệp sao lưu…",
+      "importCanceled": "Việc nhập khẩu đã bị hủy bỏ.",
+      "importWebFileMissing": "Nhập khẩu thất bại: Thiếu file handle của web.",
+      "importDone": "Đã nhập. Bảng đã được tải lại.",
+      "importFailed": "Nhập khẩu thất bại: {e}",
+      "confirmReset": "Nhấn vào \"Khôi phục cài đặt gốc\" một lần nữa để xác nhận. Cảnh báo: thao tác này sẽ xóa toàn bộ bảng của bạn.",
+      "resetDone": "Đã khôi phục các bảng mặc định.",
+      "resetFailed": "Đặt lại thất bại: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Một ứng dụng AAC mã nguồn mở được phát triển bởi Harper Klein Keane. Trang GitHub của SpeGen có thể được tìm thấy tại đây:",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "và trang web có thể được tìm thấy tại địa chỉ sau:",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Giấy phép: Giấy phép Công cộng GNU phiên bản 3.0",
+      "showTutorialAgain": "Hiển thị lại hướng dẫn chào mừng",
+      "privacyPolicy": "Chính sách bảo mật"
+    },
+    "feedback": {
+      "title": "Gửi phản hồi",
+      "intro": "Phát hiện lỗi hoặc có yêu cầu tính năng? Hãy cho tôi biết! Biểu mẫu này sẽ tự động mở một vấn đề theo dõi trên kho lưu trữ GitHub của Spegen.",
+      "category": "Danh mục vấn đề",
+      "categories": [
+        "Sâu bọ",
+        "Gợi ý",
+        "Khác"
+      ],
+      "header": "Tiêu đề / Tóm tắt",
+      "headerPlaceholder": "Tóm tắt vấn đề một cách ngắn gọn.",
+      "details": "Chi tiết / Nội dung",
+      "detailsPlaceholder": "Hãy cung cấp các bước để tái hiện lỗi hoặc trình bày chi tiết hơn về ý tưởng tính năng của bạn...",
+      "submitting": "Đang gửi...",
+      "submit": "Gửi phản hồi",
+      "missingFields": "Vui lòng cung cấp cả tiêu đề và thông tin chi tiết đầy đủ.",
+      "submittingStatus": "Đang gửi phản hồi...",
+      "submitted": "Phản hồi đã được gửi thành công! Cảm ơn bạn.",
+      "submitFailed": "Không thể gửi vấn đề: {msg}",
+      "networkError": "Lỗi mạng khi gửi phản hồi: {e}"
+    }
+  },
+  "board": {
+    "settings": "Cài đặt",
+    "search": "Tìm kiếm",
+    "stop": "Dừng lại",
+    "keyboard": "Bàn phím",
+    "delete": "Xóa bỏ",
+    "clear": "Thông thoáng",
+    "back": "Mặt sau",
+    "autocomplete": "Tự động hoàn thành",
+    "addText": "Thêm văn bản"
+  },
+  "editor": {
+    "title": "CHẾ ĐỘ BIÊN TẬP",
+    "addItem": "+ Mục",
+    "addMenu": "+ Thực đơn",
+    "deleteMenu": "- Thực đơn",
+    "gotoMenu": "Vào Menu",
+    "applyChanges": "Áp dụng thay đổi",
+    "exit": "Ra"
+  },
+  "languageDropdown": {
+    "select": "Lựa chọn…",
+    "searchPlaceholder": "Ngôn ngữ tìm kiếm"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Chỉ nhập",
+      "Chỉ nói",
+      "Cả hai"
+    ],
+    "addItem": {
+      "title": "Thêm mục vào {menuTitle}",
+      "name": "Tên",
+      "symbol": "Biểu tượng",
+      "folder": "Thư mục",
+      "folderTargetMenu": "Menu mục tiêu thư mục"
+    },
+    "newMenu": {
+      "title": "Tạo menu mới",
+      "menuTitle": "Tiêu đề menu",
+      "emptyNote": "Menu được tạo ra trống. Hãy vào menu và sử dụng \"+ Item\" để thêm các mục.",
+      "create": "Tạo nên"
+    },
+    "deleteMenu": {
+      "title": "Xóa menu",
+      "hint": "Các thư mục mở menu đã bị xóa cũng sẽ bị xóa.",
+      "delete": "Xóa bỏ"
+    },
+    "gotoMenu": {
+      "title": "Vào menu",
+      "hint": "Cho phép bạn truy cập vào menu ngay cả khi đang ở chế độ chỉnh sửa.",
+      "goTo": "Đi đến"
+    },
+    "unsaved": {
+      "title": "Thay đổi chưa được lưu",
+      "body": "Bạn có những thay đổi chưa được lưu. Bạn có muốn lưu chúng không?",
+      "dontSave": "Đừng lưu",
+      "saveChanges": "Lưu thay đổi"
+    },
+    "pinLock": {
+      "enterTitle": "Nhập mã PIN",
+      "lockedHint": "Phần cài đặt và trình chỉnh sửa đã bị khóa.",
+      "pinPlaceholder": "GHIM",
+      "unlock": "Mở khóa",
+      "forgotPin": "Quên mã PIN?",
+      "incorrectPin": "Mã PIN không chính xác.",
+      "noQuestions": "Hiện chưa thiết lập câu hỏi khôi phục nào, vì vậy không thể đặt lại mã PIN. Hãy cài đặt lại ứng dụng để xóa dữ liệu (thao tác này sẽ xóa tất cả các bảng).",
+      "answerToReset": "Trả lời để đặt lại mã PIN",
+      "answerHint": "Trả lời chính xác tất cả các câu hỏi (không phân biệt chữ hoa chữ thường).",
+      "answerPlaceholder": "Trả lời",
+      "verify": "Xác minh",
+      "answersIncorrect": "Một hoặc nhiều câu trả lời không chính xác.",
+      "setNewPin": "Đặt mã PIN mới",
+      "newPinPlaceholder": "Mã PIN mới (tối thiểu 4 chữ số)",
+      "confirmNewPinPlaceholder": "Xác nhận mã PIN mới",
+      "saveNewPin": "Lưu mã PIN mới",
+      "pinTooShort": "Mã PIN phải có ít nhất 4 chữ số.",
+      "pinsDoNotMatch": "Mã PIN không khớp."
+    },
+    "colorPicker": {
+      "title": "Chọn một màu",
+      "hue": "Sắc độ: {deg}°",
+      "ok": "ĐƯỢC RỒI"
+    },
+    "editItem": {
+      "name": "Tên",
+      "itemLanguage": "Ngôn ngữ mục",
+      "language": "Ngôn ngữ",
+      "labelsByLanguage": "Nhãn theo ngôn ngữ",
+      "add": "Thêm vào",
+      "addLanguage": "+ Thêm ngôn ngữ",
+      "image": "Hình ảnh",
+      "loading": "Đang tải…",
+      "loadMoreImages": "Tải thêm hình ảnh",
+      "findImages": "Tìm hình ảnh",
+      "chooseCustomImage": "Chọn hình ảnh tùy chỉnh",
+      "resetToDefault": "Khôi phục về mặc định",
+      "audio": "Âm thanh",
+      "useItemName": "Sử dụng tên mặt hàng",
+      "useCustomAudio": "Sử dụng âm thanh tùy chỉnh",
+      "audioClip": "Đoạn âm thanh",
+      "record": "Ghi",
+      "stop": "Dừng lại",
+      "importFromDevice": "Nhập từ thiết bị",
+      "preview": "▶ Xem trước",
+      "clearAudio": "Âm thanh rõ ràng",
+      "renameAudioClip": "Đổi tên đoạn âm thanh",
+      "clipNamePlaceholder": "Tên đoạn phim",
+      "pronHint": "Tùy chọn: viết lại tên sao cho đúng chính tả (ví dụ: \"MIS-chiv-us\").",
+      "pronPlaceholder": "Cách phát âm",
+      "color": "Màu sắc",
+      "custom": "Phong tục",
+      "default": "Mặc định",
+      "editCustomColor": "Chỉnh sửa màu tùy chỉnh",
+      "pickCustomColor": "Chọn màu sắc tùy chỉnh",
+      "ttsBehavior": "Hành vi TTS",
+      "delete": "Xóa bỏ"
+    }
+  }
+}

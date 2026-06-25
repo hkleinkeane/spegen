@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Enrere",
+    "next": "Següent",
+    "done": "Fet",
+    "skip": "Omet",
+    "cancel": "Cancel·la",
+    "add": "Afegeix",
+    "save": "Desa",
+    "close": "Tanca",
+    "reset": "Restablir"
+  },
+  "banners": {
+    "ttsMissingVoice": "No hi ha cap veu instal·lada per a {name} ({code}). S'està parlant amb la veu predeterminada.",
+    "ttsInstallAndroid": "Toca per obrir la configuració de veu del dispositiu i, a continuació, instal·la les dades de veu per a aquest idioma.",
+    "ttsInstallIos": "Per afegir-ho, obriu Configuració → Accessibilitat → Contingut parlat → Veus i descarregueu la veu. Toqueu per descartar.",
+    "ttsInstallWeb": "Les veus provenen del teu sistema operatiu; afegeix-ne una per a aquest idioma a la configuració de veu del sistema. Toca per descartar.",
+    "updateAvailable": "Actualització disponible: toca per tornar a carregar"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Benvinguts a SpeGen",
+        "body": "Aquest és un breu tutorial per ensenyar-te la interfície d'usuari bàsica de l'aplicació. Pots accedir-hi més tard des de Configuració."
+      },
+      {
+        "title": "Carpetes",
+        "body": "Toqueu una carpeta per anar a un altre menú amb més símbols i carpetes. Les carpetes sempre tenen un plec negre a la cantonada superior dreta."
+      },
+      {
+        "title": "Símbols",
+        "body": "Toqueu un símbol per afegir-lo al quadre d'entrada."
+      },
+      {
+        "title": "Quadre d'entrada",
+        "body": "El quadre d'entrada és on componeu frases. Toqueu-lo per reproduir la frase construïda."
+      },
+      {
+        "title": "Fila de menú",
+        "body": "Aquests són botons que et redirigeixen automàticament al menú associat."
+      },
+      {
+        "title": "Fila de paraules estàtiques",
+        "body": "Aquests termes sempre són a la part inferior de la pantalla, independentment d'on siguis. Toca'n un per pronunciar-lo a l'instant."
+      },
+      {
+        "title": "Teclat",
+        "body": "Obre un quadre de diàleg que et permet utilitzar el teclat del dispositiu per afegir elements al quadre d'entrada."
+      },
+      {
+        "title": "Suprimeix",
+        "body": "Elimina l'últim terme del quadre d'entrada."
+      },
+      {
+        "title": "Clar",
+        "body": "Esborra tots els termes del quadre d'entrada."
+      },
+      {
+        "title": "Atura",
+        "body": "Atura qualsevol funció de text a veu que estigui reproduint actualment."
+      },
+      {
+        "title": "Cerca",
+        "body": "Cerca qualsevol terme en qualsevol menú. Et guia fins al terme ressaltant els botons que has de prémer."
+      },
+      {
+        "title": "Configuració",
+        "body": "Obre el menú de configuració: edició del tauler, còpia de seguretat de dades, canvi de la veu de text a veu i més."
+      },
+      {
+        "title": "Enrere",
+        "body": "Et retorna al menú anterior on éreu."
+      },
+      {
+        "title": "Autocompletar",
+        "body": "Substitueix el menú per una llista d'opcions d'autocompleció que aprenen dels símbols que seleccioneu. Les dades no surten mai del dispositiu sense el vostre consentiment."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Troba una paraula/element",
+    "subtitle": "Cerca a tots els menús i, a continuació, fes clic als botons ressaltats per navegar fins a la paraula.",
+    "placeholder": "Escriu una paraula…",
+    "noMatches": "Cap coincidència.",
+    "find": "Troba",
+    "close": "Tanca",
+    "finding": "Cercar “{word}”: toqueu el botó ressaltat",
+    "cancel": "Cancel·la"
+  },
+  "autocomplete": {
+    "suggestions": "Suggeriments",
+    "after": "Després de \"{word}\"",
+    "none": "Encara no hi ha suggeriments."
+  },
+  "settings": {
+    "title": "Configuració",
+    "apply": "Aplica",
+    "done": "Fet",
+    "tabs": {
+      "display": "Pantalla",
+      "voice": "Veu",
+      "vocabulary": "Vocabulari",
+      "language": "Llengua",
+      "data": "Dades",
+      "about": "Sobre",
+      "feedback": "Comentaris"
+    },
+    "display": {
+      "preview": "Vista prèvia",
+      "staticRowLabel": "Fila de paraules estàtiques",
+      "menuRowLabel": "Fila de menú",
+      "previewStaticTerms": [
+        "Sí",
+        "No",
+        "Més"
+      ],
+      "previewMenuTitles": [
+        "Gent",
+        "Menjar",
+        "Accions"
+      ],
+      "itemSizing": "Mida de l'article",
+      "itemWidthSize": "Mida de l'amplada de l'article",
+      "itemHeightSize": "Mida de l'alçada de l'article",
+      "gridSize": "Ajusta a la quadrícula",
+      "gridHint": "Ajustar la mida de l'element a una quadrícula: introdueix columnes i files i, a continuació, toca Aplica.",
+      "gridCols": "Cols",
+      "gridRows": "Files",
+      "gridApply": "Aplica",
+      "bordersSpacing": "Vores i espaiat",
+      "borderWidth": "Amplada de la vora",
+      "itemPadding": "Farciment d'elements",
+      "staticRowStyle": "Estil de fila de paraules estàtiques",
+      "menuRowStyle": "Estil de fila de menú",
+      "textSize": "Mida del text",
+      "textPadding": "Farciment de text",
+      "buttonShape": "Forma de botó",
+      "labelPosition": "Posició de l'etiqueta",
+      "top": "Superior",
+      "bottom": "Part inferior",
+      "skinTone": "To de pell",
+      "theme": "Tema",
+      "themeLight": "Llum",
+      "themeDark": "Fosc",
+      "themeSystem": "Sistema",
+      "themeNote": "El mode fosc aplica temes a les pantalles i als menús de l'aplicació. Els colors dels botons de símbols i el mode d'alt contrast no es veuen afectats.",
+      "highContrast": "Alt contrast",
+      "highContrastHint": "Fons negre, vores blanques i etiquetes amb una paleta de colors simplificada per a les imatges dels articles."
+    },
+    "voice": {
+      "speechRate": "Velocitat de parla",
+      "pitch": "Tona",
+      "pauseBetweenWords": "Pausa entre paraules",
+      "pauseDuration": "Durada de la pausa",
+      "testPhrase": "Això és una prova de la configuració de veu.",
+      "testVoice": "Prova de veu",
+      "translateSentence": "Tradueix frases pronunciades",
+      "translateSentenceHint": "Tradueix tota la frase alhora per a una gramàtica més natural, en comptes de paraula per paraula. Activat per defecte per a idiomes diferents de l'anglès. Requereix internet.",
+      "voiceLabel": "Veu",
+      "voiceHint": "Trieu la veu que s'utilitzarà per a la parla en l'idioma de l'aplicació. Les veus les proporciona el dispositiu o el navegador.",
+      "voiceDefault": "Per defecte (sistema)",
+      "noVoices": "No s'han trobat veus per a aquest idioma.",
+      "openDeviceTts": "Obre la configuració de TTS del dispositiu",
+      "ttsOpenFailed": "No s'ha pogut obrir la configuració de TTS del dispositiu: {e}",
+      "resetToDefaults": "Restableix els valors predeterminats",
+      "resetDone": "Restabliment de la veu als valors predeterminats."
+    },
+    "vocabulary": {
+      "editorMode": "Mode d'editor",
+      "editorModeHint": "Editeu símbols i carpetes tocant-los al tauler i utilitzeu els botons de la barra d'eines per editar menús.",
+      "enableEditorMode": "Activa el mode d'edició",
+      "staticRow": "Fila de paraules estàtiques",
+      "staticRowHint": "Les paraules sempre són visibles a la part inferior de la pantalla, independentment d'on sigueu a l'aplicació. Arrossegueu ≡ per reordenar.",
+      "addPhrasePlaceholder": "Afegeix una frase",
+      "addPhrase": "Afegeix",
+      "menuRow": "Fila de menú",
+      "menuRowHint": "Dreceres de menú que es mostren just a sobre de la fila estàtica quan s'utilitza el tauler i el menú principal. Arrossegueu ≡ per reordenar.",
+      "menuRowEmpty": "No hi ha menús a la fila.",
+      "addMenuToRow": "Afegeix un menú a la fila",
+      "allMenusInRow": "Tots els menús ja són a la fila."
+    },
+    "language": {
+      "appLanguage": "Idioma de l'aplicació",
+      "appLanguageHint": "S'utilitza per a la parla, la cerca d'imatges i la traducció d'etiquetes. Si es canvia això, es tornen a carregar totes les imatges.",
+      "translationDisclaimer": "El text de l'aplicació es tradueix amb l'API de Google Translate, per la qual cosa algunes traduccions poden ser inexactes. Si detecteu un error, utilitzeu el botó Comentaris a Configuració per informar-ne; incloeu-hi l'idioma i la correcció suggerida.",
+      "autoTranslate": "Traducció automàtica",
+      "translateUi": "Interfície de l'aplicació Tradueix",
+      "translateUiHint": "Mostra els menús, els botons i la configuració en l'idioma de l'aplicació.",
+      "translateLabels": "Tradueix les etiquetes del tauler i del menú",
+      "translateLabelsHint": "Tradueix automàticament les etiquetes dels símbols, els noms dels menús i la fila de paraules estàtiques a l'idioma de l'aplicació. Cal connexió a Internet.",
+      "multilingual": "Multilingüe",
+      "perItemImageLanguage": "Idioma d'imatge per element",
+      "perItemImageLanguageHint": "Deixa que cada element cerqui imatges en el seu propi idioma.",
+      "multilingualLabels": "Etiquetes multilingües",
+      "multilingualLabelsHint": "Afegeix etiquetes de text addicionals per element (en mode d'edició) per a altres idiomes. Mentre està activat, només les etiquetes dels elements del tauler deixen de traduir-se automàticament quan canvies d'idioma (s'utilitzen les etiquetes manuals); els noms de la fila de paraules estàtiques i dels menús encara es tradueixen automàticament.",
+      "spokenLanguages": "llengües parlades",
+      "spokenLanguagesHint": "Idiomes entre els quals podeu canviar des del quadre d'entrada. L'idioma de l'aplicació és el bàsic; els elements sense etiqueta manual es tradueixen automàticament per a la parla. Aquesta funció necessita Internet i s'omet per a l'anglès.",
+      "base": "Base",
+      "addLanguage": "Afegeix un idioma"
+    },
+    "data": {
+      "backupRestore": "Còpia de seguretat i restauració",
+      "backupRestoreHint": "Exporta o importa totes les plaques, configuracions, imatges personalitzades i àudio gravat com un únic fitxer de còpia de seguretat que pots transferir a un altre dispositiu o desar a l'emmagatzematge del dispositiu.",
+      "downloadBackup": "Descarrega la còpia de seguretat",
+      "exportBackup": "Exporta la còpia de seguretat",
+      "saveBackupToDevice": "Desa la còpia de seguretat al dispositiu (tria la carpeta)",
+      "importBackup": "Importa una còpia de seguretat",
+      "security": "Seguretat",
+      "securityHint": "Cal un PIN per obrir Configuració i l'editor. Això es pot utilitzar per garantir que l'usuari no pugui editar la configuració sense el PIN quan estigui a la interfície principal. Es desa quan toqueu Aplica o Fet.",
+      "changePin": "Canvia el PIN",
+      "removePin": "Elimina el PIN",
+      "setPin": "Establir un PIN",
+      "recoveryQuestions": "Preguntes de recuperació",
+      "recoveryQuestionsHint": "S'utilitza per restablir un PIN oblidat. Es recomana afegir-ne com a mínim un. Sense cap, un PIN oblidat només es pot esborrar reinstal·lant l'aplicació.",
+      "question": "Pregunta",
+      "ownQuestionPlaceholder": "O escriviu la vostra pròpia pregunta",
+      "answer": "Resposta",
+      "addQuestion": "+ Afegeix una pregunta",
+      "pinPlaceholder": "PIN (mínim 4 dígits)",
+      "confirmPinPlaceholder": "Confirma el PIN",
+      "pinTooShort": "El PIN ha de tenir com a mínim 4 dígits.",
+      "pinsDoNotMatch": "Els PIN no coincideixen.",
+      "reset": "Restablir",
+      "restoreDefaults": "Restaura els valors predeterminats",
+      "backupFormatNote": "La còpia de seguretat .spegen és un fitxer ZIP comprimit que conté les taules, la configuració, les imatges personalitzades i l'àudio gravat en un sol fitxer. La importació substitueix totes les taules i la configuració actuals.",
+      "preparingDownload": "Preparant la descàrrega…",
+      "backupDownloaded": "Còpia de seguretat descarregada.",
+      "openingShareSheet": "Obertura del full d'accions…",
+      "shareSheetHint": "Feu servir el full de compartició per desar la vostra còpia de seguretat.",
+      "sharingUnavailable": "No es pot compartir.",
+      "chooseFolder": "Trieu una carpeta on desar…",
+      "savedToFolder": "Desat a la carpeta que has triat.",
+      "saveCanceled": "Desament cancel·lat.",
+      "saveFailed": "Error en desar: {e}",
+      "chooseBackupFile": "Trieu un fitxer de còpia de seguretat…",
+      "importCanceled": "Importació cancel·lada.",
+      "importWebFileMissing": "La importació ha fallat: falta l'identificador del fitxer web.",
+      "importDone": "Importat. Tauler recarregat.",
+      "importFailed": "La importació ha fallat: {e}",
+      "confirmReset": "Toca de nou \"Restaura els valors predeterminats\" per confirmar. Avís: això esborra els teus taulers.",
+      "resetDone": "Taulers predeterminats restaurats.",
+      "resetFailed": "Restabliment fallit: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Una aplicació AAC de codi obert desenvolupada per Harper Klein Keane. La pàgina de GitHub de SpeGen es pot trobar a",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", i el lloc web es pot trobar a",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Llicència: Llicència Pública General GNU v3.0",
+      "showTutorialAgain": "Torna a mostrar el tutorial de benvinguda",
+      "privacyPolicy": "Política de privacitat"
+    },
+    "feedback": {
+      "title": "Envia comentaris",
+      "intro": "Has trobat un error o tens alguna sol·licitud de funció? Fes-m'ho saber! Aquest formulari obrirà automàticament un problema de seguiment al repositori de GitHub de Spegen.",
+      "category": "Categoria del problema",
+      "categories": [
+        "Insecte",
+        "Suggeriment",
+        "Altres"
+      ],
+      "header": "Capçalera / Resum",
+      "headerPlaceholder": "Resumeix breument el problema",
+      "details": "Detalls / Cos",
+      "detailsPlaceholder": "Proporcioneu els passos per reproduir l'error o ampliar la vostra idea de funció...",
+      "submitting": "Enviant...",
+      "submit": "Envia comentaris",
+      "missingFields": "Si us plau, proporcioneu tant una capçalera com tots els detalls.",
+      "submittingStatus": "Enviant comentaris...",
+      "submitted": "Comentaris enviats correctament! Gràcies.",
+      "submitFailed": "No s'ha pogut enviar el problema: {msg}",
+      "networkError": "Error de xarxa en enviar comentaris: {e}"
+    }
+  },
+  "board": {
+    "settings": "Configuració",
+    "search": "Cerca",
+    "stop": "Atura",
+    "keyboard": "Teclat",
+    "delete": "Suprimeix",
+    "clear": "Clar",
+    "back": "Enrere",
+    "autocomplete": "Autocompletar",
+    "addText": "Afegeix text"
+  },
+  "editor": {
+    "title": "MODE EDITOR",
+    "addItem": "+ Article",
+    "addMenu": "+ Menú",
+    "deleteMenu": "- Menú",
+    "gotoMenu": "Ves al menú",
+    "applyChanges": "Aplica els canvis",
+    "exit": "Sortida"
+  },
+  "languageDropdown": {
+    "select": "Selecciona…",
+    "searchPlaceholder": "Idioma de cerca"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Només tipus",
+      "Només parla",
+      "Tots dos"
+    ],
+    "addItem": {
+      "title": "Afegeix un element a {menuTitle}",
+      "name": "Nom",
+      "symbol": "Símbol",
+      "folder": "Carpeta",
+      "folderTargetMenu": "Menú de destinació de la carpeta"
+    },
+    "newMenu": {
+      "title": "Crea un menú nou",
+      "menuTitle": "Títol del menú",
+      "emptyNote": "El menú es crea buit. Entra-hi i fes servir \"+ Element\" per afegir elements.",
+      "create": "Crea"
+    },
+    "deleteMenu": {
+      "title": "Suprimir un menú",
+      "hint": "Les carpetes que obren un menú suprimit també s'eliminaran.",
+      "delete": "Suprimeix"
+    },
+    "gotoMenu": {
+      "title": "Anar a un menú",
+      "hint": "Et permet anar a un menú mentre estàs en mode editor.",
+      "goTo": "Ves a"
+    },
+    "unsaved": {
+      "title": "Canvis no desats",
+      "body": "Tens canvis sense desar. Vols desar-los?",
+      "dontSave": "No desis",
+      "saveChanges": "Desa els canvis"
+    },
+    "pinLock": {
+      "enterTitle": "Introduïu el PIN",
+      "lockedHint": "La configuració i l'editor estan bloquejats.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Desbloqueja",
+      "forgotPin": "Has oblidat el PIN?",
+      "incorrectPin": "PIN incorrecte.",
+      "noQuestions": "No hi ha cap pregunta de recuperació definida, per tant, el PIN no es pot restablir. Torneu a instal·lar l'aplicació per esborrar-lo (això esborra tots els taulers).",
+      "answerToReset": "Resposta per restablir el PIN",
+      "answerHint": "Respon totes les preguntes correctament (sense distingir entre majúscules i minúscules).",
+      "answerPlaceholder": "Resposta",
+      "verify": "Verifica",
+      "answersIncorrect": "Una o més respostes són incorrectes.",
+      "setNewPin": "Estableix un PIN nou",
+      "newPinPlaceholder": "Nou PIN (mínim 4 dígits)",
+      "confirmNewPinPlaceholder": "Confirma el nou PIN",
+      "saveNewPin": "Desa el nou PIN",
+      "pinTooShort": "El PIN ha de tenir com a mínim 4 dígits.",
+      "pinsDoNotMatch": "Els PIN no coincideixen."
+    },
+    "colorPicker": {
+      "title": "Tria un color",
+      "hue": "Tonalitat: {deg}°",
+      "ok": "D'acord"
+    },
+    "editItem": {
+      "name": "Nom",
+      "itemLanguage": "Idioma de l'element",
+      "language": "Llengua",
+      "labelsByLanguage": "Etiquetes per idioma",
+      "add": "Afegeix",
+      "addLanguage": "+ Afegeix idioma",
+      "image": "Imatge",
+      "loading": "S'està carregant…",
+      "loadMoreImages": "Carrega més imatges",
+      "findImages": "Cerca imatges",
+      "chooseCustomImage": "Trieu una imatge personalitzada",
+      "resetToDefault": "Restableix els valors predeterminats",
+      "audio": "Àudio",
+      "useItemName": "Utilitza el nom de l'element",
+      "useCustomAudio": "Utilitza àudio personalitzat",
+      "audioClip": "Clip d'àudio",
+      "record": "Registre",
+      "stop": "Atura",
+      "importFromDevice": "Importa des del dispositiu",
+      "preview": "▶ Previsualització",
+      "clearAudio": "Àudio clar",
+      "renameAudioClip": "Canvia el nom del clip d'àudio",
+      "clipNamePlaceholder": "Nom del clip",
+      "pronHint": "Opcional: torna a escriure el nom perquè es pronunciï correctament (per exemple, \"MIS-chiv-us\").",
+      "pronPlaceholder": "Pronunciació",
+      "color": "Color",
+      "custom": "Personalitzat",
+      "default": "Per defecte",
+      "editCustomColor": "Edita el color personalitzat",
+      "pickCustomColor": "Tria un color personalitzat",
+      "ttsBehavior": "Comportament de TTS",
+      "delete": "Suprimeix"
+    }
+  }
+}

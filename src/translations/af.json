@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Terug",
+    "next": "Volgende",
+    "done": "Klaar",
+    "skip": "Slaan oor",
+    "cancel": "Kanselleer",
+    "add": "Voeg by",
+    "save": "Stoor",
+    "close": "Maak toe",
+    "reset": "Herstel"
+  },
+  "banners": {
+    "ttsMissingVoice": "Geen geïnstalleerde stem vir {name} ({code}) nie. Praat met die verstekstem.",
+    "ttsInstallAndroid": "Tik om jou toestel se spraakinstellings oop te maak en installeer dan stemdata vir hierdie taal.",
+    "ttsInstallIos": "Om dit by te voeg, maak Instellings → Toeganklikheid → Gesproke Inhoud → Stemme oop en laai die stem af. Tik om te ontslaan.",
+    "ttsInstallWeb": "Stemme kom van jou bedryfstelsel af — voeg een vir hierdie taal by in jou stelsel se spraakinstellings. Tik om te ontslaan.",
+    "updateAvailable": "Opdatering beskikbaar — tik om te herlaai"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Welkom by SpeGen",
+        "body": "Hierdie is 'n kort tutoriaal om jou die basiese gebruikerskoppelvlak van die toepassing te leer. Jy kan later toegang tot hierdie tutoriaal kry vanaf Instellings."
+      },
+      {
+        "title": "Lêers",
+        "body": "Tik op 'n vouer om na 'n ander kieslys met meer simbole en vouers te gaan. Vouers het altyd 'n swart vou in die regter boonste hoek."
+      },
+      {
+        "title": "Simbole",
+        "body": "Tik op 'n simbool om dit by die invoerblokkie te voeg."
+      },
+      {
+        "title": "Invoerboks",
+        "body": "Die invoerkassie is waar jy sinne saamstel. Tik daarop om die gekonstrueerde sin te speel."
+      },
+      {
+        "title": "Kieslysry",
+        "body": "Dit is knoppies wat jou outomaties na die geassosieerde kieslys herlei."
+      },
+      {
+        "title": "Statiese Woorde Ry",
+        "body": "Hierdie terme is altyd onderaan die skerm, ongeag waar jy is. Tik een om dit onmiddellik te sê."
+      },
+      {
+        "title": "Sleutelbord",
+        "body": "Maak 'n dialoog oop wat jou toelaat om jou toestel se sleutelbord te gebruik om items by die invoerboks te voeg."
+      },
+      {
+        "title": "Vee uit",
+        "body": "Vee die laaste term in die invoerblokkie uit."
+      },
+      {
+        "title": "Duidelik",
+        "body": "Maak die invoerkassie van alle terme skoon."
+      },
+      {
+        "title": "Stop",
+        "body": "Stop enige teks-na-spraak wat tans speel."
+      },
+      {
+        "title": "Soek",
+        "body": "Soek vir enige term in enige kieslys. Dit lei jou na die term deur die knoppies wat jy moet druk, uit te lig."
+      },
+      {
+        "title": "Instellings",
+        "body": "Maak die instellingskieslys oop: wysig die bord, rugsteun data, verander die teks-na-spraak stem, en meer."
+      },
+      {
+        "title": "Terug",
+        "body": "Stuur jou terug na die vorige spyskaart waarop jy was."
+      },
+      {
+        "title": "Outomatiese voltooiing",
+        "body": "Vervang die kieslys met 'n lys van outovoltooi-opsies wat leer uit die simbole wat jy kies. Data verlaat nooit jou toestel sonder toestemming nie."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Vind 'n woord/item",
+    "subtitle": "Soek elke kieslys en klik dan op die gemerkte knoppies om na die woord te navigeer.",
+    "placeholder": "Tik 'n woord…",
+    "noMatches": "Geen wedstryde nie.",
+    "find": "Vind",
+    "close": "Maak toe",
+    "finding": "Op soek na “{word}” - tik die gemerkte knoppie",
+    "cancel": "Kanselleer"
+  },
+  "autocomplete": {
+    "suggestions": "Voorstelle",
+    "after": "Na \"{word}\"",
+    "none": "Geen voorstelle nog nie."
+  },
+  "settings": {
+    "title": "Instellings",
+    "apply": "Dien toe",
+    "done": "Klaar",
+    "tabs": {
+      "display": "Vertoon",
+      "voice": "Stem",
+      "vocabulary": "Woordeskat",
+      "language": "Taal",
+      "data": "Data",
+      "about": "Oor",
+      "feedback": "Terugvoer"
+    },
+    "display": {
+      "preview": "Voorskou",
+      "staticRowLabel": "Statiese woorde ry",
+      "menuRowLabel": "Kieslysry",
+      "previewStaticTerms": [
+        "Ja",
+        "Nee",
+        "Meer"
+      ],
+      "previewMenuTitles": [
+        "Mense",
+        "Kos",
+        "Aksies"
+      ],
+      "itemSizing": "Itemgrootte",
+      "itemWidthSize": "Item breedte grootte",
+      "itemHeightSize": "Item hoogte grootte",
+      "gridSize": "Pas by rooster",
+      "gridHint": "Skaal itemgrootte om by 'n rooster te pas: voer kolomme en rye in en tik dan op Toepas.",
+      "gridCols": "Kolomme",
+      "gridRows": "Rye",
+      "gridApply": "Dien toe",
+      "bordersSpacing": "Grense en spasiëring",
+      "borderWidth": "Randwydte",
+      "itemPadding": "Item-opvulling",
+      "staticRowStyle": "Statiese woorde rystyl",
+      "menuRowStyle": "Kieslysrystyl",
+      "textSize": "Teksgrootte",
+      "textPadding": "Teksopvulling",
+      "buttonShape": "Knoppievorm",
+      "labelPosition": "Etiketposisie",
+      "top": "Bo",
+      "bottom": "Onderkant",
+      "skinTone": "Velkleur",
+      "theme": "Tema",
+      "themeLight": "Lig",
+      "themeDark": "Donker",
+      "themeSystem": "Stelsel",
+      "themeNote": "Donkermodus gee die toepassing se skerms en kieslyste die tema. Simboolknoppiekleure en hoëkontrasmodus word nie beïnvloed nie.",
+      "highContrast": "Hoë kontras",
+      "highContrastHint": "Swart agtergrond, wit rande en etikette met vereenvoudigde kleurpalet vir itembeelde."
+    },
+    "voice": {
+      "speechRate": "Spraaktempo",
+      "pitch": "Toonhoogte",
+      "pauseBetweenWords": "Pouse tussen woorde",
+      "pauseDuration": "Pouseduur",
+      "testPhrase": "Dit is 'n toets van die steminstellings.",
+      "testVoice": "Toets stem",
+      "translateSentence": "Vertaal gesproke sinne",
+      "translateSentenceHint": "Vertaal die hele sin gelyktydig vir meer natuurlike grammatika, in plaas van woord vir woord. Aan by verstek vir nie-Engelse tale. Benodig internet.",
+      "voiceLabel": "Stem",
+      "voiceHint": "Kies die stem wat vir spraak in jou toepassingstaal gebruik word. Stemme word deur jou toestel of blaaier verskaf.",
+      "voiceDefault": "Standaard (stelsel)",
+      "noVoices": "Geen stemme vir hierdie taal gevind nie.",
+      "openDeviceTts": "Maak toestel TTS-instellings oop",
+      "ttsOpenFailed": "Kon nie toestel-TTS-instellings oopmaak nie: {e}",
+      "resetToDefaults": "Stel terug na verstekwaardes",
+      "resetDone": "Stem herstel na verstekwaardes."
+    },
+    "vocabulary": {
+      "editorMode": "Redigeerdermodus",
+      "editorModeHint": "Wysig simbole en gidse deur hulle op die bord te tik en gebruik die knoppies op die nutsbalk om spyskaarte te wysig.",
+      "enableEditorMode": "Aktiveer redigeerdermodus",
+      "staticRow": "Statiese woorde ry",
+      "staticRowHint": "Woorde altyd sigbaar onderaan die skerm, ongeag waar jy in die toepassing is. Sleep ≡ om te herrangskik.",
+      "addPhrasePlaceholder": "Voeg 'n frase by",
+      "addPhrase": "Voeg by",
+      "menuRow": "Kieslysry",
+      "menuRowHint": "Kieslyskortpaaie word net bokant die statiese ry getoon wanneer die bord en hoofkieslys gebruik word. Sleep ≡ om te herrangskik.",
+      "menuRowEmpty": "Geen spyskaarte in die ry nie.",
+      "addMenuToRow": "Voeg kieslys by ry",
+      "allMenusInRow": "Alle spyskaarte is reeds in die ry."
+    },
+    "language": {
+      "appLanguage": "Programtaal",
+      "appLanguageHint": "Gebruik vir spraak, beeldsoektog en etiketvertaling. As jy dit verander, herlaai jy alle beelde.",
+      "translationDisclaimer": "Programteks word met die Google Translate API vertaal, so sommige vertalings kan onakkuraat wees. As jy 'n fout opmerk, gebruik asseblief die Terugvoer-knoppie in Instellings om dit aan te meld – sluit die taal en die voorgestelde regstelling in.",
+      "autoTranslate": "Outomatiese vertaling",
+      "translateUi": "Vertaal-app-koppelvlak",
+      "translateUiHint": "Wys kieslyste, knoppies en instellings in die toepassing se taal.",
+      "translateLabels": "Vertaal bord- en spyskaartetikette",
+      "translateLabelsHint": "Vertaal outomaties simbooletikette, kieslysname en die statiese woordry in die toepassingstaal. Benodig internet.",
+      "multilingual": "Meertalig",
+      "perItemImageLanguage": "Beeldtaal per item",
+      "perItemImageLanguageHint": "Laat elke item in sy eie taal na beelde soek.",
+      "multilingualLabels": "Meertalige etikette",
+      "multilingualLabelsHint": "Voeg ekstra teksetikette per item by (in wysigmodus) vir ander tale. Terwyl dit geaktiveer is, stop slegs borditemetikette outomatiese vertaling wanneer jy van taal verander (jou handmatige etikette word eerder gebruik); die statiese woorde, ry- en kieslysname vertaal steeds outomaties.",
+      "spokenLanguages": "Gesproke tale",
+      "spokenLanguagesHint": "Tale waartussen jy kan wissel vanaf die invoerkassie. Die toepassingstaal is die basis; items sonder 'n handmatige etiket word outomaties vertaal vir spraak. Hierdie funksie benodig internettoegang en word oorgeslaan vir Engels.",
+      "base": "Basis",
+      "addLanguage": "Voeg taal by"
+    },
+    "data": {
+      "backupRestore": "Rugsteun en herstel",
+      "backupRestoreHint": "Voer alle borde, instellings, persoonlike beelde en opgeneemde klank uit of in as 'n enkele rugsteunlêer wat jy na 'n ander toestel kan oordra of in jou toestel se berging kan hou.",
+      "downloadBackup": "Laai rugsteun af",
+      "exportBackup": "Uitvoer rugsteun",
+      "saveBackupToDevice": "Stoor rugsteun op toestel (kies vouer)",
+      "importBackup": "Voer rugsteun in",
+      "security": "Sekuriteit",
+      "securityHint": "Vereis 'n PIN om Instellings en die redigeerder oop te maak. Dit kan gebruik word om te verseker dat die gebruiker nie instellings sonder die PIN kan wysig wanneer dit in die hoofkoppelvlak is nie. Gestoor wanneer jy op Toepas of Klaar tik.",
+      "changePin": "Verander PIN",
+      "removePin": "Verwyder PIN",
+      "setPin": "Stel 'n PIN",
+      "recoveryQuestions": "Herstelvrae",
+      "recoveryQuestionsHint": "Word gebruik om 'n vergete PIN terug te stel. Dit word aanbeveel om ten minste een by te voeg. Sonder enige kan 'n vergete PIN slegs uitgevee word deur die toepassing weer te installeer.",
+      "question": "Vraag",
+      "ownQuestionPlaceholder": "Of tik jou eie vraag",
+      "answer": "Antwoord",
+      "addQuestion": "+ Voeg vraag by",
+      "pinPlaceholder": "PIN (min 4 syfers)",
+      "confirmPinPlaceholder": "Bevestig PIN",
+      "pinTooShort": "PIN moet ten minste 4 syfers wees.",
+      "pinsDoNotMatch": "PIN's stem nie ooreen nie.",
+      "reset": "Herstel",
+      "restoreDefaults": "Herstel verstekwaardes",
+      "backupFormatNote": "Die .spegen-rugsteun is 'n saamgeperste ZIP-lêer wat jou borde, instellings, persoonlike beelde en opgeneemde klank in een lêer bevat. Invoer vervang alle huidige borde en instellings.",
+      "preparingDownload": "Berei aflaai voor…",
+      "backupDownloaded": "Rugsteun afgelaai.",
+      "openingShareSheet": "Maak deelblad oop…",
+      "shareSheetHint": "Gebruik die deelblad om jou rugsteun te stoor.",
+      "sharingUnavailable": "Deling is nie beskikbaar nie.",
+      "chooseFolder": "Kies 'n lêergids om in te stoor…",
+      "savedToFolder": "Gestoor in die vouer wat jy gekies het.",
+      "saveCanceled": "Stoor gekanselleer.",
+      "saveFailed": "Stoor het misluk: {e}",
+      "chooseBackupFile": "Kies 'n rugsteunlêer…",
+      "importCanceled": "Invoer gekanselleer.",
+      "importWebFileMissing": "Invoer het misluk: Weblêerhandvatsel ontbreek.",
+      "importDone": "Ingevoer. Bord herlaai.",
+      "importFailed": "Invoer het misluk: {e}",
+      "confirmReset": "Tik weer op \"Herstel verstekwaardes\" om te bevestig. Waarskuwing: dit vee jou borde uit.",
+      "resetDone": "Verstekborde is herstel.",
+      "resetFailed": "Herstel het misluk: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "'n Oopbron-AAK-toepassing ontwikkel deur Harper Klein Keane. SpeGen se GitHub-bladsy kan gevind word by",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", en die webwerf kan gevind word by",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lisensie: GNU Algemene Publieke Lisensie v3.0",
+      "showTutorialAgain": "Wys die verwelkomingshandleiding weer",
+      "privacyPolicy": "Privaatheidsbeleid"
+    },
+    "feedback": {
+      "title": "Dien terugvoer in",
+      "intro": "Het jy 'n fout gevind of 'n versoek vir 'n funksie? Laat weet my! Hierdie vorm sal outomaties 'n opsporingsprobleem op Spegen se GitHub-bewaarplek oopmaak.",
+      "category": "Uitgawekategorie",
+      "categories": [
+        "Fout",
+        "Voorstel",
+        "Ander"
+      ],
+      "header": "Koptekst / Opsomming",
+      "headerPlaceholder": "Som die kwessie kortliks op",
+      "details": "Besonderhede / Liggaam",
+      "detailsPlaceholder": "Verskaf stappe om 'n fout te reproduseer of jou funksie-idee uit te brei...",
+      "submitting": "Dien tans in...",
+      "submit": "Dien terugvoer in",
+      "missingFields": "Verskaf asseblief beide 'n opskrif en volledige besonderhede.",
+      "submittingStatus": "Dien terugvoer in...",
+      "submitted": "Terugvoer suksesvol ingedien! Dankie.",
+      "submitFailed": "Kon nie kwessie indien nie: {msg}",
+      "networkError": "Netwerkfout indien terugvoer: {e}"
+    }
+  },
+  "board": {
+    "settings": "Instellings",
+    "search": "Soek",
+    "stop": "Stop",
+    "keyboard": "Sleutelbord",
+    "delete": "Vee uit",
+    "clear": "Duidelik",
+    "back": "Terug",
+    "autocomplete": "Outomatiese voltooiing",
+    "addText": "Voeg teks by"
+  },
+  "editor": {
+    "title": "REDAKTEURMODUS",
+    "addItem": "+ Item",
+    "addMenu": "+ Kieslys",
+    "deleteMenu": "- Spyskaart",
+    "gotoMenu": "Gaan na Kieslys",
+    "applyChanges": "Pas veranderinge toe",
+    "exit": "Uitgang"
+  },
+  "languageDropdown": {
+    "select": "Kies…",
+    "searchPlaceholder": "Soektaal"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Tik slegs",
+      "Praat slegs",
+      "Beide"
+    ],
+    "addItem": {
+      "title": "Voeg item by {menuTitle}",
+      "name": "Naam",
+      "symbol": "Simbool",
+      "folder": "Vouer",
+      "folderTargetMenu": "Vouerteikenkieslys"
+    },
+    "newMenu": {
+      "title": "Skep nuwe spyskaart",
+      "menuTitle": "Kieslystitel",
+      "emptyNote": "Die kieslys word leeg geskep. Voer dit in en gebruik \"+ Item\" om items by te voeg.",
+      "create": "Skep"
+    },
+    "deleteMenu": {
+      "title": "Vee 'n spyskaart uit",
+      "hint": "Vouers wat 'n uitgevee spyskaart oopmaak, sal ook verwyder word.",
+      "delete": "Vee uit"
+    },
+    "gotoMenu": {
+      "title": "Gaan na 'n spyskaart",
+      "hint": "Laat jou toe om na 'n kieslys te spring terwyl jy in redigeerdermodus is.",
+      "goTo": "Gaan na"
+    },
+    "unsaved": {
+      "title": "Ongestoorde veranderinge",
+      "body": "Jy het ongestoorde veranderinge. Wil jy hulle stoor?",
+      "dontSave": "Moenie stoor nie",
+      "saveChanges": "Stoor veranderinge"
+    },
+    "pinLock": {
+      "enterTitle": "Voer PIN in",
+      "lockedHint": "Instellings en die redigeerder is gesluit.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Ontsluit",
+      "forgotPin": "PIN vergeet?",
+      "incorrectPin": "Verkeerde PIN.",
+      "noQuestions": "Geen herstelvrae is gestel nie, dus kan die PIN nie herstel word nie. Herinstalleer die toepassing om dit skoon te maak (dit vee alle borde uit).",
+      "answerToReset": "Antwoord om PIN terug te stel",
+      "answerHint": "Beantwoord elke vraag korrek (nie hooflettergevoelig nie).",
+      "answerPlaceholder": "Antwoord",
+      "verify": "Verifieer",
+      "answersIncorrect": "Een of meer antwoorde is verkeerd.",
+      "setNewPin": "Stel 'n nuwe PIN",
+      "newPinPlaceholder": "Nuwe PIN (min 4 syfers)",
+      "confirmNewPinPlaceholder": "Bevestig nuwe PIN",
+      "saveNewPin": "Stoor nuwe PIN",
+      "pinTooShort": "PIN moet ten minste 4 syfers wees.",
+      "pinsDoNotMatch": "PIN's stem nie ooreen nie."
+    },
+    "colorPicker": {
+      "title": "Kies 'n kleur",
+      "hue": "Kleur: {deg}°",
+      "ok": "Goed"
+    },
+    "editItem": {
+      "name": "Naam",
+      "itemLanguage": "Itemtaal",
+      "language": "Taal",
+      "labelsByLanguage": "Etikette volgens taal",
+      "add": "Voeg by",
+      "addLanguage": "+ Voeg taal by",
+      "image": "Beeld",
+      "loading": "Laai tans…",
+      "loadMoreImages": "Laai meer beelde",
+      "findImages": "Vind beelde",
+      "chooseCustomImage": "Kies 'n persoonlike beeld",
+      "resetToDefault": "Stel terug na verstekwaarde",
+      "audio": "Oudio",
+      "useItemName": "Gebruik itemnaam",
+      "useCustomAudio": "Gebruik persoonlike klank",
+      "audioClip": "Oudiogreep",
+      "record": "Rekord",
+      "stop": "Stop",
+      "importFromDevice": "Voer vanaf toestel in",
+      "preview": "▶ Voorskou",
+      "clearAudio": "Duidelike klank",
+      "renameAudioClip": "Hernoem oudiogreep",
+      "clipNamePlaceholder": "Knipselnaam",
+      "pronHint": "Opsioneel: spel die naam weer sodat dit korrek uitgespreek word (bv. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Uitspraak",
+      "color": "Kleur",
+      "custom": "Pasgemaak",
+      "default": "Standaard",
+      "editCustomColor": "Wysig persoonlike kleur",
+      "pickCustomColor": "Kies persoonlike kleur",
+      "ttsBehavior": "TTS-gedrag",
+      "delete": "Vee uit"
+    }
+  }
+}

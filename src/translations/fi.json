@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Takaisin",
+    "next": "Seuraava",
+    "done": "Tehty",
+    "skip": "Ohita",
+    "cancel": "Peruuttaa",
+    "add": "Lisätä",
+    "save": "Tallentaa",
+    "close": "Lähellä",
+    "reset": "Nollaa"
+  },
+  "banners": {
+    "ttsMissingVoice": "Ei asennettua ääntä kohdille {name} ({code}). Puhutaan oletusäänellä.",
+    "ttsInstallAndroid": "Napauta avataksesi laitteesi puheasetukset ja asenna sitten äänitiedot tälle kielelle.",
+    "ttsInstallIos": "Lisää se avaamalla Asetukset → Esteettömyys → Puhuttu sisältö → Äänet ja lataamalla äänen. Hylkää napauttamalla.",
+    "ttsInstallWeb": "Äänet tulevat käyttöjärjestelmästäsi – lisää yksi tälle kielelle järjestelmän puheasetuksissa. Napauta ohittaaksesi.",
+    "updateAvailable": "Päivitys saatavilla – napauta ladataksesi uudelleen"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Tervetuloa SpeGeniin",
+        "body": "Tämä on lyhyt tutoriaali, joka opettaa sinulle sovelluksen peruskäyttöliittymän. Voit käyttää tätä tutoriaalia myöhemmin asetuksista."
+      },
+      {
+        "title": "Kansiot",
+        "body": "Napauta kansiota siirtyäksesi toiseen valikkoon, jossa on lisää symboleja ja kansioita. Kansioissa on aina musta taitos oikeassa yläkulmassa."
+      },
+      {
+        "title": "Symbolit",
+        "body": "Napauta symbolia lisätäksesi sen syöttökenttään."
+      },
+      {
+        "title": "Syöttökenttä",
+        "body": "Syöttökenttä on paikka, johon kirjoitat lauseita. Napauta sitä toistaaksesi muodostetun lauseen."
+      },
+      {
+        "title": "Valikkorivi",
+        "body": "Nämä ovat painikkeita, jotka ohjaavat sinut automaattisesti vastaavaan valikkoon."
+      },
+      {
+        "title": "Staattisten sanojen rivi",
+        "body": "Nämä termit ovat aina näytön alareunassa missä tahansa oletkin. Napauta yhtä termiä lausuaksesi sen välittömästi."
+      },
+      {
+        "title": "Näppäimistö",
+        "body": "Avaa valintaikkunan, jonka avulla voit lisätä kohteita syöttökenttään laitteen näppäimistön avulla."
+      },
+      {
+        "title": "Poistaa",
+        "body": "Poistaa viimeisen termin syöttöruudusta."
+      },
+      {
+        "title": "Tyhjennä",
+        "body": "Tyhjentää kaikki termit syöttökentästä."
+      },
+      {
+        "title": "Stop",
+        "body": "Pysäyttää parhaillaan toistettavan tekstistä puheeksi -toiminnon."
+      },
+      {
+        "title": "Haku",
+        "body": "Hae mitä tahansa termiä mistä tahansa valikosta. Se opastaa sinut termin löytämiseen korostamalla painikkeet, joita sinun on painettava."
+      },
+      {
+        "title": "Asetukset",
+        "body": "Avaa asetusvalikon: taulun muokkaaminen, tietojen varmuuskopiointi, tekstistä puheeksi -äänen vaihtaminen ja paljon muuta."
+      },
+      {
+        "title": "Takaisin",
+        "body": "Palauttaa sinut edelliseen valikkoon, jossa olit."
+      },
+      {
+        "title": "Automaattinen täydennys",
+        "body": "Korvaa valikon luettelolla automaattisesti täydennetyistä vaihtoehdoista, jotka oppivat valitsemistasi symboleista. Data ei koskaan poistu laitteeltasi ilman suostumustasi."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Etsi sana/esine",
+    "subtitle": "Hae jokaisesta valikosta ja napsauta sitten korostettuja painikkeita siirtyäksesi sanaan.",
+    "placeholder": "Kirjoita sana…",
+    "noMatches": "Ei osumia.",
+    "find": "Löytää",
+    "close": "Lähellä",
+    "finding": "Kohdan ”{word}” löytäminen – napauta korostettua painiketta",
+    "cancel": "Peruuttaa"
+  },
+  "autocomplete": {
+    "suggestions": "Ehdotukset",
+    "after": "\"{word}\":n jälkeen",
+    "none": "Ei vielä ehdotuksia."
+  },
+  "settings": {
+    "title": "Asetukset",
+    "apply": "Käytä",
+    "done": "Tehty",
+    "tabs": {
+      "display": "Näyttö",
+      "voice": "Ääni",
+      "vocabulary": "Sanasto",
+      "language": "Kieli",
+      "data": "Data",
+      "about": "Noin",
+      "feedback": "Palaute"
+    },
+    "display": {
+      "preview": "Esikatselu",
+      "staticRowLabel": "Staattisten sanojen rivi",
+      "menuRowLabel": "Valikkorivi",
+      "previewStaticTerms": [
+        "Kyllä",
+        "Ei",
+        "Lisää"
+      ],
+      "previewMenuTitles": [
+        "Ihmiset",
+        "Ruoka",
+        "Toiminnot"
+      ],
+      "itemSizing": "Tuotteen koko",
+      "itemWidthSize": "Tuotteen leveys",
+      "itemHeightSize": "Tuotteen korkeus",
+      "gridSize": "Sovita ruudukkoon",
+      "gridHint": "Skaalaa kohteen koko ruudukkoon sopivaksi: syötä sarakkeet ja rivit ja napauta sitten Käytä.",
+      "gridCols": "Sarakkeet",
+      "gridRows": "Rivit",
+      "gridApply": "Käytä",
+      "bordersSpacing": "Reunat ja välistys",
+      "borderWidth": "Reunuksen leveys",
+      "itemPadding": "Täyttö",
+      "staticRowStyle": "Staattisten sanojen rivityyli",
+      "menuRowStyle": "Valikkorivin tyyli",
+      "textSize": "Tekstin koko",
+      "textPadding": "Tekstin täyttö",
+      "buttonShape": "Painikkeen muoto",
+      "labelPosition": "Tarran sijainti",
+      "top": "Yläosa",
+      "bottom": "Pohja",
+      "skinTone": "Ihon sävy",
+      "theme": "Teema",
+      "themeLight": "Valo",
+      "themeDark": "Tumma",
+      "themeSystem": "Järjestelmä",
+      "themeNote": "Tumma tila muuttaa sovelluksen näyttöjen ja valikoiden teemoja. Symbolipainikkeiden värit ja korkeakontrastinen tila eivät muutu.",
+      "highContrast": "Korkea kontrasti",
+      "highContrastHint": "Musta tausta, valkoiset reunat ja etiketit sekä yksinkertaistettu väripaletti tuotekuville."
+    },
+    "voice": {
+      "speechRate": "Puhenopeus",
+      "pitch": "Piki",
+      "pauseBetweenWords": "Tauko sanojen välillä",
+      "pauseDuration": "Tauon kesto",
+      "testPhrase": "Tämä on ääniasetusten testi.",
+      "testVoice": "Testiääni",
+      "translateSentence": "Käännä puhuttuja lauseita",
+      "translateSentenceHint": "Käännä koko lause kerralla luonnollisemman kieliopin saavuttamiseksi sana sanalta kääntämisen sijaan. Oletusarvoisesti käytössä muille kuin englannin kielille. Edellyttää internetyhteyttä.",
+      "voiceLabel": "Ääni",
+      "voiceHint": "Valitse sovelluksesi kielellä käytettävä ääni. Laitteesi tai selaimesi tarjoaa äänet.",
+      "voiceDefault": "Oletusarvo (järjestelmä)",
+      "noVoices": "Tälle kielelle ei löytynyt ääniä.",
+      "openDeviceTts": "Avaa laitteen TTS-asetukset",
+      "ttsOpenFailed": "Laitteen TTS-asetuksia ei voitu avata: {e}",
+      "resetToDefaults": "Palauta oletusasetukset",
+      "resetDone": "Ääni palautettu oletusasetuksiin."
+    },
+    "vocabulary": {
+      "editorMode": "Editoritila",
+      "editorModeHint": "Muokkaa symboleja ja kansioita napauttamalla niitä taululla ja muokkaa valikoita työkalupalkin painikkeilla.",
+      "enableEditorMode": "Ota editoritila käyttöön",
+      "staticRow": "Staattisten sanojen rivi",
+      "staticRowHint": "Sanat näkyvät aina näytön alareunassa riippumatta siitä, missä kohtaa sovellusta olet. Vedä ≡ järjestelläksesi sanat uudelleen.",
+      "addPhrasePlaceholder": "Lisää lauseke",
+      "addPhrase": "Lisätä",
+      "menuRow": "Valikkorivi",
+      "menuRowHint": "Valikon pikavalinnat näkyvät staattisen rivin yläpuolella taulua ja päävalikkoa käytettäessä. Järjestystä voi muuttaa vetämällä ≡-merkkiä.",
+      "menuRowEmpty": "Ei valikoita rivillä.",
+      "addMenuToRow": "Lisää valikko riville",
+      "allMenusInRow": "Kaikki valikot ovat jo rivillä."
+    },
+    "language": {
+      "appLanguage": "Sovelluksen kieli",
+      "appLanguageHint": "Käytetään puheeseen, kuvahakuun ja otsikoiden kääntämiseen. Tämän muuttaminen lataa kaikki kuvat uudelleen.",
+      "translationDisclaimer": "Sovellusteksti käännetään Google Translate API:lla, joten jotkin käännökset voivat olla epätarkkoja. Jos huomaat virheen, ilmoita siitä asetuksissa olevalla Palaute-painikkeella – lisää kieli ja ehdotettu korjaus.",
+      "autoTranslate": "Automaattinen käännös",
+      "translateUi": "Käännössovelluksen käyttöliittymä",
+      "translateUiHint": "Näytä valikot, painikkeet ja asetukset sovelluksen kielellä.",
+      "translateLabels": "Käännä taulun ja valikoiden otsikot",
+      "translateLabelsHint": "Käännä symbolien otsikot, valikoiden nimet ja staattiset sanarivit automaattisesti sovelluksen kielelle. Edellyttää internetyhteyttä.",
+      "multilingual": "Monikielinen",
+      "perItemImageLanguage": "Kohdekohtainen kuvan kieli",
+      "perItemImageLanguageHint": "Anna jokaisen kohteen hakea kuvia omalla kielellään.",
+      "multilingualLabels": "Monikieliset etiketit",
+      "multilingualLabelsHint": "Lisää ylimääräisiä tekstitunnisteita kohdetta kohden (muokkaustilassa) muille kielille. Kun tämä on käytössä, vain taulun kohteiden tunnisteet lakkaavat kääntymästä automaattisesti kieltä vaihdettaessa (manuaalisesti luotuja tunnisteita käytetään niiden sijaan); staattiset sanat, rivit ja valikoiden nimet, käännetään edelleen automaattisesti.",
+      "spokenLanguages": "Puhutut kielet",
+      "spokenLanguagesHint": "Kielet, joiden välillä voit vaihtaa syöttökentässä. Sovelluksen kieli on pohja; kohteet, joilla ei ole manuaalista otsikkoa, käännetään automaattisesti puheeksi. Tämä ominaisuus vaatii internetyhteyden ja sitä ei käytetä englanninkielisissä sovelluksissa.",
+      "base": "Pohja",
+      "addLanguage": "Lisää kieli"
+    },
+    "data": {
+      "backupRestore": "Varmuuskopiointi ja palautus",
+      "backupRestoreHint": "Vie tai tuo kaikki taulut, asetukset, mukautetut kuvat ja tallennetut äänet yhdeksi varmuuskopiotiedostoksi, jonka voit siirtää toiselle laitteelle tai säilyttää laitteesi tallennustilassa.",
+      "downloadBackup": "Lataa varmuuskopio",
+      "exportBackup": "Vie varmuuskopio",
+      "saveBackupToDevice": "Tallenna varmuuskopio laitteelle (valitse kansio)",
+      "importBackup": "Tuo varmuuskopio",
+      "security": "Turvallisuus",
+      "securityHint": "Vaadi PIN-koodi asetusten ja editorin avaamiseen. Tämän avulla voidaan varmistaa, että käyttäjä ei voi muokata asetuksia ilman PIN-koodia pääkäyttöliittymässä. Tallennetaan, kun napautat Käytä tai Valmis.",
+      "changePin": "Vaihda PIN-koodi",
+      "removePin": "Poista PIN-koodi",
+      "setPin": "Aseta PIN-koodi",
+      "recoveryQuestions": "Palautumiskysymykset",
+      "recoveryQuestionsHint": "Käytetään unohtuneen PIN-koodin nollaamiseen. On suositeltavaa lisätä vähintään yksi. Ilman koodia unohtunut PIN-koodi voidaan poistaa vain asentamalla sovellus uudelleen.",
+      "question": "Kysymys",
+      "ownQuestionPlaceholder": "Tai kirjoita oma kysymyksesi",
+      "answer": "Vastaus",
+      "addQuestion": "+ Lisää kysymys",
+      "pinPlaceholder": "PIN-koodi (vähintään 4 numeroa)",
+      "confirmPinPlaceholder": "Vahvista PIN-koodi",
+      "pinTooShort": "PIN-koodin on oltava vähintään neljä numeroa pitkä.",
+      "pinsDoNotMatch": "PIN-koodit eivät täsmää.",
+      "reset": "Nollaa",
+      "restoreDefaults": "Palauta oletusasetukset",
+      "backupFormatNote": ".spegen-varmuuskopio on pakattu ZIP-tiedosto, joka sisältää taulusi, asetuksesi, mukautetut kuvat ja tallennetun äänen yhdessä tiedostossa. Tuonti korvaa kaikki nykyiset taulut ja asetukset.",
+      "preparingDownload": "Valmistellaan latausta…",
+      "backupDownloaded": "Varmuuskopio ladattu.",
+      "openingShareSheet": "Avataan jakotaulukko…",
+      "shareSheetHint": "Käytä jakotaulukkoa varmuuskopion tallentamiseen.",
+      "sharingUnavailable": "Jakaminen ei ole käytettävissä.",
+      "chooseFolder": "Valitse kansio, johon haluat tallentaa…",
+      "savedToFolder": "Tallennettu valitsemaasi kansioon.",
+      "saveCanceled": "Tallennus peruttu.",
+      "saveFailed": "Tallennus epäonnistui: {e}",
+      "chooseBackupFile": "Valitse varmuuskopiotiedosto…",
+      "importCanceled": "Tuonti peruutettu.",
+      "importWebFileMissing": "Tuonti epäonnistui: Verkkotiedoston kahva puuttuu.",
+      "importDone": "Tuotu. Taulu ladattu uudelleen.",
+      "importFailed": "Tuonti epäonnistui: {e}",
+      "confirmReset": "Vahvista napauttamalla uudelleen \"Palauta oletusasetukset\". Varoitus: tämä tyhjentää taulusi.",
+      "resetDone": "Oletustaulut palautettu.",
+      "resetFailed": "Nollaus epäonnistui: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Harper Klein Keanen kehittämä avoimen lähdekoodin AAC-sovellus. SpeGenin GitHub-sivu löytyy osoitteesta",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", ja verkkosivusto löytyy osoitteesta",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lisenssi: GNU General Public License v3.0",
+      "showTutorialAgain": "Näytä tervetulo-opastus uudelleen",
+      "privacyPolicy": "Tietosuojakäytäntö"
+    },
+    "feedback": {
+      "title": "Lähetä palautetta",
+      "intro": "Löysitkö virheen tai onko sinulla ominaisuuspyyntö? Kerro minulle! Tämä lomake avaa automaattisesti seurantailmoituksen Spegenin GitHub-arkistossa.",
+      "category": "Ongelmaluokka",
+      "categories": [
+        "Vika",
+        "Ehdotus",
+        "Muut"
+      ],
+      "header": "Ylätunniste / Yhteenveto",
+      "headerPlaceholder": "Tiivistä asia lyhyesti",
+      "details": "Tiedot / Runko",
+      "detailsPlaceholder": "Kerro vaiheet virheen toistamiseksi tai ominaisuusideasi laajentamiseksi...",
+      "submitting": "Lähetetään...",
+      "submit": "Lähetä palautetta",
+      "missingFields": "Anna sekä otsikko että täydelliset tiedot.",
+      "submittingStatus": "Lähetetään palautetta...",
+      "submitted": "Palaute lähetetty onnistuneesti! Kiitos.",
+      "submitFailed": "Ongelman lähettäminen epäonnistui: {msg}",
+      "networkError": "Verkkovirhe palautteen lähettämisessä: {e}"
+    }
+  },
+  "board": {
+    "settings": "Asetukset",
+    "search": "Haku",
+    "stop": "Stop",
+    "keyboard": "Näppäimistö",
+    "delete": "Poistaa",
+    "clear": "Tyhjennä",
+    "back": "Takaisin",
+    "autocomplete": "Automaattinen täydennys",
+    "addText": "Lisää tekstiä"
+  },
+  "editor": {
+    "title": "EDITORITILA",
+    "addItem": "+ Kohde",
+    "addMenu": "+ Valikko",
+    "deleteMenu": "- Valikko",
+    "gotoMenu": "Siirry valikkoon",
+    "applyChanges": "Käytä muutoksia",
+    "exit": "Uloskäynti"
+  },
+  "languageDropdown": {
+    "select": "Valitse…",
+    "searchPlaceholder": "Hakukieli"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Vain kirjoittaminen",
+      "Vain puhua",
+      "Molemmat"
+    ],
+    "addItem": {
+      "title": "Lisää kohta {menuTitle}:iin",
+      "name": "Nimi",
+      "symbol": "Symboli",
+      "folder": "Kansio",
+      "folderTargetMenu": "Kansiokohteen valikko"
+    },
+    "newMenu": {
+      "title": "Luo uusi valikko",
+      "menuTitle": "Valikon otsikko",
+      "emptyNote": "Valikko luodaan tyhjäksi. Avaa se ja lisää kohteita painamalla \"+ Kohde\".",
+      "create": "Luoda"
+    },
+    "deleteMenu": {
+      "title": "Poista valikko",
+      "hint": "Myös poistetun valikon avaavat kansiot poistetaan.",
+      "delete": "Poistaa"
+    },
+    "gotoMenu": {
+      "title": "Siirry valikkoon",
+      "hint": "Voit siirtyä valikkoon editoritilassa.",
+      "goTo": "Siirry kohteeseen"
+    },
+    "unsaved": {
+      "title": "Tallentamattomat muutokset",
+      "body": "Sinulla on tallentamattomia muutoksia. Haluatko tallentaa ne?",
+      "dontSave": "Älä tallenna",
+      "saveChanges": "Tallenna muutokset"
+    },
+    "pinLock": {
+      "enterTitle": "Syötä PIN-koodi",
+      "lockedHint": "Asetukset ja editori ovat lukittuja.",
+      "pinPlaceholder": "PIN-koodi",
+      "unlock": "Avata",
+      "forgotPin": "Unohditko PIN-koodin?",
+      "incorrectPin": "Väärä PIN-koodi.",
+      "noQuestions": "Palautuskysymyksiä ei ole asetettu, joten PIN-koodia ei voi nollata. Asenna sovellus uudelleen tyhjentääksesi sen (tämä poistaa kaikki taulut).",
+      "answerToReset": "Vastaus PIN-koodin nollaamiseen",
+      "answerHint": "Vastaa jokaiseen kysymykseen oikein (ei kirjainkokoeroa).",
+      "answerPlaceholder": "Vastaus",
+      "verify": "Vahvista",
+      "answersIncorrect": "Yksi tai useampi vastaus on väärin.",
+      "setNewPin": "Aseta uusi PIN-koodi",
+      "newPinPlaceholder": "Uusi PIN-koodi (vähintään 4 numeroa)",
+      "confirmNewPinPlaceholder": "Vahvista uusi PIN-koodi",
+      "saveNewPin": "Tallenna uusi PIN-koodi",
+      "pinTooShort": "PIN-koodin on oltava vähintään neljä numeroa pitkä.",
+      "pinsDoNotMatch": "PIN-koodit eivät täsmää."
+    },
+    "colorPicker": {
+      "title": "Valitse väri",
+      "hue": "Sävy: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Nimi",
+      "itemLanguage": "Tuotteen kieli",
+      "language": "Kieli",
+      "labelsByLanguage": "Tunnisteet kielen mukaan",
+      "add": "Lisätä",
+      "addLanguage": "+ Lisää kieli",
+      "image": "Kuva",
+      "loading": "Ladataan…",
+      "loadMoreImages": "Lataa lisää kuvia",
+      "findImages": "Etsi kuvia",
+      "chooseCustomImage": "Valitse mukautettu kuva",
+      "resetToDefault": "Palauta oletusarvot",
+      "audio": "Audio",
+      "useItemName": "Käytä kohteen nimeä",
+      "useCustomAudio": "Käytä mukautettua ääntä",
+      "audioClip": "Äänileike",
+      "record": "Tallentaa",
+      "stop": "Stop",
+      "importFromDevice": "Tuo laitteesta",
+      "preview": "▶ Esikatselu",
+      "clearAudio": "Kirkas ääni",
+      "renameAudioClip": "Nimeä äänileike uudelleen",
+      "clipNamePlaceholder": "Klipin nimi",
+      "pronHint": "Valinnainen: kirjoita nimi uudelleen niin, että se lausutaan oikein (esim. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Ääntäminen",
+      "color": "Väri",
+      "custom": "Mukautettu",
+      "default": "Oletus",
+      "editCustomColor": "Muokkaa mukautettua väriä",
+      "pickCustomColor": "Valitse mukautettu väri",
+      "ttsBehavior": "TTS-käyttäytyminen",
+      "delete": "Poistaa"
+    }
+  }
+}

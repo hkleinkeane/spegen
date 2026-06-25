@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Tilbage",
+    "next": "Næste",
+    "done": "Færdig",
+    "skip": "Springe",
+    "cancel": "Ophæve",
+    "add": "Tilføje",
+    "save": "Spare",
+    "close": "Tæt",
+    "reset": "Nulstil"
+  },
+  "banners": {
+    "ttsMissingVoice": "Ingen installeret stemme til {name} ({code}). Taler med standardstemmen.",
+    "ttsInstallAndroid": "Tryk for at åbne din enheds taleindstillinger, og installer derefter stemmedata for dette sprog.",
+    "ttsInstallIos": "For at tilføje den skal du åbne Indstillinger → Tilgængelighed → Talt indhold → Stemmer og downloade stemmen. Tryk for at lukke.",
+    "ttsInstallWeb": "Stemmer kommer fra dit operativsystem – tilføj en til dette sprog i dine systemindstillinger for tale. Tryk for at lukke.",
+    "updateAvailable": "Opdatering tilgængelig – tryk for at genindlæse"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Velkommen til SpeGen",
+        "body": "Dette er en kort vejledning, der lærer dig appens grundlæggende brugergrænseflade. Du kan få adgang til vejledningen senere fra Indstillinger."
+      },
+      {
+        "title": "Mapper",
+        "body": "Tryk på en mappe for at gå til en anden menu med flere symboler og mapper. Mapper har altid en sort fold i øverste højre hjørne."
+      },
+      {
+        "title": "Symboler",
+        "body": "Tryk på et symbol for at tilføje det til inputfeltet."
+      },
+      {
+        "title": "Inputboks",
+        "body": "Inputfeltet er der, hvor du skriver sætninger. Tryk på det for at afspille den konstruerede sætning."
+      },
+      {
+        "title": "Menurække",
+        "body": "Dette er knapper, der automatisk omdirigerer dig til den tilhørende menu."
+      },
+      {
+        "title": "Statiske ordrække",
+        "body": "Disse termer er altid nederst på skærmen, uanset hvor du er. Tryk på et af dem for at sige det med det samme."
+      },
+      {
+        "title": "Tastatur",
+        "body": "Åbner en dialogboks, der giver dig mulighed for at bruge enhedens tastatur til at tilføje elementer til inputfeltet."
+      },
+      {
+        "title": "Slet",
+        "body": "Sletter det sidste ord i inputfeltet."
+      },
+      {
+        "title": "Klar",
+        "body": "Rydder inputfeltet for alle termer."
+      },
+      {
+        "title": "Stop",
+        "body": "Stopper al tekst-til-tale, der i øjeblikket afspilles."
+      },
+      {
+        "title": "Søge",
+        "body": "Søg efter et hvilket som helst ord i en hvilken som helst menu. Den guider dig til ordet ved at fremhæve de knapper, du skal trykke på."
+      },
+      {
+        "title": "Indstillinger",
+        "body": "Åbner indstillingsmenuen: redigering af tavlen, sikkerhedskopiering af data, ændring af tekst-til-tale-stemmen og mere."
+      },
+      {
+        "title": "Tilbage",
+        "body": "Sender dig tilbage til den forrige menu, du var på."
+      },
+      {
+        "title": "Autofuldførelse",
+        "body": "Erstatter menuen med en liste over autofuldførelsesmuligheder, der lærer af de symboler, du vælger. Data forlader aldrig din enhed uden samtykke."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Find et ord/element",
+    "subtitle": "Søg i alle menuer, og klik derefter på de fremhævede knapper for at navigere til ordet.",
+    "placeholder": "Skriv et ord…",
+    "noMatches": "Ingen matches.",
+    "find": "Finde",
+    "close": "Tæt",
+    "finding": "Find “{word}” - tryk på den fremhævede knap",
+    "cancel": "Ophæve"
+  },
+  "autocomplete": {
+    "suggestions": "Forslag",
+    "after": "Efter \"{word}\"",
+    "none": "Ingen forslag endnu."
+  },
+  "settings": {
+    "title": "Indstillinger",
+    "apply": "Anvende",
+    "done": "Færdig",
+    "tabs": {
+      "display": "Vise",
+      "voice": "Stemme",
+      "vocabulary": "Ordforråd",
+      "language": "Sprog",
+      "data": "Data",
+      "about": "Om",
+      "feedback": "Feedback"
+    },
+    "display": {
+      "preview": "Forhåndsvisning",
+      "staticRowLabel": "Række med statiske ord",
+      "menuRowLabel": "Menurække",
+      "previewStaticTerms": [
+        "Ja",
+        "Ingen",
+        "Mere"
+      ],
+      "previewMenuTitles": [
+        "Mennesker",
+        "Mad",
+        "Handlinger"
+      ],
+      "itemSizing": "Varestørrelse",
+      "itemWidthSize": "Varens breddestørrelse",
+      "itemHeightSize": "Størrelse på varens højde",
+      "gridSize": "Tilpas til gitter",
+      "gridHint": "Skaler elementstørrelsen, så den passer til et gitter: Indtast kolonner og rækker, og tryk derefter på Anvend.",
+      "gridCols": "Kolonner",
+      "gridRows": "Rækker",
+      "gridApply": "Anvende",
+      "bordersSpacing": "Kanter og afstand",
+      "borderWidth": "Kantbredde",
+      "itemPadding": "Elementpolstring",
+      "staticRowStyle": "Statiske ord rækkestil",
+      "menuRowStyle": "Menurækkestil",
+      "textSize": "Tekststørrelse",
+      "textPadding": "Tekstpolstring",
+      "buttonShape": "Knapform",
+      "labelPosition": "Etiketplacering",
+      "top": "Top",
+      "bottom": "Bund",
+      "skinTone": "Hudtone",
+      "theme": "Tema",
+      "themeLight": "Lys",
+      "themeDark": "Mørk",
+      "themeSystem": "System",
+      "themeNote": "Mørk tilstand tilpasser temaerne til appens skærme og menuer. Farverne på symbolknapper og højkontrasttilstand påvirkes ikke.",
+      "highContrast": "Høj kontrast",
+      "highContrastHint": "Sort baggrund, hvide kanter og etiketter med forenklet farvepalet til varebilleder."
+    },
+    "voice": {
+      "speechRate": "Talehastighed",
+      "pitch": "Tonehøjde",
+      "pauseBetweenWords": "Pause mellem ord",
+      "pauseDuration": "Pausevarighed",
+      "testPhrase": "Dette er en test af stemmeindstillingerne.",
+      "testVoice": "Teststemme",
+      "translateSentence": "Oversæt talte sætninger",
+      "translateSentenceHint": "Oversæt hele sætningen på én gang for mere naturlig grammatik i stedet for ord for ord. Slået til som standard for ikke-engelske sprog. Kræver internet.",
+      "voiceLabel": "Stemme",
+      "voiceHint": "Vælg den stemme, der bruges til tale, på dit apps sprog. Stemmer leveres af din enhed eller browser.",
+      "voiceDefault": "Standard (system)",
+      "noVoices": "Der blev ikke fundet nogen stemmer til dette sprog.",
+      "openDeviceTts": "Åbn enhedens TTS-indstillinger",
+      "ttsOpenFailed": "Kunne ikke åbne enhedens TTS-indstillinger: {e}",
+      "resetToDefaults": "Nulstil til standardindstillinger",
+      "resetDone": "Stemme nulstilles til standardindstillinger."
+    },
+    "vocabulary": {
+      "editorMode": "Redigeringstilstand",
+      "editorModeHint": "Rediger symboler og mapper ved at trykke på dem på tavlen, og brug knapperne på værktøjslinjen til at redigere menuer.",
+      "enableEditorMode": "Aktivér redigeringstilstand",
+      "staticRow": "Række med statiske ord",
+      "staticRowHint": "Ord er altid synlige nederst på skærmen, uanset hvor du er i appen. Træk ≡ for at ændre rækkefølgen.",
+      "addPhrasePlaceholder": "Tilføj en sætning",
+      "addPhrase": "Tilføje",
+      "menuRow": "Menurække",
+      "menuRowHint": "Menugenveje vist lige over den statiske række, når du bruger brættet og hovedmenuen. Træk ≡ for at ændre rækkefølgen.",
+      "menuRowEmpty": "Ingen menuer i rækken.",
+      "addMenuToRow": "Tilføj menu til række",
+      "allMenusInRow": "Alle menuer er allerede i rækken."
+    },
+    "language": {
+      "appLanguage": "App-sprog",
+      "appLanguageHint": "Bruges til tale, billedsøgning og etiketteoversættelse. Ændring af dette genindlæser alle billeder.",
+      "translationDisclaimer": "Apptekst oversættes med Google Translate API, så nogle oversættelser kan være unøjagtige. Hvis du finder en fejl, bedes du bruge Feedback-knappen i Indstillinger til at rapportere den – angiv sproget og den foreslåede rettelse.",
+      "autoTranslate": "Automatisk oversættelse",
+      "translateUi": "Oversæt appens brugerflade",
+      "translateUiHint": "Vis menuer, knapper og indstillinger på appens sprog.",
+      "translateLabels": "Oversæt opslagstavle- og menuetiketter",
+      "translateLabelsHint": "Automatisk oversættelse af symboletiketter, menunavne og rækken med statiske ord til appens sprog. Kræver internet.",
+      "multilingual": "Flersproget",
+      "perItemImageLanguage": "Billedsprog pr. element",
+      "perItemImageLanguageHint": "Lad hvert element søge efter billeder på sit eget sprog.",
+      "multilingualLabels": "Flersprogede etiketter",
+      "multilingualLabelsHint": "Tilføj ekstra tekstetiketter pr. element (i redigeringstilstand) for andre sprog. Når det er aktiveret, stopper kun etiketter for element på opslagstavlen automatisk oversættelse, når du skifter sprog (dine manuelle etiketter bruges i stedet); de statiske ord, rækker og menunavne, oversættes stadig automatisk.",
+      "spokenLanguages": "Talte sprog",
+      "spokenLanguagesHint": "Sprog, du kan skifte mellem fra inputfeltet. Appens sprog er basissproget; elementer uden en manuel etiket oversættes automatisk til tale. Denne funktion kræver internetforbindelse og springes over for engelsk.",
+      "base": "Grundlag",
+      "addLanguage": "Tilføj sprog"
+    },
+    "data": {
+      "backupRestore": "Sikkerhedskopiering og gendannelse",
+      "backupRestoreHint": "Eksporter eller importer alle boards, indstillinger, brugerdefinerede billeder og optaget lyd som en enkelt backupfil, som du kan overføre til en anden enhed eller gemme på din enheds lagerplads.",
+      "downloadBackup": "Download sikkerhedskopi",
+      "exportBackup": "Eksportér sikkerhedskopi",
+      "saveBackupToDevice": "Gem sikkerhedskopi på enhed (vælg mappe)",
+      "importBackup": "Importér sikkerhedskopi",
+      "security": "Sikkerhed",
+      "securityHint": "Kræver en pinkode for at åbne Indstillinger og editoren. Dette kan bruges til at sikre, at brugeren ikke kan redigere indstillinger uden pinkoden i hovedgrænsefladen. Gemmes, når du trykker på Anvend eller Udført.",
+      "changePin": "Skift pinkode",
+      "removePin": "Fjern pinkode",
+      "setPin": "Angiv en pinkode",
+      "recoveryQuestions": "Spørgsmål om genopretning",
+      "recoveryQuestionsHint": "Bruges til at nulstille en glemt pinkode. Det anbefales at tilføje mindst én. Uden en sådan kan en glemt pinkode kun slettes ved at geninstallere appen.",
+      "question": "Spørgsmål",
+      "ownQuestionPlaceholder": "Eller skriv dit eget spørgsmål",
+      "answer": "Svar",
+      "addQuestion": "+ Tilføj spørgsmål",
+      "pinPlaceholder": "PIN-kode (minimum 4 cifre)",
+      "confirmPinPlaceholder": "Bekræft pinkode",
+      "pinTooShort": "PIN-koden skal være mindst 4 cifre.",
+      "pinsDoNotMatch": "PIN-koderne stemmer ikke overens.",
+      "reset": "Nulstil",
+      "restoreDefaults": "Gendan standardindstillinger",
+      "backupFormatNote": ".spegen-sikkerhedskopien er en komprimeret ZIP-fil, der indeholder dine boards, indstillinger, brugerdefinerede billeder og optaget lyd i én fil. Import erstatter alle nuværende boards og indstillinger.",
+      "preparingDownload": "Forbereder download…",
+      "backupDownloaded": "Sikkerhedskopien er downloadet.",
+      "openingShareSheet": "Åbner delingsark…",
+      "shareSheetHint": "Brug delingsarket til at gemme din sikkerhedskopi.",
+      "sharingUnavailable": "Deling er ikke tilgængelig.",
+      "chooseFolder": "Vælg en mappe at gemme i…",
+      "savedToFolder": "Gemt i den valgte mappe.",
+      "saveCanceled": "Gemning annulleret.",
+      "saveFailed": "Gemning mislykkedes: {e}",
+      "chooseBackupFile": "Vælg en backupfil…",
+      "importCanceled": "Importen blev annulleret.",
+      "importWebFileMissing": "Import mislykkedes: Webfilens handle mangler.",
+      "importDone": "Importeret. Brættet genindlæst.",
+      "importFailed": "Import mislykkedes: {e}",
+      "confirmReset": "Tryk på \"Gendan standardindstillinger\" igen for at bekræfte. Advarsel: Dette sletter dine opslagstavler.",
+      "resetDone": "Gendannede standardtavler.",
+      "resetFailed": "Nulstilling mislykkedes: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "En open source AAC-app udviklet af Harper Klein Keane. SpeGens GitHub-side kan findes på",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", og hjemmesiden kan findes på",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licens: GNU General Public License v3.0",
+      "showTutorialAgain": "Vis velkomstvejledningen igen",
+      "privacyPolicy": "Privatlivspolitik"
+    },
+    "feedback": {
+      "title": "Send feedback",
+      "intro": "Har du fundet en fejl eller en funktionsanmodning? Giv mig besked! Denne formular åbner automatisk et sporingsproblem på Spegens GitHub-arkiv.",
+      "category": "Problemkategori",
+      "categories": [
+        "Fejl",
+        "Forslag",
+        "Andre"
+      ],
+      "header": "Overskrift / Oversigt",
+      "headerPlaceholder": "Opsummer kort problemet",
+      "details": "Detaljer / Krop",
+      "detailsPlaceholder": "Giv trin til at reproducere fejlen eller udvide din funktionsidé...",
+      "submitting": "Indsender...",
+      "submit": "Send feedback",
+      "missingFields": "Angiv venligst både en header og alle detaljer.",
+      "submittingStatus": "Sender feedback...",
+      "submitted": "Feedbacken er sendt! Tak.",
+      "submitFailed": "Kunne ikke indsende problemet: {msg}",
+      "networkError": "Netværksfejl ved afsendelse af feedback: {e}"
+    }
+  },
+  "board": {
+    "settings": "Indstillinger",
+    "search": "Søge",
+    "stop": "Stop",
+    "keyboard": "Tastatur",
+    "delete": "Slet",
+    "clear": "Klar",
+    "back": "Tilbage",
+    "autocomplete": "Autofuldførelse",
+    "addText": "Tilføj tekst"
+  },
+  "editor": {
+    "title": "REDIGERINGSTILSTAND",
+    "addItem": "+ Vare",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menu",
+    "gotoMenu": "Gå til menu",
+    "applyChanges": "Anvend ændringer",
+    "exit": "Udgang"
+  },
+  "languageDropdown": {
+    "select": "Vælge…",
+    "searchPlaceholder": "Søgesprog"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Kun type",
+      "Kun tale",
+      "Begge"
+    ],
+    "addItem": {
+      "title": "Tilføj vare til {menuTitle}",
+      "name": "Navn",
+      "symbol": "Symbol",
+      "folder": "Folder",
+      "folderTargetMenu": "Mappedestinationsmenu"
+    },
+    "newMenu": {
+      "title": "Opret ny menu",
+      "menuTitle": "Menutitel",
+      "emptyNote": "Menuen oprettes tom. Gå ind i den, og brug \"+ Element\" for at tilføje elementer.",
+      "create": "Skabe"
+    },
+    "deleteMenu": {
+      "title": "Slet en menu",
+      "hint": "Mapper, der åbner en slettet menu, vil også blive fjernet.",
+      "delete": "Slet"
+    },
+    "gotoMenu": {
+      "title": "Gå til en menu",
+      "hint": "Giver dig mulighed for at hoppe til en menu, mens du er i redigeringstilstand.",
+      "goTo": "Gå til"
+    },
+    "unsaved": {
+      "title": "Ikke-gemte ændringer",
+      "body": "Du har ændringer, der ikke er gemt. Vil du gemme dem?",
+      "dontSave": "Gem ikke",
+      "saveChanges": "Gem ændringer"
+    },
+    "pinLock": {
+      "enterTitle": "Indtast pinkode",
+      "lockedHint": "Indstillinger og editoren er låst.",
+      "pinPlaceholder": "STIFT",
+      "unlock": "Lås op",
+      "forgotPin": "Glemt pinkode?",
+      "incorrectPin": "Forkert pinkode.",
+      "noQuestions": "Der er ikke angivet nogen gendannelsesspørgsmål, så pinkoden kan ikke nulstilles. Geninstaller appen for at rydde den (dette sletter alle opslagstavler).",
+      "answerToReset": "Svar på nulstilling af pinkode",
+      "answerHint": "Besvar alle spørgsmål korrekt (ikke store og små bogstaver).",
+      "answerPlaceholder": "Svar",
+      "verify": "Verificere",
+      "answersIncorrect": "Et eller flere svar er forkerte.",
+      "setNewPin": "Indstil en ny pinkode",
+      "newPinPlaceholder": "Ny pinkode (minimum 4 cifre)",
+      "confirmNewPinPlaceholder": "Bekræft ny pinkode",
+      "saveNewPin": "Gem ny pinkode",
+      "pinTooShort": "PIN-koden skal være mindst 4 cifre.",
+      "pinsDoNotMatch": "PIN-koderne stemmer ikke overens."
+    },
+    "colorPicker": {
+      "title": "Vælg en farve",
+      "hue": "Farvetone: {deg}°",
+      "ok": "Okay"
+    },
+    "editItem": {
+      "name": "Navn",
+      "itemLanguage": "Varens sprog",
+      "language": "Sprog",
+      "labelsByLanguage": "Etiketter efter sprog",
+      "add": "Tilføje",
+      "addLanguage": "+ Tilføj sprog",
+      "image": "Billede",
+      "loading": "Indlæser…",
+      "loadMoreImages": "Indlæs flere billeder",
+      "findImages": "Find billeder",
+      "chooseCustomImage": "Vælg et brugerdefineret billede",
+      "resetToDefault": "Nulstil til standard",
+      "audio": "Lyd",
+      "useItemName": "Brug varenavn",
+      "useCustomAudio": "Brug brugerdefineret lyd",
+      "audioClip": "Lydklip",
+      "record": "Optage",
+      "stop": "Stop",
+      "importFromDevice": "Importer fra enhed",
+      "preview": "▶ Forhåndsvisning",
+      "clearAudio": "Klar lyd",
+      "renameAudioClip": "Omdøb lydklip",
+      "clipNamePlaceholder": "Klipnavn",
+      "pronHint": "Valgfrit: stav navnet om, så det udtales korrekt (f.eks. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Udtale",
+      "color": "Farve",
+      "custom": "Skik",
+      "default": "Misligholdelse",
+      "editCustomColor": "Rediger brugerdefineret farve",
+      "pickCustomColor": "Vælg brugerdefineret farve",
+      "ttsBehavior": "TTS-adfærd",
+      "delete": "Slet"
+    }
+  }
+}

@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Atgal",
+    "next": "Toliau",
+    "done": "Atlikta",
+    "skip": "Praleisti",
+    "cancel": "Atšaukti",
+    "add": "Pridėti",
+    "save": "Išsaugoti",
+    "close": "Uždaryti",
+    "reset": "Atstatyti"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nėra įdiegto balso, skirto {name} ({code}). Kalbama numatytuoju balsu.",
+    "ttsInstallAndroid": "Palieskite, kad atidarytumėte įrenginio kalbos nustatymus, tada įdiekite šios kalbos balso duomenis.",
+    "ttsInstallIos": "Norėdami pridėti, atidarykite „Nustatymai“ → „Pritaikymas neįgaliesiems“ → „Sakomas turinys“ → „Balsai“ ir atsisiųskite balsą. Palieskite, kad atmestumėte.",
+    "ttsInstallWeb": "Balsai sklinda iš jūsų operacinės sistemos – pridėkite balsą šiai kalbai sistemos kalbos nustatymuose. Palieskite, kad atmestumėte.",
+    "updateAvailable": "Atnaujinimas pasiekiamas – palieskite, kad įkeltumėte iš naujo"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Sveiki atvykę į SpeGen",
+        "body": "Tai trumpas vadovėlis, kuriame rasite pagrindinės programėlės vartotojo sąsajos paaiškinimą. Jį galėsite pasiekti vėliau nustatymuose."
+      },
+      {
+        "title": "Aplankai",
+        "body": "Palieskite aplanką, kad pereitumėte į kitą meniu su daugiau simbolių ir aplankų. Aplankai viršutiniame dešiniajame kampe visada turi juodą sulankstymą."
+      },
+      {
+        "title": "Simboliai",
+        "body": "Palieskite simbolį, kad jį įtrauktumėte į įvesties laukelį."
+      },
+      {
+        "title": "Įvesties laukas",
+        "body": "Įvesties laukelis skirtas sakinių rašymui. Palieskite jį, kad paleistumėte sudarytą sakinį."
+      },
+      {
+        "title": "Meniu eilutė",
+        "body": "Tai mygtukai, kurie automatiškai nukreipia jus į susijusį meniu."
+      },
+      {
+        "title": "Statinių žodžių eilutė",
+        "body": "Šie terminai visada rodomi ekrano apačioje, kad ir kur būtumėte. Palieskite vieną iš jų, kad jį akimirksniu ištartumėte."
+      },
+      {
+        "title": "Klaviatūra",
+        "body": "Atidaro dialogo langą, kuriame galite naudoti įrenginio klaviatūrą elementams į įvesties laukelį įtraukti."
+      },
+      {
+        "title": "Ištrinti",
+        "body": "Ištrina paskutinį terminą įvesties lauke."
+      },
+      {
+        "title": "Išvalyti",
+        "body": "Išvalo įvesties laukelį nuo visų terminų."
+      },
+      {
+        "title": "Stop",
+        "body": "Sustabdo bet kokį šiuo metu leidžiamą teksto įgarsinimo režimą."
+      },
+      {
+        "title": "Paieška",
+        "body": "Ieškokite bet kurio termino bet kuriame meniu. Sistema nukreips jus į terminą, paryškindama mygtukus, kuriuos reikia paspausti."
+      },
+      {
+        "title": "Nustatymai",
+        "body": "Atidaro nustatymų meniu: lentos redagavimas, duomenų atsarginių kopijų kūrimas, teksto įgarsinimo balso keitimas ir kita."
+      },
+      {
+        "title": "Atgal",
+        "body": "Grąžina jus į ankstesnį meniu, kuriame buvote."
+      },
+      {
+        "title": "Automatinis užbaigimas",
+        "body": "Meniu pakeičiamas automatinio užbaigimo parinkčių sąrašu, kuris mokosi iš jūsų pasirinktų simbolių. Duomenys niekada nepalieka jūsų įrenginio be jūsų sutikimo."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Rasti žodį / elementą",
+    "subtitle": "Ieškokite kiekviename meniu, tada spustelėkite paryškintus mygtukus, kad pereitumėte prie žodžio.",
+    "placeholder": "Įveskite žodį…",
+    "noMatches": "Nėra rungtynių.",
+    "find": "Rasti",
+    "close": "Uždaryti",
+    "finding": "Raskite „{word}“ – palieskite paryškintą mygtuką",
+    "cancel": "Atšaukti"
+  },
+  "autocomplete": {
+    "suggestions": "Pasiūlymai",
+    "after": "Po „{word}“",
+    "none": "Kol kas nėra pasiūlymų."
+  },
+  "settings": {
+    "title": "Nustatymai",
+    "apply": "Taikyti",
+    "done": "Atlikta",
+    "tabs": {
+      "display": "Ekranas",
+      "voice": "Balsas",
+      "vocabulary": "Žodynas",
+      "language": "Kalba",
+      "data": "Duomenys",
+      "about": "Apie",
+      "feedback": "Atsiliepimai"
+    },
+    "display": {
+      "preview": "Peržiūra",
+      "staticRowLabel": "Statinių žodžių eilutė",
+      "menuRowLabel": "Meniu eilutė",
+      "previewStaticTerms": [
+        "Taip",
+        "Ne",
+        "Daugiau"
+      ],
+      "previewMenuTitles": [
+        "Žmonės",
+        "Maistas",
+        "Veiksmai"
+      ],
+      "itemSizing": "Prekės dydis",
+      "itemWidthSize": "Elemento pločio dydis",
+      "itemHeightSize": "Elemento aukščio dydis",
+      "gridSize": "Pritaikyti prie tinklelio",
+      "gridHint": "Keisti elemento dydį, kad jis tilptų į tinklelį: įveskite stulpelius ir eilutes, tada palieskite „Taikyti“.",
+      "gridCols": "Stulpeliai",
+      "gridRows": "Eilutės",
+      "gridApply": "Taikyti",
+      "bordersSpacing": "Kraštinės ir tarpai",
+      "borderWidth": "Kraštinės plotis",
+      "itemPadding": "Elemento užpildymas",
+      "staticRowStyle": "Statinių žodžių eilutės stilius",
+      "menuRowStyle": "Meniu eilutės stilius",
+      "textSize": "Teksto dydis",
+      "textPadding": "Teksto užpildymas",
+      "buttonShape": "Mygtuko forma",
+      "labelPosition": "Etiketės pozicija",
+      "top": "Viršuje",
+      "bottom": "Apačia",
+      "skinTone": "Odos tonas",
+      "theme": "Tema",
+      "themeLight": "Šviesa",
+      "themeDark": "Tamsu",
+      "themeSystem": "Sistema",
+      "themeNote": "Tamsusis režimas keičia programėlės ekranų ir meniu temas. Simbolių mygtukų spalvos ir didelio kontrasto režimas lieka nepakitę.",
+      "highContrast": "Didelis kontrastas",
+      "highContrastHint": "Juodas fonas, balti rėmeliai ir etiketės su supaprastinta spalvų palete prekių vaizdams."
+    },
+    "voice": {
+      "speechRate": "Kalbėjimo greitis",
+      "pitch": "Pikis",
+      "pauseBetweenWords": "Pauzė tarp žodžių",
+      "pauseDuration": "Pauzės trukmė",
+      "testPhrase": "Tai balso nustatymų testas.",
+      "testVoice": "Bandomasis balsas",
+      "translateSentence": "Išversti ištartus sakinius",
+      "translateSentenceHint": "Verskite visą sakinį iš karto, kad gramatika būtų natūralesnė, o ne pažodžiui. Įjungta pagal numatytuosius nustatymus ne anglų kalboms. Reikalingas internetas.",
+      "voiceLabel": "Balsas",
+      "voiceHint": "Pasirinkite balsą, naudojamą kalbai jūsų programėlės kalba. Balsus teikia jūsų įrenginys arba naršyklė.",
+      "voiceDefault": "Numatytasis (sistema)",
+      "noVoices": "Šiai kalbai nerasta balsų.",
+      "openDeviceTts": "Atidaryti įrenginio TTS nustatymus",
+      "ttsOpenFailed": "Nepavyko atidaryti įrenginio TTS nustatymų: {e}",
+      "resetToDefaults": "Atkurti numatytuosius nustatymus",
+      "resetDone": "Balso nustatymai atkurti į numatytuosius."
+    },
+    "vocabulary": {
+      "editorMode": "Redaktoriaus režimas",
+      "editorModeHint": "Redaguokite simbolius ir aplankus bakstelėdami juos lentoje ir naudokite įrankių juostos mygtukus meniu redagavimui.",
+      "enableEditorMode": "Įjungti redaktoriaus režimą",
+      "staticRow": "Statinių žodžių eilutė",
+      "staticRowHint": "Žodžiai visada matomi ekrano apačioje, nepriklausomai nuo to, kurioje programos vietoje esate. Vilkite ≡, kad pakeistumėte tvarką.",
+      "addPhrasePlaceholder": "Pridėti frazę",
+      "addPhrase": "Pridėti",
+      "menuRow": "Meniu eilutė",
+      "menuRowHint": "Naudojant lentą ir pagrindinį meniu, meniu spartieji klavišai rodomi tiesiai virš statinės eilutės. Vilkite ≡, kad pakeistumėte tvarką.",
+      "menuRowEmpty": "Eilutėje nėra meniu.",
+      "addMenuToRow": "Pridėti meniu prie eilutės",
+      "allMenusInRow": "Visi meniu jau yra eilutėje."
+    },
+    "language": {
+      "appLanguage": "Programėlės kalba",
+      "appLanguageHint": "Naudojama kalbai, vaizdų paieškai ir etikečių vertimui. Pakeitus šią parinktį, iš naujo įkeliami visi vaizdai.",
+      "translationDisclaimer": "Programėlės tekstas verčiamas naudojant „Google Translate“ API, todėl kai kurie vertimai gali būti netikslūs. Jei pastebėjote klaidą, praneškite apie ją naudodami mygtuką „Atsiliepimai“ nustatymuose, nurodydami kalbą ir siūlomą pataisymą.",
+      "autoTranslate": "Automatinis vertimas",
+      "translateUi": "Versti programėlės sąsaja",
+      "translateUiHint": "Rodyti meniu, mygtukus ir nustatymus programėlės kalba.",
+      "translateLabels": "Išverskite lentos ir meniu etiketes",
+      "translateLabelsHint": "Automatiškai išversti simbolių etiketes, meniu pavadinimus ir statinių žodžių eilutę į programos kalbą. Reikalingas internetas.",
+      "multilingual": "Daugiakalbis",
+      "perItemImageLanguage": "Kiekvieno elemento paveikslėlio kalba",
+      "perItemImageLanguageHint": "Leiskite kiekvienam elementui ieškoti vaizdų savo kalba.",
+      "multilingualLabels": "Daugiakalbės etiketės",
+      "multilingualLabelsHint": "Pridėkite papildomas teksto etiketes prie elemento (redagavimo režime) kitoms kalboms. Kai ši funkcija įjungta, tik lentos elementų etiketės nustoja automatiškai versti, kai keičiate kalbą (vietoj jos naudojamos jūsų rankinės etiketės); statiniai žodžiai, eilutės ir meniu pavadinimai vis tiek verčiami automatiškai.",
+      "spokenLanguages": "Kalbamos kalbos",
+      "spokenLanguagesHint": "Kalbas, kurias galite perjungti įvesties lauke. Programėlės kalba yra pagrindinė; elementai be rankiniu būdu įvestos etiketės yra automatiškai verčiami įgarsinti. Šiai funkcijai reikalingas internetas ir ji praleidžiama anglų kalba.",
+      "base": "Bazė",
+      "addLanguage": "Pridėti kalbą"
+    },
+    "data": {
+      "backupRestore": "Atsarginių kopijų kūrimas ir atkūrimas",
+      "backupRestoreHint": "Eksportuokite arba importuokite visas lentas, nustatymus, pasirinktinius vaizdus ir įrašytą garsą kaip vieną atsarginės kopijos failą, kurį galite perkelti į kitą įrenginį arba išsaugoti savo įrenginio saugykloje.",
+      "downloadBackup": "Atsisiųsti atsarginę kopiją",
+      "exportBackup": "Eksportuoti atsarginę kopiją",
+      "saveBackupToDevice": "Išsaugoti atsarginę kopiją įrenginyje (pasirinkite aplanką)",
+      "importBackup": "Importuoti atsarginę kopiją",
+      "security": "Saugumas",
+      "securityHint": "Reikalingas PIN kodas norint atidaryti nustatymus ir redaktorių. Tai gali būti naudojama siekiant užtikrinti, kad vartotojas negalėtų redaguoti nustatymų be PIN kodo pagrindinėje sąsajoje. Išsaugoma palietus „Taikyti“ arba „Atlikta“.",
+      "changePin": "Keisti PIN kodą",
+      "removePin": "Pašalinti PIN kodą",
+      "setPin": "Nustatyti PIN kodą",
+      "recoveryQuestions": "Klausimai apie atsigavimą",
+      "recoveryQuestionsHint": "Naudojamas pamirštam PIN kodui atkurti. Rekomenduojama pridėti bent vieną. Be jo, pamirštą PIN kodą galima ištrinti tik iš naujo įdiegus programėlę.",
+      "question": "Klausimas",
+      "ownQuestionPlaceholder": "Arba įveskite savo klausimą",
+      "answer": "Atsakymas",
+      "addQuestion": "+ Pridėti klausimą",
+      "pinPlaceholder": "PIN kodas (mažiausiai 4 skaitmenys)",
+      "confirmPinPlaceholder": "Patvirtinkite PIN kodą",
+      "pinTooShort": "PIN kodas turi būti sudarytas iš bent 4 skaitmenų.",
+      "pinsDoNotMatch": "PIN kodai nesutampa.",
+      "reset": "Atstatyti",
+      "restoreDefaults": "Atkurti numatytuosius nustatymus",
+      "backupFormatNote": ".spegen atsarginė kopija yra suspaustas ZIP failas, kuriame viename faile saugomos jūsų lentos, nustatymai, pasirinktiniai vaizdai ir įrašytas garsas. Importavimas pakeičia visas esamas lentas ir nustatymus.",
+      "preparingDownload": "Ruošiama atsisiuntimo programa…",
+      "backupDownloaded": "Atsarginė kopija atsisiųsta.",
+      "openingShareSheet": "Atidaromas bendrinimo lapas…",
+      "shareSheetHint": "Norėdami išsaugoti atsarginę kopiją, naudokite bendrinimo lapą.",
+      "sharingUnavailable": "Bendrinimas negalimas.",
+      "chooseFolder": "Pasirinkite aplanką, kuriame norite išsaugoti…",
+      "savedToFolder": "Išsaugota pasirinktame aplanke.",
+      "saveCanceled": "Išsaugojimas atšauktas.",
+      "saveFailed": "Nepavyko išsaugoti: {e}",
+      "chooseBackupFile": "Pasirinkite atsarginės kopijos failą…",
+      "importCanceled": "Importavimas atšauktas.",
+      "importWebFileMissing": "Importavimas nepavyko: trūksta žiniatinklio failo identifikatoriaus.",
+      "importDone": "Importuota. Lenta įkelta iš naujo.",
+      "importFailed": "Importavimas nepavyko: {e}",
+      "confirmReset": "Dar kartą palieskite „Atkurti numatytuosius nustatymus“, kad patvirtintumėte. Įspėjimas: tai ištrins jūsų lentas.",
+      "resetDone": "Atkurtos numatytosios lentos.",
+      "resetFailed": "Atstatymas nepavyko: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Atvirojo kodo AAC programa, sukurta Harper Klein Keane. „SpeGen“ „GitHub“ puslapį galite rasti adresu",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", o svetainę galima rasti adresu",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licencija: GNU bendroji viešoji licencija v3.0",
+      "showTutorialAgain": "Dar kartą rodyti pasveikinimo vadovėlį",
+      "privacyPolicy": "Privatumo politika"
+    },
+    "feedback": {
+      "title": "Pateikti atsiliepimą",
+      "intro": "Radote klaidą arba turite funkcijų užklausą? Praneškite man! Ši forma automatiškai atidarys sekimo problemą „Spegen“ „GitHub“ saugykloje.",
+      "category": "Problemos kategorija",
+      "categories": [
+        "Klaida",
+        "Pasiūlymas",
+        "Kita"
+      ],
+      "header": "Antraštė / Santrauka",
+      "headerPlaceholder": "Trumpai apibendrinkite problemą",
+      "details": "Detalės / Kėbulas",
+      "detailsPlaceholder": "Pateikite veiksmus, kaip atkurti klaidą arba išplėsti savo funkcijos idėją...",
+      "submitting": "Pateikiama...",
+      "submit": "Pateikti atsiliepimą",
+      "missingFields": "Pateikite ir antraštę, ir išsamią informaciją.",
+      "submittingStatus": "Pateikiamas atsiliepimas...",
+      "submitted": "Atsiliepimas sėkmingai pateiktas! Ačiū.",
+      "submitFailed": "Nepavyko pateikti problemos: {msg}",
+      "networkError": "Pateikiant atsiliepimą, tinklo klaida: {e}"
+    }
+  },
+  "board": {
+    "settings": "Nustatymai",
+    "search": "Paieška",
+    "stop": "Stop",
+    "keyboard": "Klaviatūra",
+    "delete": "Ištrinti",
+    "clear": "Išvalyti",
+    "back": "Atgal",
+    "autocomplete": "Automatinis užbaigimas",
+    "addText": "Pridėti tekstą"
+  },
+  "editor": {
+    "title": "REDAKTORIAUS REŽIMAS",
+    "addItem": "+ Prekė",
+    "addMenu": "+ Meniu",
+    "deleteMenu": "- Meniu",
+    "gotoMenu": "Eiti į meniu",
+    "applyChanges": "Taikyti pakeitimus",
+    "exit": "Išeiti"
+  },
+  "languageDropdown": {
+    "select": "Pasirinkite…",
+    "searchPlaceholder": "Paieškos kalba"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Tik įvesti",
+      "Tik kalbėti",
+      "Abu"
+    ],
+    "addItem": {
+      "title": "Pridėti elementą prie {menuTitle}",
+      "name": "Vardas",
+      "symbol": "Simbolis",
+      "folder": "Aplankas",
+      "folderTargetMenu": "Aplanko paskirties meniu"
+    },
+    "newMenu": {
+      "title": "Sukurti naują meniu",
+      "menuTitle": "Meniu pavadinimas",
+      "emptyNote": "Meniu sukurtas tuščias. Įeikite į jį ir naudokite „+ Elementas“, kad pridėtumėte elementų.",
+      "create": "Sukurti"
+    },
+    "deleteMenu": {
+      "title": "Ištrinti meniu",
+      "hint": "Aplankai, kurie atidaro ištrintą meniu, taip pat bus pašalinti.",
+      "delete": "Ištrinti"
+    },
+    "gotoMenu": {
+      "title": "Eiti į meniu",
+      "hint": "Leidžia pereiti į meniu redaktoriaus režimu.",
+      "goTo": "Eiti į"
+    },
+    "unsaved": {
+      "title": "Neišsaugoti pakeitimai",
+      "body": "Turite neišsaugotų pakeitimų. Ar norite juos išsaugoti?",
+      "dontSave": "Neišsaugoti",
+      "saveChanges": "Išsaugoti pakeitimus"
+    },
+    "pinLock": {
+      "enterTitle": "Įveskite PIN kodą",
+      "lockedHint": "Nustatymai ir redaktorius yra užrakinti.",
+      "pinPlaceholder": "PIN kodas",
+      "unlock": "Atrakinti",
+      "forgotPin": "Pamiršote PIN kodą?",
+      "incorrectPin": "Neteisingas PIN kodas.",
+      "noQuestions": "Nėra nustatyta jokių atkūrimo klausimų, todėl PIN kodo negalima nustatyti iš naujo. Iš naujo įdiekite programėlę, kad ją išvalytumėte (tai ištrins visas lentas).",
+      "answerToReset": "Atsakymas, kaip atkurti PIN kodą",
+      "answerHint": "Atsakykite į kiekvieną klausimą teisingai (neskiriant didžiųjų ir mažųjų raidžių).",
+      "answerPlaceholder": "Atsakymas",
+      "verify": "Patvirtinti",
+      "answersIncorrect": "Vienas ar keli atsakymai yra neteisingi.",
+      "setNewPin": "Nustatyti naują PIN kodą",
+      "newPinPlaceholder": "Naujas PIN kodas (mažiausiai 4 skaitmenys)",
+      "confirmNewPinPlaceholder": "Patvirtinkite naują PIN kodą",
+      "saveNewPin": "Išsaugoti naują PIN kodą",
+      "pinTooShort": "PIN kodas turi būti sudarytas iš bent 4 skaitmenų.",
+      "pinsDoNotMatch": "PIN kodai nesutampa."
+    },
+    "colorPicker": {
+      "title": "Pasirinkite spalvą",
+      "hue": "Atspalvis: {deg}°",
+      "ok": "Gerai"
+    },
+    "editItem": {
+      "name": "Vardas",
+      "itemLanguage": "Elemento kalba",
+      "language": "Kalba",
+      "labelsByLanguage": "Etiketės pagal kalbą",
+      "add": "Pridėti",
+      "addLanguage": "+ Pridėti kalbą",
+      "image": "Vaizdas",
+      "loading": "Kraunama…",
+      "loadMoreImages": "Įkelti daugiau vaizdų",
+      "findImages": "Rasti vaizdus",
+      "chooseCustomImage": "Pasirinkite pasirinktinį vaizdą",
+      "resetToDefault": "Atkurti numatytuosius nustatymus",
+      "audio": "Garsas",
+      "useItemName": "Naudoti elemento pavadinimą",
+      "useCustomAudio": "Naudoti pasirinktinį garsą",
+      "audioClip": "Garso įrašas",
+      "record": "Įrašas",
+      "stop": "Stop",
+      "importFromDevice": "Importuoti iš įrenginio",
+      "preview": "▶ Peržiūra",
+      "clearAudio": "Aiškus garsas",
+      "renameAudioClip": "Pervardyti garso įrašą",
+      "clipNamePlaceholder": "Įrašo pavadinimas",
+      "pronHint": "Pasirinktinai: perrašykite pavadinimą taip, kad jis būtų tariamas taisyklingai (pvz., „MIS-chiv-us“).",
+      "pronPlaceholder": "Tarimas",
+      "color": "Spalva",
+      "custom": "Pasirinktinis",
+      "default": "Numatytasis",
+      "editCustomColor": "Redaguoti pasirinktinę spalvą",
+      "pickCustomColor": "Pasirinkite pasirinktinę spalvą",
+      "ttsBehavior": "TTS elgesys",
+      "delete": "Ištrinti"
+    }
+  }
+}

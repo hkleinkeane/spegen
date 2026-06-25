@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SpeGen — Privacy Policy</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 18px 64px;
+        color: #1a1a1a;
+        background: #ffffff;
+      }
+      h1 { font-size: 1.6rem; margin-bottom: 0.2rem; }
+      h2 { font-size: 1.15rem; margin-top: 1.8rem; }
+      .updated { color: #666; font-size: 0.9rem; margin-top: 0; }
+      a { color: #1976d2; }
+      ul { padding-left: 1.2rem; }
+      li { margin: 0.3rem 0; }
+      @media (prefers-color-scheme: dark) {
+        body { color: #ececec; background: #121212; }
+        .updated { color: #9e9e9e; }
+        a { color: #4f9be8; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SpeGen Privacy Policy</h1>
+    <p class="updated">Last updated: June 7, 2026</p>
+
+    <p>
+      SpeGen is a free, open-source augmentative and alternative communication (AAC) app. It has no
+      user accounts and does not collect personal information for advertising or tracking. Your
+      boards, settings, and content stay on your device. This policy explains the few cases where
+      data leaves your device, and why.
+    </p>
+
+    <h2>Information stored on your device</h2>
+    <p>
+      Everything you create or configure — boards and symbols, settings, custom images, audio
+      recordings, word-prediction history, and (if you set one) a security PIN stored only as a
+      salted cryptographic hash — is saved in the app's local storage on your device. It is never
+      sent to us or to any server. You can export it as a backup file or erase it at any time
+      (Settings → Data → Restore defaults, or by uninstalling the app).
+    </p>
+
+    <h2>Permissions</h2>
+    <ul>
+      <li>
+        <strong>Microphone</strong> — used only when you choose to record custom audio for a symbol.
+        Recordings are saved locally on your device.
+      </li>
+      <li>
+        <strong>Photos</strong> — used only when you choose a custom image for a symbol. The selected
+        image is copied into the app's local storage on your device.
+      </li>
+    </ul>
+
+    <h2>Network services</h2>
+    <p>A few features connect to third-party services to function:</p>
+    <ul>
+      <li>
+        <strong>Symbol images</strong> — to show and search picture symbols, the app sends the
+        symbol's name or your search term to the OpenSymbols image service
+        (<a href="https://www.opensymbols.org/">opensymbols.org</a>), routed through our proxy at
+        spegen.vercel.app, which forwards the request and does not store it. No personal data is sent.
+      </li>
+      <li>
+        <strong>Translation</strong> — if you add a non-English spoken language, item labels are sent
+        to Google's translation service so they can be spoken in that language. Only the label text
+        is sent.
+      </li>
+      <li>
+        <strong>Feedback form</strong> — if you use the in-app feedback form, the title and message
+        you type are submitted to the project's <em>public</em> issue tracker on
+        <a href="https://github.com/hkleinkeane/spegen/issues">GitHub</a>. Anything you enter there
+        becomes publicly visible, so please do not include sensitive personal information.
+      </li>
+      <li>
+        <strong>Text-to-speech</strong> uses your device's built-in speech engine; the text is
+        processed on your device.
+      </li>
+    </ul>
+
+    <h2>What we don't do</h2>
+    <p>
+      No accounts, no advertising, no third-party analytics or tracking SDKs, and we never sell your
+      data.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      SpeGen is built for communication, including by children and people with disabilities. It does
+      not knowingly collect personal information from anyone, and all content stays on the device.
+    </p>
+
+    <h2>Data retention and your control</h2>
+    <p>
+      Your data remains on your device until you delete it or uninstall the app. Backup files you
+      export are under your control. Because there is no account, there is no server-side data for us
+      to retain or delete.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy from time to time. The current version always lives at
+      <a href="https://spegen.vercel.app/privacy.html">spegen.vercel.app/privacy.html</a>.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions? Email <a href="mailto:harperkleinkeane@gmail.com">harperkleinkeane@gmail.com</a>.
+      SpeGen is open source (GNU GPL v3) at
+      <a href="https://github.com/hkleinkeane/spegen">github.com/hkleinkeane/spegen</a>.
+    </p>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Geri",
+    "next": "Sonraki",
+    "done": "Tamamlamak",
+    "skip": "Atlamak",
+    "cancel": "İptal etmek",
+    "add": "Eklemek",
+    "save": "Kaydetmek",
+    "close": "Kapalı",
+    "reset": "Sıfırla"
+  },
+  "banners": {
+    "ttsMissingVoice": "{name} ({code}) için yüklü ses yok. Varsayılan sesle konuşuluyor.",
+    "ttsInstallAndroid": "Cihazınızın konuşma ayarlarını açmak için dokunun, ardından bu dil için ses verilerini yükleyin.",
+    "ttsInstallIos": "Eklemek için Ayarlar → Erişilebilirlik → Sesli İçerik → Sesler bölümünü açın ve sesi indirin. Kapatmak için dokunun.",
+    "ttsInstallWeb": "Sesler işletim sisteminizden gelir; sistem konuşma ayarlarınızda bu dil için bir seslendirme ekleyin. Kapatmak için dokunun.",
+    "updateAvailable": "Güncelleme mevcut — yeniden yüklemek için dokunun"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "SpeGen'e hoş geldiniz",
+        "body": "Bu, uygulamanın temel kullanıcı arayüzünü öğretmek için hazırlanmış kısa bir eğitim videosudur. Bu eğitim videosuna daha sonra Ayarlar bölümünden erişebilirsiniz."
+      },
+      {
+        "title": "Klasörler",
+        "body": "Bir klasöre dokunarak daha fazla simge ve klasör içeren başka bir menüye gidebilirsiniz. Klasörlerin sağ üst köşesinde her zaman siyah bir çizgi bulunur."
+      },
+      {
+        "title": "Semboller",
+        "body": "Giriş kutusuna eklemek istediğiniz sembole dokunun."
+      },
+      {
+        "title": "Giriş Kutusu",
+        "body": "Giriş kutusu, cümleleri oluşturduğunuz yerdir. Oluşturulan cümleyi oynatmak için üzerine dokunun."
+      },
+      {
+        "title": "Menü Satırı",
+        "body": "Bunlar sizi otomatik olarak ilgili menüye yönlendiren düğmelerdir."
+      },
+      {
+        "title": "Statik Kelimeler Satırı",
+        "body": "Bu terimler, nerede olursanız olun ekranın alt kısmında her zaman görünür. Anında seslendirmek için birine dokunun."
+      },
+      {
+        "title": "Klavye",
+        "body": "Cihazınızın klavyesini kullanarak giriş kutusuna öğeler eklemenizi sağlayan bir iletişim kutusu açar."
+      },
+      {
+        "title": "Silmek",
+        "body": "Giriş kutusundaki son terimi siler."
+      },
+      {
+        "title": "Temizlemek",
+        "body": "Giriş kutusundaki tüm terimleri temizler."
+      },
+      {
+        "title": "Durmak",
+        "body": "Oynatılmakta olan tüm metin okuma programlarını durdurur."
+      },
+      {
+        "title": "Aramak",
+        "body": "Menülerden herhangi birinde istediğiniz terimi arayın. İhtiyacınız olan düğmeleri vurgulayarak sizi aradığınız terime yönlendirir."
+      },
+      {
+        "title": "Ayarlar",
+        "body": "Ayarlar menüsünü açar: panoyu düzenleme, verileri yedekleme, metin okuma sesini değiştirme ve daha fazlası."
+      },
+      {
+        "title": "Geri",
+        "body": "Sizi daha önce bulunduğunuz menüye geri gönderir."
+      },
+      {
+        "title": "Otomatik Tamamlama",
+        "body": "Menüyü, seçtiğiniz sembollerden öğrenen otomatik tamamlama seçenekleri listesiyle değiştirir. Veriler, izniniz olmadan cihazınızdan asla ayrılmaz."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Bir kelime/öğe bulun",
+    "subtitle": "Menülerin her birini arayın, ardından vurgulanan düğmelere tıklayarak istediğiniz kelimeye gidin.",
+    "placeholder": "Bir kelime yazın…",
+    "noMatches": "Eşleşme yok.",
+    "find": "Bulmak",
+    "close": "Kapalı",
+    "finding": "“{word}” ifadesini bulun - vurgulanan düğmeye dokunun",
+    "cancel": "İptal etmek"
+  },
+  "autocomplete": {
+    "suggestions": "Öneriler",
+    "after": "\"{word}\" sonrasında",
+    "none": "Henüz bir öneri yok."
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "apply": "Uygula",
+    "done": "Tamamlamak",
+    "tabs": {
+      "display": "Görüntülemek",
+      "voice": "Ses",
+      "vocabulary": "Kelime bilgisi",
+      "language": "Dil",
+      "data": "Veri",
+      "about": "Hakkında",
+      "feedback": "Geri bildirim"
+    },
+    "display": {
+      "preview": "Önizleme",
+      "staticRowLabel": "Statik kelimeler satırı",
+      "menuRowLabel": "Menü satırı",
+      "previewStaticTerms": [
+        "Evet",
+        "HAYIR",
+        "Daha"
+      ],
+      "previewMenuTitles": [
+        "İnsanlar",
+        "Yiyecek",
+        "Eylemler"
+      ],
+      "itemSizing": "Ürün bedenleri",
+      "itemWidthSize": "Ürün genişliği boyutu",
+      "itemHeightSize": "Ürün yüksekliği boyutu",
+      "gridSize": "ızgaraya uygun",
+      "gridHint": "Izgara boyutuna uyacak şekilde öğe boyutunu ölçeklendirin: sütun ve satır sayılarını girin, ardından Uygula'ya dokunun.",
+      "gridCols": "Kolonlar",
+      "gridRows": "Satırlar",
+      "gridApply": "Uygula",
+      "bordersSpacing": "Kenarlıklar ve boşluklar",
+      "borderWidth": "Kenar genişliği",
+      "itemPadding": "Ürün dolgusu",
+      "staticRowStyle": "Statik kelimeler satır stili",
+      "menuRowStyle": "Menü satırı stili",
+      "textSize": "Metin boyutu",
+      "textPadding": "Metin dolgusu",
+      "buttonShape": "Düğme şekli",
+      "labelPosition": "Etiket konumu",
+      "top": "Tepe",
+      "bottom": "Alt",
+      "skinTone": "Cilt tonu",
+      "theme": "Tema",
+      "themeLight": "Işık",
+      "themeDark": "Karanlık",
+      "themeSystem": "Sistem",
+      "themeNote": "Koyu mod, uygulamanın ekranlarını ve menülerini temalandırır. Sembol düğme renkleri ve yüksek kontrast modu etkilenmez.",
+      "highContrast": "Yüksek kontrast",
+      "highContrastHint": "Ürün görselleri için siyah arka plan, beyaz kenarlıklar ve sadeleştirilmiş renk paletine sahip etiketler."
+    },
+    "voice": {
+      "speechRate": "Konuşma hızı",
+      "pitch": "Saha",
+      "pauseBetweenWords": "Kelimeler arasında duraklama",
+      "pauseDuration": "Duraklama süresi",
+      "testPhrase": "Bu, ses ayarlarının bir testidir.",
+      "testVoice": "Ses testi",
+      "translateSentence": "Konuşulan cümleleri çevir",
+      "translateSentenceHint": "Kelime kelime çevirmek yerine, daha doğal bir dilbilgisi için cümlenin tamamını bir kerede çevirin. İngilizce dışındaki diller için varsayılan olarak açıktır. İnternet bağlantısı gereklidir.",
+      "voiceLabel": "Ses",
+      "voiceHint": "Uygulama dilinizde konuşma için kullanılacak sesi seçin. Sesler cihazınız veya tarayıcınız tarafından sağlanır.",
+      "voiceDefault": "Varsayılan (sistem)",
+      "noVoices": "Bu dil için seslendirme bulunamadı.",
+      "openDeviceTts": "Cihazın TTS ayarlarını açın.",
+      "ttsOpenFailed": "Cihazın TTS ayarları açılamadı: {e}",
+      "resetToDefaults": "Varsayılan ayarlara sıfırla",
+      "resetDone": "Ses ayarları varsayılan değerlere sıfırlandı."
+    },
+    "vocabulary": {
+      "editorMode": "Editör modu",
+      "editorModeHint": "Panodaki sembolleri ve klasörleri düzenlemek için üzerlerine dokunun ve araç çubuğundaki düğmeleri kullanarak menüleri düzenleyin.",
+      "enableEditorMode": "Düzenleyici modunu etkinleştir",
+      "staticRow": "Statik kelimeler satırı",
+      "staticRowHint": "Uygulamada nerede olursanız olun, kelimeler her zaman ekranın alt kısmında görünür. Sıralamayı değiştirmek için ≡ simgesini sürükleyin.",
+      "addPhrasePlaceholder": "Bir ifade ekleyin",
+      "addPhrase": "Eklemek",
+      "menuRow": "Menü satırı",
+      "menuRowHint": "Panoyu ve ana menüyü kullanırken menü kısayolları sabit satırın hemen üstünde gösterilir. Sıralamayı değiştirmek için ≡ simgesini sürükleyin.",
+      "menuRowEmpty": "Sırada menü yok.",
+      "addMenuToRow": "Satıra menü ekle",
+      "allMenusInRow": "Tüm menüler zaten satır halinde yerleştirilmiş durumda."
+    },
+    "language": {
+      "appLanguage": "Uygulama dili",
+      "appLanguageHint": "Konuşma, görsel arama ve etiket çevirisi için kullanılır. Bunu değiştirmek tüm görselleri yeniden yükler.",
+      "translationDisclaimer": "Uygulama metni Google Translate API'si kullanılarak çevrildiğinden, bazı çeviriler hatalı olabilir. Bir hata fark ederseniz, lütfen Ayarlar'daki Geri Bildirim düğmesini kullanarak bildirin; dili ve önerilen düzeltmeyi de ekleyin.",
+      "autoTranslate": "Otomatik çeviri",
+      "translateUi": "Çeviri uygulaması arayüzü",
+      "translateUiHint": "Menüleri, düğmeleri ve ayarları uygulama dilinde gösterin.",
+      "translateLabels": "Pano ve menü etiketlerini çevirin",
+      "translateLabelsHint": "Sembol etiketlerini, menü adlarını ve statik kelime satırını uygulama diline otomatik olarak çevirin. İnternet bağlantısı gereklidir.",
+      "multilingual": "Çok dilli",
+      "perItemImageLanguage": "Ürün başına görsel dil",
+      "perItemImageLanguageHint": "Her öğenin kendi dilinde görseller aramasını sağlayın.",
+      "multilingualLabels": "Çok dilli etiketler",
+      "multilingualLabelsHint": "Diğer diller için (düzenleme modunda) öğe başına ek metin etiketleri ekleyin. Etkinleştirildiğinde, dil değiştirdiğinizde yalnızca pano öğesi etiketlerinin otomatik çevirisi durur (bunun yerine manuel etiketleriniz kullanılır); statik kelime satırı ve menü adları otomatik olarak çevrilmeye devam eder.",
+      "spokenLanguages": "Konuşulan diller",
+      "spokenLanguagesHint": "Giriş kutusundan diller arasında geçiş yapabilirsiniz. Uygulama dili temel dildir; manuel etiketi olmayan öğeler otomatik olarak konuşmaya çevrilir. Bu özellik internet bağlantısı gerektirir ve İngilizce için atlanmıştır.",
+      "base": "Temel",
+      "addLanguage": "Dil ekle"
+    },
+    "data": {
+      "backupRestore": "Yedekleme ve geri yükleme",
+      "backupRestoreHint": "Tüm panoları, ayarları, özel resimleri ve kaydedilmiş sesleri tek bir yedekleme dosyası olarak dışa aktarabilir veya içe aktarabilirsiniz; bu dosyayı başka bir cihaza aktarabilir veya cihazınızın depolama alanında saklayabilirsiniz.",
+      "downloadBackup": "Yedekleme dosyasını indir",
+      "exportBackup": "Yedeklemeyi dışa aktar",
+      "saveBackupToDevice": "Yedeklemeyi cihaza kaydedin (klasör seçin)",
+      "importBackup": "Yedeklemeyi içe aktar",
+      "security": "Güvenlik",
+      "securityHint": "Ayarlar ve düzenleyiciyi açmak için PIN kodu gereklidir. Bu, kullanıcının ana arayüzde PIN kodu olmadan ayarları düzenleyememesini sağlamak için kullanılabilir. Uygula veya Tamam'a dokunduğunuzda kaydedilir.",
+      "changePin": "PIN kodunu değiştir",
+      "removePin": "PIN'i kaldır",
+      "setPin": "Bir PIN kodu belirleyin.",
+      "recoveryQuestions": "İyileşme soruları",
+      "recoveryQuestionsHint": "Unutulan PIN kodunu sıfırlamak için kullanılır. En az bir PIN kodu eklemeniz önerilir. PIN kodu eklenmezse, unutulan PIN kodu yalnızca uygulamayı yeniden yükleyerek silinebilir.",
+      "question": "Soru",
+      "ownQuestionPlaceholder": "Veya kendi sorunuzu yazın.",
+      "answer": "Cevap",
+      "addQuestion": "+ Soru ekle",
+      "pinPlaceholder": "PIN (en az 4 rakam)",
+      "confirmPinPlaceholder": "PIN kodunu onaylayın",
+      "pinTooShort": "PIN kodu en az 4 rakamdan oluşmalıdır.",
+      "pinsDoNotMatch": "PIN kodları eşleşmiyor.",
+      "reset": "Sıfırla",
+      "restoreDefaults": "Varsayılan ayarları geri yükle",
+      "backupFormatNote": ".spegen yedekleme dosyası, devre kartlarınızı, ayarlarınızı, özel resimlerinizi ve kaydedilmiş ses dosyalarınızı tek bir dosyada barındıran sıkıştırılmış bir ZIP dosyasıdır. İçe aktarma işlemi, mevcut tüm devre kartlarını ve ayarları değiştirir.",
+      "preparingDownload": "İndirme işlemi hazırlanıyor…",
+      "backupDownloaded": "Yedek dosya indirildi.",
+      "openingShareSheet": "Açılış hisse senedi sayfası…",
+      "shareSheetHint": "Yedeklemenizi kaydetmek için paylaşım sayfasını kullanın.",
+      "sharingUnavailable": "Paylaşım özelliği mevcut değil.",
+      "chooseFolder": "Kaydedilecek klasörü seçin…",
+      "savedToFolder": "Seçtiğiniz klasöre kaydedildi.",
+      "saveCanceled": "Kaydetme işlemi iptal edildi.",
+      "saveFailed": "Kaydetme başarısız oldu: {e}",
+      "chooseBackupFile": "Yedekleme dosyasını seçin…",
+      "importCanceled": "İçe aktarma işlemi iptal edildi.",
+      "importWebFileMissing": "İçe aktarma başarısız oldu: Web dosya tanıtıcısı eksik.",
+      "importDone": "İthal edildi. Kart yeniden yüklendi.",
+      "importFailed": "İçe aktarma başarısız oldu: {e}",
+      "confirmReset": "Onaylamak için tekrar \"Varsayılanları geri yükle\" seçeneğine dokunun. Uyarı: Bu işlem devrelerinizi siler.",
+      "resetDone": "Varsayılan kartlar geri yüklendi.",
+      "resetFailed": "Sıfırlama başarısız oldu: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Harper Klein Keane tarafından geliştirilen açık kaynaklı bir AAC uygulaması. SpeGen'in GitHub sayfasına şu adresten ulaşılabilir:",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "ve web sitesine şu adresten ulaşılabilir:",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lisans: GNU Genel Kamu Lisansı v3.0",
+      "showTutorialAgain": "Hoş geldin eğitimini tekrar göster",
+      "privacyPolicy": "Gizlilik Politikası"
+    },
+    "feedback": {
+      "title": "Geri Bildirim Gönder",
+      "intro": "Bir hata mı buldunuz veya bir özellik isteğiniz mi var? Bana bildirin! Bu form, Spegen'in GitHub deposunda otomatik olarak bir takip sorunu açacaktır.",
+      "category": "Konu Kategorisi",
+      "categories": [
+        "Böcek",
+        "Telkin",
+        "Diğer"
+      ],
+      "header": "Başlık / Özet",
+      "headerPlaceholder": "Sorunu kısaca özetleyin.",
+      "details": "Detaylar / Gövde",
+      "detailsPlaceholder": "Hatanın nasıl yeniden oluşturulacağına dair adımları belirtin veya özellik fikrinizi detaylandırın...",
+      "submitting": "Gönderiliyor...",
+      "submit": "Geri Bildirim Gönder",
+      "missingFields": "Lütfen hem başlığı hem de tüm ayrıntıları belirtin.",
+      "submittingStatus": "Geri bildirim gönderiliyor...",
+      "submitted": "Geri bildirim başarıyla gönderildi! Teşekkürler.",
+      "submitFailed": "Sorun bildirilemedi: {msg}",
+      "networkError": "Geri bildirim gönderilirken ağ hatası oluştu: {e}"
+    }
+  },
+  "board": {
+    "settings": "Ayarlar",
+    "search": "Aramak",
+    "stop": "Durmak",
+    "keyboard": "Klavye",
+    "delete": "Silmek",
+    "clear": "Temizlemek",
+    "back": "Geri",
+    "autocomplete": "Otomatik Tamamlama",
+    "addText": "Metin ekle"
+  },
+  "editor": {
+    "title": "DÜZENLEYİCİ MODU",
+    "addItem": "+ Ürün",
+    "addMenu": "+ Menü",
+    "deleteMenu": "- Menü",
+    "gotoMenu": "Menüye Git",
+    "applyChanges": "Değişiklikleri Uygula",
+    "exit": "Çıkış"
+  },
+  "languageDropdown": {
+    "select": "Seçme…",
+    "searchPlaceholder": "Arama dili"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Sadece yazın",
+      "Sadece konuşun",
+      "İkisi birden"
+    ],
+    "addItem": {
+      "title": "{menuTitle}'a öğe ekle",
+      "name": "İsim",
+      "symbol": "Sembol",
+      "folder": "Dosya",
+      "folderTargetMenu": "Klasör hedef menüsü"
+    },
+    "newMenu": {
+      "title": "Yeni menü oluştur",
+      "menuTitle": "Menü başlığı",
+      "emptyNote": "Menü boş olarak oluşturulur. Menüye giriş yapın ve öğe eklemek için \"+ Öğe\" özelliğini kullanın.",
+      "create": "Yaratmak"
+    },
+    "deleteMenu": {
+      "title": "Menüyü sil",
+      "hint": "Silinen dosyaların bulunduğu menüyü açan klasörler de kaldırılacaktır.",
+      "delete": "Silmek"
+    },
+    "gotoMenu": {
+      "title": "Menüye git",
+      "hint": "Düzenleme modundayken menüye atlamanıza olanak tanır.",
+      "goTo": "Git"
+    },
+    "unsaved": {
+      "title": "Kaydedilmemiş Değişiklikler",
+      "body": "Kaydedilmemiş değişiklikleriniz var. Bunları kaydetmek ister misiniz?",
+      "dontSave": "Kaydetme",
+      "saveChanges": "Değişiklikleri Kaydet"
+    },
+    "pinLock": {
+      "enterTitle": "PIN kodunuzu girin",
+      "lockedHint": "Ayarlar ve düzenleyici kilitli.",
+      "pinPlaceholder": "PIN",
+      "unlock": "Kilidi aç",
+      "forgotPin": "PIN kodunuzu mu unuttunuz?",
+      "incorrectPin": "Yanlış PIN.",
+      "noQuestions": "Kurtarma soruları ayarlanmadığı için PIN sıfırlanamaz. Uygulamayı yeniden yükleyerek PIN'i temizleyin (bu işlem tüm panoları siler).",
+      "answerToReset": "PIN sıfırlama sorusunun cevabı",
+      "answerHint": "Lütfen tüm soruları doğru yanıtlayın (büyük/küçük harf duyarlılığı yok).",
+      "answerPlaceholder": "Cevap",
+      "verify": "Doğrulamak",
+      "answersIncorrect": "Bir veya daha fazla yanıt yanlış.",
+      "setNewPin": "Yeni bir PIN kodu belirleyin.",
+      "newPinPlaceholder": "Yeni PIN kodu (en az 4 rakamdan oluşmalıdır)",
+      "confirmNewPinPlaceholder": "Yeni PIN'i onaylayın",
+      "saveNewPin": "Yeni PIN'i kaydet",
+      "pinTooShort": "PIN kodu en az 4 rakamdan oluşmalıdır.",
+      "pinsDoNotMatch": "PIN kodları eşleşmiyor."
+    },
+    "colorPicker": {
+      "title": "Bir renk seçin",
+      "hue": "Renk tonu: {deg}°",
+      "ok": "TAMAM"
+    },
+    "editItem": {
+      "name": "İsim",
+      "itemLanguage": "Ürün dili",
+      "language": "Dil",
+      "labelsByLanguage": "Dil bazında etiketler",
+      "add": "Eklemek",
+      "addLanguage": "+ Dil ekle",
+      "image": "Görüntü",
+      "loading": "Yükleniyor…",
+      "loadMoreImages": "Daha fazla resim yükle",
+      "findImages": "Görselleri bulun",
+      "chooseCustomImage": "Özel resim seçin",
+      "resetToDefault": "Varsayılan ayarlara sıfırla",
+      "audio": "Ses",
+      "useItemName": "Ürün adını kullanın.",
+      "useCustomAudio": "Özel ses kullanın",
+      "audioClip": "Ses kaydı",
+      "record": "Kayıt",
+      "stop": "Durmak",
+      "importFromDevice": "Cihazdan içe aktar",
+      "preview": "▶ Önizleme",
+      "clearAudio": "Net ses",
+      "renameAudioClip": "Ses klibini yeniden adlandır",
+      "clipNamePlaceholder": "Klip adı",
+      "pronHint": "İsteğe bağlı: İsmi doğru telaffuz edilecek şekilde yeniden yazın (örneğin, \"MIS-chiv-us\").",
+      "pronPlaceholder": "Telaffuz",
+      "color": "Renk",
+      "custom": "Gelenek",
+      "default": "Varsayılan",
+      "editCustomColor": "Özel rengi düzenle",
+      "pickCustomColor": "Özel renk seçin",
+      "ttsBehavior": "TTS davranışı",
+      "delete": "Silmek"
+    }
+  }
+}

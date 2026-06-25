@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Atrás",
+    "next": "Próximo",
+    "done": "Hecho",
+    "skip": "Saltar",
+    "cancel": "Cancelar",
+    "add": "Agregar",
+    "save": "Ahorrar",
+    "close": "Cerca",
+    "reset": "Reiniciar"
+  },
+  "banners": {
+    "ttsMissingVoice": "No hay voz instalada para {name} ({code}). Hablando con la voz predeterminada.",
+    "ttsInstallAndroid": "Pulsa para abrir la configuración de voz de tu dispositivo y, a continuación, instala los datos de voz para este idioma.",
+    "ttsInstallIos": "Para añadirla, abre Ajustes → Accesibilidad → Contenido hablado → Voces y descarga la voz. Pulsa para descartar.",
+    "ttsInstallWeb": "Las voces provienen de tu sistema operativo; agrega una para este idioma en la configuración de voz del sistema. Toca para cerrar.",
+    "updateAvailable": "Actualización disponible: toque para recargar."
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Bienvenido a SpeGen",
+        "body": "Este es un breve tutorial que te enseñará la interfaz básica de la aplicación. Puedes acceder a este tutorial más tarde desde Ajustes."
+      },
+      {
+        "title": "Carpetas",
+        "body": "Pulsa una carpeta para acceder a otro menú con más símbolos y carpetas. Las carpetas siempre tienen un pliegue negro en la esquina superior derecha."
+      },
+      {
+        "title": "Símbolos",
+        "body": "Pulsa un símbolo para añadirlo al cuadro de texto."
+      },
+      {
+        "title": "Caja de entrada",
+        "body": "El cuadro de texto es donde se componen las oraciones. Tóquelo para reproducir la oración construida."
+      },
+      {
+        "title": "Fila de menú",
+        "body": "Estos son botones que te redirigen automáticamente al menú correspondiente."
+      },
+      {
+        "title": "Fila de palabras estáticas",
+        "body": "Estos términos siempre aparecen en la parte inferior de la pantalla, sin importar dónde te encuentres. Pulsa uno para escucharlo al instante."
+      },
+      {
+        "title": "Teclado",
+        "body": "Abre un cuadro de diálogo que te permite usar el teclado de tu dispositivo para agregar elementos al cuadro de entrada."
+      },
+      {
+        "title": "Borrar",
+        "body": "Elimina el último término del cuadro de entrada."
+      },
+      {
+        "title": "Claro",
+        "body": "Borra todos los términos del cuadro de entrada."
+      },
+      {
+        "title": "Detener",
+        "body": "Detiene cualquier reproducción de texto a voz en curso."
+      },
+      {
+        "title": "Buscar",
+        "body": "Busca cualquier término en cualquier menú. Te guía hasta el término resaltando los botones que debes pulsar."
+      },
+      {
+        "title": "Ajustes",
+        "body": "Abre el menú de configuración: edición del tablero, copia de seguridad de datos, cambio de la voz de texto a voz y más."
+      },
+      {
+        "title": "Atrás",
+        "body": "Te devuelve al menú anterior en el que estabas."
+      },
+      {
+        "title": "Autocompletar",
+        "body": "Sustituye el menú por una lista de opciones de autocompletado que aprenden de los símbolos que selecciones. Tus datos nunca saldrán de tu dispositivo sin tu consentimiento."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Encuentra una palabra/elemento",
+    "subtitle": "Busca en todos los menús y luego haz clic en los botones resaltados para navegar hasta la palabra.",
+    "placeholder": "Escribe una palabra…",
+    "noMatches": "No se encontraron coincidencias.",
+    "find": "Encontrar",
+    "close": "Cerca",
+    "finding": "Encontrar “{word}” - toque el botón resaltado",
+    "cancel": "Cancelar"
+  },
+  "autocomplete": {
+    "suggestions": "Sugerencias",
+    "after": "Después de \"{word}\"",
+    "none": "Aún no hay sugerencias."
+  },
+  "settings": {
+    "title": "Ajustes",
+    "apply": "Aplicar",
+    "done": "Hecho",
+    "tabs": {
+      "display": "Mostrar",
+      "voice": "Voz",
+      "vocabulary": "Vocabulario",
+      "language": "Idioma",
+      "data": "Datos",
+      "about": "Acerca de",
+      "feedback": "Comentario"
+    },
+    "display": {
+      "preview": "Avance",
+      "staticRowLabel": "Fila de palabras estáticas",
+      "menuRowLabel": "Fila de menú",
+      "previewStaticTerms": [
+        "Sí",
+        "No",
+        "Más"
+      ],
+      "previewMenuTitles": [
+        "Gente",
+        "Alimento",
+        "Comportamiento"
+      ],
+      "itemSizing": "Tamaño del artículo",
+      "itemWidthSize": "Tamaño del ancho del artículo",
+      "itemHeightSize": "Tamaño de altura del artículo",
+      "gridSize": "Ajustar a la cuadrícula",
+      "gridHint": "Ajusta el tamaño de los elementos a la cuadrícula: introduce las columnas y las filas y, a continuación, pulsa Aplicar.",
+      "gridCols": "Cols",
+      "gridRows": "Filas",
+      "gridApply": "Aplicar",
+      "bordersSpacing": "Bordes y espaciado",
+      "borderWidth": "Ancho del borde",
+      "itemPadding": "Relleno del artículo",
+      "staticRowStyle": "Estilo de fila de palabras estáticas",
+      "menuRowStyle": "Estilo de fila de menú",
+      "textSize": "Tamaño del texto",
+      "textPadding": "Relleno de texto",
+      "buttonShape": "Forma de botón",
+      "labelPosition": "Posición de la etiqueta",
+      "top": "Arriba",
+      "bottom": "Abajo",
+      "skinTone": "tono de piel",
+      "theme": "Tema",
+      "themeLight": "Luz",
+      "themeDark": "Oscuro",
+      "themeSystem": "Sistema",
+      "themeNote": "El modo oscuro aplica temas a las pantallas y menús de la aplicación. Los colores de los botones y el modo de alto contraste no se ven afectados.",
+      "highContrast": "Alto contraste",
+      "highContrastHint": "Fondo negro, bordes blancos y etiquetas con una paleta de colores simplificada para las imágenes de los artículos."
+    },
+    "voice": {
+      "speechRate": "Velocidad del habla",
+      "pitch": "Paso",
+      "pauseBetweenWords": "Pausa entre palabras",
+      "pauseDuration": "Duración de la pausa",
+      "testPhrase": "Esta es una prueba de la configuración de voz.",
+      "testVoice": "Voz de prueba",
+      "translateSentence": "Traducir oraciones habladas",
+      "translateSentenceHint": "Traduce la oración completa de una vez para una gramática más natural, en lugar de palabra por palabra. Activado por defecto para idiomas distintos del inglés. Requiere conexión a internet.",
+      "voiceLabel": "Voz",
+      "voiceHint": "Selecciona la voz que se utilizará para el diálogo en el idioma de tu aplicación. Las voces las proporciona tu dispositivo o navegador.",
+      "voiceDefault": "Predeterminado (sistema)",
+      "noVoices": "No se encontraron voces para este idioma.",
+      "openDeviceTts": "Abrir la configuración de TTS del dispositivo",
+      "ttsOpenFailed": "No se pudo abrir la configuración de TTS del dispositivo: {e}",
+      "resetToDefaults": "Restablecer valores predeterminados",
+      "resetDone": "La voz se ha restablecido a los valores predeterminados."
+    },
+    "vocabulary": {
+      "editorMode": "Modo editor",
+      "editorModeHint": "Edita los símbolos y las carpetas tocándolos en el tablero y utiliza los botones de la barra de herramientas para editar los menús.",
+      "enableEditorMode": "Habilitar el modo editor",
+      "staticRow": "Fila de palabras estáticas",
+      "staticRowHint": "Las palabras siempre están visibles en la parte inferior de la pantalla, independientemente de dónde te encuentres en la aplicación. Arrastra ≡ para reordenarlas.",
+      "addPhrasePlaceholder": "Añade una frase",
+      "addPhrase": "Agregar",
+      "menuRow": "Fila de menú",
+      "menuRowHint": "Los accesos directos del menú se muestran justo encima de la fila estática al usar el tablero y el menú principal. Arrastre ≡ para reordenarlos.",
+      "menuRowEmpty": "No hay menús en la fila.",
+      "addMenuToRow": "Agregar menú a la fila",
+      "allMenusInRow": "Todos los menús ya están colocados en la fila."
+    },
+    "language": {
+      "appLanguage": "Idioma de la aplicación",
+      "appLanguageHint": "Se utiliza para la búsqueda por voz, la búsqueda de imágenes y la traducción de etiquetas. Al cambiar esta configuración, se recargan todas las imágenes.",
+      "translationDisclaimer": "El texto de la aplicación se traduce con la API de Google Translate, por lo que algunas traducciones pueden ser inexactas. Si encuentras algún error, infórmanos mediante el botón de Comentarios en Configuración; incluye el idioma y la corrección sugerida.",
+      "autoTranslate": "Traducción automática",
+      "translateUi": "Interfaz de la aplicación de traducción",
+      "translateUiHint": "Mostrar menús, botones y ajustes en el idioma de la aplicación.",
+      "translateLabels": "Traducir etiquetas de pizarra y menú",
+      "translateLabelsHint": "Traduce automáticamente las etiquetas de los símbolos, los nombres de los menús y la fila de palabras estáticas al idioma de la aplicación. Requiere conexión a internet.",
+      "multilingual": "Plurilingüe",
+      "perItemImageLanguage": "Lenguaje de imágenes por elemento",
+      "perItemImageLanguageHint": "Que cada elemento busque imágenes en su propio idioma.",
+      "multilingualLabels": "Etiquetas multilingües",
+      "multilingualLabelsHint": "Agregue etiquetas de texto adicionales por elemento (en modo de edición) para otros idiomas. Mientras esté habilitada, solo las etiquetas de los elementos del tablero dejarán de traducirse automáticamente al cambiar de idioma (se usarán sus etiquetas manuales); las filas de palabras estáticas y los nombres de los menús seguirán traduciéndose automáticamente.",
+      "spokenLanguages": "Lenguas habladas",
+      "spokenLanguagesHint": "Puedes seleccionar el idioma que prefieras desde el cuadro de texto. El idioma de la aplicación es el predeterminado; los elementos sin etiqueta manual se traducen automáticamente para su lectura en voz alta. Esta función requiere conexión a internet y no está disponible para el inglés.",
+      "base": "Base",
+      "addLanguage": "Agregar idioma"
+    },
+    "data": {
+      "backupRestore": "Copia de seguridad y restauración",
+      "backupRestoreHint": "Exporta o importa todos los tableros, configuraciones, imágenes personalizadas y audio grabado como un único archivo de copia de seguridad que puedes transferir a otro dispositivo o guardar en el almacenamiento de tu dispositivo.",
+      "downloadBackup": "Descargar copia de seguridad",
+      "exportBackup": "Exportar copia de seguridad",
+      "saveBackupToDevice": "Guardar copia de seguridad en el dispositivo (seleccionar carpeta)",
+      "importBackup": "Importar copia de seguridad",
+      "security": "Seguridad",
+      "securityHint": "Se requiere un PIN para abrir Ajustes y el editor. Esto garantiza que el usuario no pueda editar la configuración sin el PIN en la interfaz principal. Se guarda al pulsar Aplicar o Listo.",
+      "changePin": "Cambiar PIN",
+      "removePin": "Eliminar PIN",
+      "setPin": "Establecer un PIN",
+      "recoveryQuestions": "Preguntas de recuperación",
+      "recoveryQuestionsHint": "Se utiliza para restablecer un PIN olvidado. Se recomienda añadir al menos uno. Si no se añade ninguno, el PIN olvidado solo se puede borrar reinstalando la aplicación.",
+      "question": "Pregunta",
+      "ownQuestionPlaceholder": "O bien, escribe tu propia pregunta.",
+      "answer": "Respuesta",
+      "addQuestion": "+ Agregar pregunta",
+      "pinPlaceholder": "PIN (mínimo 4 dígitos)",
+      "confirmPinPlaceholder": "Confirmar PIN",
+      "pinTooShort": "El PIN debe tener al menos 4 dígitos.",
+      "pinsDoNotMatch": "Los PIN no coinciden.",
+      "reset": "Reiniciar",
+      "restoreDefaults": "Restaurar valores predeterminados",
+      "backupFormatNote": "La copia de seguridad .spegen es un archivo ZIP comprimido que contiene tus placas, configuraciones, imágenes personalizadas y audio grabado en un solo archivo. Al importarlo, se reemplazan todas las placas y configuraciones actuales.",
+      "preparingDownload": "Preparando la descarga…",
+      "backupDownloaded": "Copia de seguridad descargada.",
+      "openingShareSheet": "Hoja de acciones de apertura…",
+      "shareSheetHint": "Utilice la opción para compartir archivos para guardar su copia de seguridad.",
+      "sharingUnavailable": "No es posible compartir.",
+      "chooseFolder": "Elige una carpeta para guardar el archivo…",
+      "savedToFolder": "Guardado en la carpeta que seleccionaste.",
+      "saveCanceled": "Guardado cancelado.",
+      "saveFailed": "Error al guardar: {e}",
+      "chooseBackupFile": "Seleccione un archivo de copia de seguridad…",
+      "importCanceled": "Importación cancelada.",
+      "importWebFileMissing": "Error al importar: falta el identificador del archivo web.",
+      "importDone": "Importado. Tablero recargado.",
+      "importFailed": "Error al importar: {e}",
+      "confirmReset": "Pulsa de nuevo en \"Restaurar valores predeterminados\" para confirmar. Advertencia: esto borrará tus pizarras.",
+      "resetDone": "Se restauraron las placas predeterminadas.",
+      "resetFailed": "Error al reiniciar: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Una aplicación de CAA de código abierto desarrollada por Harper Klein Keane. La página de GitHub de SpeGen se puede encontrar en",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "y el sitio web se puede encontrar en",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licencia: Licencia Pública General GNU v3.0",
+      "showTutorialAgain": "Mostrar de nuevo el tutorial de bienvenida",
+      "privacyPolicy": "política de privacidad"
+    },
+    "feedback": {
+      "title": "Enviar comentarios",
+      "intro": "¿Has encontrado un error o tienes alguna sugerencia para mejorar tu aplicación? ¡Avísame! Este formulario abrirá automáticamente una incidencia en el repositorio de GitHub de Spegen.",
+      "category": "Categoría del problema",
+      "categories": [
+        "Bicho",
+        "Sugerencia",
+        "Otro"
+      ],
+      "header": "Encabezado / Resumen",
+      "headerPlaceholder": "Resuma brevemente el problema.",
+      "details": "Detalles / Cuerpo",
+      "detailsPlaceholder": "Proporcione los pasos para reproducir el error o desarrolle su idea de función...",
+      "submitting": "Sumisión...",
+      "submit": "Enviar comentarios",
+      "missingFields": "Por favor, proporcione tanto un encabezado como todos los detalles.",
+      "submittingStatus": "Enviar comentarios...",
+      "submitted": "¡Comentarios enviados correctamente! Gracias.",
+      "submitFailed": "No se pudo enviar el problema: {msg}",
+      "networkError": "Error de red al enviar comentarios: {e}"
+    }
+  },
+  "board": {
+    "settings": "Ajustes",
+    "search": "Buscar",
+    "stop": "Detener",
+    "keyboard": "Teclado",
+    "delete": "Borrar",
+    "clear": "Claro",
+    "back": "Atrás",
+    "autocomplete": "Autocompletar",
+    "addText": "Agregar texto"
+  },
+  "editor": {
+    "title": "MODO EDITOR",
+    "addItem": "+ Artículo",
+    "addMenu": "+ Menú",
+    "deleteMenu": "- Menú",
+    "gotoMenu": "Ir al menú",
+    "applyChanges": "Aplicar cambios",
+    "exit": "Salida"
+  },
+  "languageDropdown": {
+    "select": "Seleccionar…",
+    "searchPlaceholder": "Idioma de búsqueda"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Solo escribir",
+      "Hablar solo",
+      "Ambos"
+    ],
+    "addItem": {
+      "title": "Agregar artículo a {menuTitle}",
+      "name": "Nombre",
+      "symbol": "Símbolo",
+      "folder": "Carpeta",
+      "folderTargetMenu": "Menú de destino de carpeta"
+    },
+    "newMenu": {
+      "title": "Crear nuevo menú",
+      "menuTitle": "Título del menú",
+      "emptyNote": "El menú se crea vacío. Acceda a él y utilice \"+ Elemento\" para añadir elementos.",
+      "create": "Crear"
+    },
+    "deleteMenu": {
+      "title": "Eliminar un menú",
+      "hint": "Las carpetas que abren un menú de elementos eliminados también se eliminarán.",
+      "delete": "Borrar"
+    },
+    "gotoMenu": {
+      "title": "Ir a un menú",
+      "hint": "Te permite acceder a un menú mientras estás en modo editor.",
+      "goTo": "Ir a"
+    },
+    "unsaved": {
+      "title": "Cambios no guardados",
+      "body": "Tienes cambios sin guardar. ¿Deseas guardarlos?",
+      "dontSave": "No guardar",
+      "saveChanges": "Guardar cambios"
+    },
+    "pinLock": {
+      "enterTitle": "Introduzca su PIN",
+      "lockedHint": "La configuración y el editor están bloqueados.",
+      "pinPlaceholder": "ALFILER",
+      "unlock": "Descubrir",
+      "forgotPin": "¿Olvidaste tu PIN?",
+      "incorrectPin": "PIN incorrecto.",
+      "noQuestions": "No hay preguntas de recuperación configuradas, por lo que no se puede restablecer el PIN. Reinstale la aplicación para borrarlo (esto borrará todos los tableros).",
+      "answerToReset": "Responda para restablecer el PIN",
+      "answerHint": "Responda correctamente a todas las preguntas (sin distinción entre mayúsculas y minúsculas).",
+      "answerPlaceholder": "Respuesta",
+      "verify": "Verificar",
+      "answersIncorrect": "Una o más respuestas son incorrectas.",
+      "setNewPin": "Establecer un nuevo PIN",
+      "newPinPlaceholder": "Nuevo PIN (mínimo 4 dígitos)",
+      "confirmNewPinPlaceholder": "Confirma el nuevo PIN",
+      "saveNewPin": "Guardar nuevo PIN",
+      "pinTooShort": "El PIN debe tener al menos 4 dígitos.",
+      "pinsDoNotMatch": "Los PIN no coinciden."
+    },
+    "colorPicker": {
+      "title": "Elige un color",
+      "hue": "Tono: {deg}°",
+      "ok": "DE ACUERDO"
+    },
+    "editItem": {
+      "name": "Nombre",
+      "itemLanguage": "Idioma del artículo",
+      "language": "Idioma",
+      "labelsByLanguage": "Etiquetas por idioma",
+      "add": "Agregar",
+      "addLanguage": "+ Agregar idioma",
+      "image": "Imagen",
+      "loading": "Cargando…",
+      "loadMoreImages": "Cargar más imágenes",
+      "findImages": "Buscar imágenes",
+      "chooseCustomImage": "Elige una imagen personalizada",
+      "resetToDefault": "Restablecer a valores predeterminados",
+      "audio": "Audio",
+      "useItemName": "Utilice el nombre del artículo",
+      "useCustomAudio": "Utilizar audio personalizado",
+      "audioClip": "Clip de audio",
+      "record": "Registro",
+      "stop": "Detener",
+      "importFromDevice": "Importar desde el dispositivo",
+      "preview": "▶ Vista previa",
+      "clearAudio": "Audio nítido",
+      "renameAudioClip": "Cambiar el nombre del clip de audio",
+      "clipNamePlaceholder": "Nombre del clip",
+      "pronHint": "Opcional: deletrea el nombre para que se pronuncie correctamente (por ejemplo, \"MIS-chiv-us\").",
+      "pronPlaceholder": "Pronunciación",
+      "color": "Color",
+      "custom": "Costumbre",
+      "default": "Por defecto",
+      "editCustomColor": "Editar color personalizado",
+      "pickCustomColor": "Elige un color personalizado",
+      "ttsBehavior": "Comportamiento de TTS",
+      "delete": "Borrar"
+    }
+  }
+}

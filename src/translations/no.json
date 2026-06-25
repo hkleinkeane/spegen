@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Tilbake",
+    "next": "Neste",
+    "done": "Ferdig",
+    "skip": "Hopp over",
+    "cancel": "Kansellere",
+    "add": "Legge til",
+    "save": "Spare",
+    "close": "Lukke",
+    "reset": "Tilbakestill"
+  },
+  "banners": {
+    "ttsMissingVoice": "Ingen installert stemme for {name} ({code}). Snakker med standardstemmen.",
+    "ttsInstallAndroid": "Trykk for å åpne enhetens taleinnstillinger, og installer deretter taledata for dette språket.",
+    "ttsInstallIos": "For å legge den til, åpne Innstillinger → Tilgjengelighet → Talt innhold → Stemmer og last ned stemmen. Trykk for å lukke.",
+    "ttsInstallWeb": "Stemmer kommer fra operativsystemet ditt – legg til en for dette språket i systemets taleinnstillinger. Trykk for å lukke.",
+    "updateAvailable": "Oppdatering tilgjengelig – trykk for å laste inn på nytt"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Velkommen til SpeGen",
+        "body": "Dette er en kort veiledning for å lære deg det grunnleggende brukergrensesnittet til appen. Du kan få tilgang til denne veiledningen senere fra Innstillinger."
+      },
+      {
+        "title": "Mapper",
+        "body": "Trykk på en mappe for å gå til en annen meny med flere symboler og mapper. Mapper har alltid en svart brett øverst til høyre."
+      },
+      {
+        "title": "Symboler",
+        "body": "Trykk på et symbol for å legge det til i inndatafeltet."
+      },
+      {
+        "title": "Inndataboks",
+        "body": "Inndataboksen er der du skriver setninger. Trykk på den for å spille av den konstruerte setningen."
+      },
+      {
+        "title": "Menyrad",
+        "body": "Dette er knapper som automatisk omdirigerer deg til den tilhørende menyen."
+      },
+      {
+        "title": "Statiske ordrad",
+        "body": "Disse begrepene er alltid nederst på skjermen, uansett hvor du er. Trykk på et av dem for å si det umiddelbart."
+      },
+      {
+        "title": "Tastatur",
+        "body": "Åpner en dialogboks som lar deg bruke enhetens tastatur til å legge til elementer i inndataboksen."
+      },
+      {
+        "title": "Slett",
+        "body": "Sletter det siste begrepet i inndataboksen."
+      },
+      {
+        "title": "Klar",
+        "body": "Tømmer inndataboksen for alle termer."
+      },
+      {
+        "title": "Stoppe",
+        "body": "Stopper all tekst-til-tale-avspilling."
+      },
+      {
+        "title": "Søk",
+        "body": "Søk etter et hvilket som helst begrep i en hvilken som helst meny. Den veileder deg til begrepet ved å utheve knappene du må trykke på."
+      },
+      {
+        "title": "Innstillinger",
+        "body": "Åpner innstillingsmenyen: redigering av brettet, sikkerhetskopiering av data, endring av tekst-til-tale-stemme og mer."
+      },
+      {
+        "title": "Tilbake",
+        "body": "Sender deg tilbake til den forrige menyen du var på."
+      },
+      {
+        "title": "Autofullfør",
+        "body": "Erstatter menyen med en liste over autofullføringsalternativer som lærer av symbolene du velger. Data forlater aldri enheten din uten samtykke."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Finn et ord/element",
+    "subtitle": "Søk i alle menyer, og klikk deretter på de uthevede knappene for å navigere til ordet.",
+    "placeholder": "Skriv et ord…",
+    "noMatches": "Ingen treff.",
+    "find": "Finne",
+    "close": "Lukke",
+    "finding": "Finne «{word}» – trykk på den uthevede knappen",
+    "cancel": "Kansellere"
+  },
+  "autocomplete": {
+    "suggestions": "Forslag",
+    "after": "Etter «{word}»",
+    "none": "Ingen forslag ennå."
+  },
+  "settings": {
+    "title": "Innstillinger",
+    "apply": "Søke",
+    "done": "Ferdig",
+    "tabs": {
+      "display": "Utstilling",
+      "voice": "Stemme",
+      "vocabulary": "Ordforråd",
+      "language": "Språk",
+      "data": "Data",
+      "about": "Om",
+      "feedback": "Tilbakemelding"
+    },
+    "display": {
+      "preview": "Forhåndsvisning",
+      "staticRowLabel": "statisk ordrad",
+      "menuRowLabel": "Menyrad",
+      "previewStaticTerms": [
+        "Ja",
+        "Ingen",
+        "Flere"
+      ],
+      "previewMenuTitles": [
+        "Mennesker",
+        "Mat",
+        "Handlinger"
+      ],
+      "itemSizing": "Størrelse på varen",
+      "itemWidthSize": "Størrelse på elementbredde",
+      "itemHeightSize": "Størrelse på elementets høyde",
+      "gridSize": "Tilpass til rutenett",
+      "gridHint": "Skaler elementstørrelsen slik at den passer til et rutenett: skriv inn kolonner og rader, og trykk deretter på Bruk.",
+      "gridCols": "Kolonner",
+      "gridRows": "Rader",
+      "gridApply": "Søke",
+      "bordersSpacing": "Kanter og avstand",
+      "borderWidth": "Kantbredde",
+      "itemPadding": "Elementpolstring",
+      "staticRowStyle": "Statiske ord radstil",
+      "menuRowStyle": "Stil på menyrad",
+      "textSize": "Tekststørrelse",
+      "textPadding": "Tekstpolstring",
+      "buttonShape": "Knappform",
+      "labelPosition": "Etikettposisjon",
+      "top": "Topp",
+      "bottom": "Bunn",
+      "skinTone": "Hudtone",
+      "theme": "Tema",
+      "themeLight": "Lys",
+      "themeDark": "Mørk",
+      "themeSystem": "System",
+      "themeNote": "Mørk modus gir appens skjermer og menyer et tema. Farger på symbolknapper og høykontrastmodus påvirkes ikke.",
+      "highContrast": "Høy kontrast",
+      "highContrastHint": "Svart bakgrunn, hvite kanter og etiketter med forenklet fargepalett for varebilder."
+    },
+    "voice": {
+      "speechRate": "Talehastighet",
+      "pitch": "Tonehøyde",
+      "pauseBetweenWords": "Pause mellom ord",
+      "pauseDuration": "Pausevarighet",
+      "testPhrase": "Dette er en test av stemmeinnstillingene.",
+      "testVoice": "Teststemme",
+      "translateSentence": "Oversett talte setninger",
+      "translateSentenceHint": "Oversett hele setningen samtidig for mer naturlig grammatikk, i stedet for ord for ord. På som standard for ikke-engelske språk. Krever internett.",
+      "voiceLabel": "Stemme",
+      "voiceHint": "Velg stemmen som brukes for tale på appens språk. Stemmer leveres av enheten eller nettleseren din.",
+      "voiceDefault": "Standard (system)",
+      "noVoices": "Ingen stemmer funnet for dette språket.",
+      "openDeviceTts": "Åpne enhetens TTS-innstillinger",
+      "ttsOpenFailed": "Kunne ikke åpne enhetens TTS-innstillinger: {e}",
+      "resetToDefaults": "Tilbakestill til standardinnstillinger",
+      "resetDone": "Stemmen tilbakestilles til standardinnstillinger."
+    },
+    "vocabulary": {
+      "editorMode": "Redigeringsmodus",
+      "editorModeHint": "Rediger symboler og mapper ved å trykke på dem på brettet, og bruk knappene på verktøylinjen til å redigere menyer.",
+      "enableEditorMode": "Aktiver redigeringsmodus",
+      "staticRow": "statisk ordrad",
+      "staticRowHint": "Ord er alltid synlige nederst på skjermen, uavhengig av hvor du er i appen. Dra ≡ for å endre rekkefølgen.",
+      "addPhrasePlaceholder": "Legg til en frase",
+      "addPhrase": "Legge til",
+      "menuRow": "Menyrad",
+      "menuRowHint": "Menysnarveier vises rett over den statiske raden når du bruker brettet og hovedmenyen. Dra ≡ for å endre rekkefølgen.",
+      "menuRowEmpty": "Ingen menyer i raden.",
+      "addMenuToRow": "Legg til meny i rad",
+      "allMenusInRow": "Alle menyene er allerede på raden."
+    },
+    "language": {
+      "appLanguage": "Appspråk",
+      "appLanguageHint": "Brukes til tale, bildesøk og etikettoversettelse. Hvis du endrer dette, laster alle bildene inn på nytt.",
+      "translationDisclaimer": "Apptekst oversettes med Google Translate API, så noen oversettelser kan være unøyaktige. Hvis du oppdager en feil, kan du bruke Tilbakemelding-knappen i Innstillinger for å rapportere den – inkluder språket og den foreslåtte rettelsen.",
+      "autoTranslate": "Automatisk oversettelse",
+      "translateUi": "Oversett appgrensesnitt",
+      "translateUiHint": "Vis menyer, knapper og innstillinger på appens språk.",
+      "translateLabels": "Oversett tavle- og menyetiketter",
+      "translateLabelsHint": "Automatisk oversettelse av symboletiketter, menynavn og statiske ord til appens språk. Trenger internett.",
+      "multilingual": "Flerspråklig",
+      "perItemImageLanguage": "Bildespråk per element",
+      "perItemImageLanguageHint": "La hvert element søke etter bilder på sitt eget språk.",
+      "multilingualLabels": "Flerspråklige etiketter",
+      "multilingualLabelsHint": "Legg til ekstra tekstetiketter per element (i redigeringsmodus) for andre språk. Når dette er aktivert, vil bare etiketter for tavleelementer stoppe automatisk oversettelse når du bytter språk (manuelle etiketter brukes i stedet); de statiske ordene, rad- og menynavnene, oversettes fortsatt automatisk.",
+      "spokenLanguages": "Talte språk",
+      "spokenLanguagesHint": "Språk du kan bytte mellom fra inntastingsboksen. Appspråket er basisspråket; elementer uten manuell etikett oversettes automatisk for tale. Denne funksjonen krever internettilgang og hoppes over for engelsk.",
+      "base": "Base",
+      "addLanguage": "Legg til språk"
+    },
+    "data": {
+      "backupRestore": "Sikkerhetskopiering og gjenoppretting",
+      "backupRestoreHint": "Eksporter eller importer alle tavler, innstillinger, tilpassede bilder og innspilt lyd som én sikkerhetskopifil du kan overføre til en annen enhet eller oppbevare på enhetens lagringsplass.",
+      "downloadBackup": "Last ned sikkerhetskopi",
+      "exportBackup": "Eksporter sikkerhetskopi",
+      "saveBackupToDevice": "Lagre sikkerhetskopi på enhet (velg mappe)",
+      "importBackup": "Importer sikkerhetskopi",
+      "security": "Sikkerhet",
+      "securityHint": "Krever PIN-kode for å åpne Innstillinger og redigeringsprogrammet. Dette kan brukes til å sikre at brukeren ikke kan redigere innstillinger uten PIN-koden i hovedgrensesnittet. Lagres når du trykker på Bruk eller Ferdig.",
+      "changePin": "Endre PIN-kode",
+      "removePin": "Fjern PIN-kode",
+      "setPin": "Angi en PIN-kode",
+      "recoveryQuestions": "Spørsmål om gjenoppretting",
+      "recoveryQuestionsHint": "Brukes til å tilbakestille en glemt PIN-kode. Det anbefales å legge til minst én. Uten en PIN-kode kan en glemt PIN-kode bare slettes ved å installere appen på nytt.",
+      "question": "Spørsmål",
+      "ownQuestionPlaceholder": "Eller skriv ditt eget spørsmål",
+      "answer": "Svare",
+      "addQuestion": "+ Legg til spørsmål",
+      "pinPlaceholder": "PIN-kode (minimum 4 sifre)",
+      "confirmPinPlaceholder": "Bekreft PIN-koden",
+      "pinTooShort": "PIN-koden må være minst 4 sifre.",
+      "pinsDoNotMatch": "PIN-kodene stemmer ikke overens.",
+      "reset": "Tilbakestill",
+      "restoreDefaults": "Gjenopprett standardinnstillinger",
+      "backupFormatNote": ".spegen-sikkerhetskopien er en komprimert ZIP-fil som inneholder tavlene, innstillingene, de tilpassede bildene og innspilt lyd i én fil. Importering erstatter alle gjeldende tavler og innstillinger.",
+      "preparingDownload": "Forbereder nedlasting …",
+      "backupDownloaded": "Sikkerhetskopien er lastet ned.",
+      "openingShareSheet": "Åpner delingsark …",
+      "shareSheetHint": "Bruk delingsarket til å lagre sikkerhetskopien din.",
+      "sharingUnavailable": "Deling er ikke tilgjengelig.",
+      "chooseFolder": "Velg en mappe å lagre i…",
+      "savedToFolder": "Lagret i mappen du valgte.",
+      "saveCanceled": "Lagring avbrutt.",
+      "saveFailed": "Lagring mislyktes: {e}",
+      "chooseBackupFile": "Velg en sikkerhetskopifil…",
+      "importCanceled": "Importen ble avbrutt.",
+      "importWebFileMissing": "Importen mislyktes: Webfilens referanse mangler.",
+      "importDone": "Importert. Brettet lastet inn på nytt.",
+      "importFailed": "Importen mislyktes: {e}",
+      "confirmReset": "Trykk på «Gjenopprett standardinnstillinger» igjen for å bekrefte. Advarsel: Dette sletter tavlene dine.",
+      "resetDone": "Gjenopprettet standardkort.",
+      "resetFailed": "Tilbakestilling mislyktes: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "En åpen kildekode-app for AAC utviklet av Harper Klein Keane. SpeGens GitHub-side finner du på",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", og nettsiden finner du på",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lisens: GNU General Public License v3.0",
+      "showTutorialAgain": "Vis velkomstveiledningen på nytt",
+      "privacyPolicy": "Personvernerklæring"
+    },
+    "feedback": {
+      "title": "Send tilbakemelding",
+      "intro": "Har du funnet en feil eller ønsker du en funksjon? Gi meg beskjed! Dette skjemaet vil automatisk åpne et sporingsproblem på Spegens GitHub-repositorium.",
+      "category": "Problemkategori",
+      "categories": [
+        "Feil",
+        "Forslag",
+        "Annen"
+      ],
+      "header": "Overskrift / Sammendrag",
+      "headerPlaceholder": "Oppsummer kort problemet",
+      "details": "Detaljer / Kropp",
+      "detailsPlaceholder": "Gi fremgangsmåten for å reprodusere feilen eller utvide funksjonsideen din ...",
+      "submitting": "Sender inn...",
+      "submit": "Send tilbakemelding",
+      "missingFields": "Vennligst oppgi både en overskrift og fullstendige detaljer.",
+      "submittingStatus": "Sender tilbakemelding...",
+      "submitted": "Tilbakemeldingen er sendt inn! Takk.",
+      "submitFailed": "Kunne ikke sende inn problemet: {msg}",
+      "networkError": "Nettverksfeil ved sending av tilbakemelding: {e}"
+    }
+  },
+  "board": {
+    "settings": "Innstillinger",
+    "search": "Søk",
+    "stop": "Stoppe",
+    "keyboard": "Tastatur",
+    "delete": "Slett",
+    "clear": "Klar",
+    "back": "Tilbake",
+    "autocomplete": "Autofullfør",
+    "addText": "Legg til tekst"
+  },
+  "editor": {
+    "title": "REDIGERINGSMODUS",
+    "addItem": "+ Vare",
+    "addMenu": "+ Meny",
+    "deleteMenu": "- Meny",
+    "gotoMenu": "Gå til menyen",
+    "applyChanges": "Bruk endringer",
+    "exit": "Gå"
+  },
+  "languageDropdown": {
+    "select": "Velge…",
+    "searchPlaceholder": "Søkespråk"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Bare skriv inn",
+      "Bare snakk",
+      "Både"
+    ],
+    "addItem": {
+      "title": "Legg til element i {menuTitle}",
+      "name": "Navn",
+      "symbol": "Symbol",
+      "folder": "Mappe",
+      "folderTargetMenu": "Mappemålmeny"
+    },
+    "newMenu": {
+      "title": "Opprett ny meny",
+      "menuTitle": "Menytittel",
+      "emptyNote": "Menyen opprettes tom. Gå inn i den og bruk «+ Element» for å legge til elementer.",
+      "create": "Skape"
+    },
+    "deleteMenu": {
+      "title": "Slett en meny",
+      "hint": "Mapper som åpner en slettet meny vil også bli fjernet.",
+      "delete": "Slett"
+    },
+    "gotoMenu": {
+      "title": "Gå til en meny",
+      "hint": "Lar deg hoppe til en meny mens du er i redigeringsmodus.",
+      "goTo": "Gå til"
+    },
+    "unsaved": {
+      "title": "Ulagrede endringer",
+      "body": "Du har ulagrede endringer. Vil du lagre dem?",
+      "dontSave": "Ikke lagre",
+      "saveChanges": "Lagre endringer"
+    },
+    "pinLock": {
+      "enterTitle": "Skriv inn PIN-koden",
+      "lockedHint": "Innstillinger og redigeringsprogrammet er låst.",
+      "pinPlaceholder": "PIN-kode",
+      "unlock": "Låse opp",
+      "forgotPin": "Glemt PIN-kode?",
+      "incorrectPin": "Feil PIN-kode.",
+      "noQuestions": "Ingen gjenopprettingsspørsmål er angitt, så PIN-koden kan ikke tilbakestilles. Installer appen på nytt for å slette den (dette sletter alle tavler).",
+      "answerToReset": "Svar for å tilbakestille PIN-koden",
+      "answerHint": "Svar riktig på alle spørsmålene (ikke store og små bokstaver).",
+      "answerPlaceholder": "Svare",
+      "verify": "Verifisere",
+      "answersIncorrect": "Ett eller flere svar er feil.",
+      "setNewPin": "Angi en ny PIN-kode",
+      "newPinPlaceholder": "Ny PIN-kode (minimum 4 sifre)",
+      "confirmNewPinPlaceholder": "Bekreft ny PIN-kode",
+      "saveNewPin": "Lagre ny PIN-kode",
+      "pinTooShort": "PIN-koden må være minst 4 sifre.",
+      "pinsDoNotMatch": "PIN-kodene stemmer ikke overens."
+    },
+    "colorPicker": {
+      "title": "Velg en farge",
+      "hue": "Fargetone: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Navn",
+      "itemLanguage": "Varespråk",
+      "language": "Språk",
+      "labelsByLanguage": "Etiketter etter språk",
+      "add": "Legge til",
+      "addLanguage": "+ Legg til språk",
+      "image": "Bilde",
+      "loading": "Laster inn…",
+      "loadMoreImages": "Last inn flere bilder",
+      "findImages": "Finn bilder",
+      "chooseCustomImage": "Velg et tilpasset bilde",
+      "resetToDefault": "Tilbakestill til standard",
+      "audio": "Lyd",
+      "useItemName": "Bruk varenavn",
+      "useCustomAudio": "Bruk tilpasset lyd",
+      "audioClip": "Lydklipp",
+      "record": "Rekord",
+      "stop": "Stoppe",
+      "importFromDevice": "Importer fra enhet",
+      "preview": "▶ Forhåndsvisning",
+      "clearAudio": "Klar lyd",
+      "renameAudioClip": "Gi nytt navn til lydklipp",
+      "clipNamePlaceholder": "Klippnavn",
+      "pronHint": "Valgfritt: stave navnet på nytt slik at det blir uttalt riktig (f.eks. «MIS-chiv-us»).",
+      "pronPlaceholder": "Uttale",
+      "color": "Farge",
+      "custom": "Skikk",
+      "default": "Misligholde",
+      "editCustomColor": "Rediger egendefinert farge",
+      "pickCustomColor": "Velg egendefinert farge",
+      "ttsBehavior": "TTS-oppførsel",
+      "delete": "Slett"
+    }
+  }
+}

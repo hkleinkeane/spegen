@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Spate",
+    "next": "Următorul",
+    "done": "Făcut",
+    "skip": "Sari peste",
+    "cancel": "Anula",
+    "add": "Adăuga",
+    "save": "Salva",
+    "close": "Aproape",
+    "reset": "Resetare"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nicio voce instalată pentru {name} ({code}). Se vorbește cu vocea implicită.",
+    "ttsInstallAndroid": "Atingeți pentru a deschide setările de vorbire ale dispozitivului, apoi instalați datele vocale pentru această limbă.",
+    "ttsInstallIos": "Pentru a o adăuga, deschideți Setări → Accesibilitate → Conținut rostit → Voci și descărcați vocea. Atingeți pentru a o închide.",
+    "ttsInstallWeb": "Vocile provin din sistemul dvs. de operare — adăugați una pentru această limbă în setările de vorbire ale sistemului. Atingeți pentru a închide.",
+    "updateAvailable": "Actualizare disponibilă — atingeți pentru a reîncărca"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Bun venit la SpeGen",
+        "body": "Acesta este un scurt tutorial care vă va învăța interfața de bază a aplicației. Puteți accesa acest tutorial mai târziu din Setări."
+      },
+      {
+        "title": "Foldere",
+        "body": "Atingeți un folder pentru a accesa un alt meniu cu mai multe simboluri și foldere. Folderele au întotdeauna o linie neagră în colțul din dreapta sus."
+      },
+      {
+        "title": "Simboluri",
+        "body": "Atingeți un simbol pentru a-l adăuga în caseta de introducere."
+      },
+      {
+        "title": "Casetă de introducere",
+        "body": "Caseta de introducere este locul unde compui propoziții. Atinge-o pentru a reda propoziția construită."
+      },
+      {
+        "title": "Rând de meniu",
+        "body": "Acestea sunt butoane care te redirecționează automat către meniul asociat."
+      },
+      {
+        "title": "Rând de cuvinte statice",
+        "body": "Acești termeni sunt întotdeauna în partea de jos a ecranului, indiferent unde te afli. Atinge unul pentru a-l rosti instantaneu."
+      },
+      {
+        "title": "Tastatură",
+        "body": "Deschide o casetă de dialog care vă permite să utilizați tastatura dispozitivului pentru a adăuga elemente în caseta de introducere."
+      },
+      {
+        "title": "Şterge",
+        "body": "Șterge ultimul termen din caseta de introducere."
+      },
+      {
+        "title": "Clar",
+        "body": "Șterge toți termenii din caseta de introducere."
+      },
+      {
+        "title": "Stop",
+        "body": "Oprește orice redare curentă a funcției text-vorbire."
+      },
+      {
+        "title": "Căutare",
+        "body": "Căutați orice termen în orice meniu. Vă ghidează către termen prin evidențierea butoanelor pe care trebuie să le apăsați."
+      },
+      {
+        "title": "Setări",
+        "body": "Deschide meniul de setări: editarea tablei, copierea de rezervă a datelor, modificarea vocii pentru transformarea textului în vorbire și multe altele."
+      },
+      {
+        "title": "Spate",
+        "body": "Te trimite înapoi la meniul anterior în care te afli."
+      },
+      {
+        "title": "Completare automată",
+        "body": "Înlocuiește meniul cu o listă de opțiuni de completare automată care învață din simbolurile pe care le selectați. Datele nu părăsesc niciodată dispozitivul fără consimțământ."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Găsește un cuvânt/element",
+    "subtitle": "Căutați în fiecare meniu, apoi faceți clic pe butoanele evidențiate pentru a naviga la cuvânt.",
+    "placeholder": "Tastează un cuvânt…",
+    "noMatches": "Nicio potrivire.",
+    "find": "Găsi",
+    "close": "Aproape",
+    "finding": "Găsirea „{word}” - atingeți butonul evidențiat",
+    "cancel": "Anula"
+  },
+  "autocomplete": {
+    "suggestions": "Sugestii",
+    "after": "După „{word}”",
+    "none": "Nicio sugestie încă."
+  },
+  "settings": {
+    "title": "Setări",
+    "apply": "Aplică",
+    "done": "Făcut",
+    "tabs": {
+      "display": "Afişa",
+      "voice": "Voce",
+      "vocabulary": "Vocabular",
+      "language": "Limbă",
+      "data": "Date",
+      "about": "Despre",
+      "feedback": "Feedback"
+    },
+    "display": {
+      "preview": "Previzualizare",
+      "staticRowLabel": "Rând de cuvinte statice",
+      "menuRowLabel": "Rând de meniu",
+      "previewStaticTerms": [
+        "Da",
+        "Nu",
+        "Mai mult"
+      ],
+      "previewMenuTitles": [
+        "Oameni",
+        "Mâncare",
+        "Acțiuni"
+      ],
+      "itemSizing": "Dimensionarea articolului",
+      "itemWidthSize": "Dimensiunea lățimii articolului",
+      "itemHeightSize": "Dimensiunea înălțimii articolului",
+      "gridSize": "Potrivire la grilă",
+      "gridHint": "Scalați dimensiunea elementului pentru a se potrivi unei grile: introduceți coloane și rânduri, apoi atingeți Aplicați.",
+      "gridCols": "Cols",
+      "gridRows": "Rânduri",
+      "gridApply": "Aplică",
+      "bordersSpacing": "Borduri și spațiere",
+      "borderWidth": "Lățimea bordurii",
+      "itemPadding": "Umplutură pentru articole",
+      "staticRowStyle": "Stilul rândului de cuvinte statice",
+      "menuRowStyle": "Stilul rândului de meniu",
+      "textSize": "Dimensiunea textului",
+      "textPadding": "Umplutură text",
+      "buttonShape": "Forma butonului",
+      "labelPosition": "Poziția etichetei",
+      "top": "Top",
+      "bottom": "Fund",
+      "skinTone": "Nuanța pielii",
+      "theme": "Temă",
+      "themeLight": "Aprinde",
+      "themeDark": "Întuneric",
+      "themeSystem": "Sistem",
+      "themeNote": "Modul întunecat temează ecranele și meniurile aplicației. Culorile butoanelor cu simboluri și modul cu contrast ridicat nu sunt afectate.",
+      "highContrast": "Contrast ridicat",
+      "highContrastHint": "Fundal negru, chenare albe și etichete cu o paletă de culori simplificată pentru imaginile articolelor."
+    },
+    "voice": {
+      "speechRate": "Viteza vorbirii",
+      "pitch": "Pas",
+      "pauseBetweenWords": "Pauză între cuvinte",
+      "pauseDuration": "Durata pauzei",
+      "testPhrase": "Acesta este un test al setărilor vocale.",
+      "testVoice": "Testați vocea",
+      "translateSentence": "Traduceți propoziții rostite",
+      "translateSentenceHint": "Traduceți întreaga propoziție dintr-o dată pentru o gramatică mai naturală, în loc de cuvânt cu cuvânt. Activat în mod implicit pentru limbile non-engleze. Necesită internet.",
+      "voiceLabel": "Voce",
+      "voiceHint": "Alegeți vocea folosită pentru vorbire în limba aplicației. Vocile sunt furnizate de dispozitivul sau browserul dvs.",
+      "voiceDefault": "Implicit (sistem)",
+      "noVoices": "Nu s-au găsit voci pentru această limbă.",
+      "openDeviceTts": "Deschideți setările TTS ale dispozitivului",
+      "ttsOpenFailed": "Nu s-au putut deschide setările TTS ale dispozitivului: {e}",
+      "resetToDefaults": "Resetare la setările implicite",
+      "resetDone": "Resetare voce la setările implicite."
+    },
+    "vocabulary": {
+      "editorMode": "Mod editor",
+      "editorModeHint": "Editați simboluri și foldere atingându-le pe tablă și utilizați butoanele de pe bara de instrumente pentru a edita meniuri.",
+      "enableEditorMode": "Activează modul editor",
+      "staticRow": "Rând de cuvinte statice",
+      "staticRowHint": "Cuvintele sunt întotdeauna vizibile în partea de jos a ecranului, indiferent de locul în care te afli în aplicație. Trage ≡ pentru a le reordona.",
+      "addPhrasePlaceholder": "Adăugați o frază",
+      "addPhrase": "Adăuga",
+      "menuRow": "Rând de meniu",
+      "menuRowHint": "Comenzile rapide din meniu sunt afișate chiar deasupra rândului static atunci când se utilizează tabla și meniul principal. Trageți ≡ pentru a reordona.",
+      "menuRowEmpty": "Niciun meniu pe rând.",
+      "addMenuToRow": "Adăugați meniu la rând",
+      "allMenusInRow": "Toate meniurile sunt deja pe rând."
+    },
+    "language": {
+      "appLanguage": "Limba aplicației",
+      "appLanguageHint": "Folosit pentru vorbire, căutare de imagini și traducere de etichete. Modificarea acestei opțiuni reîncarcă toate imaginile.",
+      "translationDisclaimer": "Textul aplicației este tradus cu ajutorul API-ului Google Translate, așadar este posibil ca unele traduceri să fie inexacte. Dacă observați o eroare, utilizați butonul Feedback din Setări pentru a o raporta — includeți limba și corecția sugerată.",
+      "autoTranslate": "Traducere automată",
+      "translateUi": "Interfața aplicației de traducere",
+      "translateUiHint": "Afișează meniurile, butoanele și setările în limba aplicației.",
+      "translateLabels": "Traduceți etichetele panoului și meniului",
+      "translateLabelsHint": "Traduceți automat etichetele simbolurilor, numele meniurilor și rândul de cuvinte statice în limba aplicației. Necesită internet.",
+      "multilingual": "Multilingv",
+      "perItemImageLanguage": "Limbajul imaginii per element",
+      "perItemImageLanguageHint": "Permiteți fiecărui element să caute imagini în propria limbă.",
+      "multilingualLabels": "Etichete multilingve",
+      "multilingualLabelsHint": "Adăugați etichete text suplimentare pentru fiecare element (în modul de editare) pentru alte limbi. Când este activată opțiunea, traducerea automată se oprește doar din etichetele elementelor de pe forum atunci când schimbați limba (sunt folosite etichetele manuale); numele rândului de cuvinte statice și numele meniurilor se traduc automat în continuare.",
+      "spokenLanguages": "Limbi vorbite",
+      "spokenLanguagesHint": "Limbi între care puteți comuta din caseta de introducere a textului. Limba aplicației este limba de bază; elementele fără o etichetă manuală sunt traduse automat pentru vorbire. Această funcție necesită internet și este omisă pentru limba engleză.",
+      "base": "Baza",
+      "addLanguage": "Adăugați o limbă"
+    },
+    "data": {
+      "backupRestore": "Copiere de rezervă și restaurare",
+      "backupRestoreHint": "Exportă sau importă toate plăcile, setările, imaginile personalizate și înregistrările audio ca un singur fișier de rezervă pe care îl poți transfera pe un alt dispozitiv sau îl poți păstra în memoria dispozitivului.",
+      "downloadBackup": "Descărcați copia de rezervă",
+      "exportBackup": "Exportați copia de rezervă",
+      "saveBackupToDevice": "Salvați copia de rezervă pe dispozitiv (alegeți folderul)",
+      "importBackup": "Importați copia de rezervă",
+      "security": "Securitate",
+      "securityHint": "Necesită un cod PIN pentru a deschide Setări și editorul. Această funcție poate fi utilizată pentru a vă asigura că utilizatorul nu poate edita setările fără cod PIN atunci când se află în interfața principală. Se salvează când atingeți Aplicați sau Gata.",
+      "changePin": "Schimbare PIN",
+      "removePin": "Eliminați codul PIN",
+      "setPin": "Setați un cod PIN",
+      "recoveryQuestions": "Întrebări de recuperare",
+      "recoveryQuestionsHint": "Folosit pentru a reseta un cod PIN uitat. Se recomandă adăugarea a cel puțin unuia. Fără niciunul, un cod PIN uitat poate fi șters doar prin reinstalarea aplicației.",
+      "question": "Întrebare",
+      "ownQuestionPlaceholder": "Sau scrieți propria întrebare",
+      "answer": "Răspuns",
+      "addQuestion": "+ Adăugați o întrebare",
+      "pinPlaceholder": "PIN (min. 4 cifre)",
+      "confirmPinPlaceholder": "Confirmați codul PIN",
+      "pinTooShort": "PIN-ul trebuie să aibă cel puțin 4 cifre.",
+      "pinsDoNotMatch": "Codurile PIN nu se potrivesc.",
+      "reset": "Resetare",
+      "restoreDefaults": "Restaurați setările implicite",
+      "backupFormatNote": "Copia de rezervă .spegen este un fișier ZIP comprimat care conține plăcile, setările, imaginile personalizate și înregistrările audio într-un singur fișier. Importarea înlocuiește toate plăcile și setările actuale.",
+      "preparingDownload": "Se pregătește descărcarea…",
+      "backupDownloaded": "Copie de rezervă descărcată.",
+      "openingShareSheet": "Deschiderea listei de acțiuni…",
+      "shareSheetHint": "Folosește foaia de partajare pentru a salva copia de rezervă.",
+      "sharingUnavailable": "Partajarea nu este disponibilă.",
+      "chooseFolder": "Alegeți un folder în care să salvați…",
+      "savedToFolder": "Salvat în folderul ales.",
+      "saveCanceled": "Salvarea a fost anulată.",
+      "saveFailed": "Salvare eșuată: {e}",
+      "chooseBackupFile": "Alegeți un fișier de rezervă…",
+      "importCanceled": "Importul a fost anulat.",
+      "importWebFileMissing": "Importul a eșuat: Lipsește identificatorul fișierului web.",
+      "importDone": "Importat. Placă reîncărcată.",
+      "importFailed": "Importul a eșuat: {e}",
+      "confirmReset": "Atingeți din nou „Restaurare setări implicite” pentru a confirma. Atenție: această acțiune șterge panourile.",
+      "resetDone": "Plăcile implicite restaurate.",
+      "resetFailed": "Resetare eșuată: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "O aplicație AAC open-source dezvoltată de Harper Klein Keane. Pagina GitHub a SpeGen poate fi găsită la adresa",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", iar site-ul web poate fi găsit la adresa",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licență: GNU General Public License v3.0",
+      "showTutorialAgain": "Afișează din nou tutorialul de bun venit",
+      "privacyPolicy": "Politica de confidențialitate"
+    },
+    "feedback": {
+      "title": "Trimiteți feedback",
+      "intro": "Ai găsit o eroare sau ai o solicitare de funcționalitate? Anunță-mă! Acest formular va deschide automat o problemă de urmărire în depozitul GitHub al Spegen.",
+      "category": "Categoria problemei",
+      "categories": [
+        "Insect",
+        "Sugestie",
+        "Alte"
+      ],
+      "header": "Antet / Rezumat",
+      "headerPlaceholder": "Rezumați pe scurt problema",
+      "details": "Detalii / Corp",
+      "detailsPlaceholder": "Oferiți pași pentru a reproduce eroarea sau a dezvolta ideea dvs. de funcționalitate...",
+      "submitting": "Se trimite...",
+      "submit": "Trimiteți feedback",
+      "missingFields": "Vă rugăm să furnizați atât un antet, cât și detalii complete.",
+      "submittingStatus": "Se trimite feedback...",
+      "submitted": "Feedback trimis cu succes! Mulțumim.",
+      "submitFailed": "Problema nu a putut fi trimisă: {msg}",
+      "networkError": "Eroare de rețea la trimiterea feedback-ului: {e}"
+    }
+  },
+  "board": {
+    "settings": "Setări",
+    "search": "Căutare",
+    "stop": "Stop",
+    "keyboard": "Tastatură",
+    "delete": "Şterge",
+    "clear": "Clar",
+    "back": "Spate",
+    "autocomplete": "Completare automată",
+    "addText": "Adăugați text"
+  },
+  "editor": {
+    "title": "MOD EDITOR",
+    "addItem": "+ Articol",
+    "addMenu": "+ Meniu",
+    "deleteMenu": "- Meniu",
+    "gotoMenu": "Mergi la meniu",
+    "applyChanges": "Aplicați modificările",
+    "exit": "Ieșire"
+  },
+  "languageDropdown": {
+    "select": "Selecta…",
+    "searchPlaceholder": "Limba de căutare"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Numai tip",
+      "Numai vorbire",
+      "Ambele"
+    ],
+    "addItem": {
+      "title": "Adăugați elementul la {menuTitle}",
+      "name": "Nume",
+      "symbol": "Simbol",
+      "folder": "Pliant",
+      "folderTargetMenu": "Meniul țintă folder"
+    },
+    "newMenu": {
+      "title": "Creați un meniu nou",
+      "menuTitle": "Titlul meniului",
+      "emptyNote": "Meniul este creat gol. Intrați în el și folosiți „+ Element” pentru a adăuga elemente.",
+      "create": "Crea"
+    },
+    "deleteMenu": {
+      "title": "Ștergerea unui meniu",
+      "hint": "Folderele care deschid un meniu șters vor fi, de asemenea, eliminate.",
+      "delete": "Şterge"
+    },
+    "gotoMenu": {
+      "title": "Accesați un meniu",
+      "hint": "Vă permite să accesați un meniu în modul editor.",
+      "goTo": "Mergi la"
+    },
+    "unsaved": {
+      "title": "Modificări nesalvate",
+      "body": "Aveți modificări nesalvate. Doriți să le salvați?",
+      "dontSave": "Nu salvați",
+      "saveChanges": "Salvați modificările"
+    },
+    "pinLock": {
+      "enterTitle": "Introduceți codul PIN",
+      "lockedHint": "Setările și editorul sunt blocate.",
+      "pinPlaceholder": "PIN-ul",
+      "unlock": "Deblocare",
+      "forgotPin": "Ai uitat codul PIN?",
+      "incorrectPin": "PIN incorect.",
+      "noQuestions": "Nu sunt setate întrebări de recuperare, așadar codul PIN nu poate fi resetat. Reinstalați aplicația pentru a-l șterge (aceasta șterge toate panourile).",
+      "answerToReset": "Răspuns pentru resetarea codului PIN",
+      "answerHint": "Răspundeți corect la fiecare întrebare (fără a ține cont de majuscule/minuscule).",
+      "answerPlaceholder": "Răspuns",
+      "verify": "Verifica",
+      "answersIncorrect": "Unul sau mai multe răspunsuri sunt greșite.",
+      "setNewPin": "Setați un nou cod PIN",
+      "newPinPlaceholder": "PIN nou (min. 4 cifre)",
+      "confirmNewPinPlaceholder": "Confirmați noul PIN",
+      "saveNewPin": "Salvați noul PIN",
+      "pinTooShort": "PIN-ul trebuie să aibă cel puțin 4 cifre.",
+      "pinsDoNotMatch": "Codurile PIN nu se potrivesc."
+    },
+    "colorPicker": {
+      "title": "Alege o culoare",
+      "hue": "Nuanță: {deg}°",
+      "ok": "Bine"
+    },
+    "editItem": {
+      "name": "Nume",
+      "itemLanguage": "Limba articolului",
+      "language": "Limbă",
+      "labelsByLanguage": "Etichete după limbă",
+      "add": "Adăuga",
+      "addLanguage": "+ Adăugați o limbă",
+      "image": "Imagine",
+      "loading": "Încărcare…",
+      "loadMoreImages": "Încărcați mai multe imagini",
+      "findImages": "Găsiți imagini",
+      "chooseCustomImage": "Alegeți o imagine personalizată",
+      "resetToDefault": "Resetare la valorile implicite",
+      "audio": "Audio",
+      "useItemName": "Folosește numele elementului",
+      "useCustomAudio": "Folosește sunet personalizat",
+      "audioClip": "Clip audio",
+      "record": "Înregistra",
+      "stop": "Stop",
+      "importFromDevice": "Importați de pe dispozitiv",
+      "preview": "▶ Previzualizare",
+      "clearAudio": "Sunet clar",
+      "renameAudioClip": "Redenumiți clipul audio",
+      "clipNamePlaceholder": "Numele clipului",
+      "pronHint": "Opțional: scrieți din nou numele astfel încât să fie rostit corect (de exemplu, „MIS-chiv-us”).",
+      "pronPlaceholder": "Pronunție",
+      "color": "Culoare",
+      "custom": "Personalizat",
+      "default": "Implicit",
+      "editCustomColor": "Editați culoarea personalizată",
+      "pickCustomColor": "Alegeți o culoare personalizată",
+      "ttsBehavior": "Comportamentul TTS",
+      "delete": "Şterge"
+    }
+  }
+}

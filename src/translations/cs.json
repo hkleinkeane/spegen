@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Zadní",
+    "next": "Další",
+    "done": "Hotovo",
+    "skip": "Přeskočit",
+    "cancel": "Zrušit",
+    "add": "Přidat",
+    "save": "Uložit",
+    "close": "Blízko",
+    "reset": "Obnovit"
+  },
+  "banners": {
+    "ttsMissingVoice": "Pro {name} ({code}) není nainstalován žádný hlas. Používá se výchozí hlas.",
+    "ttsInstallAndroid": "Klepnutím otevřete nastavení řeči v zařízení a poté nainstalujte hlasová data pro tento jazyk.",
+    "ttsInstallIos": "Chcete-li jej přidat, otevřete Nastavení → Přístupnost → Mluvený obsah → Hlasy a stáhněte si hlas. Klepnutím jej zavřete.",
+    "ttsInstallWeb": "Hlasy pocházejí z vašeho operačního systému – přidejte hlas pro tento jazyk v nastavení řeči systému. Klepnutím jej zavřete.",
+    "updateAvailable": "Aktualizace je k dispozici – klepnutím načtete stránku"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Vítejte ve SpeGenu",
+        "body": "Toto je krátký tutoriál, který vás seznámí se základním uživatelským rozhraním aplikace. K tomuto tutoriálu se dostanete později v Nastavení."
+      },
+      {
+        "title": "Složky",
+        "body": "Klepnutím na složku přejdete do další nabídky s dalšími symboly a složkami. Složky mají vždy v pravém horním rohu černý záhyb."
+      },
+      {
+        "title": "Symboly",
+        "body": "Klepnutím na symbol jej přidáte do vstupního pole."
+      },
+      {
+        "title": "Vstupní pole",
+        "body": "Vstupní pole je místo, kde se píší věty. Klepnutím na něj přehrajete složenou větu."
+      },
+      {
+        "title": "Řádek nabídky",
+        "body": "Jedná se o tlačítka, která vás automaticky přesměrují do příslušné nabídky."
+      },
+      {
+        "title": "Řádek statických slov",
+        "body": "Tyto výrazy jsou vždy ve spodní části obrazovky, ať jste kdekoli. Klepnutím na jeden z nich jej okamžitě vyslovíte."
+      },
+      {
+        "title": "Klávesnice",
+        "body": "Otevře dialogové okno, které umožňuje přidávat položky do vstupního pole pomocí klávesnice zařízení."
+      },
+      {
+        "title": "Vymazat",
+        "body": "Smaže poslední výraz ve vstupním poli."
+      },
+      {
+        "title": "Jasný",
+        "body": "Vymaže vstupní pole od všech výrazů."
+      },
+      {
+        "title": "Zastávka",
+        "body": "Zastaví veškerý aktuálně přehrávaný převod textu na řeč."
+      },
+      {
+        "title": "Vyhledávání",
+        "body": "Vyhledejte libovolný výraz v libovolné nabídce. Navede vás k danému výrazu zvýrazněním tlačítek, která je třeba stisknout."
+      },
+      {
+        "title": "Nastavení",
+        "body": "Otevře nabídku nastavení: úprava nástěnky, zálohování dat, změna hlasu pro převod textu na řeč a další."
+      },
+      {
+        "title": "Zadní",
+        "body": "Vrátí vás zpět do předchozí nabídky, ve které jste byli."
+      },
+      {
+        "title": "Automatické doplňování",
+        "body": "Nahradí nabídku seznamem možností automatického doplňování, které se učí z vybraných symbolů. Data nikdy neopustí vaše zařízení bez vašeho souhlasu."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Najít slovo/položku",
+    "subtitle": "Prohledejte každou nabídku a poté kliknutím na zvýrazněná tlačítka přejděte k danému slovu.",
+    "placeholder": "Napište slovo…",
+    "noMatches": "Žádné zápasy.",
+    "find": "Nalézt",
+    "close": "Blízko",
+    "finding": "Hledání „{word}“ – klepněte na zvýrazněné tlačítko",
+    "cancel": "Zrušit"
+  },
+  "autocomplete": {
+    "suggestions": "Návrhy",
+    "after": "Za \"{word}\"",
+    "none": "Zatím žádné návrhy."
+  },
+  "settings": {
+    "title": "Nastavení",
+    "apply": "Použít",
+    "done": "Hotovo",
+    "tabs": {
+      "display": "Zobrazit",
+      "voice": "Hlas",
+      "vocabulary": "Slovník",
+      "language": "Jazyk",
+      "data": "Data",
+      "about": "O",
+      "feedback": "Zpětná vazba"
+    },
+    "display": {
+      "preview": "Náhled",
+      "staticRowLabel": "Řádek statických slov",
+      "menuRowLabel": "Řádek nabídky",
+      "previewStaticTerms": [
+        "Ano",
+        "Žádný",
+        "Více"
+      ],
+      "previewMenuTitles": [
+        "Lidé",
+        "Jídlo",
+        "Akce"
+      ],
+      "itemSizing": "Velikosti položek",
+      "itemWidthSize": "Šířka položky",
+      "itemHeightSize": "Výška položky",
+      "gridSize": "Přizpůsobit mřížce",
+      "gridHint": "Přizpůsobení velikosti položky mřížce: zadejte sloupce a řádky a poté klepněte na Použít.",
+      "gridCols": "Sloupce",
+      "gridRows": "Řádky",
+      "gridApply": "Použít",
+      "bordersSpacing": "Okraje a mezery",
+      "borderWidth": "Šířka okraje",
+      "itemPadding": "Odsazení položky",
+      "staticRowStyle": "Styl řádku statických slov",
+      "menuRowStyle": "Styl řádku nabídky",
+      "textSize": "Velikost textu",
+      "textPadding": "Odsazení textu",
+      "buttonShape": "Tvar knoflíku",
+      "labelPosition": "Pozice štítku",
+      "top": "Nahoře",
+      "bottom": "Dno",
+      "skinTone": "Tón pleti",
+      "theme": "Téma",
+      "themeLight": "Světlo",
+      "themeDark": "Tmavý",
+      "themeSystem": "Systém",
+      "themeNote": "Tmavý režim témat, obrazovky a nabídky aplikace. Barvy tlačítek se symboly a režim s vysokým kontrastem zůstávají nedotčeny.",
+      "highContrast": "Vysoký kontrast",
+      "highContrastHint": "Černé pozadí, bílé okraje a popisky se zjednodušenou barevnou paletou pro obrázky položek."
+    },
+    "voice": {
+      "speechRate": "Tempo řeči",
+      "pitch": "Hřiště",
+      "pauseBetweenWords": "Pauza mezi slovy",
+      "pauseDuration": "Doba trvání pauzy",
+      "testPhrase": "Toto je test nastavení hlasu.",
+      "testVoice": "Testovací hlas",
+      "translateSentence": "Překládejte mluvené věty",
+      "translateSentenceHint": "Pro přirozenější gramatiku přeložte celou větu najednou, namísto překládání slovo po slově. Ve výchozím nastavení zapnuto pro jazyky jiné než angličtinu. Vyžaduje internet.",
+      "voiceLabel": "Hlas",
+      "voiceHint": "Vyberte hlas, který se bude používat pro řeč v jazyce vaší aplikace. Hlasy poskytuje vaše zařízení nebo prohlížeč.",
+      "voiceDefault": "Výchozí (systém)",
+      "noVoices": "Pro tento jazyk nebyly nalezeny žádné hlasy.",
+      "openDeviceTts": "Otevřít nastavení TTS zařízení",
+      "ttsOpenFailed": "Nelze otevřít nastavení TTS zařízení: {e}",
+      "resetToDefaults": "Obnovit na výchozí nastavení",
+      "resetDone": "Hlas byl resetován na výchozí nastavení."
+    },
+    "vocabulary": {
+      "editorMode": "Režim editoru",
+      "editorModeHint": "Symboly a složky upravte klepnutím na ně na tabuli a pomocí tlačítek na panelu nástrojů upravte nabídky.",
+      "enableEditorMode": "Povolit režim editoru",
+      "staticRow": "Řádek statických slov",
+      "staticRowHint": "Slova jsou vždy viditelná ve spodní části obrazovky bez ohledu na to, kde se v aplikaci nacházíte. Přetažením ≡ změníte pořadí.",
+      "addPhrasePlaceholder": "Přidat frázi",
+      "addPhrase": "Přidat",
+      "menuRow": "Řádek nabídky",
+      "menuRowHint": "Zkratky nabídky zobrazené těsně nad statickým řádkem při používání nástěnky a hlavní nabídky. Přetažením ≡ změníte pořadí.",
+      "menuRowEmpty": "V řádku nejsou žádné nabídky.",
+      "addMenuToRow": "Přidat nabídku do řádku",
+      "allMenusInRow": "Všechna menu jsou již v řádku."
+    },
+    "language": {
+      "appLanguage": "Jazyk aplikace",
+      "appLanguageHint": "Používá se pro řeč, vyhledávání obrázků a překlad popisků. Změnou této možnosti se znovu načtou všechny obrázky.",
+      "translationDisclaimer": "Text aplikace je překládán pomocí rozhraní Google Translate API, takže některé překlady mohou být nepřesné. Pokud narazíte na chybu, nahlaste ji prosím pomocí tlačítka Zpětná vazba v Nastavení – uveďte jazyk a navrhovanou opravu.",
+      "autoTranslate": "Automatický překlad",
+      "translateUi": "Rozhraní aplikace Překladač",
+      "translateUiHint": "Zobrazit nabídky, tlačítka a nastavení v jazyce aplikace.",
+      "translateLabels": "Přeložit popisky tabulí a menu",
+      "translateLabelsHint": "Automaticky překládat popisky symbolů, názvy nabídek a řádek statických slov do jazyka aplikace. Vyžaduje internet.",
+      "multilingual": "Vícejazyčný",
+      "perItemImageLanguage": "Jazyk obrázků pro jednotlivé položky",
+      "perItemImageLanguageHint": "Nechte každou položku vyhledávat obrázky ve svém vlastním jazyce.",
+      "multilingualLabels": "Vícejazyčné štítky",
+      "multilingualLabelsHint": "Přidejte další textové popisky pro každou položku (v režimu úprav) pro ostatní jazyky. Pokud je tato možnost povolena, při přepnutí jazyka se automaticky přeloží pouze popisky položek na fóru (použijí se vaše ruční popisky); názvy řádků se statickými slovy a názvy nabídek se stále automaticky překládají.",
+      "spokenLanguages": "Mluvené jazyky",
+      "spokenLanguagesHint": "Jazyky, mezi kterými můžete přepínat v zadávacím poli. Jazyk aplikace je základní; položky bez ručního popisku jsou automaticky překládány pro řeč. Tato funkce vyžaduje internet a v angličtině se přeskočí.",
+      "base": "Báze",
+      "addLanguage": "Přidat jazyk"
+    },
+    "data": {
+      "backupRestore": "Zálohování a obnovení",
+      "backupRestoreHint": "Exportujte nebo importujte všechny desky, nastavení, vlastní obrázky a nahraný zvuk jako jeden záložní soubor, který můžete přenést do jiného zařízení nebo uchovat v úložišti zařízení.",
+      "downloadBackup": "Stáhnout zálohu",
+      "exportBackup": "Exportovat zálohu",
+      "saveBackupToDevice": "Uložit zálohu do zařízení (vyberte složku)",
+      "importBackup": "Importovat zálohu",
+      "security": "Zabezpečení",
+      "securityHint": "Vyžadovat PIN pro otevření Nastavení a editoru. To lze použít k zajištění, aby uživatel nemohl upravovat nastavení bez PINu v hlavním rozhraní. Uloží se po klepnutí na Použít nebo Hotovo.",
+      "changePin": "Změnit PIN",
+      "removePin": "Odebrat PIN",
+      "setPin": "Nastavení PINu",
+      "recoveryQuestions": "Otázky k zotavení",
+      "recoveryQuestionsHint": "Používá se k resetování zapomenutého PINu. Doporučuje se přidat alespoň jeden. Bez něj lze zapomenutý PIN vymazat pouze přeinstalováním aplikace.",
+      "question": "Otázka",
+      "ownQuestionPlaceholder": "Nebo napište svou vlastní otázku",
+      "answer": "Odpověď",
+      "addQuestion": "+ Přidat otázku",
+      "pinPlaceholder": "PIN (min. 4 číslice)",
+      "confirmPinPlaceholder": "Potvrdit PIN",
+      "pinTooShort": "PIN musí mít alespoň 4 číslice.",
+      "pinsDoNotMatch": "PINy se neshodují.",
+      "reset": "Obnovit",
+      "restoreDefaults": "Obnovit výchozí nastavení",
+      "backupFormatNote": "Záloha .spegen je komprimovaný ZIP soubor, který obsahuje vaše desky, nastavení, vlastní obrázky a nahraný zvuk v jednom souboru. Import nahradí všechny aktuální desky a nastavení.",
+      "preparingDownload": "Příprava stahování…",
+      "backupDownloaded": "Záloha stažena.",
+      "openingShareSheet": "Otevírání sdíleného listu…",
+      "shareSheetHint": "Pro uložení zálohy použijte sdílený list.",
+      "sharingUnavailable": "Sdílení není k dispozici.",
+      "chooseFolder": "Vyberte složku pro uložení…",
+      "savedToFolder": "Uloženo do vámi vybrané složky.",
+      "saveCanceled": "Uložení zrušeno.",
+      "saveFailed": "Uložení se nezdařilo: {e}",
+      "chooseBackupFile": "Vyberte záložní soubor…",
+      "importCanceled": "Import zrušen.",
+      "importWebFileMissing": "Import se nezdařil: Chybí popisovač webového souboru.",
+      "importDone": "Importováno. Deska znovu načtena.",
+      "importFailed": "Import se nezdařil: {e}",
+      "confirmReset": "Klepněte znovu na „Obnovit výchozí nastavení“ pro potvrzení. Varování: tímto se smažou vaše nástěnky.",
+      "resetDone": "Obnovené výchozí desky.",
+      "resetFailed": "Reset selhal: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Open-source AAC aplikace vyvinutá společností Harper Klein Keane. Stránku SpeGen na GitHubu najdete na adrese",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "a webové stránky naleznete na adrese",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licence: GNU General Public License v3.0",
+      "showTutorialAgain": "Znovu zobrazit uvítací tutoriál",
+      "privacyPolicy": "Zásady ochrany osobních údajů"
+    },
+    "feedback": {
+      "title": "Odeslat zpětnou vazbu",
+      "intro": "Našli jste chybu nebo máte požadavek na funkci? Dejte mi vědět! Tento formulář automaticky otevře seznam sledovaných úloh na Spegenově repozitáři GitHub.",
+      "category": "Kategorie problému",
+      "categories": [
+        "Chyba",
+        "Návrh",
+        "Ostatní"
+      ],
+      "header": "Záhlaví / Souhrn",
+      "headerPlaceholder": "Stručně shrňte problém",
+      "details": "Detaily / Tělo",
+      "detailsPlaceholder": "Uveďte kroky k reprodukci chyby nebo rozšíření vaší představy o funkci...",
+      "submitting": "Odesílání...",
+      "submit": "Odeslat zpětnou vazbu",
+      "missingFields": "Prosím, uveďte jak záhlaví, tak i úplné podrobnosti.",
+      "submittingStatus": "Odesílání zpětné vazby...",
+      "submitted": "Zpětná vazba byla úspěšně odeslána! Děkujeme.",
+      "submitFailed": "Nepodařilo se odeslat problém: {msg}",
+      "networkError": "Chyba sítě při odesílání zpětné vazby: {e}"
+    }
+  },
+  "board": {
+    "settings": "Nastavení",
+    "search": "Vyhledávání",
+    "stop": "Zastávka",
+    "keyboard": "Klávesnice",
+    "delete": "Vymazat",
+    "clear": "Jasný",
+    "back": "Zadní",
+    "autocomplete": "Automatické doplňování",
+    "addText": "Přidat text"
+  },
+  "editor": {
+    "title": "REŽIM EDITORA",
+    "addItem": "+ Položka",
+    "addMenu": "+ Nabídka",
+    "deleteMenu": "- Nabídka",
+    "gotoMenu": "Přejít do menu",
+    "applyChanges": "Použít změny",
+    "exit": "Výstup"
+  },
+  "languageDropdown": {
+    "select": "Vybrat…",
+    "searchPlaceholder": "Jazyk vyhledávání"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Pouze typ",
+      "Pouze mluvit",
+      "Obě"
+    ],
+    "addItem": {
+      "title": "Přidat položku do {menuTitle}",
+      "name": "Jméno",
+      "symbol": "Symbol",
+      "folder": "Složka",
+      "folderTargetMenu": "Cílová nabídka složky"
+    },
+    "newMenu": {
+      "title": "Vytvořit novou nabídku",
+      "menuTitle": "Název nabídky",
+      "emptyNote": "Menu je prázdné. Vstupte do něj a pomocí tlačítka „+ Položka“ přidejte položky.",
+      "create": "Vytvořit"
+    },
+    "deleteMenu": {
+      "title": "Smazat nabídku",
+      "hint": "Složky, které otevírají smazanou nabídku, budou také odstraněny.",
+      "delete": "Vymazat"
+    },
+    "gotoMenu": {
+      "title": "Přejít do menu",
+      "hint": "Umožňuje přejít do menu v režimu editoru.",
+      "goTo": "Přejít na"
+    },
+    "unsaved": {
+      "title": "Neuložené změny",
+      "body": "Máte neuložené změny. Chcete je uložit?",
+      "dontSave": "Neukládat",
+      "saveChanges": "Uložit změny"
+    },
+    "pinLock": {
+      "enterTitle": "Zadejte PIN",
+      "lockedHint": "Nastavení a editor jsou uzamčeny.",
+      "pinPlaceholder": "KOLÍK",
+      "unlock": "Odemknout",
+      "forgotPin": "Zapomněli jste PIN?",
+      "incorrectPin": "Nesprávný PIN.",
+      "noQuestions": "Nejsou nastaveny žádné otázky pro obnovení, takže PIN nelze resetovat. Přeinstalujte aplikaci, abyste jej vymazali (tím se smažou všechny nástěnky).",
+      "answerToReset": "Odpověď na reset PINu",
+      "answerHint": "Odpovězte správně na každou otázku (bez rozlišování velkých a malých písmen).",
+      "answerPlaceholder": "Odpověď",
+      "verify": "Ověřit",
+      "answersIncorrect": "Jedna nebo více odpovědí je nesprávných.",
+      "setNewPin": "Nastavit nový PIN",
+      "newPinPlaceholder": "Nový PIN (min. 4 číslice)",
+      "confirmNewPinPlaceholder": "Potvrdit nový PIN",
+      "saveNewPin": "Uložit nový PIN",
+      "pinTooShort": "PIN musí mít alespoň 4 číslice.",
+      "pinsDoNotMatch": "PINy se neshodují."
+    },
+    "colorPicker": {
+      "title": "Vyberte barvu",
+      "hue": "Odstín: {deg}°",
+      "ok": "OK"
+    },
+    "editItem": {
+      "name": "Jméno",
+      "itemLanguage": "Jazyk položky",
+      "language": "Jazyk",
+      "labelsByLanguage": "Štítky podle jazyka",
+      "add": "Přidat",
+      "addLanguage": "+ Přidat jazyk",
+      "image": "Obraz",
+      "loading": "Načítání…",
+      "loadMoreImages": "Načíst další obrázky",
+      "findImages": "Najít obrázky",
+      "chooseCustomImage": "Vyberte vlastní obrázek",
+      "resetToDefault": "Obnovit výchozí nastavení",
+      "audio": "Zvuk",
+      "useItemName": "Použít název položky",
+      "useCustomAudio": "Použít vlastní zvuk",
+      "audioClip": "Zvukový klip",
+      "record": "Záznam",
+      "stop": "Zastávka",
+      "importFromDevice": "Importovat ze zařízení",
+      "preview": "▶ Náhled",
+      "clearAudio": "Čistý zvuk",
+      "renameAudioClip": "Přejmenovat zvukový klip",
+      "clipNamePlaceholder": "Název klipu",
+      "pronHint": "Volitelné: přepište jméno tak, aby bylo vyslovováno správně (např. „MIS-chiv-us“).",
+      "pronPlaceholder": "Výslovnost",
+      "color": "Barva",
+      "custom": "Zvyk",
+      "default": "Výchozí",
+      "editCustomColor": "Upravit vlastní barvu",
+      "pickCustomColor": "Vyberte si vlastní barvu",
+      "ttsBehavior": "Chování TTS",
+      "delete": "Vymazat"
+    }
+  }
+}

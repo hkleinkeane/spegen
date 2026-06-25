@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Tagasi",
+    "next": "Järgmine",
+    "done": "Valmis",
+    "skip": "Jäta vahele",
+    "cancel": "Tühista",
+    "add": "Lisa",
+    "save": "Salvesta",
+    "close": "Sule",
+    "reset": "Lähtesta"
+  },
+  "banners": {
+    "ttsMissingVoice": "{name} ({code}) jaoks pole installitud häält. Räägitakse vaikehäälega.",
+    "ttsInstallAndroid": "Puudutage seadme kõneseadete avamiseks ja seejärel installige selle keele hääleandmed.",
+    "ttsInstallIos": "Selle lisamiseks avage Seaded → Ligipääsetavus → Hääl → Hääled ja laadige hääl alla. Sulgemiseks puudutage.",
+    "ttsInstallWeb": "Hääled tulevad teie operatsioonisüsteemist – lisage selle keele jaoks üks oma süsteemi kõneseadetes. Puudutage sulgemiseks.",
+    "updateAvailable": "Värskendus on saadaval – puuduta uuesti laadimiseks"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Tere tulemast SpeGeni",
+        "body": "See on lühike õpetus, mis õpetab sulle rakenduse põhilist kasutajaliidest. Õpetusele pääsed hiljem juurde seadete alt."
+      },
+      {
+        "title": "Kaustad",
+        "body": "Puudutage kausta, et minna teise menüüsse, kus on rohkem sümboleid ja kaustu. Kaustadel on alati paremas ülanurgas must volt."
+      },
+      {
+        "title": "Sümbolid",
+        "body": "Sümboli lisamiseks sisestuskasti puudutage seda."
+      },
+      {
+        "title": "Sisestusväli",
+        "body": "Sisestusväli on koht, kus saate lauseid koostada. Puudutage seda koostatud lause esitamiseks."
+      },
+      {
+        "title": "Menüürida",
+        "body": "Need on nupud, mis suunavad teid automaatselt vastavasse menüüsse."
+      },
+      {
+        "title": "Staatiliste sõnade rida",
+        "body": "Need terminid on alati ekraani allosas, olenemata sellest, kus te olete. Puudutage ühte, et see kohe ette öelda."
+      },
+      {
+        "title": "Klaviatuur",
+        "body": "Avab dialoogiboksi, mis võimaldab teil seadme klaviatuuri abil sisestuskasti üksusi lisada."
+      },
+      {
+        "title": "Kustuta",
+        "body": "Kustutab sisestuskastist viimase termini."
+      },
+      {
+        "title": "Selge",
+        "body": "Tühjendab sisestuskasti kõik terminid."
+      },
+      {
+        "title": "Stopp",
+        "body": "Peatab kõik parajasti esitatavad tekstist kõneks sünteesimise toimingud."
+      },
+      {
+        "title": "Otsi",
+        "body": "Otsi mis tahes menüüst mis tahes terminit. See juhatab sind terminini, tõstes esile nupud, mida pead vajutama."
+      },
+      {
+        "title": "Seaded",
+        "body": "Avab seadete menüü: tahvli redigeerimine, andmete varundamine, tekstist kõneks teisendamise hääle muutmine ja palju muud."
+      },
+      {
+        "title": "Tagasi",
+        "body": "Saadab teid tagasi eelmisele menüüle, kus olite."
+      },
+      {
+        "title": "Automaatne täitmine",
+        "body": "Asendab menüü automaatse täitmise valikute loendiga, mis õpib teie valitud sümbolitest. Andmed ei lahku kunagi teie seadmest ilma teie nõusolekuta."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Leia sõna/ese",
+    "subtitle": "Otsi igast menüüst ja seejärel klõpsa esiletõstetud nuppudele, et sõna juurde liikuda.",
+    "placeholder": "Tippige sõna…",
+    "noMatches": "Matše pole.",
+    "find": "Leia",
+    "close": "Sule",
+    "finding": "„{word}” leidmiseks puudutage esiletõstetud nuppu",
+    "cancel": "Tühista"
+  },
+  "autocomplete": {
+    "suggestions": "Soovitused",
+    "after": "Pärast \"{word}\"",
+    "none": "Soovitusi pole veel."
+  },
+  "settings": {
+    "title": "Seaded",
+    "apply": "Kandideeri",
+    "done": "Valmis",
+    "tabs": {
+      "display": "Ekraan",
+      "voice": "Hääl",
+      "vocabulary": "Sõnavara",
+      "language": "Keel",
+      "data": "Andmed",
+      "about": "Teave",
+      "feedback": "Tagasiside"
+    },
+    "display": {
+      "preview": "Eelvaade",
+      "staticRowLabel": "Staatiliste sõnade rida",
+      "menuRowLabel": "Menüürida",
+      "previewStaticTerms": [
+        "Jah",
+        "Ei",
+        "Rohkem"
+      ],
+      "previewMenuTitles": [
+        "Inimesed",
+        "Toit",
+        "Toimingud"
+      ],
+      "itemSizing": "Toote suurus",
+      "itemWidthSize": "Elemendi laiuse suurus",
+      "itemHeightSize": "Eseme kõrgus",
+      "gridSize": "Sobita ruudustikule",
+      "gridHint": "Ruudustiku suuruse muutmine: sisestage veerud ja read ning seejärel puudutage nuppu „Rakenda”.",
+      "gridCols": "Veerud",
+      "gridRows": "Read",
+      "gridApply": "Kandideeri",
+      "bordersSpacing": "Äärised ja vahed",
+      "borderWidth": "Äärise laius",
+      "itemPadding": "Eseme täitematerjal",
+      "staticRowStyle": "Staatiliste sõnade rea stiil",
+      "menuRowStyle": "Menüürea stiil",
+      "textSize": "Teksti suurus",
+      "textPadding": "Teksti täiteaine",
+      "buttonShape": "Nupu kuju",
+      "labelPosition": "Sildi asukoht",
+      "top": "Ülemine",
+      "bottom": "Alumine",
+      "skinTone": "Nahatoon",
+      "theme": "Teema",
+      "themeLight": "Valgus",
+      "themeDark": "Tume",
+      "themeSystem": "Süsteem",
+      "themeNote": "Tume režiim muudab rakenduse ekraanide ja menüüde teemasid. Sümbolite nuppude värvid ja suure kontrastsusega režiim jäävad samaks.",
+      "highContrast": "Kõrge kontrastsus",
+      "highContrastHint": "Must taust, valged äärised ja sildid lihtsustatud värvipaletiga esemete piltide jaoks."
+    },
+    "voice": {
+      "speechRate": "Kõnekiirus",
+      "pitch": "Pigi",
+      "pauseBetweenWords": "Paus sõnade vahel",
+      "pauseDuration": "Pausi kestus",
+      "testPhrase": "See on hääleseadete test.",
+      "testVoice": "Testihääl",
+      "translateSentence": "Tõlgi öeldud lauseid",
+      "translateSentenceHint": "Tõlgi kogu lause korraga, et grammatika oleks loomulikum, mitte sõna-sõnalt. Mitte-inglise keelte puhul on see vaikimisi sisse lülitatud. Vajab internetti.",
+      "voiceLabel": "Hääl",
+      "voiceHint": "Valige oma rakenduse keeles kõne jaoks kasutatav hääl. Hääled pakub teie seade või brauser.",
+      "voiceDefault": "Vaikimisi (süsteem)",
+      "noVoices": "Selle keele jaoks ei leitud ühtegi häält.",
+      "openDeviceTts": "Ava seadme TTS-seaded",
+      "ttsOpenFailed": "Seadme TTS-seadeid ei õnnestunud avada: {e}",
+      "resetToDefaults": "Lähtesta vaikesätetele",
+      "resetDone": "Hääl lähtestatakse vaikesätetele."
+    },
+    "vocabulary": {
+      "editorMode": "Redaktorirežiim",
+      "editorModeHint": "Sümbolite ja kaustade redigeerimiseks puudutage neid tahvlil ja kasutage menüüde redigeerimiseks tööriistariba nuppe.",
+      "enableEditorMode": "Redaktorirežiimi lubamine",
+      "staticRow": "Staatiliste sõnade rida",
+      "staticRowHint": "Sõnad on ekraani allosas alati nähtavad, olenemata sellest, kus te rakenduses asute. Järjestuse muutmiseks lohistage ≡.",
+      "addPhrasePlaceholder": "Lisa fraas",
+      "addPhrase": "Lisa",
+      "menuRow": "Menüürida",
+      "menuRowHint": "Tahvli ja peamenüü kasutamisel kuvatakse staatilise rea kohal otse menüü otseteid. Järjestuse muutmiseks lohistage ≡.",
+      "menuRowEmpty": "Reas pole menüüsid.",
+      "addMenuToRow": "Lisa menüü reale",
+      "allMenusInRow": "Kõik menüüd on juba reas olemas."
+    },
+    "language": {
+      "appLanguage": "Rakenduse keel",
+      "appLanguageHint": "Kasutatakse kõne, pildiotsingu ja siltide tõlkimise jaoks. Selle muutmisel laaditakse kõik pildid uuesti.",
+      "translationDisclaimer": "Rakenduse tekst tõlgitakse Google Translate API abil, seega võivad mõned tõlked olla ebatäpsed. Kui märkate viga, palun teatage sellest seadetes oleva tagasiside nupu abil – lisage keel ja soovitatud parandus.",
+      "autoTranslate": "Automaattõlge",
+      "translateUi": "Tõlke rakenduse liides",
+      "translateUiHint": "Kuva menüüd, nupud ja sätted rakenduse keeles.",
+      "translateLabels": "Tõlgi tahvli ja menüüsilte",
+      "translateLabelsHint": "Sümbolite siltide, menüünimede ja staatiliste sõnade rea automaatne tõlkimine rakenduse keelde. Vajab internetti.",
+      "multilingual": "Mitmekeelne",
+      "perItemImageLanguage": "Üksuse kohta pildi keel",
+      "perItemImageLanguageHint": "Laske igal üksusel otsida pilte oma keeles.",
+      "multilingualLabels": "Mitmekeelsed sildid",
+      "multilingualLabelsHint": "Lisa iga üksuse kohta (redigeerimisrežiimis) teiste keelte jaoks täiendavaid tekstisilte. Kui see on lubatud, siis ainult tahvli üksuste siltide automaatne tõlkimine peatub keele vahetamisel (selle asemel kasutatakse käsitsi lisatud silte); staatiliste sõnade rea ja menüüde nimed tõlgitakse endiselt automaatselt.",
+      "spokenLanguages": "Räägitavad keeled",
+      "spokenLanguagesHint": "Keeled, mille vahel saate sisestuskastist vahetada. Rakenduse keel on baaskeel; käsitsi sildistamata üksused tõlgitakse automaatselt kõneks. See funktsioon vajab internetti ja inglise keele puhul seda ei tehta.",
+      "base": "Alus",
+      "addLanguage": "Lisa keel"
+    },
+    "data": {
+      "backupRestore": "Varundamine ja taastamine",
+      "backupRestoreHint": "Ekspordi või impordi kõik tahvlid, sätted, kohandatud pildid ja salvestatud heli ühe varukoopiafailina, mille saad teise seadmesse üle kanda või oma seadme salvestusruumis alles hoida.",
+      "downloadBackup": "Laadi alla varukoopia",
+      "exportBackup": "Ekspordi varukoopia",
+      "saveBackupToDevice": "Salvesta varukoopia seadmesse (vali kaust)",
+      "importBackup": "Impordi varukoopia",
+      "security": "Turvalisus",
+      "securityHint": "Seadete ja redaktori avamiseks on vaja PIN-koodi. Seda saab kasutada tagamaks, et kasutaja ei saa põhiliideses seadeid ilma PIN-koodita muuta. Salvestatakse, kui puudutate nuppu „Rakenda“ või „Valmis“.",
+      "changePin": "Muuda PIN-koodi",
+      "removePin": "Eemalda PIN-kood",
+      "setPin": "PIN-koodi määramine",
+      "recoveryQuestions": "Taastumise küsimused",
+      "recoveryQuestionsHint": "Kasutatakse unustatud PIN-koodi lähtestamiseks. Soovitatav on lisada vähemalt üks. Ilma ühegi lisamiseta saab unustatud PIN-koodi kustutada ainult rakenduse uuesti installimise teel.",
+      "question": "Küsimus",
+      "ownQuestionPlaceholder": "Või kirjutage oma küsimus",
+      "answer": "Vastus",
+      "addQuestion": "+ Lisa küsimus",
+      "pinPlaceholder": "PIN-kood (vähemalt 4 numbrit)",
+      "confirmPinPlaceholder": "Kinnitage PIN-kood",
+      "pinTooShort": "PIN-kood peab olema vähemalt neljakohaline.",
+      "pinsDoNotMatch": "PIN-koodid ei ühti.",
+      "reset": "Lähtesta",
+      "restoreDefaults": "Taasta vaikesätted",
+      "backupFormatNote": ".spegeni varukoopia on tihendatud ZIP-fail, mis hoiab teie tahvleid, sätteid, kohandatud pilte ja salvestatud heli ühes failis. Importimine asendab kõik praegused tahvleid ja sätteid.",
+      "preparingDownload": "Allalaadimise ettevalmistamine…",
+      "backupDownloaded": "Varukoopia on alla laaditud.",
+      "openingShareSheet": "Jagamislehe avamine…",
+      "shareSheetHint": "Varukoopia salvestamiseks kasutage jagamislehte.",
+      "sharingUnavailable": "Jagamine pole saadaval.",
+      "chooseFolder": "Valige kaust, kuhu salvestada…",
+      "savedToFolder": "Salvestatud valitud kausta.",
+      "saveCanceled": "Salvestamine tühistati.",
+      "saveFailed": "Salvestamine ebaõnnestus: {e}",
+      "chooseBackupFile": "Valige varukoopiafail…",
+      "importCanceled": "Importimine tühistati.",
+      "importWebFileMissing": "Importimine ebaõnnestus: veebifaili käepide puudub.",
+      "importDone": "Imporditud. Laud laaditi uuesti.",
+      "importFailed": "Importimine ebaõnnestus: {e}",
+      "confirmReset": "Kinnitamiseks puudutage uuesti nuppu „Taasta vaikesätted”. Hoiatus: see kustutab teie tahvlid.",
+      "resetDone": "Taastatud vaikesätetega tahvlid.",
+      "resetFailed": "Lähtestamine ebaõnnestus: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Harper Klein Keane'i loodud avatud lähtekoodiga AAC-rakendus. SpeGeni GitHubi lehe leiab aadressilt",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": "ja veebilehe leiab aadressilt",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Litsents: GNU Üldine Avalik Litsents v3.0",
+      "showTutorialAgain": "Näita tervitusõpetust uuesti",
+      "privacyPolicy": "Privaatsuspoliitika"
+    },
+    "feedback": {
+      "title": "Esita tagasisidet",
+      "intro": "Leidsid vea või on sul soov mõne funktsiooni kohta? Anna teada! See vorm avab automaatselt jälgimisprobleemi Spegeni GitHubi repositooriumis.",
+      "category": "Probleemi kategooria",
+      "categories": [
+        "Vika",
+        "Soovitus",
+        "Muu"
+      ],
+      "header": "Päis / Kokkuvõte",
+      "headerPlaceholder": "Võtke probleem lühidalt kokku",
+      "details": "Detailid / Kere",
+      "detailsPlaceholder": "Esitage samme vea reprodutseerimiseks või oma funktsiooniidee laiendamiseks...",
+      "submitting": "Esitamine...",
+      "submit": "Esita tagasisidet",
+      "missingFields": "Palun esitage nii päis kui ka kõik üksikasjad.",
+      "submittingStatus": "Tagasiside saatmine...",
+      "submitted": "Tagasiside esitati edukalt! Aitäh.",
+      "submitFailed": "Probleemi esitamine ebaõnnestus: {msg}",
+      "networkError": "Võrgu viga tagasiside esitamisel: {e}"
+    }
+  },
+  "board": {
+    "settings": "Seaded",
+    "search": "Otsi",
+    "stop": "Stopp",
+    "keyboard": "Klaviatuur",
+    "delete": "Kustuta",
+    "clear": "Selge",
+    "back": "Tagasi",
+    "autocomplete": "Automaatne täitmine",
+    "addText": "Lisa tekst"
+  },
+  "editor": {
+    "title": "TOIMETAJA REŽIIM",
+    "addItem": "+ Ese",
+    "addMenu": "+ Menüü",
+    "deleteMenu": "- Menüü",
+    "gotoMenu": "Mine menüüsse",
+    "applyChanges": "Rakenda muudatusi",
+    "exit": "Väljapääs"
+  },
+  "languageDropdown": {
+    "select": "Vali…",
+    "searchPlaceholder": "Otsingukeel"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Ainult tüüp",
+      "Ainult rääkimine",
+      "Mõlemad"
+    ],
+    "addItem": {
+      "title": "Lisa üksus {menuTitle}-desse",
+      "name": "Nimi",
+      "symbol": "Sümbol",
+      "folder": "Kaust",
+      "folderTargetMenu": "Kausta sihtkoha menüü"
+    },
+    "newMenu": {
+      "title": "Loo uus menüü",
+      "menuTitle": "Menüü pealkiri",
+      "emptyNote": "Menüü luuakse tühi. Ava see ja lisa üksustele nuppu \"+ Üksus\".",
+      "create": "Loo"
+    },
+    "deleteMenu": {
+      "title": "Menüü kustutamine",
+      "hint": "Kustutatud menüüd avavad kaustad eemaldatakse samuti.",
+      "delete": "Kustuta"
+    },
+    "gotoMenu": {
+      "title": "Mine menüüsse",
+      "hint": "Võimaldab redaktorirežiimis olles menüüsse hüpata.",
+      "goTo": "Mine aadressile"
+    },
+    "unsaved": {
+      "title": "Salvestamata muudatused",
+      "body": "Teil on salvestamata muudatusi. Kas soovite need salvestada?",
+      "dontSave": "Ära salvesta",
+      "saveChanges": "Salvesta muudatused"
+    },
+    "pinLock": {
+      "enterTitle": "Sisestage PIN-kood",
+      "lockedHint": "Seaded ja redaktor on lukustatud.",
+      "pinPlaceholder": "PIN-kood",
+      "unlock": "Ava",
+      "forgotPin": "Unustasid PIN-koodi?",
+      "incorrectPin": "Vale PIN-kood.",
+      "noQuestions": "Taasteküsimusi pole seatud, seega ei saa PIN-koodi lähtestada. Selle kustutamiseks installige rakendus uuesti (see kustutab kõik tahvlid).",
+      "answerToReset": "PIN-koodi lähtestamise vastus",
+      "answerHint": "Vasta igale küsimusele õigesti (mitte suur- ja väiketähti).",
+      "answerPlaceholder": "Vastus",
+      "verify": "Kinnita",
+      "answersIncorrect": "Üks või mitu vastust on valed.",
+      "setNewPin": "Määrake uus PIN-kood",
+      "newPinPlaceholder": "Uus PIN-kood (vähemalt 4 numbrit)",
+      "confirmNewPinPlaceholder": "Kinnitage uus PIN-kood",
+      "saveNewPin": "Salvesta uus PIN-kood",
+      "pinTooShort": "PIN-kood peab olema vähemalt neljakohaline.",
+      "pinsDoNotMatch": "PIN-koodid ei ühti."
+    },
+    "colorPicker": {
+      "title": "Vali värv",
+      "hue": "Värvitoon: {deg}°",
+      "ok": "Olgu"
+    },
+    "editItem": {
+      "name": "Nimi",
+      "itemLanguage": "Toote keel",
+      "language": "Keel",
+      "labelsByLanguage": "Sildid keele järgi",
+      "add": "Lisa",
+      "addLanguage": "+ Lisa keel",
+      "image": "Pilt",
+      "loading": "Laadimine…",
+      "loadMoreImages": "Laadi rohkem pilte",
+      "findImages": "Leia pilte",
+      "chooseCustomImage": "Valige kohandatud pilt",
+      "resetToDefault": "Lähtesta vaikesätetele",
+      "audio": "Heli",
+      "useItemName": "Kasuta üksuse nime",
+      "useCustomAudio": "Kasutage kohandatud heli",
+      "audioClip": "Heliklipp",
+      "record": "Rekord",
+      "stop": "Stopp",
+      "importFromDevice": "Impordi seadmest",
+      "preview": "▶ Eelvaade",
+      "clearAudio": "Selge heli",
+      "renameAudioClip": "Heliklipi ümbernimetamine",
+      "clipNamePlaceholder": "Klipi nimi",
+      "pronHint": "Valikuline: kirjuta nimi ümber, et see hääldataks õigesti (nt \"MIS-chiv-us\").",
+      "pronPlaceholder": "Hääldus",
+      "color": "Värv",
+      "custom": "Kohandatud",
+      "default": "Vaikimisi",
+      "editCustomColor": "Muuda kohandatud värvi",
+      "pickCustomColor": "Valige kohandatud värv",
+      "ttsBehavior": "TTS-käitumine",
+      "delete": "Kustuta"
+    }
+  }
+}

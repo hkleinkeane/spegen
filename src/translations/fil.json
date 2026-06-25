@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Balik",
+    "next": "Susunod",
+    "done": "Tapos na",
+    "skip": "Laktawan",
+    "cancel": "Kanselahin",
+    "add": "Idagdag",
+    "save": "I-save",
+    "close": "Isara",
+    "reset": "I-reset"
+  },
+  "banners": {
+    "ttsMissingVoice": "Walang naka-install na boses para sa {name} ({code}). Nagsasalita gamit ang default na boses.",
+    "ttsInstallAndroid": "I-tap para buksan ang mga setting ng pagsasalita ng iyong device, pagkatapos ay i-install ang data ng boses para sa wikang ito.",
+    "ttsInstallIos": "Para idagdag ito, buksan ang Mga Setting → Accessibility → Spoken Content → Mga Boses at i-download ang boses. I-tap para i-dismiss.",
+    "ttsInstallWeb": "Ang mga boses ay nagmumula sa iyong operating system — magdagdag ng isa para sa wikang ito sa mga setting ng pagsasalita ng iyong system. I-tap para i-dismiss.",
+    "updateAvailable": "May update — i-tap para mag-reload"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Maligayang pagdating sa SpeGen",
+        "body": "Ito ay isang maikling tutorial upang ituro sa iyo ang pangunahing UI ng app. Maaari mong ma-access ang tutorial na ito sa ibang pagkakataon mula sa Mga Setting."
+      },
+      {
+        "title": "Mga Folder",
+        "body": "Mag-tap ng folder para pumunta sa ibang menu na may higit pang mga simbolo at folder. Ang mga folder ay laging may itim na fold sa kanang sulok sa itaas."
+      },
+      {
+        "title": "Mga Simbolo",
+        "body": "Pindutin ang isang simbolo upang idagdag ito sa input box."
+      },
+      {
+        "title": "Kahon ng Pag-input",
+        "body": "Ang input box ay kung saan ka bumubuo ng mga pangungusap. I-tap ito upang patugtugin ang nabuo na pangungusap."
+      },
+      {
+        "title": "Hilera ng Menu",
+        "body": "Ito ang mga button na awtomatikong magre-redirect sa iyo sa kaugnay na menu."
+      },
+      {
+        "title": "Hilera ng mga Istatikong Salita",
+        "body": "Ang mga terminong ito ay palaging nasa ibaba ng screen kahit nasaan ka man. Pindutin ang isa para agad itong bigkasin."
+      },
+      {
+        "title": "Keyboard",
+        "body": "Magbubukas ng dialog na magbibigay-daan sa iyong gamitin ang keyboard ng iyong device para magdagdag ng mga item sa input box."
+      },
+      {
+        "title": "Burahin",
+        "body": "Binubura ang huling termino sa input box."
+      },
+      {
+        "title": "I-clear",
+        "body": "Nililimas ang input box ng lahat ng termino."
+      },
+      {
+        "title": "Huminto",
+        "body": "Pinapatigil ang anumang kasalukuyang nagpe-play na text-to-speech."
+      },
+      {
+        "title": "Maghanap",
+        "body": "Maghanap ng anumang termino sa anumang menu. Gagabayan ka nito papunta sa termino sa pamamagitan ng pag-highlight ng mga buton na kailangan mong pindutin."
+      },
+      {
+        "title": "Mga Setting",
+        "body": "Binubuksan ang menu ng mga setting: pag-eedit ng board, pag-backup ng data, pagpapalit ng text-to-speech na boses, at higit pa."
+      },
+      {
+        "title": "Balik",
+        "body": "Ibabalik ka nito sa dating menu na ginamit mo."
+      },
+      {
+        "title": "Awtomatikong kumpleto",
+        "body": "Pinapalitan ang menu ng isang listahan ng mga opsyon sa autocomplete na natututo mula sa mga simbolong iyong pinili. Hindi kailanman umaalis ang data sa iyong device nang walang pahintulot."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Maghanap ng salita/bagay",
+    "subtitle": "Hanapin sa bawat menu, pagkatapos ay i-click ang mga naka-highlight na button para mag-navigate papunta sa salita.",
+    "placeholder": "Mag-type ng salita…",
+    "noMatches": "Walang tugma.",
+    "find": "Hanapin",
+    "close": "Isara",
+    "finding": "Paghahanap ng “{word}” - i-tap ang naka-highlight na button",
+    "cancel": "Kanselahin"
+  },
+  "autocomplete": {
+    "suggestions": "Mga Mungkahi",
+    "after": "Pagkatapos ng \"{word}\"",
+    "none": "Wala pang mga mungkahi."
+  },
+  "settings": {
+    "title": "Mga Setting",
+    "apply": "Mag-apply",
+    "done": "Tapos na",
+    "tabs": {
+      "display": "Ipakita",
+      "voice": "Boses",
+      "vocabulary": "Bokabularyo",
+      "language": "Wika",
+      "data": "Datos",
+      "about": "Tungkol sa",
+      "feedback": "Feedback"
+    },
+    "display": {
+      "preview": "Preview",
+      "staticRowLabel": "Hilera ng mga istatikong salita",
+      "menuRowLabel": "Hanay ng menu",
+      "previewStaticTerms": [
+        "Oo",
+        "Hindi",
+        "Higit pa"
+      ],
+      "previewMenuTitles": [
+        "Mga tao",
+        "Pagkain",
+        "Mga Aksyon"
+      ],
+      "itemSizing": "Pagsusukat ng item",
+      "itemWidthSize": "Laki ng lapad ng item",
+      "itemHeightSize": "Laki ng taas ng item",
+      "gridSize": "Pagkasyahin sa grid",
+      "gridHint": "I-scale ang laki ng item para magkasya sa isang grid: maglagay ng mga column at row, pagkatapos ay i-tap ang Ilapat.",
+      "gridCols": "Mga Kolonya",
+      "gridRows": "Mga Hilera",
+      "gridApply": "Mag-apply",
+      "bordersSpacing": "Mga hangganan at espasyo",
+      "borderWidth": "Lapad ng hangganan",
+      "itemPadding": "Pag-padding ng item",
+      "staticRowStyle": "Estilo ng hilera ng mga istatikong salita",
+      "menuRowStyle": "Estilo ng hilera ng menu",
+      "textSize": "Laki ng teksto",
+      "textPadding": "Paglalagay ng teksto",
+      "buttonShape": "Hugis ng butones",
+      "labelPosition": "Posisyon ng label",
+      "top": "Itaas",
+      "bottom": "Ibaba",
+      "skinTone": "Kulay ng balat",
+      "theme": "Tema",
+      "themeLight": "Liwanag",
+      "themeDark": "Madilim",
+      "themeSystem": "Sistema",
+      "themeNote": "Binabago ng mga tema ng dark mode ang mga screen at menu ng app. Hindi maaapektuhan ang mga kulay ng button ng simbolo at high-contrast mode.",
+      "highContrast": "Mataas na contrast",
+      "highContrastHint": "Itim na background, puting mga border at mga label na may pinasimpleng paleta ng kulay para sa mga larawan ng item."
+    },
+    "voice": {
+      "speechRate": "Bilis ng pagsasalita",
+      "pitch": "Paglalagay",
+      "pauseBetweenWords": "Paghinto sa pagitan ng mga salita",
+      "pauseDuration": "Tagal ng paghinto",
+      "testPhrase": "Ito ay isang pagsubok sa mga setting ng boses.",
+      "testVoice": "Subukan ang boses",
+      "translateSentence": "Isalin ang mga pasalitang pangungusap",
+      "translateSentenceHint": "Isalin ang buong pangungusap nang sabay-sabay para sa mas natural na gramatika, sa halip na salita por salita. Naka-on bilang default para sa mga wikang hindi Ingles. Kailangan ng internet.",
+      "voiceLabel": "Boses",
+      "voiceHint": "Piliin ang boses na gagamitin para sa pagsasalita sa wika ng iyong app. Ang mga boses ay ibinibigay ng iyong device o browser.",
+      "voiceDefault": "Default (sistema)",
+      "noVoices": "Walang nakitang mga boses para sa wikang ito.",
+      "openDeviceTts": "Buksan ang mga setting ng TTS ng device",
+      "ttsOpenFailed": "Hindi mabuksan ang mga setting ng TTS ng device: {e}",
+      "resetToDefaults": "I-reset sa mga default",
+      "resetDone": "Na-reset ang boses sa mga default."
+    },
+    "vocabulary": {
+      "editorMode": "Mode ng editor",
+      "editorModeHint": "I-edit ang mga simbolo at folder sa pamamagitan ng pag-tap sa mga ito sa board at gamitin ang mga button sa toolbar para i-edit ang mga menu.",
+      "enableEditorMode": "Paganahin ang mode ng editor",
+      "staticRow": "Hilera ng mga istatikong salita",
+      "staticRowHint": "Palaging makikita ang mga salita sa ibaba ng screen kahit nasaan ka sa app. I-drag ang ≡ para baguhin ang pagkakasunod-sunod.",
+      "addPhrasePlaceholder": "Magdagdag ng parirala",
+      "addPhrase": "Idagdag",
+      "menuRow": "Hanay ng menu",
+      "menuRowHint": "Mga shortcut sa menu na ipinapakita sa itaas lamang ng static row kapag ginagamit ang board at pangunahing menu. I-drag ang ≡ para muling isaayos.",
+      "menuRowEmpty": "Walang mga menu sa hanay.",
+      "addMenuToRow": "Idagdag ang menu sa hilera",
+      "allMenusInRow": "Nasa hanay na ang lahat ng menu."
+    },
+    "language": {
+      "appLanguage": "Wika ng app",
+      "appLanguageHint": "Ginagamit para sa pagsasalita, paghahanap ng larawan, at pagsasalin ng label. Ang pagbabago nito ay magre-reload ng lahat ng larawan.",
+      "translationDisclaimer": "Ang teksto ng app ay isinasalin gamit ang Google Translate API, kaya maaaring hindi tumpak ang ilang pagsasalin. Kung may makita kang error, pakigamit ang button na Feedback sa Mga Setting para iulat ito — isama ang wika at ang iminungkahing pagwawasto.",
+      "autoTranslate": "Awtomatikong pagsasalin",
+      "translateUi": "Interface ng app na Isalin",
+      "translateUiHint": "Ipakita ang mga menu, button, at setting sa wika ng app.",
+      "translateLabels": "Isalin ang mga label ng board at menu",
+      "translateLabelsHint": "Awtomatikong isinasalin ang mga label ng simbolo, mga pangalan ng menu, at ang hanay ng mga static na salita papunta sa wika ng app. Kailangan ng internet.",
+      "multilingual": "Multilingguwal",
+      "perItemImageLanguage": "Wika ng larawan bawat item",
+      "perItemImageLanguageHint": "Hayaang maghanap ang bawat item ng mga larawan sa sarili nitong wika.",
+      "multilingualLabels": "Mga label na maraming wika",
+      "multilingualLabelsHint": "Magdagdag ng mga karagdagang label ng teksto sa bawat item (sa edit mode) para sa iba pang mga wika. Habang naka-enable, tanging ang mga label ng item sa board ang humihinto sa awtomatikong pagsasalin kapag lumipat ka ng wika (ang iyong mga manu-manong label ang gagamitin); ang mga static na salita sa row at mga pangalan ng menu ay awtomatikong isinasalin pa rin.",
+      "spokenLanguages": "Mga wikang sinasalita",
+      "spokenLanguagesHint": "Mga wikang maaari mong palitan mula sa input box. Ang wika ng app ang base; ang mga item na walang manual na label ay awtomatikong isinasalin para sa pagsasalita. Ang feature na ito ay nangangailangan ng internet at nilalaktawan para sa Ingles.",
+      "base": "Base",
+      "addLanguage": "Magdagdag ng wika"
+    },
+    "data": {
+      "backupRestore": "I-backup at ibalik",
+      "backupRestoreHint": "I-export o i-import ang lahat ng board, setting, custom na larawan, at na-record na audio bilang isang backup file na maaari mong ilipat sa ibang device o itago sa storage ng iyong device.",
+      "downloadBackup": "I-download ang backup",
+      "exportBackup": "I-export ang backup",
+      "saveBackupToDevice": "I-save ang backup sa device (pumili ng folder)",
+      "importBackup": "I-import ang backup",
+      "security": "Seguridad",
+      "securityHint": "Kinakailangan ang PIN para mabuksan ang Mga Setting at ang editor. Magagamit ito para matiyak na hindi mae-edit ng user ang mga setting nang walang PIN kapag nasa pangunahing interface. Mase-save ito kapag na-tap mo ang Ilapat o Tapos na.",
+      "changePin": "Baguhin ang PIN",
+      "removePin": "Alisin ang PIN",
+      "setPin": "Magtakda ng PIN",
+      "recoveryQuestions": "Mga tanong sa pagbawi",
+      "recoveryQuestionsHint": "Ginagamit upang i-reset ang isang nakalimutang PIN. Inirerekomenda na magdagdag ng kahit isa. Kung wala nito, ang isang nakalimutang PIN ay maaari lamang mabura sa pamamagitan ng muling pag-install ng app.",
+      "question": "Tanong",
+      "ownQuestionPlaceholder": "O kaya i-type ang sarili mong tanong",
+      "answer": "Sagot",
+      "addQuestion": "+ Magdagdag ng tanong",
+      "pinPlaceholder": "PIN (minimum na 4 na numero)",
+      "confirmPinPlaceholder": "Kumpirmahin ang PIN",
+      "pinTooShort": "Ang PIN ay dapat na hindi bababa sa 4 na digit.",
+      "pinsDoNotMatch": "Hindi magkatugma ang mga PIN.",
+      "reset": "I-reset",
+      "restoreDefaults": "Ibalik ang mga default",
+      "backupFormatNote": "Ang .spegen backup ay isang naka-compress na ZIP na naglalaman ng iyong mga board, setting, custom na larawan, at na-record na audio sa isang file. Ang pag-import ay papalitan ang lahat ng kasalukuyang board at setting.",
+      "preparingDownload": "Inihahanda ang pag-download…",
+      "backupDownloaded": "Na-download na ang backup.",
+      "openingShareSheet": "Binubuksan ang share sheet…",
+      "shareSheetHint": "Gamitin ang share sheet para i-save ang iyong backup.",
+      "sharingUnavailable": "Hindi available ang pagbabahagi.",
+      "chooseFolder": "Pumili ng folder para i-save…",
+      "savedToFolder": "Na-save sa folder na iyong pinili.",
+      "saveCanceled": "Nakansela ang pag-save.",
+      "saveFailed": "Nabigo ang pag-save: {e}",
+      "chooseBackupFile": "Pumili ng backup file…",
+      "importCanceled": "Nakansela ang pag-import.",
+      "importWebFileMissing": "Nabigo ang pag-import: Nawawala ang web file handle.",
+      "importDone": "Inangkat. Na-reload ang board.",
+      "importFailed": "Nabigo ang pag-import: {e}",
+      "confirmReset": "Pindutin muli ang \"Ibalik ang mga default\" para kumpirmahin. Babala: mabubura nito ang iyong mga board.",
+      "resetDone": "Naibalik ang mga default na board.",
+      "resetFailed": "Nabigo ang pag-reset: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Isang open-source na AAC app na binuo ni Harper Klein Keane. Makikita ang pahina ng SpeGen sa GitHub sa",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", at ang website ay matatagpuan sa",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Lisensya: Lisensya ng Pangkalahatang Pampublikong GNU v3.0",
+      "showTutorialAgain": "Ipakita muli ang tutorial sa pagtanggap",
+      "privacyPolicy": "Patakaran sa Pagkapribado"
+    },
+    "feedback": {
+      "title": "Magsumite ng Feedback",
+      "intro": "May nakitang bug o may kahilingan para sa feature? Ipaalam mo sa akin! Awtomatikong magbubukas ang form na ito ng isyu sa pagsubaybay sa GitHub repository ng Spegen.",
+      "category": "Kategorya ng Isyu",
+      "categories": [
+        "Surot",
+        "Mungkahi",
+        "Iba pa"
+      ],
+      "header": "Pamagat / Buod",
+      "headerPlaceholder": "Ibuod nang maikli ang isyu",
+      "details": "Mga Detalye / Katawan",
+      "detailsPlaceholder": "Magbigay ng mga hakbang upang muling kopyahin ang bug o palawakin ang iyong ideya sa tampok...",
+      "submitting": "Isinusumite...",
+      "submit": "Magsumite ng Feedback",
+      "missingFields": "Mangyaring magbigay ng parehong header at kumpletong detalye.",
+      "submittingStatus": "Nagsusumite ng feedback...",
+      "submitted": "Matagumpay na naisumite ang feedback! Salamat.",
+      "submitFailed": "Nabigong isumite ang isyu: {msg}",
+      "networkError": "Error sa network sa pagsusumite ng feedback: {e}"
+    }
+  },
+  "board": {
+    "settings": "Mga Setting",
+    "search": "Maghanap",
+    "stop": "Huminto",
+    "keyboard": "Keyboard",
+    "delete": "Burahin",
+    "clear": "I-clear",
+    "back": "Balik",
+    "autocomplete": "Awtomatikong kumpleto",
+    "addText": "Magdagdag ng teksto"
+  },
+  "editor": {
+    "title": "MODE NG EDITOR",
+    "addItem": "+ Aytem",
+    "addMenu": "+ Menu",
+    "deleteMenu": "- Menu",
+    "gotoMenu": "Pumunta sa Menu",
+    "applyChanges": "Ilapat ang mga Pagbabago",
+    "exit": "Lumabas"
+  },
+  "languageDropdown": {
+    "select": "Piliin…",
+    "searchPlaceholder": "Wika ng paghahanap"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "I-type lamang",
+      "Magsalita lamang",
+      "Pareho"
+    ],
+    "addItem": {
+      "title": "Idagdag ang aytem sa {menuTitle}",
+      "name": "Pangalan",
+      "symbol": "Simbolo",
+      "folder": "Folder",
+      "folderTargetMenu": "Menu ng target na folder"
+    },
+    "newMenu": {
+      "title": "Gumawa ng bagong menu",
+      "menuTitle": "Pamagat ng Menu",
+      "emptyNote": "Walang laman ang menu. Ilagay ito at gamitin ang \"+ Item\" para magdagdag ng mga item.",
+      "create": "Gumawa"
+    },
+    "deleteMenu": {
+      "title": "Magbura ng menu",
+      "hint": "Aalisin din ang mga folder na nagbubukas ng tinanggal na menu.",
+      "delete": "Burahin"
+    },
+    "gotoMenu": {
+      "title": "Pumunta sa isang menu",
+      "hint": "Nagbibigay-daan sa iyong lumipat sa isang menu habang nasa editor mode.",
+      "goTo": "Pumunta sa"
+    },
+    "unsaved": {
+      "title": "Mga Hindi Na-save na Pagbabago",
+      "body": "Mayroon kang mga hindi pa nase-save na pagbabago. Gusto mo bang i-save ang mga ito?",
+      "dontSave": "Huwag I-save",
+      "saveChanges": "I-save ang mga Pagbabago"
+    },
+    "pinLock": {
+      "enterTitle": "Ilagay ang PIN",
+      "lockedHint": "Naka-lock ang mga setting at ang editor.",
+      "pinPlaceholder": "PIN",
+      "unlock": "I-unlock",
+      "forgotPin": "Nakalimutan ang PIN?",
+      "incorrectPin": "Maling PIN.",
+      "noQuestions": "Walang nakatakdang mga tanong sa pagbawi, kaya hindi maaaring i-reset ang PIN. I-install muli ang app para i-clear ito (buburahin nito ang lahat ng board).",
+      "answerToReset": "Sagot para i-reset ang PIN",
+      "answerHint": "Sagutin nang tama ang bawat tanong (hindi case-sensitive).",
+      "answerPlaceholder": "Sagot",
+      "verify": "I-verify",
+      "answersIncorrect": "Isa o higit pang mga sagot ay mali.",
+      "setNewPin": "Magtakda ng bagong PIN",
+      "newPinPlaceholder": "Bagong PIN (minimum na 4 na digit)",
+      "confirmNewPinPlaceholder": "Kumpirmahin ang bagong PIN",
+      "saveNewPin": "I-save ang bagong PIN",
+      "pinTooShort": "Ang PIN ay dapat na hindi bababa sa 4 na digit.",
+      "pinsDoNotMatch": "Hindi magkatugma ang mga PIN."
+    },
+    "colorPicker": {
+      "title": "Pumili ng kulay",
+      "hue": "Kulay: {deg}°",
+      "ok": "Sige"
+    },
+    "editItem": {
+      "name": "Pangalan",
+      "itemLanguage": "Wika ng item",
+      "language": "Wika",
+      "labelsByLanguage": "Mga label ayon sa wika",
+      "add": "Idagdag",
+      "addLanguage": "+ Magdagdag ng wika",
+      "image": "Larawan",
+      "loading": "Naglo-load…",
+      "loadMoreImages": "Magkarga ng mas maraming larawan",
+      "findImages": "Maghanap ng mga larawan",
+      "chooseCustomImage": "Pumili ng pasadyang larawan",
+      "resetToDefault": "I-reset sa default",
+      "audio": "Tunog",
+      "useItemName": "Gamitin ang pangalan ng item",
+      "useCustomAudio": "Gumamit ng pasadyang audio",
+      "audioClip": "Audio clip",
+      "record": "Itala",
+      "stop": "Huminto",
+      "importFromDevice": "Mag-import mula sa device",
+      "preview": "▶ Paunang Pagtingin",
+      "clearAudio": "Malinaw na audio",
+      "renameAudioClip": "Palitan ang pangalan ng audio clip",
+      "clipNamePlaceholder": "Pangalan ng klip",
+      "pronHint": "Opsyonal: muling baybayin ang pangalan upang mabigkas ito nang tama (hal. \"MIS-chiv-us\").",
+      "pronPlaceholder": "Pagbigkas",
+      "color": "Kulay",
+      "custom": "Pasadya",
+      "default": "Default",
+      "editCustomColor": "I-edit ang pasadyang kulay",
+      "pickCustomColor": "Pumili ng pasadyang kulay",
+      "ttsBehavior": "Pag-uugali ng TTS",
+      "delete": "Burahin"
+    }
+  }
+}

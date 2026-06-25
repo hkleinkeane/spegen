@@ -1,0 +1,398 @@
+{
+  "common": {
+    "back": "Atpakaļ",
+    "next": "Nākamais",
+    "done": "Pabeigts",
+    "skip": "Izlaist",
+    "cancel": "Atcelt",
+    "add": "Pievienot",
+    "save": "Saglabāt",
+    "close": "Aizvērt",
+    "reset": "Atiestatīt"
+  },
+  "banners": {
+    "ttsMissingVoice": "Nav instalētas balss {name} ({code}). Runāšana ar noklusējuma balsi.",
+    "ttsInstallAndroid": "Pieskarieties, lai atvērtu ierīces runas iestatījumus, un pēc tam instalējiet balss datus šai valodai.",
+    "ttsInstallIos": "Lai to pievienotu, atveriet Iestatījumi → Pieejamība → Runātais saturs → Balsis un lejupielādējiet balsi. Pieskarieties, lai aizvērtu.",
+    "ttsInstallWeb": "Balsis nāk no jūsu operētājsistēmas — pievienojiet šai valodai balsi sistēmas runas iestatījumos. Pieskarieties, lai aizvērtu.",
+    "updateAvailable": "Pieejams atjauninājums — pieskarieties, lai atkārtoti ielādētu"
+  },
+  "tutorial": {
+    "slides": [
+      {
+        "title": "Laipni lūdzam SpeGen",
+        "body": "Šī ir īsa pamācība, kas iemācīs jums lietotnes pamata lietotāja saskarni. Šai pamācībai varēsiet piekļūt vēlāk sadaļā Iestatījumi."
+      },
+      {
+        "title": "Mapes",
+        "body": "Pieskarieties mapei, lai atvērtu citu izvēlni ar citiem simboliem un mapēm. Mapēm vienmēr ir melna locījuma josla augšējā labajā stūrī."
+      },
+      {
+        "title": "Simboli",
+        "body": "Pieskarieties simbolam, lai to pievienotu ievades lodziņam."
+      },
+      {
+        "title": "Ievades lodziņš",
+        "body": "Ievades lodziņš ir vieta, kur sastādāt teikumus. Pieskarieties tam, lai atskaņotu izveidoto teikumu."
+      },
+      {
+        "title": "Izvēlnes rinda",
+        "body": "Tās ir pogas, kas automātiski novirza jūs uz saistīto izvēlni."
+      },
+      {
+        "title": "Statisko vārdu rinda",
+        "body": "Šie termini vienmēr ir ekrāna apakšdaļā neatkarīgi no tā, kur atrodaties. Pieskarieties vienam no tiem, lai to uzreiz izrunātu."
+      },
+      {
+        "title": "Tastatūra",
+        "body": "Atver dialoglodziņu, kurā varat izmantot ierīces tastatūru, lai pievienotu vienumus ievades lodziņam."
+      },
+      {
+        "title": "Dzēst",
+        "body": "Dzēš pēdējo terminu ievades lodziņā."
+      },
+      {
+        "title": "Skaidrs",
+        "body": "Notīra ievades lodziņu no visiem terminiem."
+      },
+      {
+        "title": "Apstāties",
+        "body": "Aptur jebkuru pašlaik atskaņojamo teksta pārvēršanu runā."
+      },
+      {
+        "title": "Meklēt",
+        "body": "Meklējiet jebkuru terminu jebkurā izvēlnē. Tas jūs aizvedīs līdz terminam, izceļot pogas, kas jānospiež."
+      },
+      {
+        "title": "Iestatījumi",
+        "body": "Atver iestatījumu izvēlni: tāfeles rediģēšana, datu dublēšana, teksta pārveidošanas runā balss maiņa un citas darbības."
+      },
+      {
+        "title": "Atpakaļ",
+        "body": "Atgriež jūs iepriekšējā izvēlnē, kurā bijāt."
+      },
+      {
+        "title": "Automātiskā pabeigšana",
+        "body": "Aizstāj izvēlni ar automātiskās pabeigšanas opciju sarakstu, kas mācās no jūsu atlasītajiem simboliem. Dati nekad neatstāj jūsu ierīci bez jūsu piekrišanas."
+      }
+    ]
+  },
+  "wordFinder": {
+    "title": "Atrast vārdu/vienumu",
+    "subtitle": "Meklējiet katrā izvēlnē un pēc tam noklikšķiniet uz iezīmētajām pogām, lai pārietu uz vārdu.",
+    "placeholder": "Ierakstiet vārdu…",
+    "noMatches": "Nav atbilstību.",
+    "find": "Atrast",
+    "close": "Aizvērt",
+    "finding": "Atrodot “{word}”, pieskarieties iezīmētajai pogai",
+    "cancel": "Atcelt"
+  },
+  "autocomplete": {
+    "suggestions": "Ieteikumi",
+    "after": "Pēc \"{word}\"",
+    "none": "Vēl nav ieteikumu."
+  },
+  "settings": {
+    "title": "Iestatījumi",
+    "apply": "Pieteikties",
+    "done": "Pabeigts",
+    "tabs": {
+      "display": "Reklāmas displejs",
+      "voice": "Balss",
+      "vocabulary": "Vārdnīca",
+      "language": "Valoda",
+      "data": "Dati",
+      "about": "Par mums",
+      "feedback": "Atsauksmes"
+    },
+    "display": {
+      "preview": "Priekšskatījums",
+      "staticRowLabel": "Statisko vārdu rinda",
+      "menuRowLabel": "Izvēlnes rinda",
+      "previewStaticTerms": [
+        "Jā",
+        "Nē",
+        "Vairāk"
+      ],
+      "previewMenuTitles": [
+        "Cilvēki",
+        "Ēdiens",
+        "Darbības"
+      ],
+      "itemSizing": "Preces izmēri",
+      "itemWidthSize": "Preces platuma izmērs",
+      "itemHeightSize": "Preces augstuma izmērs",
+      "gridSize": "Pielāgot režģim",
+      "gridHint": "Pielāgot elementa izmēru režģim: ievadiet kolonnas un rindas un pēc tam pieskarieties “Lietot”.",
+      "gridCols": "Kolonnas",
+      "gridRows": "Rindas",
+      "gridApply": "Pieteikties",
+      "bordersSpacing": "Robežas un atstarpes",
+      "borderWidth": "Apmales platums",
+      "itemPadding": "Priekšmeta papildināšana",
+      "staticRowStyle": "Statisko vārdu rindas stils",
+      "menuRowStyle": "Izvēlnes rindas stils",
+      "textSize": "Teksta lielums",
+      "textPadding": "Teksta papildināšana",
+      "buttonShape": "Pogas forma",
+      "labelPosition": "Etiķetes pozīcija",
+      "top": "Augšā",
+      "bottom": "Apakšā",
+      "skinTone": "Ādas tonis",
+      "theme": "Tēma",
+      "themeLight": "Gaisma",
+      "themeDark": "Tumšs",
+      "themeSystem": "Sistēma",
+      "themeNote": "Tumšais režīms maina lietotnes ekrānu un izvēļņu tēmas. Simbolu pogu krāsas un augsta kontrasta režīms netiek ietekmēti.",
+      "highContrast": "Augsts kontrasts",
+      "highContrastHint": "Melns fons, baltas apmales un etiķetes ar vienkāršotu krāsu paleti preču attēliem."
+    },
+    "voice": {
+      "speechRate": "Runas ātrums",
+      "pitch": "Piķis",
+      "pauseBetweenWords": "Pauze starp vārdiem",
+      "pauseDuration": "Pauzes ilgums",
+      "testPhrase": "Šis ir balss iestatījumu tests.",
+      "testVoice": "Testa balss",
+      "translateSentence": "Tulkot runātus teikumus",
+      "translateSentenceHint": "Tulkojiet visu teikumu uzreiz, lai gramatika būtu dabiskāka, nevis vārds vārdā. Pēc noklusējuma ieslēgts valodām, kas nav angļu valoda. Nepieciešams internets.",
+      "voiceLabel": "Balss",
+      "voiceHint": "Izvēlieties balsi, kas tiks izmantota runai jūsu lietotnes valodā. Balsis nodrošina jūsu ierīce vai pārlūkprogramma.",
+      "voiceDefault": "Noklusējuma (sistēma)",
+      "noVoices": "Šajā valodā nav atrastas balsis.",
+      "openDeviceTts": "Atvērt ierīces TTS iestatījumus",
+      "ttsOpenFailed": "Nevarēja atvērt ierīces TTS iestatījumus: {e}",
+      "resetToDefaults": "Atiestatīt uz noklusējuma iestatījumiem",
+      "resetDone": "Balss atiestatīšana uz noklusējuma iestatījumiem."
+    },
+    "vocabulary": {
+      "editorMode": "Redaktora režīms",
+      "editorModeHint": "Rediģējiet simbolus un mapes, pieskaroties tiem uz tāfeles, un izmantojiet rīkjoslas pogas, lai rediģētu izvēlnes.",
+      "enableEditorMode": "Iespējot redaktora režīmu",
+      "staticRow": "Statisko vārdu rinda",
+      "staticRowHint": "Vārdi vienmēr ir redzami ekrāna apakšdaļā neatkarīgi no tā, kur lietotnē atrodaties. Velciet ≡, lai mainītu secību.",
+      "addPhrasePlaceholder": "Pievienot frāzi",
+      "addPhrase": "Pievienot",
+      "menuRow": "Izvēlnes rinda",
+      "menuRowHint": "Izvēlnes īsinājumtaustiņi, kas tiek rādīti tieši virs statiskās rindas, izmantojot tāfeli un galveno izvēlni. Velciet ≡, lai mainītu secību.",
+      "menuRowEmpty": "Rindā nav izvēļņu.",
+      "addMenuToRow": "Pievienot izvēlni rindai",
+      "allMenusInRow": "Visas izvēlnes jau ir rindā."
+    },
+    "language": {
+      "appLanguage": "Lietotnes valoda",
+      "appLanguageHint": "Izmanto runai, attēlu meklēšanai un etiķešu tulkošanai. Mainot šo iestatījumu, visi attēli tiek atkārtoti ielādēti.",
+      "translationDisclaimer": "Lietotnes teksts tiek tulkots, izmantojot Google Translate API, tāpēc daži tulkojumi var būt neprecīzi. Ja pamanāt kļūdu, lūdzu, izmantojiet pogu “Atsauksmes” sadaļā “Iestatījumi”, lai par to ziņotu, norādot valodu un ieteikto labojumu.",
+      "autoTranslate": "Automātiskā tulkošana",
+      "translateUi": "Tulkotāja lietotnes saskarne",
+      "translateUiHint": "Rādīt izvēlnes, pogas un iestatījumus lietotnes valodā.",
+      "translateLabels": "Tulkot tāfeles un izvēļņu nosaukumus",
+      "translateLabelsHint": "Automātiski tulkot simbolu nosaukumus, izvēļņu nosaukumus un statisko vārdu rindu lietotnes valodā. Nepieciešams internets.",
+      "multilingual": "Daudzvalodu",
+      "perItemImageLanguage": "Katra elementa attēla valoda",
+      "perItemImageLanguageHint": "Ļaujiet katram vienumam meklēt attēlus savā valodā.",
+      "multilingualLabels": "Daudzvalodu etiķetes",
+      "multilingualLabelsHint": "Pievienojiet papildu teksta etiķetes katram vienumam (rediģēšanas režīmā) citām valodām. Ja šī opcija ir iespējota, tikai paneļa vienumu etiķešu automātiskā tulkošana tiek pārtraukta, mainot valodu (tā vietā tiek izmantotas manuāli pievienotās etiķetes); statiskie vārdi, rindu un izvēļņu nosaukumi, joprojām tiek tulkoti automātiski.",
+      "spokenLanguages": "Runātās valodas",
+      "spokenLanguagesHint": "Valodas, starp kurām var pārslēgties ievades lodziņā. Lietotnes valoda ir pamatvaloda; vienumi bez manuālas etiķetes tiek automātiski tulkoti runas formātā. Šai funkcijai ir nepieciešams internets, un angļu valodas gadījumā tā netiek izmantota.",
+      "base": "Bāze",
+      "addLanguage": "Pievienot valodu"
+    },
+    "data": {
+      "backupRestore": "Dublēšana un atjaunošana",
+      "backupRestoreHint": "Eksportējiet vai importējiet visus dēļus, iestatījumus, pielāgotos attēlus un ierakstīto audio kā vienu dublējuma failu, ko var pārsūtīt uz citu ierīci vai saglabāt savas ierīces krātuvē.",
+      "downloadBackup": "Lejupielādēt dublējumu",
+      "exportBackup": "Eksportēt dublējumu",
+      "saveBackupToDevice": "Saglabāt dublējumu ierīcē (izvēlieties mapi)",
+      "importBackup": "Importēt dublējumu",
+      "security": "Drošība",
+      "securityHint": "Lai atvērtu iestatījumus un redaktoru, nepieciešams PIN kods. To var izmantot, lai nodrošinātu, ka lietotājs galvenajā saskarnē nevar rediģēt iestatījumus bez PIN koda. Saglabāts, pieskaroties pogai “Lietot” vai “Gatavs”.",
+      "changePin": "Mainīt PIN kodu",
+      "removePin": "Noņemt PIN kodu",
+      "setPin": "Iestatiet PIN kodu",
+      "recoveryQuestions": "Atveseļošanās jautājumi",
+      "recoveryQuestionsHint": "Izmanto aizmirsta PIN koda atiestatīšanai. Ieteicams pievienot vismaz vienu. Bez neviena PIN koda aizmirstu PIN kodu var notīrīt, tikai atkārtoti instalējot lietotni.",
+      "question": "Jautājums",
+      "ownQuestionPlaceholder": "Vai arī ierakstiet savu jautājumu",
+      "answer": "Atbilde",
+      "addQuestion": "+ Pievienot jautājumu",
+      "pinPlaceholder": "PIN (vismaz 4 cipari)",
+      "confirmPinPlaceholder": "Apstiprināt PIN kodu",
+      "pinTooShort": "PIN kodam jābūt vismaz 4 cipariem.",
+      "pinsDoNotMatch": "PIN kodi nesakrīt.",
+      "reset": "Atiestatīt",
+      "restoreDefaults": "Atjaunot noklusējuma iestatījumus",
+      "backupFormatNote": ".spegen dublējuma fails ir saspiests ZIP fails, kurā vienā failā ir jūsu dēļi, iestatījumi, pielāgotie attēli un ierakstītais audio. Importēšana aizstāj visus pašreizējos dēļus un iestatījumus.",
+      "preparingDownload": "Notiek lejupielādes sagatavošana…",
+      "backupDownloaded": "Dublējums lejupielādēts.",
+      "openingShareSheet": "Atver kopīgošanas lapu…",
+      "shareSheetHint": "Izmantojiet koplietošanas lapu, lai saglabātu dublējumu.",
+      "sharingUnavailable": "Kopīgošana nav pieejama.",
+      "chooseFolder": "Izvēlieties mapi, kurā saglabāt…",
+      "savedToFolder": "Saglabāts jūsu izvēlētajā mapē.",
+      "saveCanceled": "Saglabāšana atcelta.",
+      "saveFailed": "Saglabāšana neizdevās: {e}",
+      "chooseBackupFile": "Izvēlieties dublējuma failu…",
+      "importCanceled": "Importēšana atcelta.",
+      "importWebFileMissing": "Importēšana neizdevās: trūkst tīmekļa faila turiņa.",
+      "importDone": "Importēts. Dēlis ir atkārtoti ielādēts.",
+      "importFailed": "Importēšana neizdevās: {e}",
+      "confirmReset": "Vēlreiz pieskarieties “Atjaunot noklusējuma iestatījumus”, lai apstiprinātu. Brīdinājums: tas izdzēsīs jūsu dēļus.",
+      "resetDone": "Atjaunotas noklusējuma dēļi.",
+      "resetFailed": "Atiestatīšana neizdevās: {e}"
+    },
+    "about": {
+      "appName": "SpeGen",
+      "intro": "Atvērtā koda AAC lietotne, ko izstrādājusi Harper Klein Keane. SpeGen GitHub lapu var atrast šeit:",
+      "githubLabel": "hkleinkeane.github.io/spegen",
+      "githubUrl": "https://hkleinkeane.github.io/spegen/",
+      "websiteIntro": ", un tīmekļa vietni var atrast vietnē",
+      "websiteLabel": "spegen.vercel.app",
+      "websiteUrl": "https://spegen.vercel.app",
+      "end": ".",
+      "license": "Licence: GNU Vispārējā publiskā licence v3.0",
+      "showTutorialAgain": "Vēlreiz rādīt iepazīšanās pamācību",
+      "privacyPolicy": "Privātuma politika"
+    },
+    "feedback": {
+      "title": "Iesniegt atsauksmes",
+      "intro": "Atradi kļūdu vai vēlies funkciju? Paziņo man! Šī veidlapa automātiski atvērs izsekošanas problēmu Spegen GitHub repozitorijā.",
+      "category": "Problēmas kategorija",
+      "categories": [
+        "Kļūda",
+        "Ieteikums",
+        "Citi"
+      ],
+      "header": "Galvene/kopsavilkums",
+      "headerPlaceholder": "Īsumā apkopojiet problēmu",
+      "details": "Detaļas / Korpuss",
+      "detailsPlaceholder": "Sniedziet darbības, lai atkārtotu kļūdu vai paplašinātu savu funkciju ideju...",
+      "submitting": "Iesniegšana...",
+      "submit": "Iesniegt atsauksmes",
+      "missingFields": "Lūdzu, norādiet gan galveni, gan pilnu informāciju.",
+      "submittingStatus": "Notiek atsauksmju iesniegšana...",
+      "submitted": "Atsauksme veiksmīgi iesniegta! Paldies.",
+      "submitFailed": "Neizdevās iesniegt problēmu: {msg}",
+      "networkError": "Tīkla kļūda, iesniedzot atsauksmi: {e}"
+    }
+  },
+  "board": {
+    "settings": "Iestatījumi",
+    "search": "Meklēt",
+    "stop": "Apstāties",
+    "keyboard": "Tastatūra",
+    "delete": "Dzēst",
+    "clear": "Skaidrs",
+    "back": "Atpakaļ",
+    "autocomplete": "Automātiskā pabeigšana",
+    "addText": "Pievienot tekstu"
+  },
+  "editor": {
+    "title": "REDAKTORA REŽĪMS",
+    "addItem": "+ Prece",
+    "addMenu": "+ Izvēlne",
+    "deleteMenu": "- Izvēlne",
+    "gotoMenu": "Atvērt izvēlni",
+    "applyChanges": "Lietot izmaiņas",
+    "exit": "Izeja"
+  },
+  "languageDropdown": {
+    "select": "Izvēlieties…",
+    "searchPlaceholder": "Meklēšanas valoda"
+  },
+  "dialogs": {
+    "ttsTypeLabels": [
+      "Tikai rakstīt",
+      "Tikai runāt",
+      "Abi"
+    ],
+    "addItem": {
+      "title": "Pievienot vienumu {menuTitle}",
+      "name": "Vārds",
+      "symbol": "Simbols",
+      "folder": "Mape",
+      "folderTargetMenu": "Mapes mērķa izvēlne"
+    },
+    "newMenu": {
+      "title": "Izveidot jaunu ēdienkarti",
+      "menuTitle": "Izvēlnes nosaukums",
+      "emptyNote": "Izvēlne tiek izveidota tukša. Ievadiet to un izmantojiet \"+ Vienums\", lai pievienotu vienumus.",
+      "create": "Izveidot"
+    },
+    "deleteMenu": {
+      "title": "Dzēst ēdienkarti",
+      "hint": "Mapes, kas atver dzēstu izvēlni, arī tiks noņemtas.",
+      "delete": "Dzēst"
+    },
+    "gotoMenu": {
+      "title": "Dodieties uz izvēlni",
+      "hint": "Ļauj pāriet uz izvēlni redaktora režīmā.",
+      "goTo": "Iet uz"
+    },
+    "unsaved": {
+      "title": "Nesaglabātās izmaiņas",
+      "body": "Jums ir nesaglabātas izmaiņas. Vai vēlaties tās saglabāt?",
+      "dontSave": "Nesaglabāt",
+      "saveChanges": "Saglabāt izmaiņas"
+    },
+    "pinLock": {
+      "enterTitle": "Ievadiet PIN kodu",
+      "lockedHint": "Iestatījumi un redaktors ir bloķēti.",
+      "pinPlaceholder": "PIN kods",
+      "unlock": "Atbloķēt",
+      "forgotPin": "Aizmirsāt PIN kodu?",
+      "incorrectPin": "Nepareizs PIN kods.",
+      "noQuestions": "Nav iestatīti atkopšanas jautājumi, tāpēc PIN kodu nevar atiestatīt. Lai to notīrītu, atkārtoti instalējiet lietotni (tas izdzēsīs visus dēļus).",
+      "answerToReset": "Atbilde uz PIN atiestatīšanu",
+      "answerHint": "Atbildiet uz katru jautājumu pareizi (neņemot vērā reģistrjutīgus burtus).",
+      "answerPlaceholder": "Atbilde",
+      "verify": "Pārbaudīt",
+      "answersIncorrect": "Viena vai vairākas atbildes ir nepareizas.",
+      "setNewPin": "Iestatiet jaunu PIN kodu",
+      "newPinPlaceholder": "Jauns PIN kods (vismaz 4 cipari)",
+      "confirmNewPinPlaceholder": "Apstipriniet jauno PIN kodu",
+      "saveNewPin": "Saglabāt jauno PIN kodu",
+      "pinTooShort": "PIN kodam jābūt vismaz 4 cipariem.",
+      "pinsDoNotMatch": "PIN kodi nesakrīt."
+    },
+    "colorPicker": {
+      "title": "Izvēlieties krāsu",
+      "hue": "Nokrāsa: {deg}°",
+      "ok": "Labi"
+    },
+    "editItem": {
+      "name": "Vārds",
+      "itemLanguage": "Preces valoda",
+      "language": "Valoda",
+      "labelsByLanguage": "Etiķetes pēc valodas",
+      "add": "Pievienot",
+      "addLanguage": "+ Pievienot valodu",
+      "image": "Attēls",
+      "loading": "Notiek ielāde…",
+      "loadMoreImages": "Ielādēt vairāk attēlu",
+      "findImages": "Atrast attēlus",
+      "chooseCustomImage": "Izvēlieties pielāgotu attēlu",
+      "resetToDefault": "Atiestatīt uz noklusējuma iestatījumiem",
+      "audio": "Audio",
+      "useItemName": "Izmantot preces nosaukumu",
+      "useCustomAudio": "Izmantot pielāgotu audio",
+      "audioClip": "Audioklips",
+      "record": "Ieraksts",
+      "stop": "Apstāties",
+      "importFromDevice": "Importēt no ierīces",
+      "preview": "▶ Priekšskatījums",
+      "clearAudio": "Skaidra skaņa",
+      "renameAudioClip": "Pārdēvēt audioklipu",
+      "clipNamePlaceholder": "Klipa nosaukums",
+      "pronHint": "Pēc izvēles: pārrakstiet vārdu, lai tas tiktu izrunāts pareizi (piemēram, \"MIS-chiv-us\").",
+      "pronPlaceholder": "Izruna",
+      "color": "Krāsa",
+      "custom": "Pielāgots",
+      "default": "Noklusējuma",
+      "editCustomColor": "Rediģēt pielāgotu krāsu",
+      "pickCustomColor": "Izvēlieties pielāgotu krāsu",
+      "ttsBehavior": "TTS darbība",
+      "delete": "Dzēst"
+    }
+  }
+}
