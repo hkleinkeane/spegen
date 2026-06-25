@@ -1,0 +1,42 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/spegen.jks
+
+      - name: Build release APK
+        working-directory: android
+        env:
+          ORG_GRADLE_PROJECT_SPEGEN_STORE_PASSWORD: ${{ secrets.SPEGEN_STORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_SPEGEN_KEY_PASSWORD: ${{ secrets.SPEGEN_KEY_PASSWORD }}
+          ORG_GRADLE_PROJECT_SPEGEN_KEY_ALIAS: ${{ secrets.SPEGEN_KEY_ALIAS }}
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: spegen-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
