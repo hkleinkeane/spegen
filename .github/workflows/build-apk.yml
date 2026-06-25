@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +35,20 @@ jobs:
           ORG_GRADLE_PROJECT_SPEGEN_STORE_PASSWORD: ${{ secrets.SPEGEN_STORE_PASSWORD }}
           ORG_GRADLE_PROJECT_SPEGEN_KEY_PASSWORD: ${{ secrets.SPEGEN_KEY_PASSWORD }}
           ORG_GRADLE_PROJECT_SPEGEN_KEY_ALIAS: ${{ secrets.SPEGEN_KEY_ALIAS }}
-        run: ./gradlew assembleRelease --no-daemon
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Publish to "Latest Version" release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk SpeGen.apk
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest SpeGen.apk \
+            --title "Latest Version" \
+            --notes "Automated build of commit ${{ github.sha }}" \
+            --latest
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
