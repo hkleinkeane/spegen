@@ -16,7 +16,7 @@
 
 // Board: paginated grid of symbols/folders.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from 'react-native';
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View, Pressable, Platform } from 'react-native';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
 import { findMenu } from '../menus';
@@ -77,6 +77,7 @@ export function Board() {
   const borderRadius = BUTTON_SHAPES.find((b) => b.name === buttonShapeName)?.radius ?? 40;
   const boardLang = boardLanguage || appLocale;
 
+
   // Resolve missing image URLs for the current menu and cache them back into state.
   const itemsKey = `${menu.id}|${menu.item_list.join('')}|${refreshNonce}`;
   useEffect(() => {
@@ -131,6 +132,22 @@ export function Board() {
     () => computeBoardGrid(boxWidth, boxHeight, boxPadding, menuWidth, menuHeight, menu.item_list.length),
     [boxWidth, boxHeight, boxPadding, menuWidth, menuHeight, menu.item_list.length]
   );
+
+    useEffect(() => {
+  if (Platform.OS !== 'web') return;
+  const el = scrollRef.current as unknown as { getInnerViewNode?: () => { parentNode?: HTMLElement } };
+  const scrollContainer = el?.getInnerViewNode?.()?.parentNode;
+  if (!scrollContainer) return;
+  const handler = (e: WheelEvent) => {
+    e.preventDefault();
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    const target = delta > 0 ? Math.min(page + 1, grid.pageCount - 1) : Math.max(page - 1, 0);
+    scrollRef.current?.scrollTo({ x: target * menuWidth, y: 0, animated: true });
+    setPage(target);
+  };
+  scrollContainer.addEventListener('wheel', handler, { passive: false });
+  return () => scrollContainer.removeEventListener('wheel', handler);
+}, [page, grid.pageCount, menuWidth]);
 
   // Tutorial page-jump: when the tutorial spotlights a
   // home-menu folder/symbol that lives on a later page, scroll the pager to that page so the
@@ -258,8 +275,15 @@ export function Board() {
       {grid.pageCount > 1 && (
         <View style={{ height: DOTS_RESERVE, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
           {pages.map((p) => (
-            <View
+            <Pressable
               key={p}
+              onPress={() => {
+                scrollRef.current?.scrollTo({ x: p * menuWidth, y: 0, animated: true });
+                setPage(p);
+              }}
+              hitSlop={8}
+            >
+            <View
               style={{
                 width: 8,
                 height: 8,
@@ -268,6 +292,7 @@ export function Board() {
                 backgroundColor: p === page ? t.text : t.panelBorder,
               }}
             />
+            </Pressable>
           ))}
         </View>
       )}
